@@ -89,6 +89,14 @@ public class MainView {
 		camera = cam;
 	}
 	
+	public SpriteBatch getSpriteBatch(){
+		return spriteBatch;
+	}
+	
+	public SpriteBatch getSpriteBatchHUD(){
+		return spriteBatchHUD;
+	}
+	
 	public void clear(){
 		textureRegions.clear();
 		for(Texture texture : textures.values()){

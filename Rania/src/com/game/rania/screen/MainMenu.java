@@ -44,7 +44,7 @@ public class MainMenu implements Screen{
 
 
 		skin = new Skin(Gdx.files.internal("data/gui/uiskin.json"));
-		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, view.getSpriteBatch());
 		
 		//login
 		final TextField loginTextField = new TextField("", skin);

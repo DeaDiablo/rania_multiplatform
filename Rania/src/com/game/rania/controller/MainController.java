@@ -119,8 +119,8 @@ public class MainController extends InputMultiplexer{
 	}
 
 	public void clear() {
-		//RaniaGame.mGame.setScreen(null);
 		super.clear();
+		Gdx.input.setInputProcessor(null);
 		updateControllers.clear();
 		dynamicObjects.clear();
 		staticObjects.clear();

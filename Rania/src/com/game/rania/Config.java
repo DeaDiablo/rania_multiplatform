@@ -5,4 +5,6 @@ public class Config {
 	public static int serverPort = 7777;
 	public static String autoLogin = "deadiablo";
 	public static String autoPassword = "deadiablo123";
+	//public static String autoLogin = "traider";
+	//public static String autoPassword = "SNmLwpLn";
 }

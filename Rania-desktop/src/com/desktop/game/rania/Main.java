@@ -7,11 +7,10 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 public class Main {
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title 	= "Rinia";
+		config.title 	= "Rania";
 		config.useGL20 	= true;
 		config.width 	= 1024;
 		config.height 	= 768;
-		
 		new LwjglApplication(new RaniaGame(), config);
 	}
 }

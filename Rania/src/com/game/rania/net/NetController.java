@@ -20,6 +20,8 @@ import com.game.rania.userdata.User;
 
 public class NetController {
 
+	public boolean isWorkReciver = false;
+
 	public void SendTouchPoint(int x, int y, User user)
 	{
 		byte[] data = new byte[16];
@@ -33,6 +35,7 @@ public class NetController {
 		System.arraycopy(useryArr, 0, data, 12, 4);
 		SendCommand(10, data, user.socket);
 	}
+
 	public User ClientLogin(String Login, String Password)
 	{
 		User Res = new User();
@@ -61,7 +64,6 @@ public class NetController {
 					Res.isLogin = true;
 					Res.serverTime = byteArrayToInt(ServerTimeArr);
 					Res.isConnected = true;
-					Res.isWorkReciver = false;
 					Res.receiver = new ReceiverWork();
 					Res.commands = new ArrayList<Command>();
 					RaniaGame.mUser.receiver.start();
@@ -91,7 +93,7 @@ public class NetController {
 				byte[] data;
 				while (true)
 				{
-					Work = RaniaGame.mUser.isWorkReciver;
+					Work = isWorkReciver;
 					while (Work)
 					{
 						in.read(bytesCom);
@@ -101,7 +103,7 @@ public class NetController {
 						data = new byte[Length];
 						in.read(data);
 						//RaniaGame.mUser.commands.add(new Command(Command, Length, data));
-						if (Command==12) //игрок id по€вилс€ в локации
+						if (Command == 12) //игрок id по€вилс€ в локации
 						{
 							int ArrPtr =0;
 							byte[] idArr = new byte[4];
@@ -139,7 +141,7 @@ public class NetController {
 							int UserY = byteArrayToInt(yArr);   //  координата Y где он по€вилс€
 							String ShipName = new String(ShipNameArr, "UTF-16LE");  // им€ корабл€ 
 						}
-						if (Command==13) //игрок id тыкнул в экран
+						if (Command == 13) //игрок id тыкнул в экран
 						{
 							int ArrPtr =0;
 							byte[] idArr = new byte[4];
@@ -164,7 +166,7 @@ public class NetController {
 							int UserTouchX = byteArrayToInt(xArr);   //   X тыка 
 							int UserTouchY = byteArrayToInt(yArr);   //   Y тыка
 						}
-						if (Command==14) //игрок id пропал из локации. хз куда делс€) эт не важно)
+						if (Command == 14) //игрок id пропал из локации. хз куда делс€) эт не важно)
 						{
 							int ArrPtr =0;
 							byte[] idArr = new byte[4];
@@ -283,6 +285,7 @@ public class NetController {
 	public HashMap<String, Planet> GetCurrentPlanets(User user)
 	{
 		HashMap<String, Planet> planets = new HashMap<String, Planet>();
+		isWorkReciver = false;
 		try
 		{
 			InputStream sin = user.socket.getInputStream();
@@ -371,6 +374,7 @@ public class NetController {
 		{
 			ClientRelogin(user);
 		}
+		isWorkReciver = true;
 		
 		return planets;
 	}
@@ -378,6 +382,7 @@ public class NetController {
 	public HashMap<String, Location> GetAllLocations(User user)
 	{
 		HashMap<String, Location> locations = new HashMap<String, Location>();
+		isWorkReciver = false;
 		try
 		{
 			InputStream sin = user.socket.getInputStream();
@@ -452,6 +457,7 @@ public class NetController {
 		{
 			ClientRelogin(user);
 		}
+		isWorkReciver = true;
 		return locations;
 	}
 	

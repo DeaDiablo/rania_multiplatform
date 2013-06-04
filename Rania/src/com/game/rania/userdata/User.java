@@ -8,7 +8,6 @@ public class User {
 	public Socket socket;
 	public boolean isConnected;
 	public boolean isLogin;
-	public boolean isWorkReciver;
 	public Thread receiver;
 	public List<Command> commands;
 	public int idLocation;

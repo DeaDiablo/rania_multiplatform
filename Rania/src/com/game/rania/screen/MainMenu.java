@@ -85,8 +85,7 @@ public class MainMenu implements Screen{
 						dispose();
 						netController.GetUserData(RaniaGame.mUser);
 						RaniaGame.mLocations = RaniaGame.nController.GetAllLocations(RaniaGame.mUser);
-						RaniaGame.mUser.isWorkReciver = true;
-						game.setScreen(new SpaceScreen());
+						game.setScreen(new LocationScreen());
 					}
 					else
 					{

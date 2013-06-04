@@ -17,7 +17,7 @@ public class MainActivity extends AndroidApplication {
         config.useAccelerometer = false;
 		config.useCompass = false;
 		config.useWakelock = true;
-		config.useGL20 = false;
+		config.useGL20 = true;
 		initialize(new RaniaGame(), config);
     }
 }

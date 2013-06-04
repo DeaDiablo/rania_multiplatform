@@ -1,8 +1,5 @@
 package com.game.rania.model;
 
-import java.util.HashMap;
-
-import com.game.rania.RaniaGame;
 import com.game.rania.model.element.Group;
 import com.game.rania.model.element.RegionID;
 
@@ -14,13 +11,8 @@ public class LocationSprite extends Group{
 		super();
 		this.location = location;
 
+		AddElement(new ParallaxLayer(RegionID.BACKGROUND_SPACE, 0.3f, 1.0f));
+		AddElement(new ParallaxLayer(RegionID.BACKGROUND_STARS, 0.0f, 1.0f));
 		AddElement(new Star(RegionID.STAR, location.starRadius));
-
-		RaniaGame.mUser.isWorkReciver = false;
-		HashMap<String, Planet> planets = RaniaGame.nController.GetCurrentPlanets(RaniaGame.mUser);
-		for (Planet planet : planets.values()) {
-			AddElement(new PlanetSprite(planet));
-		}
-		RaniaGame.mUser.isWorkReciver = true;
 	}
 }

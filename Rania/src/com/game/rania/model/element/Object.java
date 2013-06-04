@@ -41,14 +41,17 @@ public class Object {
 	public HUDObject asHUDObject(){
 		return null;
 	}
+
+	public void update(float deltaTime){
+	}
 	
 	public void draw(SpriteBatch sprite){
 		if (!visible)
 			return;
 		sprite.setColor(color);
 		drawRegion(sprite, region);
-	}
-	
+	}	
+
 	protected void drawRegion(SpriteBatch sprite, TextureRegion textureRegion){
 		if (textureRegion == null)
 			return;

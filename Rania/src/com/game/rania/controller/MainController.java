@@ -3,7 +3,6 @@ package com.game.rania.controller;
 import java.util.Vector;
 
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Gdx;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.element.DynamicObject;
 import com.game.rania.model.element.Group;
@@ -21,7 +20,6 @@ public class MainController extends InputMultiplexer{
 
 	public MainController(){
 		super();
-		Gdx.input.setInputProcessor(this);
 	}
 	
 	//update controllers
@@ -107,20 +105,24 @@ public class MainController extends InputMultiplexer{
 	}
 	
 	public void update(float deltaTime){
+		for (UpdateController controller : updateControllers) {
+			controller.update(deltaTime);
+		}
+
 		if (mPlayer != null)
 		{
+			mPlayer.update(deltaTime);
 			RaniaGame.mUser.x = (int)mPlayer.position.x;
 			RaniaGame.mUser.y = (int)mPlayer.position.y;
 		}
 
-		for (UpdateController controller : updateControllers) {
-			controller.update(deltaTime);
+		for (DynamicObject object : dynamicObjects) {
+			object.update(deltaTime);
 		}
 	}
 
 	public void clear() {
 		super.clear();
-		Gdx.input.setInputProcessor(null);
 		updateControllers.clear();
 		dynamicObjects.clear();
 		staticObjects.clear();

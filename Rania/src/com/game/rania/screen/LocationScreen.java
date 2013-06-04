@@ -1,5 +1,7 @@
 package com.game.rania.screen;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
@@ -7,27 +9,35 @@ import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.game.rania.RaniaGame;
 import com.game.rania.controller.MainController;
 import com.game.rania.controller.ShipController;
+import com.game.rania.model.EnemyUser;
 import com.game.rania.model.Location;
 import com.game.rania.model.LocationSprite;
-import com.game.rania.model.ParallaxLayer;
+import com.game.rania.model.Planet;
+import com.game.rania.model.PlanetSprite;
 import com.game.rania.model.SpaceShip;
 import com.game.rania.model.element.RegionID;
+import com.game.rania.userdata.User;
 import com.game.rania.view.MainView;
 
-public class SpaceScreen implements Screen{
+public class LocationScreen implements Screen{
 	
 	private MainView view = null;
 	private MainController controller = null;
+	private User user = null;
 	
-	public SpaceScreen(){
+	public LocationScreen(){
 		view = RaniaGame.mView;
 		controller = RaniaGame.mController;
+		user = RaniaGame.mUser;
 	}
 
 	@Override
 	public void show() {
+		Location location = RaniaGame.mLocations.get(String.valueOf(user.idLocation));
+		if (location == null)
+			return;
+
 		view.loadTexture("data/sprites/star.png", RegionID.STAR);
-		
 		for (int i = 0; i < 18; i++)
 			view.loadTexture("data/sprites/planets.png", RegionID.fromInt(RegionID.PLANET_0.ordinal() + i), i % 5 * 102, i / 5 * 102, 102, 102);
 		
@@ -37,14 +47,21 @@ public class SpaceScreen implements Screen{
 		view.loadTexture("data/backgrounds/stars.png", RegionID.BACKGROUND_STARS);
 		view.getTexture(RegionID.BACKGROUND_STARS).setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 
-		SpaceShip ship = new SpaceShip(RaniaGame.mUser.x, RaniaGame.mUser.y);
-		controller.setPlayer(ship);
+		controller.addObject(new LocationSprite(location));
 
-		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_SPACE, 0.3f, 1.0f));
-		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_STARS, 0.0f, 1.0f));
-		Location location = RaniaGame.mLocations.get(String.valueOf(RaniaGame.mUser.idLocation));
-		if (location != null)
-			controller.addObject(new LocationSprite(location));
+		HashMap<String, Planet> planets = RaniaGame.nController.GetCurrentPlanets(user);
+		for (Planet planet : planets.values()) {
+			controller.addStaticObject(new PlanetSprite(planet));
+		}
+		
+		HashMap<String, EnemyUser> users = RaniaGame.nController.GetUsersInLocation(user);
+		Gdx.app.log("loooog", "size : " + users.size());
+		for (EnemyUser enemyUser : users.values()) {
+			controller.addDynamicObject(new SpaceShip(enemyUser.x, enemyUser.y));
+		}
+
+		SpaceShip ship = new SpaceShip(user.x, user.y);
+		controller.setPlayer(ship);
 		controller.addProcessor(new ShipController(ship));
 	}
 

@@ -32,6 +32,7 @@ public class RaniaGame extends Game {
 		mController = new MainController();
 		mUser = new User();
 		nController = new NetController();
+		Gdx.input.setInputProcessor(mController);
 		setScreen(new MainMenu());
 	}
 

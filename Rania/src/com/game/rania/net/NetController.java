@@ -12,6 +12,7 @@ import java.util.HashMap;
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.Config;
 import com.game.rania.RaniaGame;
+import com.game.rania.model.EnemyUser;
 import com.game.rania.model.Location;
 import com.game.rania.model.Planet;
 import com.game.rania.userdata.Command;
@@ -98,10 +99,81 @@ public class NetController {
 						Command = byteArrayToInt(bytesCom);
 						Length = byteArrayToInt(bytesLen);
 						data = new byte[Length];
-						if (Command == 4)
+						in.read(data);
+						//RaniaGame.mUser.commands.add(new Command(Command, Length, data));
+						if (Command==12) //игрок id появился в локации
 						{
-							in.read(data);
-							RaniaGame.mUser.commands.add(new Command(Command, Length, data));
+							int ArrPtr =0;
+							byte[] idArr = new byte[4];
+							for (int j=0;j<4;j++)
+							{
+								idArr[j]=data[ArrPtr];
+								ArrPtr++;
+							}
+							byte[] ShipNameLenArr = new byte[4];
+							for (int j=0;j<4;j++)
+							{
+								ShipNameLenArr[j]=data[ArrPtr];
+								ArrPtr++;
+							}
+							byte[] ShipNameArr = new byte[byteArrayToInt(ShipNameLenArr)];
+							for (int j=0;j<byteArrayToInt(ShipNameLenArr);j++)
+							{
+								ShipNameArr[j]=data[ArrPtr];
+								ArrPtr++;
+							}
+							byte[] xArr = new byte[4];
+							for (int j=0;j<4;j++)
+							{
+								xArr[j]=data[ArrPtr];
+								ArrPtr++;
+							}
+							byte[] yArr = new byte[4];
+							for (int j=0;j<4;j++)
+							{
+								yArr[j]=data[ArrPtr];
+								ArrPtr++;
+							}
+							int UserId = byteArrayToInt(idArr); //  Id игрока который зашел
+							int UserX = byteArrayToInt(xArr);   //  координата X где он появился
+							int UserY = byteArrayToInt(yArr);   //  координата Y где он появился
+							String ShipName = new String(ShipNameArr, "UTF-16LE");  // имя корабля 
+						}
+						if (Command==13) //игрок id тыкнул в экран
+						{
+							int ArrPtr =0;
+							byte[] idArr = new byte[4];
+							for (int j=0;j<4;j++)
+							{
+								idArr[j]=data[ArrPtr];
+								ArrPtr++;
+							}
+							byte[] xArr = new byte[4];
+							for (int j=0;j<4;j++)
+							{
+								xArr[j]=data[ArrPtr];
+								ArrPtr++;
+							}
+							byte[] yArr = new byte[4];
+							for (int j=0;j<4;j++)
+							{
+								yArr[j]=data[ArrPtr];
+								ArrPtr++;
+							}
+							int UserId = byteArrayToInt(idArr);      //   id игрока
+							int UserTouchX = byteArrayToInt(xArr);   //   X тыка 
+							int UserTouchY = byteArrayToInt(yArr);   //   Y тыка
+						}
+						if (Command==14) //игрок id пропал из локации. хз куда делся) эт не важно)
+						{
+							int ArrPtr =0;
+							byte[] idArr = new byte[4];
+							for (int j=0;j<4;j++)
+							{
+								idArr[j]=data[ArrPtr];
+								ArrPtr++;
+							}
+							int UserId = byteArrayToInt(idArr);      //   id игрока которого над удалить из локации
 						}
 					}
 				}
@@ -133,6 +205,81 @@ public class NetController {
 		
 	}
 	
+	public HashMap<String, EnemyUser> GetUsersInLocation(User user)
+	{
+		HashMap<String, EnemyUser> EnemyUsers = new HashMap<String, EnemyUser>();
+		try
+		{
+			InputStream sin = user.socket.getInputStream();
+			DataInputStream in = new DataInputStream(sin);
+			SendCommand(11, new byte[0], user.socket);
+			byte[] LenArr = new byte[4];
+			in.read(LenArr);
+			byte[] EnemyUsersArr = new byte[byteArrayToInt(LenArr)];
+			in.read(EnemyUsersArr);
+			int ArrPtr = 0;
+			byte[] UsersCountArr = new byte[4];
+			for (int i=0;i<byteArrayToInt(UsersCountArr);i++)
+			{
+				byte[] idArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					idArr[j]=EnemyUsersArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] ShipNameLenArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					ShipNameLenArr[j]=EnemyUsersArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] ShipNameArr = new byte[byteArrayToInt(ShipNameLenArr)];
+				for (int j=0;j<byteArrayToInt(ShipNameLenArr);j++)
+				{
+					ShipNameArr[j]=EnemyUsersArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] xArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					xArr[j]=EnemyUsersArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] yArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					yArr[j]=EnemyUsersArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] TargetxArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					TargetxArr[j]=EnemyUsersArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] TargetyArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					TargetyArr[j]=EnemyUsersArr[ArrPtr];
+					ArrPtr++;
+				}
+				EnemyUser enemy = new EnemyUser();
+				enemy.id = byteArrayToInt(idArr);
+				enemy.ShipName = new String(ShipNameArr, "UTF-16LE");
+				enemy.x = byteArrayToInt(xArr);
+				enemy.y = byteArrayToInt(yArr);
+				enemy.targetX = byteArrayToInt(TargetxArr);
+				enemy.targetY = byteArrayToInt(TargetxArr);
+				EnemyUsers.put(String.valueOf(enemy.id), enemy);
+			}
+		}
+		catch (Exception ex)
+		{
+			
+		}
+		return EnemyUsers;
+	}
+
 	public HashMap<String, Planet> GetCurrentPlanets(User user)
 	{
 		HashMap<String, Planet> planets = new HashMap<String, Planet>();

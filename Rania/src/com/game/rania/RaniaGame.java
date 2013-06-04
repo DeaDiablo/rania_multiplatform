@@ -24,10 +24,6 @@ public class RaniaGame extends Game {
 	//network
 	public static NetController nController = null;
 	public static User          mUser       = null;
-	
-	public RaniaGame(){
-		super();
-	}
 
 	@Override
 	public void create() {

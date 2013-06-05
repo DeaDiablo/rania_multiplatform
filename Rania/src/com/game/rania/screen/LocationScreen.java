@@ -52,7 +52,8 @@ public class LocationScreen implements Screen{
 		for (Planet planet : planets.values()) {
 			controller.addStaticObject(new PlanetSprite(planet));
 		}
-	HashMap<String, EnemyUser> users = RaniaGame.nController.GetUsersInLocation(user);
+
+		HashMap<String, EnemyUser> users = RaniaGame.nController.GetUsersInLocation(user);
 		for (EnemyUser enemyUser : users.values()) {
 			controller.addDynamicObject(new SpaceShip(enemyUser.x, enemyUser.y));
 		}

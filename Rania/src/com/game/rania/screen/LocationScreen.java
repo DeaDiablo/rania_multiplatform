@@ -59,7 +59,6 @@ public class LocationScreen implements Screen{
 		for (EnemyUser enemyUser : users.values()) {
 			controller.addDynamicObject(new SpaceShip(enemyUser.x, enemyUser.y));
 		}
-
 		SpaceShip ship = new SpaceShip(user.x, user.y);
 		controller.setPlayer(ship);
 		controller.addProcessor(new ShipController(ship));

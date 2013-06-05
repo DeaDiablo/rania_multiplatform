@@ -221,6 +221,11 @@ public class NetController {
 			in.read(EnemyUsersArr);
 			int ArrPtr = 0;
 			byte[] UsersCountArr = new byte[4];
+			for (int i=0;i<4;i++)
+			{
+				UsersCountArr[i]=EnemyUsersArr[ArrPtr];
+				ArrPtr++;
+			}
 			for (int i=0;i<byteArrayToInt(UsersCountArr);i++)
 			{
 				byte[] idArr = new byte[4];
@@ -277,7 +282,7 @@ public class NetController {
 		}
 		catch (Exception ex)
 		{
-			
+
 		}
 		return EnemyUsers;
 	}

@@ -104,6 +104,7 @@ public class NetController {
 	public HashMap<String, EnemyUser> GetUsersInLocation(User user)
 	{
 		HashMap<String, EnemyUser> EnemyUsers = new HashMap<String, EnemyUser>();
+		isWorkReciver = false;
 		try
 		{
 			InputStream sin = user.socket.getInputStream();
@@ -178,6 +179,7 @@ public class NetController {
 		{
 
 		}
+		isWorkReciver = true;
 		return EnemyUsers;
 	}
 

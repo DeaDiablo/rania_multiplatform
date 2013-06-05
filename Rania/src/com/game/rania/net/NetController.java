@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.Config;
 import com.game.rania.RaniaGame;
@@ -20,7 +21,7 @@ import com.game.rania.userdata.User;
 
 public class NetController {
 
-	public boolean isWorkReciver = false;
+	public boolean isWorkReciver;
 
 	public void SendTouchPoint(int x, int y, User user)
 	{
@@ -64,127 +65,20 @@ public class NetController {
 					Res.isLogin = true;
 					Res.serverTime = byteArrayToInt(ServerTimeArr);
 					Res.isConnected = true;
-					Res.receiver = new ReceiverWork();
+					Res.receiver = new Receiver();
+					Thread ReceiverThready = new Thread(Res.receiver);
 					Res.commands = new ArrayList<Command>();
-					RaniaGame.mUser.receiver.start();
+					isWorkReciver=false;
+					ReceiverThready.start();
+					Gdx.app.log("receiver start", "Work " + this.isWorkReciver);
 				}
 			}
 		}
 		catch (Exception ex)
 		{
-			
+
 		}
 		return Res;
-	}
-	
-	private class ReceiverWork extends Thread
-	{
-		private boolean Work;
-		public void run()
-		{
-			try
-			{
-				InputStream sin = RaniaGame.mUser.socket.getInputStream();
-				DataInputStream in = new DataInputStream(sin);
-				byte[] bytesCom = new byte[4];
-				byte[] bytesLen = new byte[4];
-				int Command = 0;
-				int Length = 0;
-				byte[] data;
-				while (true)
-				{
-					Work = isWorkReciver;
-					while (Work)
-					{
-						in.read(bytesCom);
-						in.read(bytesLen);
-						Command = byteArrayToInt(bytesCom);
-						Length = byteArrayToInt(bytesLen);
-						data = new byte[Length];
-						in.read(data);
-						//RaniaGame.mUser.commands.add(new Command(Command, Length, data));
-						if (Command == 12) //игрок id появился в локации
-						{
-							int ArrPtr =0;
-							byte[] idArr = new byte[4];
-							for (int j=0;j<4;j++)
-							{
-								idArr[j]=data[ArrPtr];
-								ArrPtr++;
-							}
-							byte[] ShipNameLenArr = new byte[4];
-							for (int j=0;j<4;j++)
-							{
-								ShipNameLenArr[j]=data[ArrPtr];
-								ArrPtr++;
-							}
-							byte[] ShipNameArr = new byte[byteArrayToInt(ShipNameLenArr)];
-							for (int j=0;j<byteArrayToInt(ShipNameLenArr);j++)
-							{
-								ShipNameArr[j]=data[ArrPtr];
-								ArrPtr++;
-							}
-							byte[] xArr = new byte[4];
-							for (int j=0;j<4;j++)
-							{
-								xArr[j]=data[ArrPtr];
-								ArrPtr++;
-							}
-							byte[] yArr = new byte[4];
-							for (int j=0;j<4;j++)
-							{
-								yArr[j]=data[ArrPtr];
-								ArrPtr++;
-							}
-							int UserId = byteArrayToInt(idArr); //  Id игрока который зашел
-							int UserX = byteArrayToInt(xArr);   //  координата X где он появился
-							int UserY = byteArrayToInt(yArr);   //  координата Y где он появился
-							String ShipName = new String(ShipNameArr, "UTF-16LE");  // имя корабля 
-						}
-						if (Command == 13) //игрок id тыкнул в экран
-						{
-							int ArrPtr =0;
-							byte[] idArr = new byte[4];
-							for (int j=0;j<4;j++)
-							{
-								idArr[j]=data[ArrPtr];
-								ArrPtr++;
-							}
-							byte[] xArr = new byte[4];
-							for (int j=0;j<4;j++)
-							{
-								xArr[j]=data[ArrPtr];
-								ArrPtr++;
-							}
-							byte[] yArr = new byte[4];
-							for (int j=0;j<4;j++)
-							{
-								yArr[j]=data[ArrPtr];
-								ArrPtr++;
-							}
-							int UserId = byteArrayToInt(idArr);      //   id игрока
-							int UserTouchX = byteArrayToInt(xArr);   //   X тыка 
-							int UserTouchY = byteArrayToInt(yArr);   //   Y тыка
-						}
-						if (Command == 14) //игрок id пропал из локации. хз куда делся) эт не важно)
-						{
-							int ArrPtr =0;
-							byte[] idArr = new byte[4];
-							for (int j=0;j<4;j++)
-							{
-								idArr[j]=data[ArrPtr];
-								ArrPtr++;
-							}
-							int UserId = byteArrayToInt(idArr);      //   id игрока которого над удалить из локации
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-
-			}
-		}
 	}
 	
 	public void ClientDisconnect(User user)

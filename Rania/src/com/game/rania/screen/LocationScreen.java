@@ -46,19 +46,17 @@ public class LocationScreen implements Screen{
 		view.getTexture(RegionID.BACKGROUND_SPACE).setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		view.loadTexture("data/backgrounds/stars.png", RegionID.BACKGROUND_STARS);
 		view.getTexture(RegionID.BACKGROUND_STARS).setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
-
+		RaniaGame.mUser.PauseReceiver();
 		controller.addObject(new LocationSprite(location));
-		RaniaGame.nController.isWorkReciver=false;
 		HashMap<String, Planet> planets = RaniaGame.nController.GetCurrentPlanets(user);
 		for (Planet planet : planets.values()) {
 			controller.addStaticObject(new PlanetSprite(planet));
 		}
-		
-		HashMap<String, EnemyUser> users = RaniaGame.nController.GetUsersInLocation(user);
-		RaniaGame.nController.isWorkReciver=true;
+	HashMap<String, EnemyUser> users = RaniaGame.nController.GetUsersInLocation(user);
 		for (EnemyUser enemyUser : users.values()) {
 			controller.addDynamicObject(new SpaceShip(enemyUser.x, enemyUser.y));
 		}
+		RaniaGame.mUser.ResumeReceiver();
 		SpaceShip ship = new SpaceShip(user.x, user.y);
 		controller.setPlayer(ship);
 		controller.addProcessor(new ShipController(ship));

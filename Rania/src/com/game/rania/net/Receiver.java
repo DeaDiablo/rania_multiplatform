@@ -6,9 +6,15 @@ import java.io.InputStream;
 import com.badlogic.gdx.Gdx;
 import com.game.rania.RaniaGame;
 
-public class Receiver implements Runnable
+public class Receiver extends Thread
 {	
-	private boolean Work;
+	private volatile boolean mFinish = false;
+	
+	public void finish()
+    {
+        mFinish = true;
+    }
+	
 	public void run()
 	{
 		try
@@ -20,12 +26,10 @@ public class Receiver implements Runnable
 			int Command = 0;
 			int Length = 0;
 			byte[] data;
-			while (true)
-			{
-				Work = RaniaGame.nController.isWorkReciver;
-				while (Work)
+			do
+	        {
+				if (!mFinish)
 				{
-					
 					in.read(bytesCom);
 					in.read(bytesLen);
 					Command = RaniaGame.nController.byteArrayToInt(bytesCom);
@@ -118,12 +122,12 @@ public class Receiver implements Runnable
 						Gdx.app.log("receiver", "UserId " + UserId);
 					}
 				}
-			}
+	        }
+	        while(true);
 		}
 		catch (Exception ex)
 		{
 			Gdx.app.log("receiver", "Error " + ex.getMessage());
 		}
-		Gdx.app.log("receiver", "End work " + Work);
 	}
 }

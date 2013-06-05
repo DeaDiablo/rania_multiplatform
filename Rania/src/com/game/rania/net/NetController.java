@@ -21,8 +21,6 @@ import com.game.rania.userdata.User;
 
 public class NetController {
 
-	public boolean isWorkReciver;
-
 	public void SendTouchPoint(int x, int y, User user)
 	{
 		byte[] data = new byte[16];
@@ -65,12 +63,8 @@ public class NetController {
 					Res.isLogin = true;
 					Res.serverTime = byteArrayToInt(ServerTimeArr);
 					Res.isConnected = true;
-					Receiver rec = new Receiver();
-					Res.receiver = new Thread(rec);
+					Res.receiver = new Receiver();
 					Res.commands = new ArrayList<Command>();
-					isWorkReciver=false;
-					Res.receiver.start();
-					Gdx.app.log("receiver start", "Work " + this.isWorkReciver);
 				}
 			}
 		}
@@ -184,7 +178,6 @@ public class NetController {
 	public HashMap<String, Planet> GetCurrentPlanets(User user)
 	{
 		HashMap<String, Planet> planets = new HashMap<String, Planet>();
-		isWorkReciver = false;
 		try
 		{
 			InputStream sin = user.socket.getInputStream();
@@ -273,15 +266,12 @@ public class NetController {
 		{
 			ClientRelogin(user);
 		}
-		isWorkReciver = true;
-		
 		return planets;
 	}
 	
 	public HashMap<String, Location> GetAllLocations(User user)
 	{
 		HashMap<String, Location> locations = new HashMap<String, Location>();
-		isWorkReciver = false;
 		try
 		{
 			InputStream sin = user.socket.getInputStream();
@@ -356,7 +346,6 @@ public class NetController {
 		{
 			ClientRelogin(user);
 		}
-		isWorkReciver = true;
 		return locations;
 	}
 	

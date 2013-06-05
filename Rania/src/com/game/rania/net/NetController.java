@@ -65,11 +65,11 @@ public class NetController {
 					Res.isLogin = true;
 					Res.serverTime = byteArrayToInt(ServerTimeArr);
 					Res.isConnected = true;
-					Res.receiver = new Receiver();
-					Thread ReceiverThready = new Thread(Res.receiver);
+					Receiver rec = new Receiver();
+					Res.receiver = new Thread(rec);
 					Res.commands = new ArrayList<Command>();
 					isWorkReciver=false;
-					ReceiverThready.start();
+					Res.receiver.start();
 					Gdx.app.log("receiver start", "Work " + this.isWorkReciver);
 				}
 			}

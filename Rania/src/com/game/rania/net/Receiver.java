@@ -15,7 +15,7 @@ public class Receiver extends Thread
 		nController = controller;
 	}
 	
-	public void finish()
+	public void stopThread()
     {
         stopThread = true;
     }
@@ -34,6 +34,5 @@ public class Receiver extends Thread
 		{
 			Gdx.app.log("receiver", "Error: " + ex.getMessage());
 		}
-		finish();
 	}
 }

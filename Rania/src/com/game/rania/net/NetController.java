@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.game.rania.Config;
 import com.game.rania.controller.CommandController;
 import com.game.rania.controller.command.AddUserCommand;
+import com.game.rania.controller.command.RemoveUserCommand;
 import com.game.rania.controller.command.SetTargetCommand;
 import com.game.rania.model.Player;
 import com.game.rania.model.User;
@@ -27,6 +28,11 @@ public class NetController {
 	
 	public NetController(CommandController controller){
 		cController = controller;
+	}
+	
+	public void dispose(){
+		if (receiver != null)
+			receiver.stopThread();
 	}
 
 	public void SendTouchPoint(int x, int y, int currentX, int currentY, Client client)
@@ -425,8 +431,10 @@ public class NetController {
 	}
 
 	public void processingCommand(Command command) throws InterruptedException, UnsupportedEncodingException {
+		
+		Gdx.app.log("commands", "id command: " + command.idCommand);
 		if (idWaitCommand != Command.none && idWaitCommand == command.idCommand)
-		{
+		{			
 			idWaitCommand = Command.none;
 			currentCommand = command;
 			cWaitCommand.signal();
@@ -436,7 +444,6 @@ public class NetController {
 
 		if (command.idCommand == Command.addUser) //игрок id появился в локации
 		{
-			Gdx.app.log("receiver", "Command " + command);
 			int ArrPtr = 0;
 			byte[] idArr = new byte[4];
 			for (int j=0;j<4;j++)
@@ -473,11 +480,11 @@ public class NetController {
 			int UserY = NetController.byteArrayToInt(yArr);   //  координата Y где он появился
 			String ShipName = new String(ShipNameArr, "UTF-16LE");  // имя корабля			
 			cController.addCommand(new AddUserCommand(UserId, UserX, UserY, ShipName));
+			Gdx.app.log("commands", "add command (id: "+ UserId + ", x: " + UserX + ", y: " + UserY + ", shipname: " + ShipName);
 		}
 		
 		if (command.idCommand == Command.touchUser) //игрок id тыкнул в экран
 		{
-			Gdx.app.log("receiver", "Command " + command);
 			int ArrPtr =0;
 			byte[] idArr = new byte[4];
 			for (int j=0;j<4;j++)
@@ -501,11 +508,11 @@ public class NetController {
 			int UserTouchX = NetController.byteArrayToInt(xArr);   //   X тыка 
 			int UserTouchY = NetController.byteArrayToInt(yArr);   //   Y тыка			
 			cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY));
+			Gdx.app.log("commands", "touch command (id: "+ UserId + ", x: " + UserTouchX + ", y: " + UserTouchY);
 		}
 
 		if (command.idCommand == Command.removeUser) //игрок id пропал из локации. хз куда делся) эт не важно)
 		{
-			Gdx.app.log("receiver", "Command " + command);
 			int ArrPtr =0;
 			byte[] idArr = new byte[4];
 			for (int j=0;j<4;j++)
@@ -514,7 +521,8 @@ public class NetController {
 				ArrPtr++;
 			}
 			int UserId = NetController.byteArrayToInt(idArr);      //   id игрока которого над удалить из локации
-			Gdx.app.log("receiver", "UserId " + UserId);
+			cController.addCommand(new RemoveUserCommand(UserId));
+			Gdx.app.log("commands", "remove command (id: "+ UserId);
 		}
 	}
 }

@@ -6,19 +6,19 @@ import com.game.rania.model.User;
 
 public class SetTargetCommand extends ControllerCommand{
 
-	private User user = null;
-	private float    x, y;
+	private int id;
+	private float x, y;
 
 	public SetTargetCommand(int idUser, float targetX, float targetY){
-		user = RaniaGame.mClient.getUser(idUser);
+		id = idUser;
 		x = targetX;
 		y = targetY;
 	}
 	
 	@Override
 	public void update(MainController controller, float deltaTime) {
-		if (user == null)
-			return;
-		user.setPositionTarget(x, y);
+		User user = RaniaGame.mClient.getUser(id);
+		if (user != null)
+			user.setPositionTarget(x, y);
 	}
 }

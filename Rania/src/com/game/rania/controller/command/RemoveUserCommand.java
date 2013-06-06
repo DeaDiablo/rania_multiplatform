@@ -6,15 +6,18 @@ import com.game.rania.model.User;
 
 public class RemoveUserCommand extends ControllerCommand{
 
-	private User  user = null;
+	private int id;
 	public RemoveUserCommand(int idUser){
-		user = RaniaGame.mClient.getUser(idUser);
+		id = idUser;
 	}
 	
 	@Override
 	public void update(MainController controller, float deltaTime) {
+		User user = RaniaGame.mClient.getUser(id);
 		if (user == null)
 			return;
+		
+		RaniaGame.mClient.getUsers().remove(String.valueOf(user.id));
 		controller.removeDynamicObject(user);
 	}
 

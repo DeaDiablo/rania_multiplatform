@@ -16,7 +16,7 @@ public class PlanetSprite extends StaticObject{
 		super(RegionID.fromInt(RegionID.PLANET_0.ordinal() + planet.id), 0, 0);
 		this.planet = planet;
 
-		time = RaniaGame.mUser.serverTime;
+		time = RaniaGame.mClient.getServerTime();
 		calcPosition(time);
 		if (region != null)
 			scale.set((float)planet.radius / region.getRegionWidth(), (float)planet.radius / region.getRegionHeight());

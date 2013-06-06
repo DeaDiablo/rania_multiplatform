@@ -20,7 +20,7 @@ public class ShipController extends InputAdapter{
 	public boolean touchUp(int x, int y, int pointer, int button) {
 		touchPoint.set(x, Gdx.graphics.getHeight() - y);
 		RaniaGame.mView.getCamera().toCameraCoord(touchPoint);
-		RaniaGame.nController.SendTouchPoint((int)touchPoint.x, (int)touchPoint.y, RaniaGame.mUser);
+		RaniaGame.mClient.SendTouchPoint((int)touchPoint.x, (int)touchPoint.y, (int)controllObject.position.x, (int)controllObject.position.y);
 		controllObject.setPositionTarget(touchPoint);
 		return true;
 	}

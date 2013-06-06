@@ -16,7 +16,6 @@ import com.game.rania.RaniaGame;
 import com.game.rania.controller.MainController;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.element.StaticObject;
-import com.game.rania.net.NetController;
 import com.game.rania.view.MainView;
 
 public class MainMenu implements Screen{
@@ -73,18 +72,14 @@ public class MainMenu implements Screen{
 		loginButton.addListener(new ClickListener() {
 	        @Override
 	        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				NetController netController = new NetController();
 				//автологин
 				loginTextField.setText(Config.autoLogin);
 				passwordTextField.setText(Config.autoPassword);
 				if ((loginTextField.getText() != "") && (passwordTextField.getText() != ""))
 				{
-					RaniaGame.mUser = netController.ClientLogin(loginTextField.getText(), passwordTextField.getText());
-					if (RaniaGame.mUser.isLogin)
+					dispose();
+					if (RaniaGame.mClient.login(loginTextField.getText(), passwordTextField.getText()))
 					{
-						dispose();
-						netController.GetUserData(RaniaGame.mUser);
-						RaniaGame.mLocations = RaniaGame.nController.GetAllLocations(RaniaGame.mUser);
 						game.setScreen(new LocationScreen());
 					}
 					else

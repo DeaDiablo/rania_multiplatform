@@ -5,7 +5,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.Config;
 import com.game.rania.controller.CommandController;
@@ -431,8 +430,6 @@ public class NetController {
 	}
 
 	public void processingCommand(Command command) throws InterruptedException, UnsupportedEncodingException {
-		
-		Gdx.app.log("commands", "id command: " + command.idCommand);
 		if (idWaitCommand != Command.none && idWaitCommand == command.idCommand)
 		{			
 			idWaitCommand = Command.none;
@@ -480,7 +477,6 @@ public class NetController {
 			int UserY = NetController.byteArrayToInt(yArr);   //  координата Y где он появился
 			String ShipName = new String(ShipNameArr, "UTF-16LE");  // имя корабля			
 			cController.addCommand(new AddUserCommand(UserId, UserX, UserY, ShipName));
-			Gdx.app.log("commands", "add command (id: "+ UserId + ", x: " + UserX + ", y: " + UserY + ", shipname: " + ShipName);
 		}
 		
 		if (command.idCommand == Command.touchUser) //игрок id тыкнул в экран
@@ -508,7 +504,6 @@ public class NetController {
 			int UserTouchX = NetController.byteArrayToInt(xArr);   //   X тыка 
 			int UserTouchY = NetController.byteArrayToInt(yArr);   //   Y тыка			
 			cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY));
-			Gdx.app.log("commands", "touch command (id: "+ UserId + ", x: " + UserTouchX + ", y: " + UserTouchY);
 		}
 
 		if (command.idCommand == Command.removeUser) //игрок id пропал из локации. хз куда делся) эт не важно)
@@ -522,7 +517,6 @@ public class NetController {
 			}
 			int UserId = NetController.byteArrayToInt(idArr);      //   id игрока которого над удалить из локации
 			cController.addCommand(new RemoveUserCommand(UserId));
-			Gdx.app.log("commands", "remove command (id: "+ UserId);
 		}
 	}
 }

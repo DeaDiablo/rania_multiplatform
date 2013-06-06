@@ -30,6 +30,7 @@ public class ClientController {
 	
 	public void disconnect(){
 		nController.ClientDisconnect(mClient);
+		nController.dispose();
 	}
 	
 	public Player getPlayerData(){

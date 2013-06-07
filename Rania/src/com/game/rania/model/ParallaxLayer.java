@@ -37,8 +37,8 @@ public class ParallaxLayer extends StaticObject{
 
 		final float width  = camera.getWidth();
 		final float height = camera.getHeight();
-		final float layerOffsetX = camera.position.x * ratio % width;
-		final float layerOffsetY = camera.position.y * ratio % height;
+		final float layerOffsetX = camera.position.x * ratio;
+		final float layerOffsetY = camera.position.y * ratio;
 		final float positionX = camera.getLeft();
 		final float positionY = camera.getBottom();
 

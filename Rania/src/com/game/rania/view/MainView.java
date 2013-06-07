@@ -109,7 +109,11 @@ public class MainView {
 		if (camera == null)
 			return;
 
+		DynamicObject player = RaniaGame.mController.getPlayer();
+
 		//update camera
+		if (player != null)
+			camera.position.set(player.position.x, player.position.y, 0);
 		camera.update();
 		
 		//start render
@@ -127,12 +131,8 @@ public class MainView {
 		}
 		
 		//render player
-		DynamicObject player = RaniaGame.mController.getPlayer();
 		if (player != null)
-		{
-			camera.position.set(player.position.x, player.position.y, 0);
 			player.draw(spriteBatch);
-		}
 		
 		//end render
 		spriteBatch.end();

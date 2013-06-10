@@ -40,7 +40,6 @@ public class RegisterScreen implements Screen{
 
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
@@ -48,14 +47,11 @@ public class RegisterScreen implements Screen{
 	}
 
 	@Override
-	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
+	public void resize(int width, int height) {		
 	}
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
 		float Width = view.getCamera().getWidth();
 		float Height = view.getCamera().getHeight();
 		view.loadTexture("data/backgrounds/menu.jpg", RegionID.BACKGROUND_MENU, 0, 0, 768, 512);
@@ -123,26 +119,19 @@ public class RegisterScreen implements Screen{
 	}
 
 	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-		
+	public void hide() {		
 	}
 
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
+	public void pause() {		
 	}
 
 	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		
+	public void resume() {		
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 		Gdx.input.setOnscreenKeyboardVisible(false);
 		controller.clear();
 		view.clear();

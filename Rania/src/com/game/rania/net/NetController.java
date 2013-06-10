@@ -134,6 +134,7 @@ public class NetController {
 				int UserTargetY = GetIntValue(command.data, ArrPtr);
 				ArrPtr=ArrPtr+4;
 				User userShip = new User(UserId, UserX, UserY, ShipName, "");
+				userShip.setPositionTarget(UserTargetX, UserTargetY);
 				UsersMap.put(String.valueOf(userShip.id), userShip);
 			}
 		}

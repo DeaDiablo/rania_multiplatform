@@ -31,9 +31,9 @@ public class ParallaxLayer extends StaticObject{
     }
     
     @Override
-    public void draw(SpriteBatch sprite){
+    public boolean draw(SpriteBatch sprite){
 		if (!visible)
-			return;
+			return false;
 
 		final float width  = camera.getWidth();
 		final float height = camera.getHeight();
@@ -50,5 +50,6 @@ public class ParallaxLayer extends StaticObject{
 						   (positionX + width + layerOffsetX) / region.getRegionWidth(),
 						   (positionY + layerOffsetY) / region.getRegionHeight());
 		drawable.draw(sprite);
+		return true;
     }
 }

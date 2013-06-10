@@ -8,10 +8,12 @@ import com.game.rania.RaniaGame;
 import com.game.rania.controller.MainController;
 import com.game.rania.controller.ClientController;
 import com.game.rania.controller.ShipController;
+import com.game.rania.model.ParallaxLayer;
 import com.game.rania.model.Player;
+import com.game.rania.model.Radar;
+import com.game.rania.model.Star;
 import com.game.rania.model.User;
 import com.game.rania.model.Location;
-import com.game.rania.model.LocationSprite;
 import com.game.rania.model.Planet;
 import com.game.rania.model.PlanetSprite;
 import com.game.rania.model.element.RegionID;
@@ -34,7 +36,8 @@ public class LocationScreen implements Screen{
 		view.loadTexture("data/sprites/star.png", RegionID.STAR);
 		for (int i = 0; i < 18; i++)
 			view.loadTexture("data/sprites/planets.png", RegionID.fromInt(RegionID.PLANET_0.ordinal() + i), i % 5 * 102, i / 5 * 102, 102, 102);
-		
+
+		view.loadTexture("data/sprites/radar.png", RegionID.RADAR);
 		view.loadTexture("data/sprites/SpaceShip.png", RegionID.SHIP);
 		view.loadTexture("data/backgrounds/space.jpg", RegionID.BACKGROUND_SPACE);
 		view.getTexture(RegionID.BACKGROUND_SPACE).setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
@@ -46,16 +49,30 @@ public class LocationScreen implements Screen{
 		if (location == null)
 			return;
 		
-		controller.addObject(new LocationSprite(location));
+		Radar radar = new Radar((view.getHUDCamera().getWidth() - view.getTextureRegion(RegionID.RADAR).getRegionWidth()) * 0.5f,
+								(view.getHUDCamera().getHeight() - view.getTextureRegion(RegionID.RADAR).getRegionHeight()) * 0.5f,
+								5000.0f, 2.5f);
+		
+		Star star = new Star(RegionID.STAR, location.starRadius);
+		radar.addObject(star);
+		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_SPACE, -0.75f, 1.0f));
+		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_STARS, -0.65f, 1.0f));
+		controller.addStaticObject(star);
+
 		nList.updateCurrentLocation();
 		for (Planet planet : nList.getPlanets().values()) {
-			controller.addStaticObject(new PlanetSprite(planet));
+			PlanetSprite pSprite = new PlanetSprite(planet);
+			radar.addObject(pSprite);
+			controller.addStaticObject(pSprite);
 		}
 
 		for (User user : nList.getUsers().values()) {
+			radar.addObject(user);
 			controller.addDynamicObject(user);
 		}
 
+		radar.addObject(player);
+		controller.addHUDObject(radar);
 		controller.setPlayer(player);
 		controller.addProcessor(new ShipController(player));
 	}

@@ -19,6 +19,7 @@ public class MainView {
 	
 	//camera
 	private Camera camera = null;
+	private Camera cameraHUD = null;
 	private final float widthSize = 800.0f;
 	
 	//sprites
@@ -33,6 +34,7 @@ public class MainView {
 	public MainView(){
 		//create camera
 		camera = new Camera(widthSize);
+		cameraHUD = new Camera(widthSize);
 		
 		spriteBatch = new SpriteBatch();
 		spriteBatchHUD = new SpriteBatch();
@@ -91,6 +93,14 @@ public class MainView {
 	public void setCamera(Camera cam){
 		camera = cam;
 	}
+
+	public Camera getHUDCamera(){
+		return cameraHUD;
+	}
+	
+	public void setHUDCamera(Camera cam){
+		cameraHUD = cam;
+	}
 	
 	public SpriteBatch getSpriteBatch(){
 		return spriteBatch;
@@ -140,6 +150,9 @@ public class MainView {
 		//end render
 		spriteBatch.end();
 		
+		//HUD render
+		cameraHUD.update();
+		spriteBatchHUD.setProjectionMatrix(cameraHUD.combined);
 		spriteBatchHUD.begin();
 		//render HUD objects
 		for (Object object : RaniaGame.mController.getHUDObjects()) {

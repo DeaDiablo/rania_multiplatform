@@ -8,6 +8,8 @@ public enum RegionID {
 	BACKGROUND_SPACE,
 	BACKGROUND_STARS,
 	STAR,
+	RADAR,
+
 	//planets
 	PLANET_0,
 	PLANET_1,

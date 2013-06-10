@@ -14,7 +14,7 @@ public class Object {
 	public Vector2	scale    = new Vector2(1.0f, 1.0f);
 	public Color	color    = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 	
-	protected TextureRegion region = null;
+	public TextureRegion region = null;
 	
 	public Object(RegionID id, float posX, float posY, float rotAngle, float scaleX, float scaleY){
 		region = RaniaGame.mView.getTextureRegion(id);
@@ -45,16 +45,16 @@ public class Object {
 	public void update(float deltaTime){
 	}
 	
-	public void draw(SpriteBatch sprite){
+	public boolean draw(SpriteBatch sprite){
 		if (!visible)
-			return;
+			return false;
 		sprite.setColor(color);
-		drawRegion(sprite, region);
-	}	
+		return drawRegion(sprite, region, position, angle, scale);
+	}
 
-	protected void drawRegion(SpriteBatch sprite, TextureRegion textureRegion){
+	public boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, Vector2 position, float angle, Vector2 scale){
 		if (textureRegion == null)
-			return;
+			return false;
 
 		sprite.draw(textureRegion, 
 					position.x - textureRegion.getRegionWidth() * 0.5f,
@@ -66,5 +66,7 @@ public class Object {
 					scale.x,
 					scale.y,
 					angle);
+		
+		return true;
 	}
 }

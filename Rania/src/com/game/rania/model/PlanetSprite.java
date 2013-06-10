@@ -23,15 +23,15 @@ public class PlanetSprite extends StaticObject{
 	}
 	
 	@Override
-	public void draw(SpriteBatch sprite){
+	public boolean draw(SpriteBatch sprite){
 		if (!visible)
-			return;
+			return false;
 
 		time += Gdx.graphics.getDeltaTime();
 		calcPosition(time);
 		
 		sprite.setColor(planet.color);
-		super.drawRegion(sprite, region);
+		return super.drawRegion(sprite, region, position, angle, scale);
 	}
 	
 	private void calcPosition(double currentTime) {

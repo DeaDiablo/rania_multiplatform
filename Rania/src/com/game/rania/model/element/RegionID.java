@@ -29,7 +29,21 @@ public enum RegionID {
 	PLANET_17,
 	
 	//dynamic elements
-	SHIP;
+	SHIP,
+	
+	//emblems
+	MORT,
+	MORT_ACT,
+	ARAHNID,
+	ARAHNID_ACT,
+	ERBO,
+	ERBO_ACT,
+	GURDIN,
+	GURDIN_ACT,
+	SIKTAN,
+	SIKTAN_ACT,
+	DEMIURG,
+	DEMIURG_ACT;
 	
 	public static RegionID fromInt(int pos){
 		return RegionID.values()[pos];

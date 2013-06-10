@@ -77,9 +77,9 @@ public class MainMenu implements Screen{
 				passwordTextField.setText(Config.autoPassword);
 				if ((loginTextField.getText() != "") && (passwordTextField.getText() != ""))
 				{
-					dispose();
 					if (RaniaGame.mClient.login(loginTextField.getText(), passwordTextField.getText()))
 					{
+						dispose();
 						game.setScreen(new LocationScreen());
 					}
 					else
@@ -89,7 +89,15 @@ public class MainMenu implements Screen{
 				}
 	        }
 	    });
-		
+		Button registerButton = new Button(skin);
+		registerButton.add("Registration");
+		registerButton.addListener(new ClickListener() {
+	        @Override
+	        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+	        	dispose();
+				game.setScreen(new RegisterScreen());
+	        }
+	    });
 		Button exitButton = new Button(skin);
 		exitButton.add("Exit");
 		exitButton.addListener(new ClickListener() {
@@ -103,13 +111,15 @@ public class MainMenu implements Screen{
 		Table container = new Table();
 		container.setSize(width, height);
 		container.setPosition(0.0f, 0.0f);
-	    container.row().fill(true).width(width * 0.25f).height(height * 0.1f).pad(5, width * 0.5f, 5, 0);
+	    container.row().fill(true).width(width * 0.25f).height(height * 0.07f).pad(5, width * 0.5f, 5, 0);
 	    container.add(loginTextField);
-	    container.row().fill(true).width(width * 0.25f).height(height * 0.1f).pad(5, width * 0.5f, 5, 0);
+	    container.row().fill(true).width(width * 0.25f).height(height * 0.07f).pad(5, width * 0.5f, 5, 0);
 	    container.add(passwordTextField);
-	    container.row().fill(true).width(width * 0.25f).height(height * 0.1f).pad(5, width * 0.5f, height * 0.1f, 0);
+	    container.row().fill(true).width(width * 0.25f).height(height * 0.07f).pad(5, width * 0.5f, 5, 0);
 	    container.add(loginButton);
-	    container.row().fill(true).width(width * 0.25f).height(height * 0.1f).pad(5, width * 0.5f, height * 0.4f, 0);
+	    container.row().fill(true).width(width * 0.25f).height(height * 0.07f).pad(5, width * 0.5f, height * 0.1f, 0);
+	    container.add(registerButton);
+	    container.row().fill(true).width(width * 0.25f).height(height * 0.07f).pad(5, width * 0.5f, height * 0.4f, 0);
 	    container.add(exitButton);
 		stage.addActor(container);
 		controller.addProcessor(stage);

@@ -171,8 +171,11 @@ public class NetController {
 				int PlanetRadius = GetIntValue(command.data, ArrPtr);
 				ArrPtr=ArrPtr+4;
 				char[] ColorArr = new char[4];
-				System.arraycopy(command.data, ArrPtr, ColorArr, 0, 4);
-				ArrPtr=ArrPtr+4;
+				for (int j=0;j<4;j++)
+				{
+					ColorArr[j]=(char)command.data[ArrPtr];
+					ArrPtr++;
+				}
 				int PlanetAtmosphere = GetIntValue(command.data, ArrPtr);
 				ArrPtr=ArrPtr+4;
 				Planet planet     = new Planet();

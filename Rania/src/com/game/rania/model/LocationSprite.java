@@ -12,7 +12,6 @@ public class LocationSprite extends Group{
 		this.location = location;
 
 		AddElement(new ParallaxLayer(RegionID.BACKGROUND_SPACE, -0.75f, 1.0f));
-		AddElement(new ParallaxLayer(RegionID.BACKGROUND_STARS, -0.65f, 1.0f));
-		AddElement(new Star(RegionID.STAR, location.starRadius));
+		AddElement(new ParallaxLayer(RegionID.BACKGROUND_STARS, -0.65f, 1.0f));		AddElement(new Star(RegionID.STAR, location.starRadius));
 	}
 }

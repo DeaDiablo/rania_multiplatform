@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.badlogic.gdx.Gdx;
 //import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.game.rania.RaniaGame;
@@ -46,6 +47,7 @@ public class MainView {
 			textures.put(fileTexture, texture);
 		}
 		TextureRegion region = new TextureRegion(texture);
+		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		textureRegions.put(id, region);
 		return region;
 	}
@@ -55,6 +57,7 @@ public class MainView {
 		if (texture == null)
 		{
 			texture = new Texture(Gdx.files.internal(fileTexture));
+			texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			textures.put(fileTexture, texture);
 		}
 		TextureRegion region = new TextureRegion(texture, x, y, width, height);

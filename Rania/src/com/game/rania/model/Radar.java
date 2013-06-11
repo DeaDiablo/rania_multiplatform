@@ -40,8 +40,6 @@ public class Radar extends HUDObject{
 			return false;
 		
 		for (Object object : objects) {
-			sprite.setColor(object.color);
-			
 			posObject.set(object.position);
 			posObject.mul(scale.x * region.getRegionWidth() / radius, scale.y * region.getRegionHeight() / radius);
 			posObject.add(position);
@@ -49,7 +47,7 @@ public class Radar extends HUDObject{
 			scaleObject.set(object.scale.x, object.scale.y);
 			scaleObject.mul(scale.x * mulScale * region.getRegionWidth() / radius, scale.y * mulScale * region.getRegionHeight() / radius);
 			
-			object.drawRegion(sprite, object.region, posObject, object.angle, scaleObject);
+			object.draw(sprite, posObject, object.angle, scaleObject, object.color);
 		}
 		
 		return true;

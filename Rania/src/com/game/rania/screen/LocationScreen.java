@@ -55,15 +55,15 @@ public class LocationScreen implements Screen{
 		
 		Star star = new Star(RegionID.STAR, location.starRadius);
 		radar.addObject(star);
-		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_SPACE, -0.75f, 1.0f));
-		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_STARS, -0.65f, 1.0f));
+		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_SPACE, -0.35f, 1.0f));
+		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_STARS, -0.25f, 1.0f));
 		controller.addStaticObject(star);
 
 		nList.updateCurrentLocation();
 		for (Planet planet : nList.getPlanets().values()) {
 			PlanetSprite pSprite = new PlanetSprite(planet);
 			radar.addObject(pSprite);
-			controller.addStaticObject(pSprite);
+			controller.addDynamicObject(pSprite);
 		}
 
 		for (User user : nList.getUsers().values()) {

@@ -1,12 +1,10 @@
 package com.game.rania.model;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.rania.RaniaGame;
+import com.game.rania.model.element.DynamicObject;
 import com.game.rania.model.element.RegionID;
-import com.game.rania.model.element.StaticObject;
 
-public class PlanetSprite extends StaticObject{
+public class PlanetSprite extends DynamicObject{
 
 	private static double radianAndTime = Math.PI / 180.0 / 3600.0; 
 	public Planet planet = null;
@@ -15,6 +13,7 @@ public class PlanetSprite extends StaticObject{
 	public PlanetSprite(Planet planet) {
 		super(RegionID.fromInt(RegionID.PLANET_0.ordinal() + planet.id), 0, 0);
 		this.planet = planet;
+		color = planet.color;
 
 		time = RaniaGame.mClient.getServerTime();
 		calcPosition(time);
@@ -23,15 +22,9 @@ public class PlanetSprite extends StaticObject{
 	}
 	
 	@Override
-	public boolean draw(SpriteBatch sprite){
-		if (!visible)
-			return false;
-
-		time += Gdx.graphics.getDeltaTime();
+	public void update(float deltaTime){
+		time += deltaTime;
 		calcPosition(time);
-		
-		sprite.setColor(planet.color);
-		return super.drawRegion(sprite, region, position, angle, scale);
 	}
 	
 	private void calcPosition(double currentTime) {

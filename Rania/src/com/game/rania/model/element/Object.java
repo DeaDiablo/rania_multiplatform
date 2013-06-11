@@ -51,8 +51,15 @@ public class Object {
 		sprite.setColor(color);
 		return drawRegion(sprite, region, position, angle, scale);
 	}
+	
+	public boolean draw(SpriteBatch sprite, Vector2 position, float angle, Vector2 scale, Color color){
+		if (!visible)
+			return false;
+		sprite.setColor(color);
+		return drawRegion(sprite, region, position, angle, scale);
+	}
 
-	public boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, Vector2 position, float angle, Vector2 scale){
+	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, Vector2 position, float angle, Vector2 scale){
 		if (textureRegion == null)
 			return false;
 

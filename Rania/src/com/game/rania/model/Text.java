@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
 import com.game.rania.model.element.HUDStaticObject;
 
 public class Text extends HUDStaticObject{
@@ -23,8 +24,19 @@ public class Text extends HUDStaticObject{
 	protected Matrix4	 bufferMatrix = new Matrix4();
 	protected TextBounds textBound 	  = new TextBounds();
 	
+	public TextBounds getTextBound(){
+		font.setScale(scale.x, scale.y);
+		font.getBounds(text, textBound);
+		return textBound;
+	}
+	
 	@Override
 	public boolean draw(SpriteBatch sprite){
+		return draw(sprite, position, angle, scale, color);
+	}
+	
+	@Override
+	public boolean draw(SpriteBatch sprite, Vector2 position, float angle, Vector2 scale, Color color){
 		if (!visible || text.isEmpty())
 			return false;
 
@@ -35,8 +47,12 @@ public class Text extends HUDStaticObject{
 		font.setScale(scale.x, scale.y);
 		font.draw(sprite, text, position.x - textBound.width * 0.5f, position.y + textBound.height * 0.5f);
 		sprite.getTransformMatrix().idt();
-		
+
 		return true;
+	}
+	
+	public boolean draw(SpriteBatch sprite, float x, float y){
+		return draw(sprite, x, y, 0, 1, 1);
 	}
 	
 	public boolean draw(SpriteBatch sprite, float x, float y, float angle, float scaleX, float scaleY){

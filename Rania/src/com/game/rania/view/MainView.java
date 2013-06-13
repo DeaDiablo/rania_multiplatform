@@ -4,13 +4,15 @@ import java.util.EnumMap;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
-//import com.badlogic.gdx.graphics.FPSLogger;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.game.rania.RaniaGame;
+import com.game.rania.model.Text;
 import com.game.rania.model.element.DynamicObject;
+import com.game.rania.model.element.Font;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.element.StaticObject;
@@ -25,7 +27,11 @@ public class MainView {
 	//sprites
 	private SpriteBatch spriteBatch = null;
 	private SpriteBatch spriteBatchHUD = null;
-	//private FPSLogger fpsLog;
+	
+	//fps
+	private Text  fps = null;
+	private float deltaTime = 0.0f;
+	private int   frameCount = 0;
 	
 	//textures
 	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
@@ -38,7 +44,7 @@ public class MainView {
 		
 		spriteBatch = new SpriteBatch();
 		spriteBatchHUD = new SpriteBatch();
-		//fpsLog = new FPSLogger();
+		fps = new Text("", Font.getFont("data/fonts/Postmodern One.ttf", 30), new Color(1, 1, 1, 1), 0, 0);
 	}
 	
 	public TextureRegion loadTexture(String fileTexture, RegionID id) {
@@ -150,6 +156,15 @@ public class MainView {
 		//end render
 		spriteBatch.end();
 		
+		//for fps show
+		frameCount++;
+		deltaTime += Gdx.graphics.getDeltaTime();
+		if (deltaTime > 1.0f){
+			fps.text = String.valueOf(frameCount);
+			frameCount = 0;
+			deltaTime -= 1.0f;
+		}
+		
 		//HUD render
 		cameraHUD.update();
 		spriteBatchHUD.setProjectionMatrix(cameraHUD.combined);
@@ -161,8 +176,7 @@ public class MainView {
 		for (Object object : RaniaGame.mController.getHUDDynamicObjects()) {
 			object.draw(spriteBatchHUD);
 		}
+		fps.draw(spriteBatchHUD, cameraHUD.getLeft() + fps.getTextBound().width * 0.5f, cameraHUD.getTop() - fps.getTextBound().height * 0.5f);
 		spriteBatchHUD.end();
-		
-		//fpsLog.log();
 	}
 }

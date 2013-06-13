@@ -11,6 +11,10 @@ public class DynamicObject extends Object{
 	private boolean move           = false;
 	private float   speed 		   = 1.0f;
 	
+	public DynamicObject(float posX, float posY, float rotAngle, float scaleX, float scaleY){
+		super(posX, posY, rotAngle, scaleX, scaleY);
+	}
+	
 	public DynamicObject(RegionID id, float posX, float posY, float rotAngle, float scaleX, float scaleY){
 		super(id, posX, posY, rotAngle, scaleX, scaleY);
 	}

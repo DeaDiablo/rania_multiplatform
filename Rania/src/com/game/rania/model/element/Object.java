@@ -3,18 +3,26 @@ package com.game.rania.model.element;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
 
 public class Object {
-	
-	public boolean  visible  = true;
-	public Vector2  position = new Vector2(0.0f, 0.0f);
-	public float	angle    = 0.0f;
-	public Vector2	scale    = new Vector2(1.0f, 1.0f);
-	public Color	color    = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+
+	public boolean	touchObject = false;
+	public boolean  visible     = true;
+	public Vector2  position    = new Vector2(0.0f, 0.0f);
+	public float	angle       = 0.0f;
+	public Vector2	scale       = new Vector2(1.0f, 1.0f);
+	public Color	color       = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 	
 	public TextureRegion region = null;
+	
+	public Object(float posX, float posY, float rotAngle, float scaleX, float scaleY){
+		position.set(posX, posY);
+		angle = rotAngle;
+		scale.set(scaleX, scaleY);
+	}
 	
 	public Object(RegionID id, float posX, float posY, float rotAngle, float scaleX, float scaleY){
 		region = RaniaGame.mView.getTextureRegion(id);
@@ -38,10 +46,51 @@ public class Object {
 		return null;
 	}
 	
-	public HUDObject asHUDObject(){
+	public HUDStaticObject asHUDStaticObject(){
 		return null;
 	}
 
+	public HUDDynamicObject asHUDDynamicObject(){
+		return null;
+	}
+	
+	public float getWidth(){
+		return region.getRegionWidth() * scale.x;
+	}
+	
+	public float getHeight(){
+		return region.getRegionHeight() * scale.y;
+	}
+
+	public boolean intersectObject(float x, float y){
+		if (region == null)
+			return false;
+		float width = getWidth();
+		float height = getHeight();
+		Rectangle rect = new Rectangle(position.x - width * 0.5f,
+								       position.y - height * 0.5f,
+								       width,
+								       height);
+		Vector2 point = new Vector2(x, y);
+		point.sub(position);
+		point.rotate(angle);
+		point.add(position);
+		return rect.contains(point.x, point.y);
+	}
+
+	public boolean touchDown(int x, int y) {
+		return false;
+	}
+	
+	public boolean touchDragged(int x, int y) {
+		return false;
+	}
+	
+	public boolean touchUp(int x, int y) {
+		return false;
+	}
+	
+	//update and draw
 	public void update(float deltaTime){
 	}
 	
@@ -49,7 +98,7 @@ public class Object {
 		if (!visible)
 			return false;
 		sprite.setColor(color);
-		return drawRegion(sprite, region, position, angle, scale);
+		return drawRegion(sprite, region);
 	}
 	
 	public boolean draw(SpriteBatch sprite, Vector2 position, float angle, Vector2 scale, Color color){
@@ -59,6 +108,24 @@ public class Object {
 		return drawRegion(sprite, region, position, angle, scale);
 	}
 
+	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion){
+		if (textureRegion == null)
+			return false;
+
+		sprite.draw(textureRegion, 
+					position.x - textureRegion.getRegionWidth() * 0.5f,
+					position.y - textureRegion.getRegionHeight() * 0.5f,
+					textureRegion.getRegionWidth() * 0.5f,
+					textureRegion.getRegionHeight() * 0.5f,
+					textureRegion.getRegionWidth(),
+					textureRegion.getRegionHeight(),
+					scale.x,
+					scale.y,
+					angle);
+		
+		return true;
+	}
+	
 	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, Vector2 position, float angle, Vector2 scale){
 		if (textureRegion == null)
 			return false;

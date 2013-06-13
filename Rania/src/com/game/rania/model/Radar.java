@@ -4,11 +4,11 @@ import java.util.Vector;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.game.rania.model.element.HUDObject;
+import com.game.rania.model.element.HUDStaticObject;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 
-public class Radar extends HUDObject{
+public class Radar extends HUDStaticObject{
 	
 	private Vector<Object> objects = new Vector<Object>();
 	private float radius = 0.0f; 

@@ -155,7 +155,10 @@ public class MainView {
 		spriteBatchHUD.setProjectionMatrix(cameraHUD.combined);
 		spriteBatchHUD.begin();
 		//render HUD objects
-		for (Object object : RaniaGame.mController.getHUDObjects()) {
+		for (Object object : RaniaGame.mController.getHUDStaticObjects()) {
+			object.draw(spriteBatchHUD);
+		}
+		for (Object object : RaniaGame.mController.getHUDDynamicObjects()) {
 			object.draw(spriteBatchHUD);
 		}
 		spriteBatchHUD.end();

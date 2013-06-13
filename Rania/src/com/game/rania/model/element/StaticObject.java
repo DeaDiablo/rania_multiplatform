@@ -4,6 +4,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class StaticObject extends Object{
 
+	public StaticObject(float posX, float posY, float rotAngle, float scaleX, float scaleY){
+		super(posX, posY, rotAngle, scaleX, scaleY);
+	}
+	
 	public StaticObject(RegionID id, float posX, float posY, float rotAngle, float scaleX, float scaleY){
 		super(id, posX, posY, rotAngle, scaleX, scaleY);
 	}

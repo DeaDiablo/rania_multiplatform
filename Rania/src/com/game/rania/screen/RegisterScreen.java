@@ -36,6 +36,7 @@ public class RegisterScreen implements Screen{
 		view = RaniaGame.mView;
 		controller = RaniaGame.mController;
 		game = RaniaGame.mGame;
+		controller.init();
 	}
 
 	@Override
@@ -52,67 +53,69 @@ public class RegisterScreen implements Screen{
 
 	@Override
 	public void show() {
-		float Width = view.getCamera().getWidth();
-		float Height = view.getCamera().getHeight();
+		
+		float width = view.getCamera().getWidth();
+		float height = view.getCamera().getHeight();
+		
 		view.loadTexture("data/backgrounds/menu.jpg", RegionID.BACKGROUND_MENU, 0, 0, 768, 512);
 		controller.addStaticObject(new StaticObject(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
 		view.loadTexture("data/sprites/emblems/erbo.png", RegionID.ERBO, 0, 0, 256, 256);
-		embErbo = new StaticObject(RegionID.ERBO, -Width/2.0f+64, Height/2.0f-64);
+		embErbo = new StaticObject(RegionID.ERBO, -width/2.0f+64, height/2.0f-64);
 		embErbo.scale.set(0.5f, 0.5f);
 		embErbo.visible = true;
 		controller.addStaticObject(embErbo);
 		view.loadTexture("data/sprites/emblems/siktan.png", RegionID.SIKTAN, 0, 0, 256, 256);
-		embSiktan = new StaticObject(RegionID.SIKTAN, -Width/2.0f+64+128, Height/2.0f-64);
+		embSiktan = new StaticObject(RegionID.SIKTAN, -width/2.0f+64+128, height/2.0f-64);
 		embSiktan.scale.set(0.5f, 0.5f);
 		embSiktan.visible = true;
 		controller.addStaticObject(embSiktan);
 		view.loadTexture("data/sprites/emblems/mort.png", RegionID.MORT, 0, 0, 256, 256);
-		embMort = new StaticObject(RegionID.MORT, -Width/2.0f+64+128+128, Height/2.0f-64);
+		embMort = new StaticObject(RegionID.MORT, -width/2.0f+64+128+128, height/2.0f-64);
 		embMort.scale.set(0.5f, 0.5f);
 		embMort.visible = true;
 		controller.addStaticObject(embMort);
 		view.loadTexture("data/sprites/emblems/arahnid.png", RegionID.ARAHNID, 0, 0, 256, 256);
-		embArahnid = new StaticObject(RegionID.ARAHNID, -Width/2.0f+64+128+128+128, Height/2.0f-64);
+		embArahnid = new StaticObject(RegionID.ARAHNID, -width/2.0f+64+128+128+128, height/2.0f-64);
 		embArahnid.scale.set(0.5f, 0.5f);
 		embArahnid.visible = true;
 		controller.addStaticObject(embArahnid);
 		view.loadTexture("data/sprites/emblems/gurdin.png", RegionID.GURDIN, 0, 0, 256, 256);
-		embGurdin = new StaticObject(RegionID.GURDIN, -Width/2.0f+64+128+128+128+128, Height/2.0f-64);
+		embGurdin = new StaticObject(RegionID.GURDIN, -width/2.0f+64+128+128+128+128, height/2.0f-64);
 		embGurdin.scale.set(0.5f, 0.5f);
 		embGurdin.visible = true;
 		controller.addStaticObject(embGurdin);
 		view.loadTexture("data/sprites/emblems/demiurg.png", RegionID.DEMIURG, 0, 0, 256, 256);
-		embDemiurg = new StaticObject(RegionID.DEMIURG, -Width/2.0f+64+128+128+128+128+128, Height/2.0f-64);
+		embDemiurg = new StaticObject(RegionID.DEMIURG, -width/2.0f+64+128+128+128+128+128, height/2.0f-64);
 		embDemiurg.scale.set(0.5f, 0.5f);
 		embDemiurg.visible = true;
 		controller.addStaticObject(embDemiurg);
 		view.loadTexture("data/sprites/emblems/erbo_act.png", RegionID.ERBO_ACT, 0, 0, 256, 256);
-		embErboAct = new StaticObject(RegionID.ERBO_ACT, -Width/2.0f+64, Height/2.0f-64);
+		embErboAct = new StaticObject(RegionID.ERBO_ACT, -width/2.0f+64, height/2.0f-64);
 		embErboAct.scale.set(0.5f, 0.5f);
 		embErboAct.visible = false;
 		controller.addStaticObject(embErboAct);
 		view.loadTexture("data/sprites/emblems/siktan_act.png", RegionID.SIKTAN_ACT, 0, 0, 256, 256);
-		embSiktanAct = new StaticObject(RegionID.SIKTAN_ACT, -Width/2.0f+64+128, Height/2.0f-64);
+		embSiktanAct = new StaticObject(RegionID.SIKTAN_ACT, -width/2.0f+64+128, height/2.0f-64);
 		embSiktanAct.scale.set(0.5f, 0.5f);
 		embSiktanAct.visible = false;
 		controller.addStaticObject(embSiktanAct);
 		view.loadTexture("data/sprites/emblems/mort_act.png", RegionID.MORT_ACT, 0, 0, 256, 256);
-		embMortAct = new StaticObject(RegionID.MORT_ACT, -Width/2.0f+64+128+128, Height/2.0f-64);
+		embMortAct = new StaticObject(RegionID.MORT_ACT, -width/2.0f+64+128+128, height/2.0f-64);
 		embMortAct.scale.set(0.5f, 0.5f);
 		embMortAct.visible = false;
 		controller.addStaticObject(embMortAct);
 		view.loadTexture("data/sprites/emblems/arahnid_act.png", RegionID.ARAHNID_ACT, 0, 0, 256, 256);
-		embArahnidAct = new StaticObject(RegionID.ARAHNID_ACT, -Width/2.0f+64+128+128+128, Height/2.0f-64);
+		embArahnidAct = new StaticObject(RegionID.ARAHNID_ACT, -width/2.0f+64+128+128+128, height/2.0f-64);
 		embArahnidAct.scale.set(0.5f, 0.5f);
 		embArahnidAct.visible = false;
 		controller.addStaticObject(embArahnidAct);
 		view.loadTexture("data/sprites/emblems/gurdin_act.png", RegionID.GURDIN_ACT, 0, 0, 256, 256);
-		embGurdinAct = new StaticObject(RegionID.GURDIN_ACT, -Width/2.0f+64+128+128+128+128, Height/2.0f-64);
+		embGurdinAct = new StaticObject(RegionID.GURDIN_ACT, -width/2.0f+64+128+128+128+128, height/2.0f-64);
 		embGurdinAct.scale.set(0.5f, 0.5f);
 		embGurdinAct.visible = false;
 		controller.addStaticObject(embGurdinAct);
 		view.loadTexture("data/sprites/emblems/demiurg_act.png", RegionID.DEMIURG_ACT, 0, 0, 256, 256);
-		embDemiurgAct = new StaticObject(RegionID.DEMIURG_ACT, -Width/2.0f+64+128+128+128+128+128, Height/2.0f-64);
+		embDemiurgAct = new StaticObject(RegionID.DEMIURG_ACT, -width/2.0f+64+128+128+128+128+128, height/2.0f-64);
 		embDemiurgAct.scale.set(0.5f, 0.5f);
 		embDemiurgAct.visible = false;
 		controller.addStaticObject(embDemiurgAct);

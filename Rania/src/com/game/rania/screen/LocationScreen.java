@@ -29,6 +29,7 @@ public class LocationScreen implements Screen{
 		view = RaniaGame.mView;
 		controller = RaniaGame.mController;
 		nList = RaniaGame.mClient;
+		controller.init();
 	}
 
 	@Override
@@ -72,7 +73,7 @@ public class LocationScreen implements Screen{
 		}
 
 		radar.addObject(player);
-		controller.addHUDObject(radar);
+		controller.addStaticHUDObject(radar);
 		controller.setPlayer(player);
 		controller.addProcessor(new ShipController(player));
 	}

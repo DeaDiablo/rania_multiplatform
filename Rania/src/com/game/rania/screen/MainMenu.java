@@ -31,6 +31,7 @@ public class MainMenu implements Screen{
 		view = RaniaGame.mView;
 		controller = RaniaGame.mController;
 		game = RaniaGame.mGame;
+		controller.init();
 	}
 	
 	@Override
@@ -41,10 +42,9 @@ public class MainMenu implements Screen{
 		float width = Gdx.graphics.getWidth();
 		float height = Gdx.graphics.getHeight();
 
-
 		skin = new Skin(Gdx.files.internal("data/gui/uiskin.json"));
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, view.getSpriteBatch());
-		
+
 		//login
 		final TextField loginTextField = new TextField("", skin);
 		loginTextField.setMessageText("Enter email");
@@ -54,7 +54,7 @@ public class MainMenu implements Screen{
 					textField.getOnscreenKeyboard().show(false);
 			}
 		});
-		
+
 		//password
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("Enter Password");
@@ -66,13 +66,13 @@ public class MainMenu implements Screen{
 					textField.getOnscreenKeyboard().show(false);
 			}
 		});
-		
+
 		Button loginButton = new Button(skin);
 		loginButton.add("Login");
 		loginButton.addListener(new ClickListener() {
 	        @Override
 	        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				//автологин
+				//autologin
 				loginTextField.setText(Config.autoLogin);
 				passwordTextField.setText(Config.autoPassword);
 				if ((loginTextField.getText() != "") && (passwordTextField.getText() != ""))
@@ -107,7 +107,7 @@ public class MainMenu implements Screen{
 	    		game.dispose();
 	        }
 	    });
-		
+
 		Table container = new Table();
 		container.setSize(width, height);
 		container.setPosition(0.0f, 0.0f);
@@ -141,7 +141,7 @@ public class MainMenu implements Screen{
 	@Override
 	public void pause() {		
 	}
-	
+
 	@Override
 	public void render(float deltaTime) {		
 		Gdx.gl.glClearColor(0, 0, 0, 1);

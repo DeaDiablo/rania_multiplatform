@@ -33,6 +33,10 @@ public enum RegionID {
 	//dynamic elements
 	SHIP,
 	
+	//gui
+	BUTTON_OFF,
+	BUTTON_ON,
+	
 	//emblems
 	MORT,
 	MORT_ACT,
@@ -49,5 +53,9 @@ public enum RegionID {
 	
 	public static RegionID fromInt(int pos){
 		return RegionID.values()[pos];
+	}
+	
+	public static int toInt(RegionID id){
+		return id.ordinal();
 	}
 }

@@ -13,9 +13,11 @@ import com.game.rania.model.element.StaticObject;
 
 public class MainController extends InputMultiplexer{
 	
-	private TouchObjectController    touchController   = new TouchObjectController(this);
+	//controllers
+	private InputController          inputController   = new InputController(this);
 	private CommandController		 commandController = new CommandController(this);		 
 	private Vector<UpdateController> updateControllers = new Vector<UpdateController>();
+	//objects
 	private Vector<DynamicObject> 	 dynamicObjects    = new Vector<DynamicObject>();
 	private Vector<StaticObject>  	 staticObjects     = new Vector<StaticObject>();
 	private Vector<HUDDynamicObject> dynamicHUDObjects = new Vector<HUDDynamicObject>();
@@ -27,7 +29,7 @@ public class MainController extends InputMultiplexer{
 	}
 	
 	public void init(){
-		super.addProcessor(0, touchController);
+		super.addProcessor(0, inputController);
 	}
 	
 	public CommandController getCommandController(){

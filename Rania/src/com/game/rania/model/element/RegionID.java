@@ -36,6 +36,8 @@ public enum RegionID {
 	//gui
 	BUTTON_OFF,
 	BUTTON_ON,
+	EDIT_OFF,
+	EDIT_ON,
 	
 	//emblems
 	MORT,

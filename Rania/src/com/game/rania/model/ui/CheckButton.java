@@ -39,12 +39,12 @@ public class CheckButton extends Button{
 	}
 
 	@Override
-	public boolean touchDown(int x, int y) {
+	public boolean touchDown(float x, float y) {
 		return true;
 	}
 
 	@Override
-	public boolean touchUp(int x, int y) {
+	public boolean touchUp(float x, float y) {
 		buttonPressed = !buttonPressed;
 		
 		if (action != null)

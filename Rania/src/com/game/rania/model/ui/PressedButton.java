@@ -39,13 +39,13 @@ public class PressedButton extends Button{
 	}
 
 	@Override
-	public boolean touchDown(int x, int y) {
+	public boolean touchDown(float x, float y) {
 		buttonPressed = true;
 		return true;
 	}
 
 	@Override
-	public boolean touchUp(int x, int y) {
+	public boolean touchUp(float x, float y) {
 		if (!buttonPressed)
 			return false;
 		buttonPressed = false;

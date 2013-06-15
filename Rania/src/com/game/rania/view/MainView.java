@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.Text;
 import com.game.rania.model.element.DynamicObject;
@@ -27,6 +28,7 @@ public class MainView {
 	//sprites
 	private SpriteBatch spriteBatch = null;
 	private SpriteBatch spriteBatchHUD = null;
+	private ShapeRenderer shapeRenderer = null;
 	
 	//fps
 	private Text  fps = null;
@@ -44,6 +46,7 @@ public class MainView {
 		
 		spriteBatch = new SpriteBatch();
 		spriteBatchHUD = new SpriteBatch();
+		shapeRenderer = new ShapeRenderer();
 		fps = new Text("", Font.getFont("data/fonts/Postmodern One.ttf", 30), new Color(1, 1, 1, 1), 0, 0);
 	}
 	
@@ -127,6 +130,15 @@ public class MainView {
 	public void draw(){
 		if (camera == null)
 			return;
+		
+		//for fps show
+		frameCount++;
+		deltaTime += Gdx.graphics.getDeltaTime();
+		if (deltaTime > 1.0f){
+			fps.content = String.valueOf(frameCount);
+			frameCount = 0;
+			deltaTime -= 1.0f;
+		}
 
 		DynamicObject player = RaniaGame.mController.getPlayer();
 
@@ -136,6 +148,18 @@ public class MainView {
 		camera.update();
 		
 		//start render
+		shapeRenderer.setProjectionMatrix(camera.combined);
+
+		//render static objects
+		for (StaticObject object : RaniaGame.mController.getStaticObjects()) {
+			object.draw(shapeRenderer);
+		}
+
+		//render dynamic objects
+		for (DynamicObject object : RaniaGame.mController.getDynamicObjects()) {
+			object.draw(shapeRenderer);
+		}
+		
 		spriteBatch.setProjectionMatrix(camera.combined);
 		spriteBatch.begin();
 
@@ -153,30 +177,28 @@ public class MainView {
 		if (player != null)
 			player.draw(spriteBatch);
 		
-		//end render
 		spriteBatch.end();
 		
-		//for fps show
-		frameCount++;
-		deltaTime += Gdx.graphics.getDeltaTime();
-		if (deltaTime > 1.0f){
-			fps.text = String.valueOf(frameCount);
-			frameCount = 0;
-			deltaTime -= 1.0f;
+		shapeRenderer.setProjectionMatrix(cameraHUD.combined);
+		for (Object object : RaniaGame.mController.getHUDStaticObjects()) {
+			object.draw(shapeRenderer);
+		}
+		for (Object object : RaniaGame.mController.getHUDDynamicObjects()) {
+			object.draw(shapeRenderer);
 		}
 		
 		//HUD render
 		cameraHUD.update();
-		spriteBatchHUD.setProjectionMatrix(cameraHUD.combined);
-		spriteBatchHUD.begin();
+		spriteBatch.setProjectionMatrix(cameraHUD.combined);
+		spriteBatch.begin();
 		//render HUD objects
 		for (Object object : RaniaGame.mController.getHUDStaticObjects()) {
-			object.draw(spriteBatchHUD);
+			object.draw(spriteBatch);
 		}
 		for (Object object : RaniaGame.mController.getHUDDynamicObjects()) {
-			object.draw(spriteBatchHUD);
+			object.draw(spriteBatch);
 		}
-		fps.draw(spriteBatchHUD, cameraHUD.getLeft() + fps.getTextBound().width * 0.5f, cameraHUD.getTop() - fps.getTextBound().height * 0.5f);
-		spriteBatchHUD.end();
+		fps.draw(spriteBatch, cameraHUD.getLeft() + fps.getTextBound().width * 0.5f, cameraHUD.getTop() - fps.getTextBound().height * 0.5f);
+		spriteBatch.end();
 	}
 }

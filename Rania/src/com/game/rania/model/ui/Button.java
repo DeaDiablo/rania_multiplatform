@@ -35,10 +35,11 @@ public abstract class Button extends HUDStaticObject{
 		if (!visible)
 			return false;
 		
-		if (!buttonPressed)
-			drawRegion(sprite, region);
-		else
+		sprite.setColor(color);
+		if (buttonPressed && regionOn != null)
 			drawRegion(sprite, regionOn);
+		else
+			drawRegion(sprite, region);
 		
 		if (text != null)
 			text.draw(sprite, text.position.x + position.x, text.position.y + position.y, angle, scale.x, scale.y);			

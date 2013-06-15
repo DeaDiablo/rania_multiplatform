@@ -2,134 +2,119 @@ package com.game.rania.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.rania.Config;
 import com.game.rania.RaniaGame;
 import com.game.rania.controller.MainController;
+import com.game.rania.model.Text;
+import com.game.rania.model.element.Font;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.element.StaticObject;
+import com.game.rania.model.ui.Edit;
+import com.game.rania.model.ui.PressedButton;
+import com.game.rania.model.ui.TouchAction;
 import com.game.rania.view.MainView;
 
 public class MainMenu implements Screen{
-	
-	private Skin skin;
-	private Stage stage;
 
 	private MainView view = null;
 	private MainController controller = null;
-	private RaniaGame game = null;
 	
 	public MainMenu(){
 		view = RaniaGame.mView;
 		controller = RaniaGame.mController;
-		game = RaniaGame.mGame;
 		controller.init();
 	}
 	
 	@Override
 	public void show() {
-		view.loadTexture("data/backgrounds/menu.jpg", RegionID.BACKGROUND_MENU, 0, 0, 768, 512);
-		controller.addStaticObject(new StaticObject(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
+		view.loadTexture("data/backgrounds/menu.jpg", RegionID.BACKGROUND_MENU, 0, 0, 800, 480);
+		controller.addStaticObject(new StaticObject(RegionID.BACKGROUND_MENU, 0, 0));
 
-		float width = Gdx.graphics.getWidth();
-		float height = Gdx.graphics.getHeight();
+		float halfWidth = view.getHUDCamera().getWidth() * 0.5f;
+		float halfHeight = view.getHUDCamera().getHeight() * 0.5f;
 
-		skin = new Skin(Gdx.files.internal("data/gui/uiskin.json"));
-		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, view.getSpriteBatch());
+		view.loadTexture("data/gui/edit.png", RegionID.EDIT_OFF, 0, 0, 256, 64);
+		view.loadTexture("data/gui/edit.png", RegionID.EDIT_ON, 0, 64, 256, 64);
+		
+		final Edit loginEdit = 
+				new Edit(RegionID.EDIT_OFF, 
+				     	 RegionID.EDIT_ON,
+						 -halfWidth * 0.675f,
+						 halfHeight * 0.04f,
+						 new Text(Config.autoLogin, Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
+						 16);
+		
+		final Edit passwordEdit = 
+				new Edit(RegionID.EDIT_OFF, 
+				     	 RegionID.EDIT_ON,
+				     	 -halfWidth * 0.675f,
+				     	 -halfHeight * 0.3125f,
+						 new Text(Config.autoPassword, Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
+						 16);
+		
+		loginEdit.nextControll = passwordEdit;
+		passwordEdit.nextControll = loginEdit;
 
-		//login
-		final TextField loginTextField = new TextField("", skin);
-		loginTextField.setMessageText("Enter email");
-		loginTextField.setTextFieldListener(new TextFieldListener() {
-			public void keyTyped (TextField textField, char key) {
-				if (key == '\n')
-					textField.getOnscreenKeyboard().show(false);
-			}
-		});
-
-		//password
-		final TextField passwordTextField = new TextField("", skin);
-		passwordTextField.setMessageText("Enter Password");
-		passwordTextField.setPasswordCharacter('*');
-		passwordTextField.setPasswordMode(true);
-		passwordTextField.setTextFieldListener(new TextFieldListener() {
-			public void keyTyped (TextField textField, char key) {
-				if (key == '\n')
-					textField.getOnscreenKeyboard().show(false);
-			}
-		});
-
-		Button loginButton = new Button(skin);
-		loginButton.add("Login");
-		loginButton.addListener(new ClickListener() {
-	        @Override
-	        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				//autologin
-				loginTextField.setText(Config.autoLogin);
-				passwordTextField.setText(Config.autoPassword);
-				if ((loginTextField.getText() != "") && (passwordTextField.getText() != ""))
-				{
-					if (RaniaGame.mClient.login(loginTextField.getText(), passwordTextField.getText()))
-					{
-						dispose();
-						game.setScreen(new LocationScreen());
-					}
-					else
-					{
-						//RaniaGame.mHelperUI.showToastLong("Invalid login or password...");
-					}
-				}
-	        }
-	    });
-		Button registerButton = new Button(skin);
-		registerButton.add("Registration");
-		registerButton.addListener(new ClickListener() {
-	        @Override
-	        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-	        	dispose();
-				game.setScreen(new RegisterScreen());
-	        }
-	    });
-		Button exitButton = new Button(skin);
-		exitButton.add("Exit");
-		exitButton.addListener(new ClickListener() {
-	        @Override
-	        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-	            dispose();
-	    		game.dispose();
-	        }
-	    });
-
-		Table container = new Table();
-		container.setSize(width, height);
-		container.setPosition(0.0f, 0.0f);
-	    container.row().fill(true).width(width * 0.25f).height(height * 0.07f).pad(5, width * 0.5f, 5, 0);
-	    container.add(loginTextField);
-	    container.row().fill(true).width(width * 0.25f).height(height * 0.07f).pad(5, width * 0.5f, 5, 0);
-	    container.add(passwordTextField);
-	    container.row().fill(true).width(width * 0.25f).height(height * 0.07f).pad(5, width * 0.5f, 5, 0);
-	    container.add(loginButton);
-	    container.row().fill(true).width(width * 0.25f).height(height * 0.07f).pad(5, width * 0.5f, height * 0.1f, 0);
-	    container.add(registerButton);
-	    container.row().fill(true).width(width * 0.25f).height(height * 0.07f).pad(5, width * 0.5f, height * 0.4f, 0);
-	    container.add(exitButton);
-		stage.addActor(container);
-		controller.addProcessor(stage);
+		controller.addDynamicHUDObject(loginEdit);
+		controller.addDynamicHUDObject(passwordEdit);
+		
+		view.loadTexture("data/gui/button.png", RegionID.BUTTON_OFF, 0, 0, 256, 64);
+		view.loadTexture("data/gui/button.png", RegionID.BUTTON_ON, 0, 64, 256, 64);
+		controller.addStaticHUDObject(
+				new PressedButton(RegionID.BUTTON_OFF,
+								  RegionID.BUTTON_ON,
+								  halfWidth * 0.675f, halfHeight * 0.188f,
+								  new Text("б онкер", Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
+								  new TouchAction() {
+									@Override
+									public void execute(boolean touch) {	
+										if ((loginEdit.getText() != "") && (passwordEdit.getText() != ""))
+										{
+											if (RaniaGame.mClient.login(loginEdit.getText(), passwordEdit.getText()))
+											{
+												dispose();
+												RaniaGame.mGame.setScreen(new LocationScreen());
+											}
+											else
+											{
+												//RaniaGame.mHelperUI.showToastLong("Invalid login or password...");
+											}
+										}
+									}
+								  }));
+		
+		controller.addStaticHUDObject(
+				new PressedButton(RegionID.BUTTON_OFF,
+								  RegionID.BUTTON_ON,
+								  halfWidth * 0.675f, -halfHeight * 0.06f,
+								  new Text("мнбши охкнр", Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
+								  new TouchAction() {
+									@Override
+									public void execute(boolean touch) {	
+										dispose();
+										RaniaGame.mGame.setScreen(new RegisterScreen());
+									}
+								  }));
+		
+		controller.addStaticHUDObject(
+				new PressedButton(RegionID.BUTTON_OFF,
+								  RegionID.BUTTON_ON,
+								  halfWidth * 0.675f, -halfHeight * 0.308f,
+								  new Text("бшунд", Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
+								  new TouchAction() {
+									@Override
+									public void execute(boolean touch) {	
+										dispose();
+							    		RaniaGame.mGame.dispose();
+									}
+								  }));
 	}
 
 	@Override
 	public void dispose() {
 		Gdx.input.setOnscreenKeyboardVisible(false);
-		stage.dispose();
-		skin.dispose();
 		controller.clear();
 		view.clear();
 	}
@@ -147,8 +132,8 @@ public class MainMenu implements Screen{
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
+		controller.update(deltaTime);
 		view.draw();
-		stage.draw();
 	}
 
 	@Override

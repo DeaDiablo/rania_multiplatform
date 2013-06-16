@@ -9,6 +9,16 @@ public enum RegionID {
 	BACKGROUND_STARS,
 	STAR,
 	RADAR,
+	
+	//nebulas
+	NEBULA_0,
+	NEBULA_1,
+	NEBULA_2,
+	NEBULA_3,
+	NEBULA_4,
+	NEBULA_5,
+	NEBULA_6,
+	NEBULA_7,
 
 	//planets
 	PLANET_0,

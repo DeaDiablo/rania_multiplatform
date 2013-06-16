@@ -9,6 +9,7 @@ import com.game.rania.controller.MainController;
 import com.game.rania.controller.ClientController;
 import com.game.rania.controller.ShipController;
 import com.game.rania.model.ParallaxLayer;
+import com.game.rania.model.ParallaxObject;
 import com.game.rania.model.Player;
 import com.game.rania.model.Radar;
 import com.game.rania.model.Star;
@@ -37,10 +38,13 @@ public class LocationScreen implements Screen{
 		view.loadTexture("data/sprites/star.png", RegionID.STAR);
 		for (int i = 0; i < 18; i++)
 			view.loadTexture("data/sprites/planets.png", RegionID.fromInt(RegionID.PLANET_0.ordinal() + i), i % 5 * 204, i / 5 * 204, 204, 204);
+		
+		for (int i = 0; i < 8; i++)
+			view.loadTexture("data/backgrounds/nebulas.png", RegionID.fromInt(RegionID.NEBULA_0.ordinal() + i), i % 4 * 256, i / 4 * 256, 256, 256);
 
 		view.loadTexture("data/sprites/radar.png", RegionID.RADAR);
 		view.loadTexture("data/sprites/SpaceShip.png", RegionID.SHIP);
-		view.loadTexture("data/backgrounds/space.jpg", RegionID.BACKGROUND_SPACE);
+		view.loadTexture("data/backgrounds/space.png", RegionID.BACKGROUND_SPACE);
 		view.getTexture(RegionID.BACKGROUND_SPACE).setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		view.loadTexture("data/backgrounds/stars.png", RegionID.BACKGROUND_STARS);
 		view.getTexture(RegionID.BACKGROUND_STARS).setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
@@ -52,12 +56,17 @@ public class LocationScreen implements Screen{
 		
 		Radar radar = new Radar((view.getHUDCamera().getWidth() - view.getTextureRegion(RegionID.RADAR).getRegionWidth()) * 0.5f,
 								(view.getHUDCamera().getHeight() - view.getTextureRegion(RegionID.RADAR).getRegionHeight()) * 0.5f,
-								5000.0f, 2.5f);
+								5000.0f, 1.0f);
 		
 		Star star = new Star(RegionID.STAR, location.starRadius);
 		radar.addObject(star);
-		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_SPACE, -0.35f, 1.0f));
-		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_STARS, -0.25f, 1.0f));
+		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_SPACE, 250, 300, -0.35f));
+		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_STARS, -150, 0, -0.25f));
+		controller.addStaticObject(new ParallaxObject(RegionID.NEBULA_3, 500, 500, 45, 3, 3, -0.4f));
+		controller.addStaticObject(new ParallaxObject(RegionID.NEBULA_5, -500, 500, -45, 5, 5, -0.4f));
+		controller.addStaticObject(new ParallaxObject(RegionID.NEBULA_6, 500, -500, 0, 4, 4, -0.4f));
+		controller.addStaticObject(new ParallaxObject(RegionID.NEBULA_7, -500, -500, 200, 2, 2, -0.4f));
+
 		controller.addStaticObject(star);
 
 		nList.updateCurrentLocation();

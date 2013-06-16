@@ -14,19 +14,17 @@ public class ParallaxLayer extends StaticObject{
 	private Sprite drawable = null;
 	private Camera camera = null;
 	
-    public ParallaxLayer(RegionID id, float delta, float alpha) {
-        super(RaniaGame.mView.getTextureRegion(id), 0, 0);
+    public ParallaxLayer(RegionID id, float x, float y, float delta) {
+        super(RaniaGame.mView.getTextureRegion(id), x, y);
         ratio = delta;
         drawable = new Sprite();
-        drawable.setColor(1.0f, 1.0f, 1.0f, alpha);
         camera = RaniaGame.mView.getCamera();
     }
 	
-    public ParallaxLayer(TextureRegion region, float delta, float alpha) {
-        super(region, 0, 0);
+    public ParallaxLayer(TextureRegion region, float x, float y, float delta) {
+        super(region, x, y);
         ratio = delta;
         drawable = new Sprite();
-        drawable.setColor(1.0f, 1.0f, 1.0f, alpha);
         camera = RaniaGame.mView.getCamera();
     }
     
@@ -39,12 +37,15 @@ public class ParallaxLayer extends StaticObject{
 		final float height = camera.getHeight();
 		final float layerOffsetX = camera.position.x * ratio;
 		final float layerOffsetY = camera.position.y * ratio;
-		final float positionX = camera.getLeft();
-		final float positionY = camera.getBottom();
+		float positionX = camera.getLeft();
+		float positionY = camera.getBottom();
 
 		drawable.setRegion(region);
+        drawable.setColor(color);
 		drawable.setSize(width, height);
 		drawable.setPosition(positionX, positionY);
+		positionX += position.x;
+		positionY += position.y;
 		drawable.setRegion((positionX + layerOffsetX) / region.getRegionWidth(),
 						   (positionY + height + layerOffsetY) / region.getRegionHeight(),
 						   (positionX + width + layerOffsetX) / region.getRegionWidth(),

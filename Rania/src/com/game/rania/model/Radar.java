@@ -63,7 +63,7 @@ public class Radar extends HUDDynamicObject{
 			posObject.add(position);
 
 			scaleObject.set(object.scale.x, object.scale.y);
-			scaleObject.mul(scale.x * mulScale * region.getRegionWidth() / radius, scale.y * mulScale * region.getRegionHeight() / radius);
+			scaleObject.mul(scale.x * mulScale * region.getRegionWidth() * 0.5f / radius, scale.y * mulScale * region.getRegionHeight() * 0.5f / radius);
 			
 			colorObject.set(object.color);
 			colorObject.mul(color);

@@ -6,6 +6,8 @@ import com.game.rania.model.element.RegionID;
 
 public class CheckButton extends Button{
 
+	private boolean check = false;
+	
 	public CheckButton(RegionID regionOff, RegionID regionOn, float x, float y) {
 		super(regionOff, regionOn, x, y, null, null);
 	}
@@ -45,19 +47,19 @@ public class CheckButton extends Button{
 
 	@Override
 	public boolean touchUp(float x, float y) {
-		buttonPressed = !buttonPressed;
+		check = !check;
 		
 		if (action != null)
-			action.execute(buttonPressed);
+			action.execute(check);
 
 		return true;
 	}
 	
 	public boolean getCheck(){
-		return buttonPressed;
+		return check;
 	}
 	
 	public void setCheck(boolean check){
-		buttonPressed = check;
+		this.check = check;
 	}
 }

@@ -54,9 +54,10 @@ public class LocationScreen implements Screen{
 		if (location == null)
 			return;
 		
-		Radar radar = new Radar((view.getHUDCamera().getWidth() - view.getTextureRegion(RegionID.RADAR).getRegionWidth()) * 0.5f,
+		Radar radar = new Radar(player,
+								(view.getHUDCamera().getWidth() - view.getTextureRegion(RegionID.RADAR).getRegionWidth()) * 0.5f,
 								(view.getHUDCamera().getHeight() - view.getTextureRegion(RegionID.RADAR).getRegionHeight()) * 0.5f,
-								5000.0f, 1.0f);
+								1500.0f, 1.0f);
 		
 		Star star = new Star(RegionID.STAR, location.starRadius);
 		radar.addObject(star);
@@ -81,8 +82,7 @@ public class LocationScreen implements Screen{
 			controller.addDynamicObject(user);
 		}
 
-		radar.addObject(player);
-		controller.addStaticHUDObject(radar);
+		controller.addDynamicHUDObject(radar);
 		controller.setPlayer(player);
 		controller.addProcessor(new ShipController(player));
 	}

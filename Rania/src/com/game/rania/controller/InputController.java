@@ -129,7 +129,6 @@ public class InputController extends InputAdapter{
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		screenY = Gdx.graphics.getHeight() - screenY;
-		FocusElement.clearFocus();
 		Vector2 touchPoint = new Vector2(screenX, screenY);
 		
 		RaniaGame.mView.getHUDCamera().toCameraCoord(touchPoint);
@@ -156,6 +155,7 @@ public class InputController extends InputAdapter{
 				if (object.touchUp(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;
 		}
+		FocusElement.clearFocus();
 		return false;
 	}
 }

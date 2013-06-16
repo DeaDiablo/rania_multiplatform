@@ -10,7 +10,6 @@ import com.game.rania.model.element.RegionID;
 public abstract class Button extends HUDStaticObject{
 
 	protected Text			text		  = null;
-	protected boolean 	  	buttonPressed = false;
 	protected TextureRegion regionOn      = null;
 	protected TouchAction	action        = null;
 
@@ -36,7 +35,7 @@ public abstract class Button extends HUDStaticObject{
 			return false;
 		
 		sprite.setColor(color);
-		if (buttonPressed && regionOn != null)
+		if (FocusElement.getFocus() == this && regionOn != null)
 			drawRegion(sprite, regionOn);
 		else
 			drawRegion(sprite, region);

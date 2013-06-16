@@ -36,7 +36,7 @@ public class LocationScreen implements Screen{
 	public void show() {
 		view.loadTexture("data/sprites/star.png", RegionID.STAR);
 		for (int i = 0; i < 18; i++)
-			view.loadTexture("data/sprites/planets.png", RegionID.fromInt(RegionID.PLANET_0.ordinal() + i), i % 5 * 102, i / 5 * 102, 102, 102);
+			view.loadTexture("data/sprites/planets.png", RegionID.fromInt(RegionID.PLANET_0.ordinal() + i), i % 5 * 204, i / 5 * 204, 204, 204);
 
 		view.loadTexture("data/sprites/radar.png", RegionID.RADAR);
 		view.loadTexture("data/sprites/SpaceShip.png", RegionID.SHIP);

@@ -12,6 +12,7 @@ import com.game.rania.model.element.Font;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.element.StaticObject;
 import com.game.rania.model.ui.Edit;
+import com.game.rania.model.ui.Message;
 import com.game.rania.model.ui.PressedButton;
 import com.game.rania.model.ui.TouchAction;
 import com.game.rania.view.MainView;
@@ -79,7 +80,10 @@ public class MainMenu implements Screen{
 											}
 											else
 											{
-												//RaniaGame.mHelperUI.showToastLong("Invalid login or password...");
+												RaniaGame.mController.addDynamicHUDObject(
+														new Message(RegionID.EDIT_ON, 0, 0,
+															    new Text("Неверный логин или пароль", Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
+															    5));
 											}
 										}
 									}

@@ -22,6 +22,10 @@ public class MainController extends InputMultiplexer{
 	private Vector<StaticObject>  	 staticObjects     = new Vector<StaticObject>();
 	private Vector<HUDDynamicObject> dynamicHUDObjects = new Vector<HUDDynamicObject>();
 	private Vector<HUDStaticObject>  staticHUDObjects  = new Vector<HUDStaticObject>();
+	private Vector<DynamicObject> 	 removeDObjects    = new Vector<DynamicObject>();
+	private Vector<StaticObject>  	 removeSObjects    = new Vector<StaticObject>();
+	private Vector<HUDDynamicObject> removeHDObjects   = new Vector<HUDDynamicObject>();
+	private Vector<HUDStaticObject>  removeHSObjects   = new Vector<HUDStaticObject>();
 	private Player 			 		 mPlayer 		   = null;
 
 	public MainController(){
@@ -74,7 +78,7 @@ public class MainController extends InputMultiplexer{
 	}
 	
 	public void removeDynamicObject(DynamicObject object){
-		dynamicObjects.remove(object);
+		removeDObjects.add(object);
 	}
 
 	//static objects
@@ -88,7 +92,7 @@ public class MainController extends InputMultiplexer{
 	}
 	
 	public void removeStaticObject(StaticObject object){
-		staticObjects.remove(object);
+		removeSObjects.add(object);
 	}
 	
 	//HUD objects
@@ -103,7 +107,7 @@ public class MainController extends InputMultiplexer{
 	
 	
 	public void removeStaticHUDObject(HUDStaticObject object){
-		staticHUDObjects.remove(object);
+		removeHSObjects.add(object);
 	}
 	
 	public Vector<HUDDynamicObject> getHUDDynamicObjects(){
@@ -117,7 +121,7 @@ public class MainController extends InputMultiplexer{
 	
 	
 	public void removeDynamicHUDObject(HUDDynamicObject object){
-		dynamicHUDObjects.remove(object);
+		removeHDObjects.add(object);
 	}
 	
 	//all object
@@ -191,6 +195,15 @@ public class MainController extends InputMultiplexer{
 	}
 	
 	public void update(float deltaTime){
+		dynamicObjects.removeAll(removeDObjects);
+		staticObjects.removeAll(removeSObjects);
+		dynamicHUDObjects.removeAll(removeHDObjects);
+		staticHUDObjects.removeAll(removeHSObjects);
+		removeDObjects.clear();
+		removeSObjects.clear();
+		removeHDObjects.clear();
+		removeHSObjects.clear();
+		
 		commandController.updateCommands(deltaTime);
 		
 		for (UpdateController controller : updateControllers) {

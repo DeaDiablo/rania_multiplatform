@@ -20,7 +20,7 @@ public class ClientController {
 	
 	public boolean login(String login, String password){
 		mClient = nController.ClientLogin(login, password);
-		if (mClient.socket.isConnected())
+		if (mClient.socket.isConnected()&&mClient.isLogin)
 		{
 			updateLocationList();
 			return true;

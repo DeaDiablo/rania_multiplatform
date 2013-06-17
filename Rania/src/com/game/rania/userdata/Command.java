@@ -5,6 +5,7 @@ public class Command
 	//commands list
 	public static int none          = 0;
 	public static int login         = 1;
+	public static int faillogin     = 2;
 	public static int disconnect    = 5;
 	public static int password      = 6;
 	public static int player        = 7;

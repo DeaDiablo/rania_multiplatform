@@ -78,6 +78,10 @@ public class NetController {
 					receiver = new Receiver(client, this);
 					receiver.start();
 				}
+				if (answer.idCommand == Command.faillogin)
+				{
+					client.isLogin = false;
+				}
 			}
 		}
 		catch (Exception ex)

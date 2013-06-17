@@ -23,7 +23,8 @@ public class MainView {
 	//camera
 	private Camera camera = null;
 	private Camera cameraHUD = null;
-	private final float widthSize = 800.0f;
+	private final float widthCamera = 1920.0f;
+	private final float heightCamera = 1080.0f;
 	
 	//sprites
 	private SpriteBatch spriteBatch = null;
@@ -41,8 +42,8 @@ public class MainView {
 	
 	public MainView(){
 		//create camera
-		camera = new Camera(widthSize);
-		cameraHUD = new Camera(widthSize);
+		camera = new Camera(widthCamera, heightCamera);
+		cameraHUD = new Camera(widthCamera, heightCamera);
 		
 		spriteBatch = new SpriteBatch();
 		spriteBatchHUD = new SpriteBatch();

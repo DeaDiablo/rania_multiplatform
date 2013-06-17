@@ -30,7 +30,13 @@ public class MainMenu implements Screen{
 	
 	@Override
 	public void show() {
-		view.loadTexture("data/backgrounds/menu.jpg", RegionID.BACKGROUND_MENU, 0, 0, 800, 480);
+		view.loadTexture("data/backgrounds/menu.png", RegionID.BACKGROUND_MENU, 0, 0, 800, 480);
+		view.loadTexture("data/gui/fly.png", RegionID.BTNLOGIN_OFF, 0, 0, 256, 64);
+		view.loadTexture("data/gui/fly.png", RegionID.BTNLOGIN_ON, 0, 64, 256, 64);
+		view.loadTexture("data/gui/newreg.png", RegionID.BTNREG_OFF, 0, 0, 256, 64);
+		view.loadTexture("data/gui/newreg.png", RegionID.BTNREG_ON, 0, 64, 256, 64);
+		view.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_OFF, 0, 0, 256, 64);
+		view.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_ON, 0, 64, 256, 64);
 		controller.addStaticObject(new StaticObject(RegionID.BACKGROUND_MENU, 0, 0));
 
 		float halfWidth = view.getHUDCamera().getWidth() * 0.5f;
@@ -44,7 +50,7 @@ public class MainMenu implements Screen{
 				     	 RegionID.EDIT_ON,
 						 -halfWidth * 0.675f,
 						 halfHeight * 0.04f,
-						 new Text(Config.autoLogin, Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
+						 new Text(Config.autoLogin, Font.getFont("data/fonts/Picaresque Two.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
 						 16);
 		
 		final Edit passwordEdit = 
@@ -52,7 +58,7 @@ public class MainMenu implements Screen{
 				     	 RegionID.EDIT_ON,
 				     	 -halfWidth * 0.675f,
 				     	 -halfHeight * 0.3125f,
-						 new Text(Config.autoPassword, Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
+						 new Text(Config.autoPassword, Font.getFont("data/fonts/Picaresque Two.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
 						 16);
 		
 		loginEdit.nextControll = passwordEdit;
@@ -61,13 +67,11 @@ public class MainMenu implements Screen{
 		controller.addDynamicHUDObject(loginEdit);
 		controller.addDynamicHUDObject(passwordEdit);
 		
-		view.loadTexture("data/gui/button.png", RegionID.BUTTON_OFF, 0, 0, 256, 64);
-		view.loadTexture("data/gui/button.png", RegionID.BUTTON_ON, 0, 64, 256, 64);
 		controller.addStaticHUDObject(
-				new PressedButton(RegionID.BUTTON_OFF,
-								  RegionID.BUTTON_ON,
+				new PressedButton(RegionID.BTNLOGIN_OFF,
+								  RegionID.BTNLOGIN_ON,
 								  halfWidth * 0.675f, halfHeight * 0.188f,
-								  new Text("б онкер", Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
+								  //new Text("б онкер", Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
 								  new TouchAction() {
 									@Override
 									public void execute(boolean touch) {	
@@ -90,10 +94,10 @@ public class MainMenu implements Screen{
 								  }));
 		
 		controller.addStaticHUDObject(
-				new PressedButton(RegionID.BUTTON_OFF,
-								  RegionID.BUTTON_ON,
+				new PressedButton(RegionID.BTNREG_OFF,
+								  RegionID.BTNREG_ON,
 								  halfWidth * 0.675f, -halfHeight * 0.06f,
-								  new Text("мнбши охкнр", Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
+								  //new Text("мнбши охкнр", Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
 								  new TouchAction() {
 									@Override
 									public void execute(boolean touch) {	
@@ -103,10 +107,10 @@ public class MainMenu implements Screen{
 								  }));
 		
 		controller.addStaticHUDObject(
-				new PressedButton(RegionID.BUTTON_OFF,
-								  RegionID.BUTTON_ON,
+				new PressedButton(RegionID.BTNEXIT_OFF,
+								  RegionID.BTNEXIT_ON,
 								  halfWidth * 0.675f, -halfHeight * 0.308f,
-								  new Text("бшунд", Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
+								  //new Text("бшунд", Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
 								  new TouchAction() {
 									@Override
 									public void execute(boolean touch) {	

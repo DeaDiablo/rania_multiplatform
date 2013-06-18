@@ -16,6 +16,7 @@ public class Message extends HUDDynamicObject{
 		super(id, x, y);
 		this.text = text;
 		this.delay = delay;
+		touchObject = true;
 	}
 
 	@Override
@@ -35,6 +36,12 @@ public class Message extends HUDDynamicObject{
 		if (text != null)
 			text.draw(sprite, text.position.x + position.x, text.position.y + position.y, angle, scale.x, scale.y);
 
+		return true;
+	}
+	
+	@Override
+	public boolean touchUp(float x, float y) {	
+		RaniaGame.mController.removeDynamicHUDObject(this);
 		return true;
 	}
 }

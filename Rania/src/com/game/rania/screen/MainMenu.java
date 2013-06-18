@@ -30,34 +30,34 @@ public class MainMenu implements Screen{
 	
 	@Override
 	public void show() {
-		view.loadTexture("data/backgrounds/menu.png", RegionID.BACKGROUND_MENU, 0, 0, 800, 480);
-		view.loadTexture("data/gui/fly.png", RegionID.BTNLOGIN_OFF, 0, 0, 256, 64);
-		view.loadTexture("data/gui/fly.png", RegionID.BTNLOGIN_ON, 0, 64, 256, 64);
-		view.loadTexture("data/gui/newreg.png", RegionID.BTNREG_OFF, 0, 0, 256, 64);
-		view.loadTexture("data/gui/newreg.png", RegionID.BTNREG_ON, 0, 64, 256, 64);
-		view.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_OFF, 0, 0, 256, 64);
-		view.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_ON, 0, 64, 256, 64);
+		view.loadTexture("data/backgrounds/menu.png", RegionID.BACKGROUND_MENU, 0, 0, 1920, 1080);
+		view.loadTexture("data/gui/fly.png", RegionID.BTNLOGIN_OFF, 0, 0, 512, 128);
+		view.loadTexture("data/gui/fly.png", RegionID.BTNLOGIN_ON, 0, 128, 512, 128);
+		view.loadTexture("data/gui/newreg.png", RegionID.BTNREG_OFF, 0, 0, 512, 128);
+		view.loadTexture("data/gui/newreg.png", RegionID.BTNREG_ON, 0, 128, 512, 128);
+		view.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_OFF, 0, 0, 512, 128);
+		view.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_ON, 0, 128, 512, 128);
 		controller.addStaticObject(new StaticObject(RegionID.BACKGROUND_MENU, 0, 0));
 
 		float halfWidth = view.getHUDCamera().getWidth() * 0.5f;
 		float halfHeight = view.getHUDCamera().getHeight() * 0.5f;
 
-		view.loadTexture("data/gui/edit.png", RegionID.EDIT_OFF, 0, 0, 256, 64);
-		view.loadTexture("data/gui/edit.png", RegionID.EDIT_ON, 0, 64, 256, 64);
+		view.loadTexture("data/gui/edit.png", RegionID.EDIT_OFF, 0, 0, 512, 128);
+		view.loadTexture("data/gui/edit.png", RegionID.EDIT_ON, 0, 128, 512, 128);
 		
 		final Edit loginEdit = 
 				new Edit(RegionID.EDIT_OFF, 
 				     	 RegionID.EDIT_ON,
-						 -halfWidth * 0.675f,
-						 halfHeight * 0.04f,
+						 -halfWidth * 0.625f,
+						 -halfHeight * 0.7f,
 						 new Text(Config.autoLogin, Font.getFont("data/fonts/Picaresque Two.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
 						 16);
 		
 		final Edit passwordEdit = 
 				new Edit(RegionID.EDIT_OFF, 
 				     	 RegionID.EDIT_ON,
-				     	 -halfWidth * 0.675f,
-				     	 -halfHeight * 0.3125f,
+				     	 -halfWidth * 0.0916f,
+				     	 -halfHeight * 0.7f,
 						 new Text(Config.autoPassword, Font.getFont("data/fonts/Picaresque Two.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
 						 16);
 		

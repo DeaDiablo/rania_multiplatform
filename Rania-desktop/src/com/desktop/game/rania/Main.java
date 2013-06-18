@@ -9,8 +9,9 @@ public class Main {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title 	= "Rania";
 		config.useGL20 	= true;
-		config.width 	= 1280;
-		config.height 	= 768;
+		config.width 	= 1600;
+		config.height 	= 900;
+		config.fullscreen 	= false;
 		new LwjglApplication(new RaniaGame(), config);
 	}
 }

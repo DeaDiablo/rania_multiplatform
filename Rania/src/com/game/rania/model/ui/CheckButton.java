@@ -62,4 +62,8 @@ public class CheckButton extends Button{
 	public void setCheck(boolean check){
 		this.check = check;
 	}
+	@Override
+	public boolean checkButton(){
+		return check;
+	}
 }

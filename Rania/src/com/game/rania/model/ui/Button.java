@@ -35,14 +35,17 @@ public abstract class Button extends HUDStaticObject{
 			return false;
 		
 		sprite.setColor(color);
-		if (FocusElement.getFocus() == this && regionOn != null)
+		if (checkButton() && regionOn != null)
 			drawRegion(sprite, regionOn);
 		else
 			drawRegion(sprite, region);
-		
 		if (text != null)
 			text.draw(sprite, text.position.x + position.x, text.position.y + position.y, angle, scale.x, scale.y);			
 		
 		return true;
+	}
+	
+	public boolean checkButton(){
+		return (FocusElement.getFocus() == this);
 	}
 }

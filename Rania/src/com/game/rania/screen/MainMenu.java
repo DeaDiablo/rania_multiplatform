@@ -30,6 +30,8 @@ public class MainMenu implements Screen{
 	
 	@Override
 	public void show() {
+		float halfWidth = view.getHUDCamera().getWidth() * 0.5f;
+		float halfHeight = view.getHUDCamera().getHeight() * 0.5f;
 		view.loadTexture("data/backgrounds/menu.png", RegionID.BACKGROUND_MENU);
 		view.loadTexture("data/gui/fly.png", RegionID.BTNLOGIN_OFF, 0, 0, 512, 128);
 		view.loadTexture("data/gui/fly.png", RegionID.BTNLOGIN_ON, 0, 128, 512, 128);
@@ -37,10 +39,9 @@ public class MainMenu implements Screen{
 		view.loadTexture("data/gui/newreg.png", RegionID.BTNREG_ON, 0, 128, 512, 128);
 		view.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_OFF, 0, 0, 512, 128);
 		view.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_ON, 0, 128, 512, 128);
-		controller.addStaticObject(new StaticObject(RegionID.BACKGROUND_MENU, 0, 0));
+		controller.addStaticObject(new StaticObject(RegionID.BACKGROUND_MENU, -halfWidth*0.0f, halfHeight*0.0f));
 
-		float halfWidth = view.getHUDCamera().getWidth() * 0.5f;
-		float halfHeight = view.getHUDCamera().getHeight() * 0.5f;
+		
 
 		view.loadTexture("data/gui/edit.png", RegionID.EDIT_OFF, 0, 0, 512, 128);
 		view.loadTexture("data/gui/edit.png", RegionID.EDIT_ON, 0, 128, 512, 128);

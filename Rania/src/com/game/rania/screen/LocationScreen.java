@@ -2,6 +2,7 @@ package com.game.rania.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.game.rania.RaniaGame;
@@ -13,11 +14,16 @@ import com.game.rania.model.ParallaxObject;
 import com.game.rania.model.Player;
 import com.game.rania.model.Radar;
 import com.game.rania.model.Star;
+import com.game.rania.model.Text;
 import com.game.rania.model.User;
 import com.game.rania.model.Location;
 import com.game.rania.model.Planet;
 import com.game.rania.model.PlanetSprite;
+import com.game.rania.model.element.Font;
 import com.game.rania.model.element.RegionID;
+import com.game.rania.model.ui.Message;
+import com.game.rania.model.ui.PressedButton;
+import com.game.rania.model.ui.TouchAction;
 import com.game.rania.view.MainView;
 
 public class LocationScreen implements Screen{
@@ -25,6 +31,13 @@ public class LocationScreen implements Screen{
 	private MainView view = null;
 	private MainController controller = null;
 	private ClientController nList = null;
+	private PressedButton btnMenu = null;
+	private PressedButton btnCancel = null;
+	private PressedButton btnDisconnect = null;
+	private float Width;
+	private float Height;
+	private float halfWidth;
+	private float halfHeight;
 	
 	public LocationScreen(){
 		view = RaniaGame.mView;
@@ -35,6 +48,10 @@ public class LocationScreen implements Screen{
 
 	@Override
 	public void show() {
+		Width = view.getCamera().getWidth();
+		Height = view.getCamera().getHeight();
+		halfWidth = Width/2.0f;
+		halfHeight = Height/2.0f;
 		view.loadTexture("data/sprites/star.png", RegionID.STAR);
 		for (int i = 0; i < 18; i++)
 			view.loadTexture("data/sprites/planets.png", RegionID.fromInt(RegionID.PLANET_0.ordinal() + i), i % 5 * 204, i / 5 * 204, 204, 204);
@@ -85,6 +102,45 @@ public class LocationScreen implements Screen{
 		controller.addDynamicHUDObject(radar);
 		controller.setPlayer(player);
 		controller.addProcessor(new ShipController(player));
+		
+		view.loadTexture("data/gui/fs_menu.png", RegionID.BTN_FS_MENU);
+		view.loadTexture("data/gui/fs_back.png", RegionID.BTN_FS_BACK);
+		view.loadTexture("data/gui/fs_exit.png", RegionID.BTN_FS_EXIT);
+		btnDisconnect = new PressedButton(RegionID.BTN_FS_EXIT,
+				  RegionID.BTN_FS_EXIT,
+				  halfWidth * 0.0f, halfHeight * 0.137f,
+				  new TouchAction() {
+					@Override
+					public void execute(boolean touch) {	
+								dispose();
+								RaniaGame.mGame.setScreen(new MainMenu());
+							}});
+		btnMenu = new PressedButton(RegionID.BTN_FS_MENU,
+				  RegionID.BTN_FS_MENU,
+				  halfWidth * 0.9333f, -halfHeight * 0.8815f,
+				  new TouchAction() {
+					@Override
+					public void execute(boolean touch) {	
+								btnDisconnect.visible = true;
+								btnCancel.visible = true;
+								btnMenu.visible = false;
+							}});
+		btnCancel = new PressedButton(RegionID.BTN_FS_BACK,
+				  RegionID.BTN_FS_BACK,
+				  halfWidth * 0.0f, -halfHeight * 0.137f,
+				  new TouchAction() {
+					@Override
+					public void execute(boolean touch) {	
+								btnDisconnect.visible = false;
+								btnCancel.visible = false;
+								btnMenu.visible = true;
+							}});
+		btnDisconnect.visible = false;
+		btnCancel.visible = false;
+		btnMenu.visible = true;
+		controller.addStaticHUDObject(btnMenu);
+		controller.addStaticHUDObject(btnDisconnect);
+		controller.addStaticHUDObject(btnCancel);
 	}
 
 	@Override

@@ -54,7 +54,9 @@ public enum RegionID {
 	EDIT_ON,
 	BTNBACK_OFF,
 	BTNBACK_ON,
-	
+	BTN_FS_MENU,
+	BTN_FS_EXIT,
+	BTN_FS_BACK,
 	//emblems
 	MORT,
 	MORT_ACT,

@@ -9,6 +9,7 @@ import com.game.rania.RaniaGame;
 import com.game.rania.controller.MainController;
 import com.game.rania.model.Text;
 import com.game.rania.model.element.Font;
+import com.game.rania.model.element.HUDStaticObject;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.element.StaticObject;
 import com.game.rania.model.ui.Edit;
@@ -39,7 +40,7 @@ public class MainMenu implements Screen{
 		view.loadTexture("data/gui/newreg.png", RegionID.BTNREG_ON, 0, 128, 512, 128);
 		view.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_OFF, 0, 0, 512, 128);
 		view.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_ON, 0, 128, 512, 128);
-		controller.addStaticObject(new StaticObject(RegionID.BACKGROUND_MENU, -halfWidth*0.0f, halfHeight*0.0f));
+		controller.addStaticHUDObject(new HUDStaticObject(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
 
 		
 

@@ -40,18 +40,21 @@ public class PressedButton extends Button{
 
 	@Override
 	public boolean touchDown(float x, float y) {
+		if (!visible)
+			return false;
 		FocusElement.setFocus(this);
 		return true;
 	}
 
 	@Override
 	public boolean touchUp(float x, float y) {
+		if (!visible)
+			return false;
 		if (FocusElement.getFocus() != this)
 			return false;
 		
 		if (action != null)
 			action.execute(true);
-
 		return true;
 	}
 }

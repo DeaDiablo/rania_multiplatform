@@ -31,9 +31,13 @@ public class LocationScreen implements Screen{
 	private MainView view = null;
 	private MainController controller = null;
 	private ClientController nList = null;
+	private PressedButton panelBlank = null;
 	private PressedButton btnMenu = null;
+	private PressedButton btnChat = null;
 	private PressedButton btnCancel = null;
 	private PressedButton btnDisconnect = null;
+	private Radar radar = null;
+	private Player player = null;
 	private float Width;
 	private float Height;
 	private float halfWidth;
@@ -52,6 +56,7 @@ public class LocationScreen implements Screen{
 		Height = view.getCamera().getHeight();
 		halfWidth = Width/2.0f;
 		halfHeight = Height/2.0f;
+		LoadHUDobjects();
 		view.loadTexture("data/sprites/star.png", RegionID.STAR);
 		for (int i = 0; i < 18; i++)
 			view.loadTexture("data/sprites/planets.png", RegionID.fromInt(RegionID.PLANET_0.ordinal() + i), i % 5 * 204, i / 5 * 204, 204, 204);
@@ -66,12 +71,12 @@ public class LocationScreen implements Screen{
 		view.loadTexture("data/backgrounds/stars.png", RegionID.BACKGROUND_STARS);
 		view.getTexture(RegionID.BACKGROUND_STARS).setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 
-		Player player = nList.getPlayerData();
+		player = nList.getPlayerData();
 		Location location = RaniaGame.mClient.getLocation(player.idLocation);
 		if (location == null)
 			return;
 		
-		Radar radar = new Radar(player,
+		radar = new Radar(player,
 								(view.getHUDCamera().getWidth() - view.getTextureRegion(RegionID.RADAR).getRegionWidth()) * 0.5f,
 								(view.getHUDCamera().getHeight() - view.getTextureRegion(RegionID.RADAR).getRegionHeight()) * 0.5f,
 								1500.0f, 1.0f);
@@ -98,49 +103,16 @@ public class LocationScreen implements Screen{
 			radar.addObject(user);
 			controller.addDynamicObject(user);
 		}
-
+		
 		controller.addDynamicHUDObject(radar);
 		controller.setPlayer(player);
 		controller.addProcessor(new ShipController(player));
-		
-		view.loadTexture("data/gui/fs_menu.png", RegionID.BTN_FS_MENU);
-		view.loadTexture("data/gui/fs_back.png", RegionID.BTN_FS_BACK);
-		view.loadTexture("data/gui/fs_exit.png", RegionID.BTN_FS_EXIT);
-		btnDisconnect = new PressedButton(RegionID.BTN_FS_EXIT,
-				  RegionID.BTN_FS_EXIT,
-				  halfWidth * 0.0f, halfHeight * 0.137f,
-				  new TouchAction() {
-					@Override
-					public void execute(boolean touch) {	
-								dispose();
-								RaniaGame.mGame.setScreen(new MainMenu());
-							}});
-		btnMenu = new PressedButton(RegionID.BTN_FS_MENU,
-				  RegionID.BTN_FS_MENU,
-				  halfWidth * 0.9333f, -halfHeight * 0.8815f,
-				  new TouchAction() {
-					@Override
-					public void execute(boolean touch) {	
-								btnDisconnect.visible = true;
-								btnCancel.visible = true;
-								btnMenu.visible = false;
-							}});
-		btnCancel = new PressedButton(RegionID.BTN_FS_BACK,
-				  RegionID.BTN_FS_BACK,
-				  halfWidth * 0.0f, -halfHeight * 0.137f,
-				  new TouchAction() {
-					@Override
-					public void execute(boolean touch) {	
-								btnDisconnect.visible = false;
-								btnCancel.visible = false;
-								btnMenu.visible = true;
-							}});
-		btnDisconnect.visible = false;
-		btnCancel.visible = false;
-		btnMenu.visible = true;
 		controller.addStaticHUDObject(btnMenu);
+		controller.addStaticHUDObject(btnChat);
 		controller.addStaticHUDObject(btnDisconnect);
 		controller.addStaticHUDObject(btnCancel);
+		controller.addStaticHUDObject(panelBlank);
+		ShowHUDbuttons();
 	}
 
 	@Override
@@ -172,5 +144,67 @@ public class LocationScreen implements Screen{
 
 	@Override
 	public void resume() {
+	}
+	
+	private void ShowMenu()
+	{
+		panelBlank.visible = true;
+		btnDisconnect.visible = true;
+		btnCancel.visible = true;
+		btnMenu.visible = false;
+		btnChat.visible = false;
+		radar.visible = false;
+	}
+	private void ShowHUDbuttons()
+	{
+		panelBlank.visible = false;
+		btnDisconnect.visible = false;
+		btnCancel.visible = false;
+		btnMenu.visible = true;
+		btnChat.visible = true;
+		radar.visible = true;
+	}
+	private void LoadHUDobjects()
+	{
+		view.loadTexture("data/gui/blank.png", RegionID.BLANK);
+		view.loadTexture("data/gui/ui_menu.png", RegionID.BTN_UI_MENU_OFF,0,0,96,96);
+		view.loadTexture("data/gui/ui_menu.png", RegionID.BTN_UI_MENU_ON,0,96,96,96);
+		view.loadTexture("data/gui/ui_chat.png", RegionID.BTN_UI_CHAT_OFF,0,0,96,96);
+		view.loadTexture("data/gui/ui_chat.png", RegionID.BTN_UI_CHAT_ON,0,96,96,96);
+		view.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_OFF,0,0,450,100);
+		view.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_ON,0,100,450,100);
+		view.loadTexture("data/gui/ui_exit.png", RegionID.BTN_UI_EXIT_OFF,0,0,450,100);
+		view.loadTexture("data/gui/ui_exit.png", RegionID.BTN_UI_EXIT_ON,0,100,450,100);
+		panelBlank = new PressedButton(RegionID.BLANK,  RegionID.BLANK, 0.0f, 0.0f);
+		btnDisconnect = new PressedButton(RegionID.BTN_UI_EXIT_OFF,
+				  RegionID.BTN_UI_EXIT_ON,
+				  halfWidth * 0.0f, halfHeight * 0.137f,
+				  new TouchAction() {
+					@Override
+					public void execute(boolean touch) {
+								nList.disconnect();
+								dispose();
+								RaniaGame.mGame.setScreen(new MainMenu());
+							}});
+		btnMenu = new PressedButton(RegionID.BTN_UI_MENU_OFF,
+				  RegionID.BTN_UI_MENU_ON,
+				  halfWidth * 0.9396f, -halfHeight * 0.8926f,
+				  new TouchAction() {
+					@Override
+					public void execute(boolean touch) {ShowMenu();}});
+		btnChat = new PressedButton(RegionID.BTN_UI_CHAT_OFF,
+				  RegionID.BTN_UI_CHAT_ON,
+				  halfWidth * 0.9396f, -halfHeight * 0.6963f,
+				  new TouchAction() {
+					@Override
+					public void execute(boolean touch) {	
+								
+							}});
+		btnCancel = new PressedButton(RegionID.BTN_UI_BACK_OFF,
+				  RegionID.BTN_UI_BACK_ON,
+				  halfWidth * 0.0f, -halfHeight * 0.137f,
+				  new TouchAction() {
+					@Override
+					public void execute(boolean touch) {ShowHUDbuttons();}});
 	}
 }

@@ -103,6 +103,7 @@ public class Radar extends HUDDynamicObject{
 								object.region.getRegionHeight() * region.getRegionHeight() / radarHeight / objRegion.getRegionHeight());
 	
 				String objectClass = object.getClass().getSimpleName();
+				colorObject.set(1, 1, 1, 1);
 				if (objectClass.compareTo("User") == 0){
 					colorObject.set(1, 0, 0, 1);
 				}
@@ -114,9 +115,6 @@ public class Radar extends HUDDynamicObject{
 					//drawRegion(spriteBuffer, orbitRegion, 0, 0, 0, 
 							//pl.planet.orbit * region.getRegionWidth()/ radarWidth / orbitRegion.getRegionWidth(),
 							//pl.planet.orbit * region.getRegionHeight() / radarHeight / orbitRegion.getRegionHeight());
-				}
-				else if (objectClass.compareTo("Star") == 0){
-					colorObject.set(1, 1, 1, 1);
 				}
 				
 				alpha = (deltaSensor - posObject.x) / width;
@@ -138,6 +136,8 @@ public class Radar extends HUDDynamicObject{
 		frameBuffer.end();
 		
 		sprite.begin();
+		colorObject.set(1, 1, 1, 1);
+		sprite.setColor(colorObject);
 		drawRegion(sprite, regionBuffer, position.x, position.y, 0, scale.x, scale.y);
 		
 		return true;

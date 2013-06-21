@@ -2,9 +2,7 @@ package com.game.rania.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.game.rania.RaniaGame;
 import com.game.rania.controller.MainController;
 import com.game.rania.controller.ClientController;
@@ -14,14 +12,11 @@ import com.game.rania.model.ParallaxObject;
 import com.game.rania.model.Player;
 import com.game.rania.model.Radar;
 import com.game.rania.model.Star;
-import com.game.rania.model.Text;
 import com.game.rania.model.User;
 import com.game.rania.model.Location;
 import com.game.rania.model.Planet;
 import com.game.rania.model.PlanetSprite;
-import com.game.rania.model.element.Font;
 import com.game.rania.model.element.RegionID;
-import com.game.rania.model.ui.Message;
 import com.game.rania.model.ui.PressedButton;
 import com.game.rania.model.ui.TouchAction;
 import com.game.rania.view.MainView;
@@ -65,11 +60,10 @@ public class LocationScreen implements Screen{
 			view.loadTexture("data/backgrounds/nebulas.png", RegionID.fromInt(RegionID.NEBULA_0.ordinal() + i), i % 4 * 256, i / 4 * 256, 256, 256);
 
 		view.loadTexture("data/sprites/radar.png", RegionID.RADAR);
+		view.loadTexture("data/sprites/sensor.png", RegionID.RADAR_SENSOR);
 		view.loadTexture("data/sprites/SpaceShip.png", RegionID.SHIP);
 		view.loadTexture("data/backgrounds/space.png", RegionID.BACKGROUND_SPACE);
-		view.getTexture(RegionID.BACKGROUND_SPACE).setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		view.loadTexture("data/backgrounds/stars.png", RegionID.BACKGROUND_STARS);
-		view.getTexture(RegionID.BACKGROUND_STARS).setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 
 		player = nList.getPlayerData();
 		Location location = RaniaGame.mClient.getLocation(player.idLocation);
@@ -79,7 +73,7 @@ public class LocationScreen implements Screen{
 		radar = new Radar(player,
 								(view.getHUDCamera().getWidth() - view.getTextureRegion(RegionID.RADAR).getRegionWidth()) * 0.5f,
 								(view.getHUDCamera().getHeight() - view.getTextureRegion(RegionID.RADAR).getRegionHeight()) * 0.5f,
-								1500.0f, 1.0f);
+								2000, 2000);
 		
 		Star star = new Star(RegionID.STAR, location.starRadius);
 		radar.addObject(star);
@@ -104,6 +98,7 @@ public class LocationScreen implements Screen{
 			controller.addDynamicObject(user);
 		}
 		
+		radar.color.set(0, 1, 0, 1);
 		controller.addDynamicHUDObject(radar);
 		controller.setPlayer(player);
 		controller.addProcessor(new ShipController(player));

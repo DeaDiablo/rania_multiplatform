@@ -1,5 +1,6 @@
 package com.game.rania.model;
 
+import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,6 +20,8 @@ public class ParallaxLayer extends StaticObject{
         ratio = delta;
         drawable = new Sprite();
         camera = RaniaGame.mView.getCamera();
+        if (region != null)
+        	region.getTexture().setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
     }
 	
     public ParallaxLayer(TextureRegion region, float x, float y, float delta) {
@@ -26,6 +29,8 @@ public class ParallaxLayer extends StaticObject{
         ratio = delta;
         drawable = new Sprite();
         camera = RaniaGame.mView.getCamera();
+        if (region != null)
+        	region.getTexture().setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
     }
     
     @Override

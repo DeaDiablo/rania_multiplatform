@@ -33,8 +33,6 @@ public class MainView {
 	
 	//fps
 	private Text  fps = null;
-	private float deltaTime = 0.0f;
-	private int   frameCount = 0;
 	
 	//textures
 	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
@@ -133,13 +131,7 @@ public class MainView {
 			return;
 		
 		//for fps show
-		frameCount++;
-		deltaTime += Gdx.graphics.getDeltaTime();
-		if (deltaTime > 1.0f){
-			fps.content = String.valueOf(frameCount);
-			frameCount = 0;
-			deltaTime -= 1.0f;
-		}
+		fps.content = String.valueOf(Gdx.graphics.getFramesPerSecond());
 
 		DynamicObject player = RaniaGame.mController.getPlayer();
 

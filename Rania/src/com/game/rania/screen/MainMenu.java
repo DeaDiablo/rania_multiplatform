@@ -11,7 +11,6 @@ import com.game.rania.model.Text;
 import com.game.rania.model.element.Font;
 import com.game.rania.model.element.HUDStaticObject;
 import com.game.rania.model.element.RegionID;
-import com.game.rania.model.element.StaticObject;
 import com.game.rania.model.ui.Edit;
 import com.game.rania.model.ui.Message;
 import com.game.rania.model.ui.PressedButton;
@@ -33,7 +32,7 @@ public class MainMenu implements Screen{
 	public void show() {
 		float halfWidth = view.getHUDCamera().getWidth() * 0.5f;
 		float halfHeight = view.getHUDCamera().getHeight() * 0.5f;
-		view.loadTexture("data/backgrounds/menu.png", RegionID.BACKGROUND_MENU);
+		view.loadTexture("data/backgrounds/menu.jpg", RegionID.BACKGROUND_MENU);
 		view.loadTexture("data/gui/fly.png", RegionID.BTNLOGIN_OFF, 0, 0, 512, 128);
 		view.loadTexture("data/gui/fly.png", RegionID.BTNLOGIN_ON, 0, 128, 512, 128);
 		view.loadTexture("data/gui/newreg.png", RegionID.BTNREG_OFF, 0, 0, 512, 128);

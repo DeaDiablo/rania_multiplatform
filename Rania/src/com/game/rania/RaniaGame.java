@@ -2,6 +2,7 @@ package com.game.rania;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.game.rania.controller.MainController;
 import com.game.rania.controller.ClientController;
 import com.game.rania.screen.MainMenu;
@@ -19,6 +20,7 @@ public class RaniaGame extends Game {
 
 	@Override
 	public void create() {
+		ShaderProgram.pedantic = false;
 		mGame = this;
 		mView = new MainView();
 		mController = new MainController();

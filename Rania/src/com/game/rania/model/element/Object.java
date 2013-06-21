@@ -64,6 +64,22 @@ public class Object {
 	public float getHeight(){
 		return region.getRegionHeight() * scale.y;
 	}
+	
+	public float getLeft(){
+		return -region.getRegionWidth() * scale.x * 0.5f;
+	}
+	
+	public float getRight(){
+		return region.getRegionWidth() * scale.x * 0.5f;
+	}
+	
+	public float getBottom(){
+		return -region.getRegionHeight() * scale.y * 0.5f;
+	}
+	
+	public float getTop(){
+		return region.getRegionHeight() * scale.y * 0.5f;
+	}
 
 	public boolean intersectObject(float x, float y){
 		if (region == null)
@@ -160,6 +176,24 @@ public class Object {
 					textureRegion.getRegionHeight(),
 					scale.x,
 					scale.y,
+					angle);
+		
+		return true;
+	}
+	
+	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, float x, float y, float angle, float scaleX, float scaleY){
+		if (textureRegion == null)
+			return false;
+
+		sprite.draw(textureRegion, 
+					x - textureRegion.getRegionWidth() * 0.5f,
+					y - textureRegion.getRegionHeight() * 0.5f,
+					textureRegion.getRegionWidth() * 0.5f,
+					textureRegion.getRegionHeight() * 0.5f,
+					textureRegion.getRegionWidth(),
+					textureRegion.getRegionHeight(),
+					scaleX,
+					scaleY,
 					angle);
 		
 		return true;

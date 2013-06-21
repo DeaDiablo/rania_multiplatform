@@ -15,7 +15,6 @@ import com.game.rania.view.MainView;
 public class RegisterScreen implements Screen{
 	private MainView view = null;
 	private MainController controller = null;
-	private RaniaGame game = null;
 
 	private CheckButton btnErbo = null;
 	private CheckButton btnSiktan = null;
@@ -26,7 +25,6 @@ public class RegisterScreen implements Screen{
 	public RegisterScreen(){
 		view = RaniaGame.mView;
 		controller = RaniaGame.mController;
-		game = RaniaGame.mGame;
 		controller.init();
 	}
 
@@ -49,7 +47,7 @@ public class RegisterScreen implements Screen{
 		float height = view.getCamera().getHeight();
 		float halfWidth = width/2.0f;
 		float halfHeight = height/2.0f;
-		view.loadTexture("data/backgrounds/bgstars.png", RegionID.BACKGROUND_MENU, 0, 0, 1920, 1080);
+		view.loadTexture("data/backgrounds/bgstars.jpg", RegionID.BACKGROUND_MENU);
 		controller.addStaticObject(new StaticObject(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
 		view.loadTexture("data/sprites/emblems/erbo.png", RegionID.ERBO, 0, 0, 256, 256);
 		view.loadTexture("data/sprites/emblems/siktan.png", RegionID.SIKTAN, 0, 0, 256, 256);

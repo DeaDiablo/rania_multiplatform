@@ -61,6 +61,7 @@ public class LocationScreen implements Screen{
 
 		view.loadTexture("data/sprites/radar.png", RegionID.RADAR);
 		view.loadTexture("data/sprites/sensor.png", RegionID.RADAR_SENSOR);
+		view.loadTexture("data/sprites/radarObject.png", RegionID.RADAR_OBJECT);
 		view.loadTexture("data/sprites/SpaceShip.png", RegionID.SHIP);
 		view.loadTexture("data/backgrounds/space.png", RegionID.BACKGROUND_SPACE);
 		view.loadTexture("data/backgrounds/stars.png", RegionID.BACKGROUND_STARS);
@@ -162,18 +163,18 @@ public class LocationScreen implements Screen{
 	private void LoadHUDobjects()
 	{
 		view.loadTexture("data/gui/blank.png", RegionID.BLANK);
-		view.loadTexture("data/gui/ui_menu.png", RegionID.BTN_UI_MENU_OFF,0,0,96,96);
-		view.loadTexture("data/gui/ui_menu.png", RegionID.BTN_UI_MENU_ON,0,96,96,96);
-		view.loadTexture("data/gui/ui_chat.png", RegionID.BTN_UI_CHAT_OFF,0,0,96,96);
-		view.loadTexture("data/gui/ui_chat.png", RegionID.BTN_UI_CHAT_ON,0,96,96,96);
-		view.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_OFF,0,0,450,100);
-		view.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_ON,0,100,450,100);
-		view.loadTexture("data/gui/ui_exit.png", RegionID.BTN_UI_EXIT_OFF,0,0,450,100);
-		view.loadTexture("data/gui/ui_exit.png", RegionID.BTN_UI_EXIT_ON,0,100,450,100);
-		panelBlank = new PressedButton(RegionID.BLANK,  RegionID.BLANK, 0.0f, 0.0f);
+		view.loadTexture("data/gui/ui_menu.png", RegionID.BTN_UI_MENU_OFF, 0,   0, 96,  96);
+		view.loadTexture("data/gui/ui_menu.png", RegionID.BTN_UI_MENU_ON,  0,  96, 96,  96);
+		view.loadTexture("data/gui/ui_chat.png", RegionID.BTN_UI_CHAT_OFF, 0,   0, 96,  96);
+		view.loadTexture("data/gui/ui_chat.png", RegionID.BTN_UI_CHAT_ON,  0,  96, 96,  96);
+		view.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_OFF, 0,   0, 450, 100);
+		view.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_ON,  0, 100, 450, 100);
+		view.loadTexture("data/gui/ui_exit.png", RegionID.BTN_UI_EXIT_OFF, 0,   0, 450, 100);
+		view.loadTexture("data/gui/ui_exit.png", RegionID.BTN_UI_EXIT_ON,  0, 100, 450, 100);
+		panelBlank = new PressedButton(RegionID.BLANK, RegionID.BLANK, 0.0f, 0.0f);
 		btnDisconnect = new PressedButton(RegionID.BTN_UI_EXIT_OFF,
 				  RegionID.BTN_UI_EXIT_ON,
-				  halfWidth * 0.0f, halfHeight * 0.137f,
+				  halfWidth * 0.0f, -halfHeight * 0.137f,
 				  new TouchAction() {
 					@Override
 					public void execute(boolean touch) {
@@ -197,7 +198,7 @@ public class LocationScreen implements Screen{
 							}});
 		btnCancel = new PressedButton(RegionID.BTN_UI_BACK_OFF,
 				  RegionID.BTN_UI_BACK_ON,
-				  halfWidth * 0.0f, -halfHeight * 0.137f,
+				  halfWidth * 0.0f, halfHeight * 0.137f,
 				  new TouchAction() {
 					@Override
 					public void execute(boolean touch) {ShowHUDbuttons();}});

@@ -10,6 +10,7 @@ public enum RegionID {
 	STAR,
 	RADAR,
 	RADAR_SENSOR,
+	RADAR_OBJECT,
 	
 	//nebulas
 	NEBULA_0,

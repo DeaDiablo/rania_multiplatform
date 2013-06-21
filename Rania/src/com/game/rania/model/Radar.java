@@ -24,7 +24,7 @@ public class Radar extends HUDDynamicObject{
 	private Color   colorObject = new Color();
 	private Player  player = null;
 	private float   radarWidth, radarHeight;
-	private TextureRegion sensorRegion;
+	private TextureRegion sensorRegion, objRegion;
 
 	public Radar(Player player, float x, float y, float width, float height) {
 		super(RegionID.RADAR, x, y);
@@ -32,6 +32,7 @@ public class Radar extends HUDDynamicObject{
 		this.radarWidth = width;
 		this.radarHeight = height;
 		sensorRegion = RaniaGame.mView.getTextureRegion(RegionID.RADAR_SENSOR);
+		objRegion = RaniaGame.mView.getTextureRegion(RegionID.RADAR_OBJECT);
 		initFrameBuffer();
 	}
 	
@@ -90,22 +91,42 @@ public class Radar extends HUDDynamicObject{
 		spriteBuffer.setColor(color);
 		drawRegion(spriteBuffer, region, width * 0.5f, height * 0.5f, angle, 1, 1);
 
-		for (Object object : objects) {
-			posObject.set(object.position);
-			posObject.sub(player.position);
-			posObject.mul(width / radarWidth, height / radarHeight);
-			posObject.add(width * 0.5f, height * 0.5f);
-
-			scaleObject.set(object.scale.x, object.scale.y);
-			scaleObject.mul(scale.x * region.getRegionWidth() / radarWidth, scale.y * region.getRegionHeight() / radarHeight);
-
-			colorObject.set(object.color);
-			alpha = (deltaSensor - posObject.x) / width;
-			if (alpha < 0)
-				alpha += 1.0f;
-			colorObject.a = 1.0f - 0.5f * alpha;
-			
-			object.draw(spriteBuffer, posObject, object.angle, scaleObject, colorObject);
+		if (objRegion != null) {
+			for (Object object : objects) {
+				posObject.set(object.position);
+				posObject.sub(player.position);
+				posObject.mul(width / radarWidth, height / radarHeight);
+				posObject.add(width * 0.5f, height * 0.5f);
+	
+				scaleObject.set(object.scale.x, object.scale.y);
+				scaleObject.mul(object.region.getRegionWidth() * region.getRegionWidth() / radarWidth / objRegion.getRegionWidth(),
+								object.region.getRegionHeight() * region.getRegionHeight() / radarHeight / objRegion.getRegionHeight());
+	
+				String objectClass = object.getClass().getSimpleName();
+				if (objectClass.compareTo("User") == 0){
+					colorObject.set(1, 0, 0, 1);
+				}
+				else if (objectClass.compareTo("PlanetSprite") == 0){
+					colorObject.set(1, 0, 1, 1);
+					//draw orbit
+					//PlanetSprite pl = (PlanetSprite)object;
+					//spriteBuffer.setColor(colorObject);
+					//drawRegion(spriteBuffer, orbitRegion, 0, 0, 0, 
+							//pl.planet.orbit * region.getRegionWidth()/ radarWidth / orbitRegion.getRegionWidth(),
+							//pl.planet.orbit * region.getRegionHeight() / radarHeight / orbitRegion.getRegionHeight());
+				}
+				else if (objectClass.compareTo("Star") == 0){
+					colorObject.set(1, 1, 1, 1);
+				}
+				
+				alpha = (deltaSensor - posObject.x) / width;
+				if (alpha < 0)
+					alpha += 1.0f;
+				colorObject.a = 1.0f - 0.5f * alpha;
+				
+				spriteBuffer.setColor(colorObject);
+				drawRegion(spriteBuffer, objRegion, posObject, object.angle, scaleObject);
+			}
 		}
 		
 		if (sensorRegion != null) {

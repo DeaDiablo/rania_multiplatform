@@ -133,11 +133,7 @@ public class MainView {
 		//for fps show
 		fps.content = String.valueOf(Gdx.graphics.getFramesPerSecond());
 
-		DynamicObject player = RaniaGame.mController.getPlayer();
-
 		//update camera
-		if (player != null)
-			camera.position.set(player.position.x, player.position.y, 0);
 		camera.update();
 		
 		//start render
@@ -165,10 +161,6 @@ public class MainView {
 		for (DynamicObject object : RaniaGame.mController.getDynamicObjects()) {
 			object.draw(spriteBatch);
 		}
-		
-		//render player
-		if (player != null)
-			player.draw(spriteBatch);
 		
 		spriteBatch.end();
 		

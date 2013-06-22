@@ -1,21 +1,15 @@
 package com.game.rania.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.game.rania.RaniaGame;
-import com.game.rania.controller.MainController;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.element.StaticObject;
 import com.game.rania.model.ui.CheckButton;
 import com.game.rania.model.ui.PressedButton;
 import com.game.rania.model.ui.TouchAction;
-import com.game.rania.view.MainView;
 
-public class RegisterScreen implements Screen{
-	private MainView view = null;
-	private MainController controller = null;
-
+public class RegisterScreen extends RaniaScreen{
 	private CheckButton btnErbo = null;
 	private CheckButton btnSiktan = null;
 	private CheckButton btnGurdin = null;
@@ -23,17 +17,14 @@ public class RegisterScreen implements Screen{
 	private CheckButton btnMort = null;
 	
 	public RegisterScreen(){
-		view = RaniaGame.mView;
-		controller = RaniaGame.mController;
-		controller.init();
+		super();
 	}
 
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
-		view.draw();
+		mView.draw();
 	}
 
 	@Override
@@ -43,22 +34,22 @@ public class RegisterScreen implements Screen{
 	@Override
 	public void show() {
 		
-		float width = view.getCamera().getWidth();
-		float height = view.getCamera().getHeight();
+		float width = mView.getCamera().getWidth();
+		float height = mView.getCamera().getHeight();
 		float halfWidth = width/2.0f;
 		float halfHeight = height/2.0f;
-		view.loadTexture("data/backgrounds/bgstars.jpg", RegionID.BACKGROUND_MENU);
-		controller.addStaticObject(new StaticObject(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
-		view.loadTexture("data/sprites/emblems/erbo.png", RegionID.ERBO, 0, 0, 256, 256);
-		view.loadTexture("data/sprites/emblems/siktan.png", RegionID.SIKTAN, 0, 0, 256, 256);
-		view.loadTexture("data/sprites/emblems/mort.png", RegionID.MORT, 0, 0, 256, 256);
-		view.loadTexture("data/sprites/emblems/arahnid.png", RegionID.ARAHNID, 0, 0, 256, 256);
-		view.loadTexture("data/sprites/emblems/gurdin.png", RegionID.GURDIN, 0, 0, 256, 256);
-		view.loadTexture("data/sprites/emblems/erbo_act.png", RegionID.ERBO_ACT, 0, 0, 256, 256);
-		view.loadTexture("data/sprites/emblems/siktan_act.png", RegionID.SIKTAN_ACT, 0, 0, 256, 256);
-		view.loadTexture("data/sprites/emblems/mort_act.png", RegionID.MORT_ACT, 0, 0, 256, 256);
-		view.loadTexture("data/sprites/emblems/arahnid_act.png", RegionID.ARAHNID_ACT, 0, 0, 256, 256);
-		view.loadTexture("data/sprites/emblems/gurdin_act.png", RegionID.GURDIN_ACT, 0, 0, 256, 256);
+		mView.loadTexture("data/backgrounds/bgstars.jpg", RegionID.BACKGROUND_MENU);
+		mController.addStaticObject(new StaticObject(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
+		mView.loadTexture("data/sprites/emblems/erbo.png", RegionID.ERBO, 0, 0, 256, 256);
+		mView.loadTexture("data/sprites/emblems/siktan.png", RegionID.SIKTAN, 0, 0, 256, 256);
+		mView.loadTexture("data/sprites/emblems/mort.png", RegionID.MORT, 0, 0, 256, 256);
+		mView.loadTexture("data/sprites/emblems/arahnid.png", RegionID.ARAHNID, 0, 0, 256, 256);
+		mView.loadTexture("data/sprites/emblems/gurdin.png", RegionID.GURDIN, 0, 0, 256, 256);
+		mView.loadTexture("data/sprites/emblems/erbo_act.png", RegionID.ERBO_ACT, 0, 0, 256, 256);
+		mView.loadTexture("data/sprites/emblems/siktan_act.png", RegionID.SIKTAN_ACT, 0, 0, 256, 256);
+		mView.loadTexture("data/sprites/emblems/mort_act.png", RegionID.MORT_ACT, 0, 0, 256, 256);
+		mView.loadTexture("data/sprites/emblems/arahnid_act.png", RegionID.ARAHNID_ACT, 0, 0, 256, 256);
+		mView.loadTexture("data/sprites/emblems/gurdin_act.png", RegionID.GURDIN_ACT, 0, 0, 256, 256);
 		TouchAction ErboTouch = new TouchAction() {
 			@Override
 			public void execute(boolean touch) {	
@@ -114,14 +105,14 @@ public class RegisterScreen implements Screen{
 		btnGurdin = new CheckButton(RegionID.GURDIN, RegionID.GURDIN_ACT, halfWidth * 0.2875f, halfHeight *0.726f, GurdinTouch);
 		btnArahnid = new CheckButton(RegionID.ARAHNID, RegionID.ARAHNID_ACT, halfWidth * 0.575f, halfHeight *0.726f, ArahnidTouch);
 		btnMort = new CheckButton(RegionID.MORT, RegionID.MORT_ACT, -halfWidth * 0.575f, halfHeight *0.726f, MortTouch);
-		controller.addStaticHUDObject(btnErbo);
-		controller.addStaticHUDObject(btnSiktan);
-		controller.addStaticHUDObject(btnGurdin);
-		controller.addStaticHUDObject(btnArahnid);
-		controller.addStaticHUDObject(btnMort);
-		view.loadTexture("data/gui/back.png", RegionID.BTNBACK_OFF, 0, 0, 512, 128);
-		view.loadTexture("data/gui/back.png", RegionID.BTNBACK_ON, 0, 128, 512, 128);
-		controller.addStaticHUDObject(
+		mController.addStaticHUDObject(btnErbo);
+		mController.addStaticHUDObject(btnSiktan);
+		mController.addStaticHUDObject(btnGurdin);
+		mController.addStaticHUDObject(btnArahnid);
+		mController.addStaticHUDObject(btnMort);
+		mView.loadTexture("data/gui/back.png", RegionID.BTNBACK_OFF, 0, 0, 512, 128);
+		mView.loadTexture("data/gui/back.png", RegionID.BTNBACK_ON, 0, 128, 512, 128);
+		mController.addStaticHUDObject(
 				new PressedButton(RegionID.BTNBACK_OFF,
 								  RegionID.BTNBACK_ON,
 								  halfWidth * 0.7125f, -halfHeight * 0.8444f,
@@ -132,24 +123,5 @@ public class RegisterScreen implements Screen{
 										RaniaGame.mGame.setScreen(new MainMenu());
 									}
 								  }));
-	}
-
-	@Override
-	public void hide() {		
-	}
-
-	@Override
-	public void pause() {		
-	}
-
-	@Override
-	public void resume() {		
-	}
-
-	@Override
-	public void dispose() {
-		Gdx.input.setOnscreenKeyboardVisible(false);
-		controller.clear();
-		view.clear();
 	}
 }

@@ -12,29 +12,26 @@ import com.game.rania.userdata.Client;
 public class ClientController {
 
 	private Client mClient = null;
-	private NetController nController = null;
+	private NetController netController = null;
 	
-	public ClientController(CommandController commandController){
-		nController = new NetController(commandController);
+	public ClientController(NetController controller){
+		netController = controller; 
 	}
 	
 	public boolean login(String login, String password){
-		mClient = nController.ClientLogin(login, password);
-		if (mClient.socket.isConnected()&&mClient.isLogin)
-		{
-			updateLocationList();
+		mClient = netController.ClientLogin(login, password);
+		if (mClient.socket.isConnected() && mClient.isLogin)
 			return true;
-		}
 		return false;
 	}
 	
 	public void disconnect(){
-		nController.ClientDisconnect(mClient);
-		nController.dispose();
+		netController.ClientDisconnect(mClient);
+		netController.dispose();
 	}
 	
 	public Player getPlayerData(){
-		return nController.getPlayerData(mClient);
+		return netController.getPlayerData(mClient);
 	}
 	
 	public int getServerTime(){
@@ -43,52 +40,18 @@ public class ClientController {
 	
 	//send command
 	public void SendTouchPoint(int x, int y, int pX, int pY) {
-		nController.SendTouchPoint(x, y, pX, pY, mClient);
+		netController.SendTouchPoint(x, y, pX, pY, mClient);
 	}
 
-	//location
-	private HashMap<String, Location> locations = null;
-	private HashMap<String, Planet>   planets   = new HashMap<String, Planet>();
-	private HashMap<String, User> 	  users     = new HashMap<String, User>();
-	
-	public HashMap<String, Location> getLocations(){
-		return locations;
+	public HashMap<String, Location> getLocationList(){
+		return netController.GetAllLocations(mClient);
 	}
 	
-	public Location getLocation(int id){
-		return locations.get(String.valueOf(id));
+	public HashMap<String, Planet> getPlanetList(){
+		return netController.GetCurrentPlanets(mClient);
 	}
 	
-	public HashMap<String, Planet> getPlanets(){
-		return planets;
-	}
-	
-	public Planet getPlanet(int id){
-		return planets.get(String.valueOf(id));
-	}
-	
-	public HashMap<String, User> getUsers(){
-		return users;
-	}
-	
-	public User getUser(int id){
-		return users.get(String.valueOf(id));
-	}
-	
-	public void updateLocationList(){
-		locations = nController.GetAllLocations(mClient);
-	}
-	
-	public void updatePlanetList(){
-		planets = nController.GetCurrentPlanets(mClient);
-	}
-	
-	public void updateUsersList(){
-		users = nController.GetUsersInLocation(mClient);
-	}
-	
-	public void updateCurrentLocation(){
-		updatePlanetList();
-		updateUsersList();
+	public HashMap<String, User> getUsersList(){
+		return netController.GetUsersInLocation(mClient);
 	}
 }

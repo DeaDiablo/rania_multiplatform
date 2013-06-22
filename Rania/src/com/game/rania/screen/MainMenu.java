@@ -1,12 +1,11 @@
 package com.game.rania.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.game.rania.Config;
 import com.game.rania.RaniaGame;
-import com.game.rania.controller.MainController;
+import com.game.rania.controller.Controllers;
 import com.game.rania.model.Text;
 import com.game.rania.model.element.Font;
 import com.game.rania.model.element.HUDStaticObject;
@@ -15,36 +14,29 @@ import com.game.rania.model.ui.Edit;
 import com.game.rania.model.ui.Message;
 import com.game.rania.model.ui.PressedButton;
 import com.game.rania.model.ui.TouchAction;
-import com.game.rania.view.MainView;
 
-public class MainMenu implements Screen{
-
-	private MainView view = null;
-	private MainController controller = null;
+public class MainMenu extends RaniaScreen{
 	
 	public MainMenu(){
-		view = RaniaGame.mView;
-		controller = RaniaGame.mController;
-		controller.init();
 	}
 	
 	@Override
 	public void show() {
-		float halfWidth = view.getHUDCamera().getWidth() * 0.5f;
-		float halfHeight = view.getHUDCamera().getHeight() * 0.5f;
-		view.loadTexture("data/backgrounds/menu.jpg", RegionID.BACKGROUND_MENU);
-		view.loadTexture("data/gui/fly.png", RegionID.BTNLOGIN_OFF, 0, 0, 512, 128);
-		view.loadTexture("data/gui/fly.png", RegionID.BTNLOGIN_ON, 0, 128, 512, 128);
-		view.loadTexture("data/gui/newreg.png", RegionID.BTNREG_OFF, 0, 0, 512, 128);
-		view.loadTexture("data/gui/newreg.png", RegionID.BTNREG_ON, 0, 128, 512, 128);
-		view.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_OFF, 0, 0, 512, 128);
-		view.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_ON, 0, 128, 512, 128);
-		controller.addStaticHUDObject(new HUDStaticObject(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
+		float halfWidth = mView.getHUDCamera().getWidth() * 0.5f;
+		float halfHeight = mView.getHUDCamera().getHeight() * 0.5f;
+		mView.loadTexture("data/backgrounds/menu.jpg", RegionID.BACKGROUND_MENU);
+		mView.loadTexture("data/gui/fly.png", RegionID.BTNLOGIN_OFF, 0, 0, 512, 128);
+		mView.loadTexture("data/gui/fly.png", RegionID.BTNLOGIN_ON, 0, 128, 512, 128);
+		mView.loadTexture("data/gui/newreg.png", RegionID.BTNREG_OFF, 0, 0, 512, 128);
+		mView.loadTexture("data/gui/newreg.png", RegionID.BTNREG_ON, 0, 128, 512, 128);
+		mView.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_OFF, 0, 0, 512, 128);
+		mView.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_ON, 0, 128, 512, 128);
+		mController.addStaticHUDObject(new HUDStaticObject(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
 
 		
 
-		view.loadTexture("data/gui/edit.png", RegionID.EDIT_OFF, 0, 0, 512, 128);
-		view.loadTexture("data/gui/edit.png", RegionID.EDIT_ON, 0, 128, 512, 128);
+		mView.loadTexture("data/gui/edit.png", RegionID.EDIT_OFF, 0, 0, 512, 128);
+		mView.loadTexture("data/gui/edit.png", RegionID.EDIT_ON, 0, 128, 512, 128);
 		
 		final Edit loginEdit = 
 				new Edit(RegionID.EDIT_OFF, 
@@ -65,10 +57,10 @@ public class MainMenu implements Screen{
 		loginEdit.nextControll = passwordEdit;
 		passwordEdit.nextControll = loginEdit;
 
-		controller.addDynamicHUDObject(loginEdit);
-		controller.addDynamicHUDObject(passwordEdit);
+		mController.addDynamicHUDObject(loginEdit);
+		mController.addDynamicHUDObject(passwordEdit);
 		
-		controller.addStaticHUDObject(
+		mController.addStaticHUDObject(
 				new PressedButton(RegionID.BTNLOGIN_OFF,
 								  RegionID.BTNLOGIN_ON,
 								  halfWidth * 0.675f, halfHeight * 0.188f,
@@ -78,14 +70,15 @@ public class MainMenu implements Screen{
 									public void execute(boolean touch) {	
 										if ((loginEdit.getText() != "") && (passwordEdit.getText() != ""))
 										{
-											if (RaniaGame.mClient.login(loginEdit.getText(), passwordEdit.getText()))
+											if (Controllers.clientController.login(loginEdit.getText(), passwordEdit.getText()))
 											{
 												dispose();
+												Controllers.locController.loadLocations();
 												RaniaGame.mGame.setScreen(new LocationScreen());
 											}
 											else
 											{
-												RaniaGame.mController.addDynamicHUDObject(
+												mController.addDynamicHUDObject(
 														new Message(RegionID.EDIT_ON, 0, 0,
 															    new Text("Неверный логин или пароль", Font.getFont("data/fonts/Postmodern One.ttf", 25), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
 															    5));
@@ -94,7 +87,7 @@ public class MainMenu implements Screen{
 									}
 								  }));
 		
-		controller.addStaticHUDObject(
+		mController.addStaticHUDObject(
 				new PressedButton(RegionID.BTNREG_OFF,
 								  RegionID.BTNREG_ON,
 								  halfWidth * 0.675f, -halfHeight * 0.06f,
@@ -107,7 +100,7 @@ public class MainMenu implements Screen{
 									}
 								  }));
 		
-		controller.addStaticHUDObject(
+		mController.addStaticHUDObject(
 				new PressedButton(RegionID.BTNEXIT_OFF,
 								  RegionID.BTNEXIT_ON,
 								  halfWidth * 0.675f, -halfHeight * 0.308f,
@@ -124,8 +117,8 @@ public class MainMenu implements Screen{
 	@Override
 	public void dispose() {
 		Gdx.input.setOnscreenKeyboardVisible(false);
-		controller.clear();
-		view.clear();
+		mController.clear();
+		mView.clear();
 	}
 
 	@Override
@@ -141,8 +134,8 @@ public class MainMenu implements Screen{
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-		controller.update(deltaTime);
-		view.draw();
+		mController.update(deltaTime);
+		mView.draw();
 	}
 
 	@Override

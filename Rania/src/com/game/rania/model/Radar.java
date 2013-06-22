@@ -1,7 +1,5 @@
 package com.game.rania.model;
 
-import java.util.Vector;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -12,19 +10,21 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
+import com.game.rania.controller.Controllers;
+import com.game.rania.controller.LocationController;
 import com.game.rania.model.element.HUDDynamicObject;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 
 public class Radar extends HUDDynamicObject{
-	
-	private Vector<Object> objects = new Vector<Object>();
+
 	private Vector2 posObject = new Vector2();
 	private Vector2 scaleObject = new Vector2();
 	private Color   colorObject = new Color();
 	private Player  player = null;
 	private float   radarWidth, radarHeight;
 	private TextureRegion sensorRegion, objRegion;
+	private LocationController locController = Controllers.locController;
 
 	public Radar(Player player, float x, float y, float width, float height) {
 		super(RegionID.RADAR, x, y);
@@ -34,18 +34,6 @@ public class Radar extends HUDDynamicObject{
 		sensorRegion = RaniaGame.mView.getTextureRegion(RegionID.RADAR_SENSOR);
 		objRegion = RaniaGame.mView.getTextureRegion(RegionID.RADAR_OBJECT);
 		initFrameBuffer();
-	}
-	
-	public void addObject(Object object){
-		objects.add(object);
-	}
-	
-	public void removeObject(Object object){
-		objects.remove(object);
-	}
-	
-	public void removeObject(int num){
-		objects.remove(num);
 	}
 	
 	private float speedSensor = 150.0f;
@@ -92,38 +80,19 @@ public class Radar extends HUDDynamicObject{
 		drawRegion(spriteBuffer, region, width * 0.5f, height * 0.5f, angle, 1, 1);
 
 		if (objRegion != null) {
-			for (Object object : objects) {
-				posObject.set(object.position);
-				posObject.sub(player.position);
-				posObject.mul(width / radarWidth, height / radarHeight);
-				posObject.add(width * 0.5f, height * 0.5f);
-	
-				scaleObject.set(object.scale.x, object.scale.y);
-				scaleObject.mul(object.region.getRegionWidth() * region.getRegionWidth() / radarWidth / objRegion.getRegionWidth(),
-								object.region.getRegionHeight() * region.getRegionHeight() / radarHeight / objRegion.getRegionHeight());
-	
-				String objectClass = object.getClass().getSimpleName();
-				colorObject.set(1, 1, 1, 1);
-				if (objectClass.compareTo("User") == 0){
-					colorObject.set(1, 0, 0, 1);
-				}
-				else if (objectClass.compareTo("PlanetSprite") == 0){
-					colorObject.set(1, 0, 1, 1);
-					//draw orbit
-					//PlanetSprite pl = (PlanetSprite)object;
-					//spriteBuffer.setColor(colorObject);
-					//drawRegion(spriteBuffer, orbitRegion, 0, 0, 0, 
-							//pl.planet.orbit * region.getRegionWidth()/ radarWidth / orbitRegion.getRegionWidth(),
-							//pl.planet.orbit * region.getRegionHeight() / radarHeight / orbitRegion.getRegionHeight());
-				}
-				
-				alpha = (deltaSensor - posObject.x) / width;
-				if (alpha < 0)
-					alpha += 1.0f;
-				colorObject.a = 1.0f - 0.5f * alpha;
-				
-				spriteBuffer.setColor(colorObject);
-				drawRegion(spriteBuffer, objRegion, posObject, object.angle, scaleObject);
+
+			colorObject.set(1, 1, 1, 1);
+			if (locController.getStar() != null)
+				drawRadarObject(locController.getStar());
+
+			colorObject.set(1, 1, 1, 1);
+			for (Object object : locController.getPlanets()) {
+				drawRadarObject(object);
+			}
+
+			colorObject.set(1, 0, 0, 1);
+			for (Object object : locController.getUsers()) {
+				drawRadarObject(object);
 			}
 		}
 		
@@ -143,4 +112,22 @@ public class Radar extends HUDDynamicObject{
 		return true;
 	}
 	
+	protected void drawRadarObject(Object object){
+		posObject.set(object.position);
+		posObject.sub(player.position);
+		posObject.mul(width / radarWidth, height / radarHeight);
+		posObject.add(width * 0.5f, height * 0.5f);
+
+		scaleObject.set(object.scale.x, object.scale.y);
+		scaleObject.mul(object.region.getRegionWidth() * region.getRegionWidth() / radarWidth / objRegion.getRegionWidth(),
+						object.region.getRegionHeight() * region.getRegionHeight() / radarHeight / objRegion.getRegionHeight());
+		
+		alpha = (deltaSensor - posObject.x) / width;
+		if (alpha < 0)
+			alpha += 1.0f;
+		colorObject.a = 1.0f - 0.5f * alpha;
+		
+		spriteBuffer.setColor(colorObject);
+		drawRegion(spriteBuffer, objRegion, posObject, object.angle, scaleObject);
+	}
 }

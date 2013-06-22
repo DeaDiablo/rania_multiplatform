@@ -1,6 +1,6 @@
 package com.game.rania.controller.command;
 
-import com.game.rania.RaniaGame;
+import com.game.rania.controller.Controllers;
 import com.game.rania.controller.MainController;
 import com.game.rania.model.User;
 
@@ -17,7 +17,7 @@ public class SetTargetCommand extends ControllerCommand{
 	
 	@Override
 	public void update(MainController controller, float deltaTime) {
-		User user = RaniaGame.mClient.getUser(id);
+		User user = Controllers.locController.getUser(id);
 		if (user != null)
 			user.setPositionTarget(x, y);
 	}

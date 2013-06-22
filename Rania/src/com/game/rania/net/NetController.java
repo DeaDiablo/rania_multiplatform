@@ -25,8 +25,8 @@ public class NetController {
 	private Receiver receiver = null;
 	private CommandController cController = null;
 	
-	public NetController(CommandController controller){
-		cController = controller;
+	public NetController(CommandController commandController){
+		cController = commandController;
 	}
 	
 	public void dispose(){
@@ -169,7 +169,7 @@ public class NetController {
 				ArrPtr=ArrPtr+PlanetNameLen;
 				int PlanetType = GetIntValue(command.data, ArrPtr);
 				ArrPtr=ArrPtr+4;
-				int PlanetRspeed = GetIntValue(command.data, ArrPtr);
+				int PlanetSpeed = GetIntValue(command.data, ArrPtr);
 				ArrPtr=ArrPtr+4;
 				int PlanetOrbit = GetIntValue(command.data, ArrPtr);
 				ArrPtr=ArrPtr+4;
@@ -183,16 +183,9 @@ public class NetController {
 				}
 				int PlanetAtmosphere = GetIntValue(command.data, ArrPtr);
 				ArrPtr=ArrPtr+4;
-				Planet planet     = new Planet();
-				planet.id         = PlanetId;
-				planet.planetType = PlanetType;
-				planet.orbit      = PlanetOrbit;
-				planet.planetName = PlanetName;
-				planet.speed      = PlanetRspeed;
-				planet.radius     = PlanetRadius;
+				Planet planet     = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetAtmosphere, PlanetSpeed, PlanetOrbit);
 				planet.color      = new Color(ColorArr[0] / 255.0f, ColorArr[1] / 255.0f, ColorArr[2] / 255.0f, ColorArr[3] / 255.0f);
-				planet.atmosphere = PlanetAtmosphere;
-				planets.put(String.valueOf(planet.id), planet);
+				planets.put(String.valueOf(PlanetId), planet);
 			}
 		}
 		catch (Exception ex)

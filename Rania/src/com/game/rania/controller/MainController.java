@@ -3,7 +3,6 @@ package com.game.rania.controller;
 import java.util.Vector;
 
 import com.badlogic.gdx.InputMultiplexer;
-import com.game.rania.model.Player;
 import com.game.rania.model.element.DynamicObject;
 import com.game.rania.model.element.Group;
 import com.game.rania.model.element.HUDDynamicObject;
@@ -12,10 +11,7 @@ import com.game.rania.model.element.Object;
 import com.game.rania.model.element.StaticObject;
 
 public class MainController extends InputMultiplexer{
-	
-	//controllers
-	private InputController          inputController   = new InputController(this);
-	private CommandController		 commandController = new CommandController(this);		 
+
 	private Vector<UpdateController> updateControllers = new Vector<UpdateController>();
 	//objects
 	private Vector<DynamicObject> 	 dynamicObjects    = new Vector<DynamicObject>();
@@ -26,18 +22,15 @@ public class MainController extends InputMultiplexer{
 	private Vector<StaticObject>  	 removeSObjects    = new Vector<StaticObject>();
 	private Vector<HUDDynamicObject> removeHDObjects   = new Vector<HUDDynamicObject>();
 	private Vector<HUDStaticObject>  removeHSObjects   = new Vector<HUDStaticObject>();
-	private Player 			 		 mPlayer 		   = null;
 
 	public MainController(){
 		super();
 	}
 	
 	public void init(){
-		super.addProcessor(0, inputController);
-	}
-	
-	public CommandController getCommandController(){
-		return commandController;
+		clear();
+		if (Controllers.inputController != null)
+			super.addProcessor(0, Controllers.inputController);
 	}
 	
 	//update controllers
@@ -55,16 +48,6 @@ public class MainController extends InputMultiplexer{
 			updateControllers.remove(controller);
 			super.removeProcessor(controller);
 		}
-	}
-	
-	//player
-	public Player getPlayer(){
-		return mPlayer;
-	}
-	
-	public void setPlayer(Player player)
-	{
-		mPlayer = player;
 	}
 	
 	//dynamic objects
@@ -104,7 +87,6 @@ public class MainController extends InputMultiplexer{
 		if (!staticHUDObjects.contains(object))
 			staticHUDObjects.add(object);
 	}
-	
 	
 	public void removeStaticHUDObject(HUDStaticObject object){
 		removeHSObjects.add(object);
@@ -204,14 +186,11 @@ public class MainController extends InputMultiplexer{
 		removeHDObjects.clear();
 		removeHSObjects.clear();
 		
-		commandController.updateCommands(deltaTime);
+		Controllers.commandController.updateCommands(deltaTime);
 		
 		for (UpdateController controller : updateControllers) {
 			controller.update(deltaTime);
 		}
-
-		if (mPlayer != null)
-			mPlayer.update(deltaTime);
 
 		for (DynamicObject object : dynamicObjects) {
 			object.update(deltaTime);
@@ -229,6 +208,5 @@ public class MainController extends InputMultiplexer{
 		staticObjects.clear();
 		staticHUDObjects.clear();
 		dynamicHUDObjects.clear();
-		mPlayer = null;
 	}
 }

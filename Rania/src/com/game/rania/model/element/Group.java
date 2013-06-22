@@ -10,15 +10,15 @@ public class Group {
 		return elements;
 	}
 	
-	public void AddElement(Object object){
+	public void addElement(Object object){
 		elements.add(object);
 	}
 
-	public void RemoveElement(Object object){
+	public void removeElement(Object object){
 		elements.remove(object);
 	}
 
-	public void RemoveElement(int num){
+	public void removeElement(int num){
 		elements.remove(num);
 	}
 }

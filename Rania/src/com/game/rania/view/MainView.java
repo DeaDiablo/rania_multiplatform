@@ -23,8 +23,6 @@ public class MainView {
 	//camera
 	private Camera camera = null;
 	private Camera cameraHUD = null;
-	private final float widthCamera = 1920.0f;
-	private final float heightCamera = 1080.0f;
 	
 	//sprites
 	private SpriteBatch spriteBatch = null;
@@ -38,7 +36,7 @@ public class MainView {
 	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
 	private EnumMap<RegionID, TextureRegion> textureRegions = new EnumMap<RegionID, TextureRegion>(RegionID.class);
 	
-	public MainView(){
+	public MainView(float widthCamera, float heightCamera){
 		//create camera
 		camera = new Camera(widthCamera, heightCamera);
 		cameraHUD = new Camera(widthCamera, heightCamera);

@@ -12,6 +12,6 @@ public class Main {
 		config.width 	= 1600;
 		config.height 	= 900;
 		config.fullscreen 	= false;
-		new LwjglApplication(new RaniaGame(), config);
+		new LwjglApplication(new RaniaGame(1920.0f, 1080.0f), config);
 	}
 }

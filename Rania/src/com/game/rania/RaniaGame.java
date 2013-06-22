@@ -9,19 +9,26 @@ import com.game.rania.screen.MainMenu;
 import com.game.rania.view.MainView;
 
 public class RaniaGame extends Game {
-	
+
 	//game
 	public static RaniaGame   	   mGame = null;
+	private float widthCamera = 0.0f;
+	private float heightCamera = 0.0f;
 	
 	//mvc
 	public static MainView       mView       = null;
 	public static MainController mController = null;
+	
+	public RaniaGame(float widthCamera, float heightCamera){
+		this.widthCamera = widthCamera;
+		this.heightCamera = heightCamera;
+	}
 
 	@Override
 	public void create() {
 		ShaderProgram.pedantic = false;
 		mGame = this;
-		mView = new MainView();
+		mView = new MainView(widthCamera, heightCamera);
 		mController = new MainController();
 		Gdx.input.setInputProcessor(mController);
 		Controllers.initSystemControllers(mView, mController);

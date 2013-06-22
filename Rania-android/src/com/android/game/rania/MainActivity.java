@@ -18,6 +18,6 @@ public class MainActivity extends AndroidApplication {
 		config.useCompass = false;
 		config.useWakelock = true;
 		config.useGL20 = true;
-		initialize(new RaniaGame(), config);
+		initialize(new RaniaGame(1920.0f, 1080.0f), config);
     }
 }

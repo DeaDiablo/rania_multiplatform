@@ -109,6 +109,7 @@ public class LocationController {
 	public void setBackground(Group newBackground){
 		removeBackground();
 		background = newBackground;
+		addBackground();
 	}
 	
 	public void addBackground(){
@@ -134,11 +135,12 @@ public class LocationController {
 	public void setRadar(Radar newRadar){
 		removeRadar();
 		radar = newRadar;
+		addRadar();
 	}
 	
 	public void addRadar(){
 		if (radar != null)
-			mController.addObject(radar);
+			mController.addDynamicHUDObject(radar);
 	}
 
 	public void removeRadar(){
@@ -150,6 +152,8 @@ public class LocationController {
 	
 	//planets
 	public void loadPlanets(){
+		if (currentLocation == null)
+			return;
 		star = new Star(RegionID.STAR, currentLocation.starRadius);
 		planets = cController.getPlanetList();
 	}

@@ -164,15 +164,14 @@ public class LocationController {
 		if (currentLocation == null)
 			return;
 		star = new Star(RegionID.STAR, currentLocation.x, currentLocation.y, currentLocation.starRadius);
-		if (currentLocation.planets.isEmpty())
-			currentLocation.planets = cController.getPlanetList();
+		if (currentLocation.planets == null)
+			currentLocation.planets = cController.getPlanetList(currentLocation.id);
 		planets = currentLocation.planets;
 	}
 	
 	public void updatePlanets(){
-		removePlanets();		
-		if (currentLocation.planets.isEmpty())
-			currentLocation.planets = cController.getPlanetList();
+		if (currentLocation.planets == null)
+			currentLocation.planets = cController.getPlanetList(currentLocation.id);
 		planets = currentLocation.planets;
 		addPlanets();
 	}
@@ -316,6 +315,15 @@ public class LocationController {
 		return planets.values();
 	}
 	
+	public Collection<Planet> getPlanets(int idLocation){
+		Location loc = locations.get(idLocation);
+		if (loc == null)
+			return null;
+		if (loc.planets == null)
+			loc.planets = cController.getPlanetList(loc.id);
+		return loc.planets.values();
+	}
+	
 	public Planet getPlanet(int id){
 		return planets.get(id);
 	}
@@ -358,11 +366,10 @@ public class LocationController {
 		updateTime += deltaTime;
 		if (updateTime > 1.0f){
 			Location newLocation = getCurrentLocation();
-			if (newLocation != currentLocation){
+			if (newLocation.id != currentLocation.id){
 				removePlanets();
 				currentLocation = newLocation;
-				loadPlanets();
-				addPlanets();
+				updatePlanets();
 			}
 			updateTime -= 1.0f;
 		}

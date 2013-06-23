@@ -149,7 +149,7 @@ public class NetController {
 		return UsersMap;
 	}
 
-	public HashMap<Integer, Planet> GetCurrentPlanets(Client client)
+	public HashMap<Integer, Planet> GetCurrentPlanets(Client client, int idLocation)
 	{
 		HashMap<Integer, Planet> planets = new HashMap<Integer, Planet>();
 		try

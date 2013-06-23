@@ -9,5 +9,5 @@ public class Location{
 	public int starRadius;
 	public int starType;
 	public String starName;
-	public HashMap<Integer, Planet> planets = new HashMap<Integer, Planet>();
+	public HashMap<Integer, Planet> planets = null;
 }

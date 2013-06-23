@@ -154,7 +154,7 @@ public class NetController {
 		HashMap<Integer, Planet> planets = new HashMap<Integer, Planet>();
 		try
 		{
-			client.stream.sendCommand(Command.planets);
+			client.stream.sendCommand(Command.planets, intToByteArray(idLocation));
 			Command command = waitCommand(Command.planets);
 			int ArrPtr = 0;
 			int PlanetsCount = GetIntValue(command.data, ArrPtr);
@@ -343,6 +343,7 @@ public class NetController {
 			int UserId = GetIntValue(command.data, 0);
 			cController.addCommand(new RemoveUserCommand(UserId));
 		}
+
 	}
 	private int GetIntValue(byte[] data, int SI)
 	{

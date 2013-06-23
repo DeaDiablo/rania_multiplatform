@@ -40,16 +40,16 @@ public class RegisterScreen extends RaniaScreen{
 		float halfHeight = height/2.0f;
 		mView.loadTexture("data/backgrounds/bgstars.jpg", RegionID.BACKGROUND_MENU);
 		mController.addStaticObject(new StaticObject(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
-		mView.loadTexture("data/sprites/emblems/erbo.png", RegionID.ERBO, 0, 0, 256, 256);
-		mView.loadTexture("data/sprites/emblems/siktan.png", RegionID.SIKTAN, 0, 0, 256, 256);
-		mView.loadTexture("data/sprites/emblems/mort.png", RegionID.MORT, 0, 0, 256, 256);
-		mView.loadTexture("data/sprites/emblems/arahnid.png", RegionID.ARAHNID, 0, 0, 256, 256);
-		mView.loadTexture("data/sprites/emblems/gurdin.png", RegionID.GURDIN, 0, 0, 256, 256);
-		mView.loadTexture("data/sprites/emblems/erbo_act.png", RegionID.ERBO_ACT, 0, 0, 256, 256);
-		mView.loadTexture("data/sprites/emblems/siktan_act.png", RegionID.SIKTAN_ACT, 0, 0, 256, 256);
-		mView.loadTexture("data/sprites/emblems/mort_act.png", RegionID.MORT_ACT, 0, 0, 256, 256);
-		mView.loadTexture("data/sprites/emblems/arahnid_act.png", RegionID.ARAHNID_ACT, 0, 0, 256, 256);
-		mView.loadTexture("data/sprites/emblems/gurdin_act.png", RegionID.GURDIN_ACT, 0, 0, 256, 256);
+		mView.loadTexture("data/emblems/erbo.png", RegionID.ERBO, 0, 0, 256, 256);
+		mView.loadTexture("data/emblems/siktan.png", RegionID.SIKTAN, 0, 0, 256, 256);
+		mView.loadTexture("data/emblems/mort.png", RegionID.MORT, 0, 0, 256, 256);
+		mView.loadTexture("data/emblems/arahnid.png", RegionID.ARAHNID, 0, 0, 256, 256);
+		mView.loadTexture("data/emblems/gurdin.png", RegionID.GURDIN, 0, 0, 256, 256);
+		mView.loadTexture("data/emblems/erbo_act.png", RegionID.ERBO_ACT, 0, 0, 256, 256);
+		mView.loadTexture("data/emblems/siktan_act.png", RegionID.SIKTAN_ACT, 0, 0, 256, 256);
+		mView.loadTexture("data/emblems/mort_act.png", RegionID.MORT_ACT, 0, 0, 256, 256);
+		mView.loadTexture("data/emblems/arahnid_act.png", RegionID.ARAHNID_ACT, 0, 0, 256, 256);
+		mView.loadTexture("data/emblems/gurdin_act.png", RegionID.GURDIN_ACT, 0, 0, 256, 256);
 		TouchAction ErboTouch = new TouchAction() {
 			@Override
 			public void execute(boolean touch) {	

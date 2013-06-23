@@ -49,6 +49,12 @@ public class LocationScreen extends RaniaScreen{
 		mController.addStaticHUDObject(panelBlank);
 		ShowHUDbuttons();
 	}
+	
+	@Override
+	public void dispose(){
+		locController.clearObjects();
+		super.dispose();
+	}
 
 	@Override
 	public void render(float deltaTime) {

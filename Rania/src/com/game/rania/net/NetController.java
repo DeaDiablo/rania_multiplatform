@@ -111,9 +111,9 @@ public class NetController {
 		
 	}
 	
-	public HashMap<String, User> GetUsersInLocation(Client client)
+	public HashMap<Integer, User> GetUsersInLocation(Client client)
 	{
-		HashMap<String, User> UsersMap = new HashMap<String, User>();
+		HashMap<Integer, User> UsersMap = new HashMap<Integer, User>();
 		try
 		{
 			client.stream.sendCommand(Command.users);
@@ -139,7 +139,7 @@ public class NetController {
 				ArrPtr=ArrPtr+4;
 				User userShip = new User(UserId, UserX, UserY, ShipName, "");
 				userShip.setPositionTarget(UserTargetX, UserTargetY);
-				UsersMap.put(String.valueOf(userShip.id), userShip);
+				UsersMap.put(userShip.id, userShip);
 			}
 		}
 		catch (Exception ex)
@@ -149,9 +149,9 @@ public class NetController {
 		return UsersMap;
 	}
 
-	public HashMap<String, Planet> GetCurrentPlanets(Client client)
+	public HashMap<Integer, Planet> GetCurrentPlanets(Client client)
 	{
-		HashMap<String, Planet> planets = new HashMap<String, Planet>();
+		HashMap<Integer, Planet> planets = new HashMap<Integer, Planet>();
 		try
 		{
 			client.stream.sendCommand(Command.planets);
@@ -185,7 +185,7 @@ public class NetController {
 				ArrPtr=ArrPtr+4;
 				Planet planet     = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetAtmosphere, PlanetSpeed, PlanetOrbit);
 				planet.color      = new Color(ColorArr[0] / 255.0f, ColorArr[1] / 255.0f, ColorArr[2] / 255.0f, ColorArr[3] / 255.0f);
-				planets.put(String.valueOf(PlanetId), planet);
+				planets.put(PlanetId, planet);
 			}
 		}
 		catch (Exception ex)
@@ -195,9 +195,9 @@ public class NetController {
 		return planets;
 	}
 	
-	public HashMap<String, Location> GetAllLocations(Client client)
+	public HashMap<Integer, Location> GetAllLocations(Client client)
 	{
-		HashMap<String, Location> locations = new HashMap<String, Location>();
+		HashMap<Integer, Location> locations = new HashMap<Integer, Location>();
 		try
 		{
 			client.stream.sendCommand(Command.locations);
@@ -228,7 +228,7 @@ public class NetController {
 				Loc.starRadius = StarRadius;
 				Loc.starType   = StarType;
 				Loc.starName   = StarName;
-				locations.put(String.valueOf(Loc.id), Loc);
+				locations.put(Loc.id, Loc);
 			}
 		}
 		catch (Exception ex)

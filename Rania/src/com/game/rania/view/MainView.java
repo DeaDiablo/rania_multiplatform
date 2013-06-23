@@ -26,7 +26,6 @@ public class MainView {
 	
 	//sprites
 	private SpriteBatch spriteBatch = null;
-	private SpriteBatch spriteBatchHUD = null;
 	private ShapeRenderer shapeRenderer = null;
 	
 	//fps
@@ -42,7 +41,6 @@ public class MainView {
 		cameraHUD = new Camera(widthCamera, heightCamera);
 		
 		spriteBatch = new SpriteBatch();
-		spriteBatchHUD = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
 		fps = new Text("", Font.getFont("data/fonts/Postmodern One.ttf", 30), new Color(1, 1, 1, 1), 0, 0);
 	}
@@ -112,8 +110,8 @@ public class MainView {
 		return spriteBatch;
 	}
 	
-	public SpriteBatch getSpriteBatchHUD(){
-		return spriteBatchHUD;
+	public ShapeRenderer getShapeRenderer(){
+		return shapeRenderer;
 	}
 	
 	public void clear(){
@@ -133,6 +131,7 @@ public class MainView {
 
 		//update camera
 		camera.update();
+		cameraHUD.update();
 		
 		//start render
 		shapeRenderer.setProjectionMatrix(camera.combined);
@@ -171,7 +170,6 @@ public class MainView {
 		}
 		
 		//HUD render
-		cameraHUD.update();
 		spriteBatch.setProjectionMatrix(cameraHUD.combined);
 		spriteBatch.begin();
 		//render HUD objects

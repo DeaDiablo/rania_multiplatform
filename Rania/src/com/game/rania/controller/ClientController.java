@@ -43,15 +43,15 @@ public class ClientController {
 		netController.SendTouchPoint(x, y, pX, pY, mClient);
 	}
 
-	public HashMap<String, Location> getLocationList(){
+	public HashMap<Integer, Location> getLocationList(){
 		return netController.GetAllLocations(mClient);
 	}
 	
-	public HashMap<String, Planet> getPlanetList(){
+	public HashMap<Integer, Planet> getPlanetList(){
 		return netController.GetCurrentPlanets(mClient);
 	}
 	
-	public HashMap<String, User> getUsersList(){
+	public HashMap<Integer, User> getUsersList(){
 		return netController.GetUsersInLocation(mClient);
 	}
 }

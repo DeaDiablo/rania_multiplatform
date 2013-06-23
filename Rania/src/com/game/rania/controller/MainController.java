@@ -18,6 +18,7 @@ public class MainController extends InputMultiplexer{
 	private Vector<StaticObject>  	 staticObjects     = new Vector<StaticObject>();
 	private Vector<HUDDynamicObject> dynamicHUDObjects = new Vector<HUDDynamicObject>();
 	private Vector<HUDStaticObject>  staticHUDObjects  = new Vector<HUDStaticObject>();
+	//remove objects
 	private Vector<DynamicObject> 	 removeDObjects    = new Vector<DynamicObject>();
 	private Vector<StaticObject>  	 removeSObjects    = new Vector<StaticObject>();
 	private Vector<HUDDynamicObject> removeHDObjects   = new Vector<HUDDynamicObject>();

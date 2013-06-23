@@ -29,24 +29,24 @@ public class LocationController {
 	
 	public void loadTextures(){
 		for (int i = 0; i < 18; i++)
-			mView.loadTexture("data/sprites/planets.png", RegionID.fromInt(RegionID.PLANET_0.ordinal() + i), i % 5 * 204, i / 5 * 204, 204, 204);
+			mView.loadTexture("data/location/planets.png", RegionID.fromInt(RegionID.PLANET_0.ordinal() + i), i % 5 * 204, i / 5 * 204, 204, 204);
 		
 		for (int i = 0; i < 8; i++)
 			mView.loadTexture("data/backgrounds/nebulas.png", RegionID.fromInt(RegionID.NEBULA_0.ordinal() + i), i % 4 * 256, i / 4 * 256, 256, 256);
 
-		mView.loadTexture("data/sprites/star.png",        RegionID.STAR);
-		mView.loadTexture("data/sprites/radar.png", 	  RegionID.RADAR);
-		mView.loadTexture("data/sprites/sensor.png", 	  RegionID.RADAR_SENSOR);
-		mView.loadTexture("data/sprites/radarObject.png", RegionID.RADAR_OBJECT);
-		mView.loadTexture("data/sprites/SpaceShip.png",   RegionID.SHIP);
+		mView.loadTexture("data/location/star.png",        RegionID.STAR);
+		mView.loadTexture("data/location/radar.png", 	  RegionID.RADAR);
+		mView.loadTexture("data/location/sensor.png", 	  RegionID.RADAR_SENSOR);
+		mView.loadTexture("data/location/radarObject.png", RegionID.RADAR_OBJECT);
+		mView.loadTexture("data/location/SpaceShip.png",   RegionID.SHIP);
 		mView.loadTexture("data/backgrounds/space.png",   RegionID.BACKGROUND_SPACE);
 		mView.loadTexture("data/backgrounds/stars.png",   RegionID.BACKGROUND_STARS);
 	}
 
 	//list objects
-	private HashMap<String, Location> locations = null;
-	private HashMap<String, Planet>   planets   = null;
-	private HashMap<String, User> 	  users     = null;
+	private HashMap<Integer, Location> locations = null;
+	private HashMap<Integer, Planet>   planets   = null;
+	private HashMap<Integer, User> 	   users     = null;
 	//objects
 	private Player   player 		 = null;
 	private Group	 background		 = null;
@@ -55,6 +55,14 @@ public class LocationController {
 	private	Location currentLocation = null;
 	//help objects
 	private ShipController pController = null;
+	
+	public void clearObjects(){
+		removePlayer();
+		removeBackground();
+		removeRadar();
+		removePlanets();
+		removeUsers();
+	}
 
 	public void loadLocations() {
 		locations = cController.getLocationList();
@@ -129,7 +137,7 @@ public class LocationController {
 		radar = new Radar(player,
 						 (mView.getHUDCamera().getWidth()  - mView.getTextureRegion(RegionID.RADAR).getRegionWidth())  * 0.5f,
 						 (mView.getHUDCamera().getHeight() - mView.getTextureRegion(RegionID.RADAR).getRegionHeight()) * 0.5f,
-						  2000, 2000);
+						  2000);
 	}
 	
 	public void setRadar(Radar newRadar){
@@ -179,30 +187,28 @@ public class LocationController {
 		for (Planet planet : planets.values()) {
 			mController.removeDynamicObject(planet);
 		}
+		planets.clear();
 	}
 
 	public void addPlanet(Planet planet){
-		String key = String.valueOf(planet.id);
-		if (planets.containsKey(key))
+		if (planets.containsKey(planet.id))
 			return;
-		planets.put(key, planet);
+		planets.put(planet.id, planet);
 		mController.addDynamicObject(planet);
 	}
 	
 	public void removePlanet(Planet planet){
-		String key = String.valueOf(planet.id);
-		if (!planets.containsKey(key))
+		if (!planets.containsKey(planet.id))
 			return;
-		planets.remove(key);
+		planets.remove(planet.id);
 		mController.removeDynamicObject(planet);
 	}
 
 	public void removePlanet(int id){
-		String key = String.valueOf(id);
-		Planet planet = planets.get(key);
+		Planet planet = planets.get(id);
 		if (planet == null)
 			return;
-		planets.remove(key);
+		planets.remove(id);
 		mController.removeDynamicObject(planet);
 	}
 	
@@ -227,30 +233,28 @@ public class LocationController {
 		for (User user : users.values()) {
 			mController.removeDynamicObject(user);
 		}
+		users.clear();
 	}
 
 	public void addUser(User user) {
-		String key = String.valueOf(user.id);
-		if (users.containsKey(key))
+		if (users.containsKey(user.id))
 			return;
-		users.put(key, user);
+		users.put(user.id, user);
 		mController.addDynamicObject(user);
 	}
 	
 	public void removeUser(User user) {
-		String key = String.valueOf(user.id);
-		if (!users.containsKey(key))
+		if (!users.containsKey(user.id))
 			return;
-		users.remove(key);
+		users.remove(user.id);
 		mController.removeDynamicObject(user);
 	}
 	
 	public void removeUser(int id) {
-		String key = String.valueOf(id);
-		User user = users.get(key);
+		User user = users.get(id);
 		if (user == null)
 			return;
-		users.remove(key);
+		users.remove(id);
 		mController.removeDynamicObject(user);
 	}
 	
@@ -273,7 +277,7 @@ public class LocationController {
 	}
 
 	public Location getLocation(int id){
-		return locations.get(String.valueOf(id));
+		return locations.get(id);
 	}
 
 	public Location getLocation(int x, int y){
@@ -290,7 +294,7 @@ public class LocationController {
 	}
 	
 	public Planet getPlanet(int id){
-		return planets.get(String.valueOf(id));
+		return planets.get(id);
 	}
 
 	public Planet getPlanet(String name){
@@ -307,7 +311,7 @@ public class LocationController {
 	}
 	
 	public User getUser(int id){
-		return users.get(String.valueOf(id));
+		return users.get(id);
 	}
 	
 	public User getPilot(String name){		

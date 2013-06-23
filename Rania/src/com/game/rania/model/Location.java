@@ -7,4 +7,5 @@ public class Location{
 	public int starRadius;
 	public int starType;
 	public String starName;
+	public static float locationSize = 3000.0f;
 }

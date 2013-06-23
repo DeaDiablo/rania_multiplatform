@@ -27,11 +27,14 @@ public class Planet extends DynamicObject{
 		this.atmosphere = atmosphere;
 		this.speed = speed;
 		this.orbit = orbit;
-
+		updatePosition();
+	}
+	
+	public void updatePosition(){
 		time = Controllers.clientController.getServerTime();
 		calcPosition(time);
 		if (region != null)
-			scale.set((float)radius / region.getRegionWidth(), (float)radius / region.getRegionHeight());
+			scale.set(2.0f * radius / region.getRegionWidth(), 2.0f * radius / region.getRegionHeight());
 	}
 	
 	@Override

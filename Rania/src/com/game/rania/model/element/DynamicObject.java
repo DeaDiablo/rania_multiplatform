@@ -9,7 +9,7 @@ public class DynamicObject extends Object{
 	private Vector2 moveVec        = new Vector2(0, 0);
 	private Vector2 addVec         = new Vector2(0, 0);
 	private boolean move           = false;
-	private float   speed 		   = 1.0f;
+	private float   speed          = 5.0f;
 	
 	public DynamicObject(float posX, float posY, float rotAngle, float scaleX, float scaleY){
 		super(posX, posY, rotAngle, scaleX, scaleY);

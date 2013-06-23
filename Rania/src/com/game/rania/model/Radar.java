@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.LocationController;
+import com.game.rania.model.element.Font;
 import com.game.rania.model.element.HUDDynamicObject;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
@@ -21,6 +22,7 @@ import com.game.rania.utils.DrawUtils;
 
 public class Radar extends HUDDynamicObject{
 
+	private Text    textCoord = null;
 	private Vector2 posObject = new Vector2();
 	private Vector2 scaleObject = new Vector2();
 	private Color   colorObject = new Color();
@@ -48,6 +50,7 @@ public class Radar extends HUDDynamicObject{
 		float widthRadar = getWidth();
 		if (deltaSensor > widthRadar)
 			deltaSensor -= widthRadar;
+		textCoord.content = String.format("%.0f %.0f", player.position.x, player.position.y);
 	}
 
 	private FrameBuffer frameBuffer = null;
@@ -68,6 +71,8 @@ public class Radar extends HUDDynamicObject{
 		projMatrix.setToOrtho2D(0, 0, width, height);
 		spriteBuffer.setProjectionMatrix(projMatrix);
 		shapeBuffer.setProjectionMatrix(projMatrix);
+		
+		textCoord = new Text("", Font.getFont("data/fonts/Postmodern One.ttf", 20), color, width * 0.5f, 20);
 	}
 	
 	@Override
@@ -87,21 +92,16 @@ public class Radar extends HUDDynamicObject{
 		drawRegion(spriteBuffer, region, width * 0.5f, height * 0.5f, angle, 1, 1);
 		spriteBuffer.end();
 		
-		posObject.set(-player.position.x, -player.position.y);
+		posObject.set(locController.getStar().position);
+		posObject.sub(player.position);
 		posObject.mul(width / size, height / size);
 		posObject.add(width * 0.5f, height * 0.5f);
-
-		//verge
-		shapeBuffer.begin(ShapeType.Line);
-		shapeBuffer.setColor(1, 1, 1, 1);
-		DrawUtils.drawDottedCircle(shapeBuffer, posObject.x, posObject.y, Location.locationSize * width/ size, 2.0f);
-		shapeBuffer.end();
 		
 		//orbits
-		shapeBuffer.begin(ShapeType.Circle);
+		shapeBuffer.begin(ShapeType.Line);
 		for (Planet planet : locController.getPlanets()) {	
 			shapeBuffer.setColor(1, 1, 1, 0.5f);
-			shapeBuffer.circle(posObject.x, posObject.y, planet.orbit * width/ size);
+			DrawUtils.drawDottedCircle(shapeBuffer, posObject.x, posObject.y, planet.orbit * width/ size, 4.0f);
 		}
 		shapeBuffer.end();
 
@@ -127,6 +127,9 @@ public class Radar extends HUDDynamicObject{
 			spriteBuffer.setColor(color);
 			drawRegion(spriteBuffer, sensorRegion, deltaSensor, height * 0.5f, angle, 1, height * 0.98f / sensorRegion.getRegionHeight());
 		}
+
+		textCoord.draw(spriteBuffer);
+		
 		spriteBuffer.end();
 		frameBuffer.end();
 		

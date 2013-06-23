@@ -61,6 +61,7 @@ public class LocationScreen extends RaniaScreen{
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
+		locController.update(deltaTime);
 		mController.update(deltaTime);
 		mView.draw();
 	}

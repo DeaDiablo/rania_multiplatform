@@ -250,9 +250,6 @@ public class NetController {
 			int UserId = GetIntValue(command.data, ArrPtr);
 			ArrPtr=ArrPtr+4;
 			
-			int UserLoc = GetIntValue(command.data, ArrPtr);
-			ArrPtr=ArrPtr+4;
-			
 			int UserX = GetIntValue(command.data, ArrPtr);
 			ArrPtr=ArrPtr+4;
 
@@ -271,7 +268,7 @@ public class NetController {
 			String SName = GetStringValue(command.data, ArrPtr, SnameLen);
 			ArrPtr=ArrPtr+SnameLen;
 			
-			Player player = new Player(UserId, UserLoc, UserX, UserY, PName, SName);
+			Player player = new Player(UserId, UserX, UserY, PName, SName);
 			return player;
 		}
 		catch (Exception ex)

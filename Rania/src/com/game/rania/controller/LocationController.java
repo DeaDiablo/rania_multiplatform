@@ -3,6 +3,7 @@ package com.game.rania.controller;
 import java.util.Collection;
 import java.util.HashMap;
 
+import com.badlogic.gdx.math.Vector2;
 import com.game.rania.model.Location;
 import com.game.rania.model.ParallaxLayer;
 import com.game.rania.model.ParallaxObject;
@@ -73,7 +74,7 @@ public class LocationController {
 		player = cController.getPlayerData();
 		if (player == null)
 			return false;
-		currentLocation = getLocation(player.idLocation);
+		currentLocation = getCurrentLocation();
 		if (currentLocation == null)
 			return false;
 		return true;
@@ -162,13 +163,17 @@ public class LocationController {
 	public void loadPlanets(){
 		if (currentLocation == null)
 			return;
-		star = new Star(RegionID.STAR, currentLocation.starRadius);
-		planets = cController.getPlanetList();
+		star = new Star(RegionID.STAR, currentLocation.x, currentLocation.y, currentLocation.starRadius);
+		if (currentLocation.planets.isEmpty())
+			currentLocation.planets = cController.getPlanetList();
+		planets = currentLocation.planets;
 	}
 	
 	public void updatePlanets(){
-		removePlanets();
-		planets = cController.getPlanetList();
+		removePlanets();		
+		if (currentLocation.planets.isEmpty())
+			currentLocation.planets = cController.getPlanetList();
+		planets = currentLocation.planets;
 		addPlanets();
 	}
 	
@@ -187,7 +192,6 @@ public class LocationController {
 		for (Planet planet : planets.values()) {
 			mController.removeDynamicObject(planet);
 		}
-		planets.clear();
 	}
 
 	public void addPlanet(Planet planet){
@@ -279,6 +283,25 @@ public class LocationController {
 	public Location getLocation(int id){
 		return locations.get(id);
 	}
+	
+	private Vector2 distanceVec = new Vector2();
+	private float distanceBuffer = 0.0f;
+	
+	public Location getCurrentLocation(){
+		Location nearLocation = null;
+		float distance = Float.MAX_VALUE;
+		
+		for (Location location : locations.values()) {
+			distanceVec.set(location.x - player.position.x, location.y - player.position.y);
+			distanceBuffer = distanceVec.len();
+			if (distance > distanceBuffer) {
+				distance = distanceBuffer;
+				nearLocation = location;
+			}
+		}
+		
+		return nearLocation;
+	}
 
 	public Location getLocation(int x, int y){
 		for (Location loc : locations.values()) {
@@ -328,5 +351,20 @@ public class LocationController {
 			return user;
 		}
 		return null;
+	}
+	
+	private float updateTime = 0.0f;
+	public void update(float deltaTime){
+		updateTime += deltaTime;
+		if (updateTime > 1.0f){
+			Location newLocation = getCurrentLocation();
+			if (newLocation != currentLocation){
+				removePlanets();
+				currentLocation = newLocation;
+				loadPlanets();
+				addPlanets();
+			}
+			updateTime -= 1.0f;
+		}
 	}
 }

@@ -1,5 +1,7 @@
 package com.game.rania.model;
 
+import java.util.HashMap;
+
 public class Location{
 	public int id;
 	public int x;
@@ -7,5 +9,5 @@ public class Location{
 	public int starRadius;
 	public int starType;
 	public String starName;
-	public static float locationSize = 3000.0f;
+	public HashMap<Integer, Planet> planets = new HashMap<Integer, Planet>();
 }

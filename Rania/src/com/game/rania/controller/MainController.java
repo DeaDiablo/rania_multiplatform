@@ -178,14 +178,22 @@ public class MainController extends InputMultiplexer{
 	}
 	
 	public void update(float deltaTime){
-		dynamicObjects.removeAll(removeDObjects);
-		staticObjects.removeAll(removeSObjects);
-		dynamicHUDObjects.removeAll(removeHDObjects);
-		staticHUDObjects.removeAll(removeHSObjects);
-		removeDObjects.clear();
-		removeSObjects.clear();
-		removeHDObjects.clear();
-		removeHSObjects.clear();
+		if (!removeDObjects.isEmpty()) {
+			dynamicObjects.removeAll(removeDObjects);
+			removeDObjects.clear();
+		}
+		if (!removeSObjects.isEmpty()) {
+			staticObjects.removeAll(removeSObjects);
+			removeSObjects.clear();
+		}
+		if (!removeHDObjects.isEmpty()) {
+			dynamicHUDObjects.removeAll(removeHDObjects);
+			removeHDObjects.clear();
+		}
+		if (!removeHSObjects.isEmpty()) {
+			staticHUDObjects.removeAll(removeHSObjects);
+			removeHSObjects.clear();
+		}
 		
 		Controllers.commandController.updateCommands(deltaTime);
 		

@@ -47,8 +47,8 @@ public class ClientController {
 		return netController.GetAllLocations(mClient);
 	}
 	
-	public HashMap<Integer, Planet> getPlanetList(int idLocation){
-		return netController.GetCurrentPlanets(mClient, idLocation);
+	public HashMap<Integer, Planet> getPlanetList(Location Location){
+		return netController.GetCurrentPlanets(mClient, Location);
 	}
 	
 	public HashMap<Integer, User> getUsersList(){

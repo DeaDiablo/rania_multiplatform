@@ -36,17 +36,17 @@ public class LocationController {
 			mView.loadTexture("data/backgrounds/nebulas.png", RegionID.fromInt(RegionID.NEBULA_0.ordinal() + i), i % 4 * 256, i / 4 * 256, 256, 256);
 
 		mView.loadTexture("data/location/star.png",        RegionID.STAR);
-		mView.loadTexture("data/location/radar.png", 	  RegionID.RADAR);
-		mView.loadTexture("data/location/sensor.png", 	  RegionID.RADAR_SENSOR);
+		mView.loadTexture("data/location/radar.png",       RegionID.RADAR);
+		mView.loadTexture("data/location/sensor.png",      RegionID.RADAR_SENSOR);
 		mView.loadTexture("data/location/radarObject.png", RegionID.RADAR_OBJECT);
 		mView.loadTexture("data/location/SpaceShip.png",   RegionID.SHIP);
-		mView.loadTexture("data/backgrounds/space.png",   RegionID.BACKGROUND_SPACE);
-		mView.loadTexture("data/backgrounds/stars.png",   RegionID.BACKGROUND_STARS);
+		mView.loadTexture("data/backgrounds/space.png",    RegionID.BACKGROUND_SPACE);
+		mView.loadTexture("data/backgrounds/stars.png",    RegionID.BACKGROUND_STARS);
 	}
 
 	//list objects
 	private HashMap<Integer, Location> locations = null;
-	private HashMap<Integer, Planet>   planets   = null;
+	private HashMap<Integer, Planet>   planets   = new HashMap<Integer, Planet>();
 	private HashMap<Integer, User> 	   users     = null;
 	//objects
 	private Player   player 		 = null;
@@ -74,7 +74,7 @@ public class LocationController {
 		player = cController.getPlayerData();
 		if (player == null)
 			return false;
-		currentLocation = getCurrentLocation();
+		currentLocation = getNearLocation();
 		if (currentLocation == null)
 			return false;
 		return true;
@@ -163,19 +163,14 @@ public class LocationController {
 	public void loadPlanets(){
 		if (currentLocation == null)
 			return;
-		star = new Star(RegionID.STAR, currentLocation.x, currentLocation.y, currentLocation.starRadius);
+		if (currentLocation.star == null)
+			currentLocation.star = new Star(currentLocation.starType, currentLocation.x, currentLocation.y, currentLocation.starRadius);
 		if (currentLocation.planets == null)
-			currentLocation.planets = cController.getPlanetList(currentLocation.id);
-		planets = currentLocation.planets;
+			currentLocation.planets = cController.getPlanetList(currentLocation);
+		star = currentLocation.star;
+		planets.putAll(currentLocation.planets);
 	}
-	
-	public void updatePlanets(){
-		if (currentLocation.planets == null)
-			currentLocation.planets = cController.getPlanetList(currentLocation.id);
-		planets = currentLocation.planets;
-		addPlanets();
-	}
-	
+
 	public void addPlanets(){
 		mController.addStaticObject(star);
 		for (Planet planet : planets.values()) {
@@ -191,6 +186,7 @@ public class LocationController {
 		for (Planet planet : planets.values()) {
 			mController.removeDynamicObject(planet);
 		}
+		planets.clear();
 	}
 
 	public void addPlanet(Planet planet){
@@ -287,6 +283,10 @@ public class LocationController {
 	private float distanceBuffer = 0.0f;
 	
 	public Location getCurrentLocation(){
+		return currentLocation;
+	}
+	
+	public Location getNearLocation(){
 		Location nearLocation = null;
 		float distance = Float.MAX_VALUE;
 		
@@ -316,12 +316,12 @@ public class LocationController {
 	}
 	
 	public Collection<Planet> getPlanets(int idLocation){
-		Location loc = locations.get(idLocation);
-		if (loc == null)
+		Location location = locations.get(idLocation);
+		if (location == null)
 			return null;
-		if (loc.planets == null)
-			loc.planets = cController.getPlanetList(loc.id);
-		return loc.planets.values();
+		if (location.planets == null)
+			location.planets = cController.getPlanetList(location);
+		return location.planets.values();
 	}
 	
 	public Planet getPlanet(int id){
@@ -365,11 +365,12 @@ public class LocationController {
 	public void update(float deltaTime){
 		updateTime += deltaTime;
 		if (updateTime > 1.0f){
-			Location newLocation = getCurrentLocation();
+			Location newLocation = getNearLocation();
 			if (newLocation.id != currentLocation.id){
 				removePlanets();
 				currentLocation = newLocation;
-				updatePlanets();
+				loadPlanets();
+				addPlanets();
 			}
 			updateTime -= 1.0f;
 		}

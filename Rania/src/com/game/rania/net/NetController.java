@@ -149,12 +149,12 @@ public class NetController {
 		return UsersMap;
 	}
 
-	public HashMap<Integer, Planet> GetCurrentPlanets(Client client, int idLocation)
+	public HashMap<Integer, Planet> GetCurrentPlanets(Client client, Location location)
 	{
 		HashMap<Integer, Planet> planets = new HashMap<Integer, Planet>();
 		try
 		{
-			client.stream.sendCommand(Command.planets, intToByteArray(idLocation));
+			client.stream.sendCommand(Command.planets, intToByteArray(location.id));
 			Command command = waitCommand(Command.planets);
 			int ArrPtr = 0;
 			int PlanetsCount = GetIntValue(command.data, ArrPtr);
@@ -183,8 +183,8 @@ public class NetController {
 				}
 				int PlanetAtmosphere = GetIntValue(command.data, ArrPtr);
 				ArrPtr=ArrPtr+4;
-				Planet planet     = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetAtmosphere, PlanetSpeed, PlanetOrbit);
-				planet.color      = new Color(ColorArr[0] / 255.0f, ColorArr[1] / 255.0f, ColorArr[2] / 255.0f, ColorArr[3] / 255.0f);
+				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetAtmosphere, PlanetSpeed, PlanetOrbit, location.star);
+				planet.color  = new Color(ColorArr[0] / 255.0f, ColorArr[1] / 255.0f, ColorArr[2] / 255.0f, ColorArr[3] / 255.0f);
 				planets.put(PlanetId, planet);
 			}
 		}

@@ -57,12 +57,12 @@ public class Radar extends HUDDynamicObject{
 	private TextureRegion regionBuffer = null;
 	private SpriteBatch spriteBuffer = null;
 	private ShapeRenderer shapeBuffer = null;
-	private int width, height;
+	private float width, height;
 	
 	private void initFrameBuffer(){
 		width = region.getRegionWidth();
 		height = region.getRegionHeight();
-		frameBuffer = new FrameBuffer(Format.RGBA4444, width, height, false);
+		frameBuffer = new FrameBuffer(Format.RGBA4444, region.getRegionWidth(), region.getRegionHeight(), false);
 		regionBuffer = new TextureRegion(frameBuffer.getColorBufferTexture());
 		regionBuffer.flip(false, true);
 		spriteBuffer = new SpriteBatch();
@@ -91,19 +91,21 @@ public class Radar extends HUDDynamicObject{
 		spriteBuffer.setColor(color);
 		drawRegion(spriteBuffer, region, width * 0.5f, height * 0.5f, angle, 1, 1);
 		spriteBuffer.end();
+
+		if (locController.getStar() != null){
+			posObject.set(locController.getStar().position);
+			posObject.sub(player.position);
+			posObject.mul(width / size, height / size);
+			posObject.add(width * 0.5f, height * 0.5f);
 		
-		posObject.set(locController.getStar().position);
-		posObject.sub(player.position);
-		posObject.mul(width / size, height / size);
-		posObject.add(width * 0.5f, height * 0.5f);
-		
-		//orbits
-		shapeBuffer.begin(ShapeType.Line);
-		for (Planet planet : locController.getPlanets()) {	
-			shapeBuffer.setColor(1, 1, 1, 0.5f);
-			DrawUtils.drawDottedCircle(shapeBuffer, posObject.x, posObject.y, planet.orbit * width/ size, 4.0f);
+			//orbits
+			shapeBuffer.begin(ShapeType.Line);
+			shapeBuffer.setColor(1, 1, 1, 0.75f);
+			for (Planet planet : locController.getPlanets()) {
+				DrawUtils.drawDottedCircle(shapeBuffer, posObject.x, posObject.y, planet.orbit * width / size, 4.0f);
+			}
+			shapeBuffer.end();
 		}
-		shapeBuffer.end();
 
 		spriteBuffer.begin();
 		if (objRegion != null) {

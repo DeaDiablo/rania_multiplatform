@@ -157,6 +157,8 @@ public class NetController {
 			client.stream.sendCommand(Command.planets, intToByteArray(location.id));
 			Command command = waitCommand(Command.planets);
 			int ArrPtr = 0;
+			client.serverTime = GetIntValue(command.data, ArrPtr);
+			ArrPtr=ArrPtr+4;
 			int PlanetsCount = GetIntValue(command.data, ArrPtr);
 			ArrPtr=ArrPtr+4;
 			for (int i=0;i<PlanetsCount;i++)

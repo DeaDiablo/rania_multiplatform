@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.game.rania.Config;
 import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.LocationController;
@@ -128,7 +129,7 @@ public class Radar extends HUDDynamicObject{
 			}
 		}
 		
-		if (sensorRegion != null) {
+		if (Config.radarNoiseOn && sensorRegion != null) {
 			spriteBuffer.setColor(color);
 			drawRegion(spriteBuffer, sensorRegion, deltaSensor, height * 0.5f, angle, 1, height * 0.98f / sensorRegion.getRegionHeight());
 		}
@@ -157,10 +158,12 @@ public class Radar extends HUDDynamicObject{
 		scaleObject.mul(object.region.getRegionWidth() * width / size / objRegion.getRegionWidth(),
 						object.region.getRegionHeight() * height / size / objRegion.getRegionHeight());
 		
-		alpha = (deltaSensor - posObject.x) / width;
-		if (alpha < 0)
-			alpha += 1.0f;
-		colorObject.a = 1.0f - 0.5f * alpha;
+		if (Config.radarNoiseOn) {
+			alpha = (deltaSensor - posObject.x) / width;
+			if (alpha < 0)
+				alpha += 1.0f;
+			colorObject.a = 1.0f - 0.5f * alpha;
+		}
 		
 		spriteBuffer.setColor(colorObject);
 		drawRegion(spriteBuffer, objRegion, posObject, object.angle, scaleObject);

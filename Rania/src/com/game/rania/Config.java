@@ -7,4 +7,5 @@ public class Config {
 	public static String autoPassword = "SNmLwpLn";
 	//public static String autoLogin = "deadiablo";
 	//public static String autoPassword = "deadiablo123";
+	public static boolean radarNoiseOn = false;
 }

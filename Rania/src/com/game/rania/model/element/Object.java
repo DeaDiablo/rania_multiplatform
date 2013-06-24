@@ -18,6 +18,7 @@ public class Object {
 	public float	angle       = 0.0f;
 	public Vector2	scale       = new Vector2(1.0f, 1.0f);
 	public Color	color       = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+	public int		zIndex		= 0;
 
 	public TextureRegion region = null;
 	

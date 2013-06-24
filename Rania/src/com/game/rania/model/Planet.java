@@ -30,6 +30,7 @@ public class Planet extends Object{
 		this.speed = speed;
 		this.orbit = orbit;
 		this.star = star;
+		zIndex = 6;
 		updatePosition();
 	}
 	

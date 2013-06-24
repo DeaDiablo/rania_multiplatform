@@ -50,8 +50,16 @@ public class MainController extends InputMultiplexer{
 	}
 	
 	public void addObject(Object object){
-		if (!sceneObjects.contains(object))
-			sceneObjects.add(object);
+		if (sceneObjects.contains(object))
+			return;
+		
+		for(int i = 0; i < sceneObjects.size(); i++){
+			if (object.zIndex < sceneObjects.get(i).zIndex){
+				sceneObjects.insertElementAt(object, i);
+				return;
+			}
+		}
+		sceneObjects.add(object);
 	}
 	
 	public void removeObject(Object object){
@@ -64,8 +72,16 @@ public class MainController extends InputMultiplexer{
 	}
 	
 	public void addHUDObject(HUDObject object){
-		if (!HUDObjects.contains(object))
-			HUDObjects.add(object);
+		if (HUDObjects.contains(object))
+			return;
+		
+		for(int i = 0; i < HUDObjects.size(); i++){
+			if (object.zIndex < HUDObjects.get(i).zIndex){
+				HUDObjects.insertElementAt(object, i);
+				return;
+			}
+		}
+		HUDObjects.add(object);
 	}
 	
 	public void removeHUDObject(HUDObject object){

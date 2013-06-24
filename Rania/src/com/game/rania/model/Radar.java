@@ -23,6 +23,7 @@ import com.game.rania.utils.DrawUtils;
 public class Radar extends HUDDynamicObject{
 
 	private Text    textCoord = null;
+	private Text    textUsers = null;
 	private Vector2 posObject = new Vector2();
 	private Vector2 scaleObject = new Vector2();
 	private Color   colorObject = new Color();
@@ -51,6 +52,7 @@ public class Radar extends HUDDynamicObject{
 		if (deltaSensor > widthRadar)
 			deltaSensor -= widthRadar;
 		textCoord.content = String.format("%.0f %.0f", player.position.x, player.position.y);
+		textUsers.content = String.valueOf(locController.getUsers().size());
 	}
 
 	private FrameBuffer frameBuffer = null;
@@ -73,6 +75,7 @@ public class Radar extends HUDDynamicObject{
 		shapeBuffer.setProjectionMatrix(projMatrix);
 		
 		textCoord = new Text("", Font.getFont("data/fonts/Postmodern One.ttf", 20), color, width * 0.5f, 20);
+		textUsers = new Text("", Font.getFont("data/fonts/Postmodern One.ttf", 20), color, width * 0.5f, height - 20);
 	}
 	
 	@Override
@@ -131,6 +134,7 @@ public class Radar extends HUDDynamicObject{
 		}
 
 		textCoord.draw(spriteBuffer);
+		textUsers.draw(spriteBuffer);
 		
 		spriteBuffer.end();
 		frameBuffer.end();

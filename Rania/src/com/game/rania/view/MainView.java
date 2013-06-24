@@ -12,11 +12,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.Text;
-import com.game.rania.model.element.DynamicObject;
 import com.game.rania.model.element.Font;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
-import com.game.rania.model.element.StaticObject;
 
 public class MainView {
 	
@@ -137,35 +135,22 @@ public class MainView {
 		shapeRenderer.setProjectionMatrix(camera.combined);
 
 		//render static objects
-		for (StaticObject object : RaniaGame.mController.getStaticObjects()) {
+		for (Object object : RaniaGame.mController.getObjects()) {
 			object.draw(shapeRenderer);
 		}
 
-		//render dynamic objects
-		for (DynamicObject object : RaniaGame.mController.getDynamicObjects()) {
-			object.draw(shapeRenderer);
-		}
-		
 		spriteBatch.setProjectionMatrix(camera.combined);
 		spriteBatch.begin();
 
 		//render static objects
-		for (StaticObject object : RaniaGame.mController.getStaticObjects()) {
-			object.draw(spriteBatch);
-		}
-
-		//render dynamic objects
-		for (DynamicObject object : RaniaGame.mController.getDynamicObjects()) {
+		for (Object object : RaniaGame.mController.getObjects()) {
 			object.draw(spriteBatch);
 		}
 		
 		spriteBatch.end();
 		
 		shapeRenderer.setProjectionMatrix(cameraHUD.combined);
-		for (Object object : RaniaGame.mController.getHUDStaticObjects()) {
-			object.draw(shapeRenderer);
-		}
-		for (Object object : RaniaGame.mController.getHUDDynamicObjects()) {
+		for (Object object : RaniaGame.mController.getHUDObjects()) {
 			object.draw(shapeRenderer);
 		}
 		
@@ -173,10 +158,7 @@ public class MainView {
 		spriteBatch.setProjectionMatrix(cameraHUD.combined);
 		spriteBatch.begin();
 		//render HUD objects
-		for (Object object : RaniaGame.mController.getHUDStaticObjects()) {
-			object.draw(spriteBatch);
-		}
-		for (Object object : RaniaGame.mController.getHUDDynamicObjects()) {
+		for (Object object : RaniaGame.mController.getHUDObjects()) {
 			object.draw(spriteBatch);
 		}
 		fps.draw(spriteBatch, cameraHUD.getLeft() + fps.getTextBound().width * 0.5f, cameraHUD.getTop() - fps.getTextBound().height * 0.5f);

@@ -5,10 +5,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.element.Object;
-import com.game.rania.model.element.DynamicObject;
-import com.game.rania.model.element.HUDDynamicObject;
-import com.game.rania.model.element.HUDStaticObject;
-import com.game.rania.model.element.StaticObject;
+import com.game.rania.model.element.HUDObject;
 import com.game.rania.model.ui.FocusElement;
 
 public class InputController extends InputAdapter{
@@ -68,12 +65,7 @@ public class InputController extends InputAdapter{
 		Vector2 touchPoint = new Vector2(screenX, screenY);
 		
 		RaniaGame.mView.getHUDCamera().toCameraCoord(touchPoint);
-		for(HUDDynamicObject object : mController.getHUDDynamicObjects()){
-			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
-				if (object.touchDown(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
-					return true;
-		}
-		for(HUDStaticObject object : mController.getHUDStaticObjects()){
+		for(HUDObject object : mController.getHUDObjects()){
 			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
 				if (object.touchDown(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;
@@ -81,12 +73,7 @@ public class InputController extends InputAdapter{
 		
 		touchPoint.set(screenX, screenY);
 		RaniaGame.mView.getCamera().toCameraCoord(touchPoint);
-		for(DynamicObject object : mController.getDynamicObjects()){
-			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
-				if (object.touchDown(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
-					return true;
-		}
-		for(StaticObject object : mController.getStaticObjects()){
+		for(Object object : mController.getObjects()){
 			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
 				if (object.touchDown(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;
@@ -100,12 +87,7 @@ public class InputController extends InputAdapter{
 		Vector2 touchPoint = new Vector2(screenX, screenY);
 		
 		RaniaGame.mView.getHUDCamera().toCameraCoord(touchPoint);
-		for(HUDDynamicObject object : mController.getHUDDynamicObjects()){
-			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
-				if (object.touchDragged(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
-					return true;
-		}
-		for(HUDStaticObject object : mController.getHUDStaticObjects()){
+		for(HUDObject object : mController.getHUDObjects()){
 			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
 				if (object.touchDragged(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;
@@ -113,12 +95,7 @@ public class InputController extends InputAdapter{
 		
 		touchPoint.set(screenX, screenY);
 		RaniaGame.mView.getCamera().toCameraCoord(touchPoint);
-		for(DynamicObject object : mController.getDynamicObjects()){
-			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
-				if (object.touchDragged(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
-					return true;
-		}
-		for(StaticObject object : mController.getStaticObjects()){
+		for(Object object : mController.getObjects()){
 			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
 				if (object.touchDragged(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;
@@ -132,12 +109,7 @@ public class InputController extends InputAdapter{
 		Vector2 touchPoint = new Vector2(screenX, screenY);
 		
 		RaniaGame.mView.getHUDCamera().toCameraCoord(touchPoint);
-		for(HUDDynamicObject object : mController.getHUDDynamicObjects()){
-			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
-				if (object.touchUp(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
-					return true;
-		}
-		for(HUDStaticObject object : mController.getHUDStaticObjects()){
+		for(HUDObject object : mController.getHUDObjects()){
 			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
 				if (object.touchUp(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;
@@ -145,12 +117,7 @@ public class InputController extends InputAdapter{
 		
 		touchPoint.set(screenX, screenY);
 		RaniaGame.mView.getCamera().toCameraCoord(touchPoint);
-		for(DynamicObject object : mController.getDynamicObjects()){
-			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
-				if (object.touchUp(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
-					return true;
-		}
-		for(StaticObject object : mController.getStaticObjects()){
+		for(Object object : mController.getObjects()){
 			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
 				if (object.touchUp(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;

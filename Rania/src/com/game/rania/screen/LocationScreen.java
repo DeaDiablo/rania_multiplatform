@@ -42,11 +42,11 @@ public class LocationScreen extends RaniaScreen{
 		locController.addRadar();
 		locController.addPlayer();
 
-		mController.addStaticHUDObject(btnMenu);
-		mController.addStaticHUDObject(btnChat);
-		mController.addStaticHUDObject(btnDisconnect);
-		mController.addStaticHUDObject(btnCancel);
-		mController.addStaticHUDObject(panelBlank);
+		mController.addHUDObject(btnMenu);
+		mController.addHUDObject(btnChat);
+		mController.addHUDObject(btnDisconnect);
+		mController.addHUDObject(btnCancel);
+		mController.addHUDObject(panelBlank);
 		ShowHUDbuttons();
 	}
 	

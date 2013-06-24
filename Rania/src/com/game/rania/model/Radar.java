@@ -16,12 +16,12 @@ import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.LocationController;
 import com.game.rania.model.element.Font;
-import com.game.rania.model.element.HUDDynamicObject;
+import com.game.rania.model.element.HUDObject;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.utils.DrawUtils;
 
-public class Radar extends HUDDynamicObject{
+public class Radar extends HUDObject{
 
 	private Text    textCoord = null;
 	private Text    textUsers = null;

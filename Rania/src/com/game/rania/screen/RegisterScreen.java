@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.element.RegionID;
-import com.game.rania.model.element.StaticObject;
+import com.game.rania.model.element.Object;
 import com.game.rania.model.ui.CheckButton;
 import com.game.rania.model.ui.PressedButton;
 import com.game.rania.model.ui.TouchAction;
@@ -39,7 +39,7 @@ public class RegisterScreen extends RaniaScreen{
 		float halfWidth = width/2.0f;
 		float halfHeight = height/2.0f;
 		mView.loadTexture("data/backgrounds/bgstars.jpg", RegionID.BACKGROUND_MENU);
-		mController.addStaticObject(new StaticObject(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
+		mController.addObject(new Object(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
 		mView.loadTexture("data/emblems/erbo.png", RegionID.ERBO, 0, 0, 256, 256);
 		mView.loadTexture("data/emblems/siktan.png", RegionID.SIKTAN, 0, 0, 256, 256);
 		mView.loadTexture("data/emblems/mort.png", RegionID.MORT, 0, 0, 256, 256);
@@ -105,14 +105,14 @@ public class RegisterScreen extends RaniaScreen{
 		btnGurdin = new CheckButton(RegionID.GURDIN, RegionID.GURDIN_ACT, halfWidth * 0.2875f, halfHeight *0.726f, GurdinTouch);
 		btnArahnid = new CheckButton(RegionID.ARAHNID, RegionID.ARAHNID_ACT, halfWidth * 0.575f, halfHeight *0.726f, ArahnidTouch);
 		btnMort = new CheckButton(RegionID.MORT, RegionID.MORT_ACT, -halfWidth * 0.575f, halfHeight *0.726f, MortTouch);
-		mController.addStaticHUDObject(btnErbo);
-		mController.addStaticHUDObject(btnSiktan);
-		mController.addStaticHUDObject(btnGurdin);
-		mController.addStaticHUDObject(btnArahnid);
-		mController.addStaticHUDObject(btnMort);
+		mController.addHUDObject(btnErbo);
+		mController.addHUDObject(btnSiktan);
+		mController.addHUDObject(btnGurdin);
+		mController.addHUDObject(btnArahnid);
+		mController.addHUDObject(btnMort);
 		mView.loadTexture("data/gui/back.png", RegionID.BTNBACK_OFF, 0, 0, 512, 128);
 		mView.loadTexture("data/gui/back.png", RegionID.BTNBACK_ON, 0, 128, 512, 128);
-		mController.addStaticHUDObject(
+		mController.addHUDObject(
 				new PressedButton(RegionID.BTNBACK_OFF,
 								  RegionID.BTNBACK_ON,
 								  halfWidth * 0.7125f, -halfHeight * 0.8444f,

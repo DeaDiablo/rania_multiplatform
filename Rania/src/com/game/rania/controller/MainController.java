@@ -3,26 +3,19 @@ package com.game.rania.controller;
 import java.util.Vector;
 
 import com.badlogic.gdx.InputMultiplexer;
-import com.game.rania.model.element.DynamicObject;
 import com.game.rania.model.element.Group;
-import com.game.rania.model.element.HUDDynamicObject;
-import com.game.rania.model.element.HUDStaticObject;
+import com.game.rania.model.element.HUDObject;
 import com.game.rania.model.element.Object;
-import com.game.rania.model.element.StaticObject;
 
 public class MainController extends InputMultiplexer{
 
 	private Vector<UpdateController> updateControllers = new Vector<UpdateController>();
 	//objects
-	private Vector<DynamicObject> 	 dynamicObjects    = new Vector<DynamicObject>();
-	private Vector<StaticObject>  	 staticObjects     = new Vector<StaticObject>();
-	private Vector<HUDDynamicObject> dynamicHUDObjects = new Vector<HUDDynamicObject>();
-	private Vector<HUDStaticObject>  staticHUDObjects  = new Vector<HUDStaticObject>();
+	private Vector<Object> sceneObjects = new Vector<Object>();
+	private Vector<HUDObject> HUDObjects   = new Vector<HUDObject>();
 	//remove objects
-	private Vector<DynamicObject> 	 removeDObjects    = new Vector<DynamicObject>();
-	private Vector<StaticObject>  	 removeSObjects    = new Vector<StaticObject>();
-	private Vector<HUDDynamicObject> removeHDObjects   = new Vector<HUDDynamicObject>();
-	private Vector<HUDStaticObject>  removeHSObjects   = new Vector<HUDStaticObject>();
+	private Vector<Object> removeSceneObjects = new Vector<Object>();
+	private Vector<HUDObject> removeHUDObjects   = new Vector<HUDObject>();
 
 	public MainController(){
 		super();
@@ -51,148 +44,66 @@ public class MainController extends InputMultiplexer{
 		}
 	}
 	
-	//dynamic objects
-	public Vector<DynamicObject> getDynamicObjects(){
-		return dynamicObjects;
+	//scene objects
+	public Vector<Object> getObjects(){
+		return sceneObjects;
 	}
 	
-	public void addDynamicObject(DynamicObject object){
-		if (!dynamicObjects.contains(object))
-			dynamicObjects.add(object);
-	}
-	
-	public void removeDynamicObject(DynamicObject object){
-		removeDObjects.add(object);
-	}
-
-	//static objects
-	public Vector<StaticObject> getStaticObjects(){
-		return staticObjects;
-	}
-	
-	public void addStaticObject(StaticObject object){
-		if (!staticObjects.contains(object))
-			staticObjects.add(object);
-	}
-	
-	public void removeStaticObject(StaticObject object){
-		removeSObjects.add(object);
-	}
-	
-	//HUD objects
-	public Vector<HUDStaticObject> getHUDStaticObjects(){
-		return staticHUDObjects;
-	}
-	
-	public void addStaticHUDObject(HUDStaticObject object){
-		if (!staticHUDObjects.contains(object))
-			staticHUDObjects.add(object);
-	}
-	
-	public void removeStaticHUDObject(HUDStaticObject object){
-		removeHSObjects.add(object);
-	}
-	
-	public Vector<HUDDynamicObject> getHUDDynamicObjects(){
-		return dynamicHUDObjects;
-	}
-	
-	public void addDynamicHUDObject(HUDDynamicObject object){
-		if (!dynamicHUDObjects.contains(object))
-			dynamicHUDObjects.add(object);
-	}
-	
-	
-	public void removeDynamicHUDObject(HUDDynamicObject object){
-		removeHDObjects.add(object);
-	}
-	
-	//all object
 	public void addObject(Object object){
-		if (object.asHUDDynamicObject() != null)
-		{
-			addDynamicHUDObject(object.asHUDDynamicObject());
-			return;
-		}
-
-		if (object.asHUDStaticObject() != null)
-		{
-			addStaticHUDObject(object.asHUDStaticObject());
-			return;
-		}
-
-		if (object.asDynamicObject() != null) {
-			addDynamicObject(object.asDynamicObject());
-			return;
-		}
-		
-		if (object.asStaticObject() != null) {
-			addStaticObject(object.asStaticObject());
-			return;
-		}
+		if (!sceneObjects.contains(object))
+			sceneObjects.add(object);
 	}
 	
-	public void removeObject(Object object){		
-		if (object.asHUDDynamicObject() != null)
-		{
-			removeDynamicHUDObject(object.asHUDDynamicObject());
-			return;
-		}
-		
-		if (object.asHUDStaticObject() != null)
-		{
-			removeStaticHUDObject(object.asHUDStaticObject());
-			return;
-		}
+	public void removeObject(Object object){
+		removeSceneObjects.add(object);
+	}
 
-		if (object.asDynamicObject() != null) {
-			removeDynamicObject(object.asDynamicObject());
-			return;
-		}
-		
-		if (object.asStaticObject() != null) {
-			removeStaticObject(object.asStaticObject());
-			return;
-		}
+	//HUD objects
+	public Vector<HUDObject> getHUDObjects(){
+		return HUDObjects;
 	}
 	
+	public void addHUDObject(HUDObject object){
+		if (!HUDObjects.contains(object))
+			HUDObjects.add(object);
+	}
+	
+	public void removeHUDObject(HUDObject object){
+		removeHUDObjects.add(object);
+	}
+	
+	//group object	
 	public void addObject(Group group){
-		for(Object element : group.getElements()){
-			addObject(element);
+		for(Object object : group.getElements()){
+			if (object.asHUDObject() != null)
+			{
+				addHUDObject(object.asHUDObject());
+				return;
+			}
+
+			addObject(object);
 		}
 	}
 	
 	public void removeObject(Group group){
-		for(Object element : group.getElements()){
-			removeObject(element);
+		for(Object object : group.getElements()){
+			if (object.asHUDObject() != null)
+			{
+				removeHUDObjects.add(object.asHUDObject());
+				return;
+			}
+			removeSceneObjects.add(object);;
 		}
-	}
-	
-	public Vector<Object> getObjects() {
-		Vector<Object> objects = new Vector<Object>();
-		objects.addAll(staticObjects);
-		objects.addAll(dynamicObjects);
-		objects.addAll(staticHUDObjects);
-		objects.addAll(dynamicHUDObjects);
-		return objects;
 	}
 	
 	public void update(float deltaTime){
-		if (!removeDObjects.isEmpty()) {
-			dynamicObjects.removeAll(removeDObjects);
-			removeDObjects.clear();
+		if (!removeSceneObjects.isEmpty()) {
+			sceneObjects.removeAll(removeSceneObjects);
+			removeSceneObjects.clear();
 		}
-		if (!removeSObjects.isEmpty()) {
-			staticObjects.removeAll(removeSObjects);
-			removeSObjects.clear();
-		}
-		if (!removeHDObjects.isEmpty()) {
-			dynamicHUDObjects.removeAll(removeHDObjects);
-			removeHDObjects.clear();
-		}
-		if (!removeHSObjects.isEmpty()) {
-			staticHUDObjects.removeAll(removeHSObjects);
-			removeHSObjects.clear();
+		if (!removeHUDObjects.isEmpty()) {
+			HUDObjects.removeAll(removeHUDObjects);
+			removeHUDObjects.clear();
 		}
 		
 		Controllers.commandController.updateCommands(deltaTime);
@@ -201,11 +112,11 @@ public class MainController extends InputMultiplexer{
 			controller.update(deltaTime);
 		}
 
-		for (DynamicObject object : dynamicObjects) {
+		for (Object object : sceneObjects) {
 			object.update(deltaTime);
 		}
 		
-		for (HUDDynamicObject object : dynamicHUDObjects){
+		for (Object object : HUDObjects){
 			object.update(deltaTime);
 		}
 	}
@@ -213,9 +124,7 @@ public class MainController extends InputMultiplexer{
 	public void clear() {
 		super.clear();
 		updateControllers.clear();
-		dynamicObjects.clear();
-		staticObjects.clear();
-		staticHUDObjects.clear();
-		dynamicHUDObjects.clear();
+		sceneObjects.clear();
+		HUDObjects.clear();
 	}
 }

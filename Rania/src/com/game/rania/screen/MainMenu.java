@@ -8,7 +8,7 @@ import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.model.Text;
 import com.game.rania.model.element.Font;
-import com.game.rania.model.element.HUDStaticObject;
+import com.game.rania.model.element.HUDObject;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.ui.Edit;
 import com.game.rania.model.ui.Message;
@@ -31,7 +31,7 @@ public class MainMenu extends RaniaScreen{
 		mView.loadTexture("data/gui/newreg.png", RegionID.BTNREG_ON, 0, 128, 512, 128);
 		mView.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_OFF, 0, 0, 512, 128);
 		mView.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_ON, 0, 128, 512, 128);
-		mController.addStaticHUDObject(new HUDStaticObject(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
+		mController.addHUDObject(new HUDObject(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
 
 		
 
@@ -57,10 +57,10 @@ public class MainMenu extends RaniaScreen{
 		loginEdit.nextControll = passwordEdit;
 		passwordEdit.nextControll = loginEdit;
 
-		mController.addDynamicHUDObject(loginEdit);
-		mController.addDynamicHUDObject(passwordEdit);
+		mController.addHUDObject(loginEdit);
+		mController.addHUDObject(passwordEdit);
 		
-		mController.addStaticHUDObject(
+		mController.addHUDObject(
 				new PressedButton(RegionID.BTNLOGIN_OFF,
 								  RegionID.BTNLOGIN_ON,
 								  halfWidth * 0.675f, halfHeight * 0.188f,
@@ -78,7 +78,7 @@ public class MainMenu extends RaniaScreen{
 											}
 											else
 											{
-												mController.addDynamicHUDObject(
+												mController.addHUDObject(
 														new Message(RegionID.EDIT_ON, 0, 0,
 															    new Text("Неверный логин или пароль", Font.getFont("data/fonts/Postmodern One.ttf", 25), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
 															    5));
@@ -87,7 +87,7 @@ public class MainMenu extends RaniaScreen{
 									}
 								  }));
 		
-		mController.addStaticHUDObject(
+		mController.addHUDObject(
 				new PressedButton(RegionID.BTNREG_OFF,
 								  RegionID.BTNREG_ON,
 								  halfWidth * 0.675f, -halfHeight * 0.06f,
@@ -100,7 +100,7 @@ public class MainMenu extends RaniaScreen{
 									}
 								  }));
 		
-		mController.addStaticHUDObject(
+		mController.addHUDObject(
 				new PressedButton(RegionID.BTNEXIT_OFF,
 								  RegionID.BTNEXIT_ON,
 								  halfWidth * 0.675f, -halfHeight * 0.308f,

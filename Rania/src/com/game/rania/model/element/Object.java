@@ -21,11 +21,27 @@ public class Object {
 
 	public TextureRegion region = null;
 	
+	public Object(float posX, float posY){
+		this(posX, posY, 0, 1, 1);
+	}
+
+	public Object(float posX, float posY, float rotAngle){
+		this(posX, posY, rotAngle, 1, 1);
+	}
+
 	public Object(float posX, float posY, float rotAngle, float scaleX, float scaleY){
 		position.set(posX, posY);
 		angle = rotAngle;
 		scale.set(scaleX, scaleY);
 	}
+
+	public Object(RegionID id, float posX, float posY){
+		this(id, posX, posY, 0, 1, 1);
+	}
+
+	public Object(RegionID id, float posX, float posY, float rotAngle){
+		this(id, posX, posY, rotAngle, 1, 1);
+	}	
 	
 	public Object(RegionID id, float posX, float posY, float rotAngle, float scaleX, float scaleY){
 		region = RaniaGame.mView.getTextureRegion(id);
@@ -34,29 +50,10 @@ public class Object {
 		scale.set(scaleX, scaleY);
 	}
 	
-	public Object(TextureRegion textureRegion, float posX, float posY, float rotAngle, float scaleX, float scaleY){
-		region = textureRegion;
-		position.set(posX, posY);
-		angle = rotAngle;
-		scale.set(scaleX, scaleY);
-	}
-	
-	public DynamicObject asDynamicObject(){
-		return null;
-	}
-	
-	public StaticObject asStaticObject(){
-		return null;
-	}
-	
-	public HUDStaticObject asHUDStaticObject(){
+	public HUDObject asHUDObject(){
 		return null;
 	}
 
-	public HUDDynamicObject asHUDDynamicObject(){
-		return null;
-	}
-	
 	public float getWidth(){
 		return region.getRegionWidth() * scale.x;
 	}

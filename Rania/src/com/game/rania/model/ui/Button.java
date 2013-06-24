@@ -4,22 +4,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.Text;
-import com.game.rania.model.element.HUDStaticObject;
+import com.game.rania.model.element.HUDObject;
 import com.game.rania.model.element.RegionID;
 
-public abstract class Button extends HUDStaticObject{
+public abstract class Button extends HUDObject{
 
 	protected Text			text		  = null;
 	protected TextureRegion regionOn      = null;
 	protected TouchAction	action        = null;
-
-	public Button(TextureRegion regionOff, TextureRegion regionOn, float x, float y, Text text, TouchAction action){
-		super(regionOff, x, y);
-		this.regionOn = regionOn;
-		this.text = text;
-		this.action = action;
-		touchObject = true;
-	}
 	
 	public Button(RegionID regionOff, RegionID regionOn, float x, float y, Text text, TouchAction action){
 		super(regionOff, x, y);

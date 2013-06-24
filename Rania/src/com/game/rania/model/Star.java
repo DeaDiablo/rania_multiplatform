@@ -1,9 +1,9 @@
 package com.game.rania.model;
 
 import com.game.rania.model.element.RegionID;
-import com.game.rania.model.element.StaticObject;
+import com.game.rania.model.element.Object;
 
-public class Star extends StaticObject{
+public class Star extends Object{
 
 	private int type = -1;
 	

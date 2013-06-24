@@ -3,10 +3,10 @@ package com.game.rania.model;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.game.rania.controller.Controllers;
-import com.game.rania.model.element.DynamicObject;
+import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 
-public class Planet extends DynamicObject{
+public class Planet extends Object{
 
 	public int id				= -1;
 	public int type      		= -1;

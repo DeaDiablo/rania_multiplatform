@@ -3,29 +3,19 @@ package com.game.rania.model;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.element.RegionID;
-import com.game.rania.model.element.StaticObject;
+import com.game.rania.model.element.Object;
 import com.game.rania.view.Camera;
  
-public class ParallaxLayer extends StaticObject{
+public class ParallaxLayer extends Object{
     
 	private float ratio = 0.0f;
 	private Sprite drawable = null;
 	private Camera camera = null;
 	
     public ParallaxLayer(RegionID id, float x, float y, float delta) {
-        super(RaniaGame.mView.getTextureRegion(id), x, y);
-        ratio = delta;
-        drawable = new Sprite();
-        camera = RaniaGame.mView.getCamera();
-        if (region != null)
-        	region.getTexture().setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
-    }
-	
-    public ParallaxLayer(TextureRegion region, float x, float y, float delta) {
-        super(region, x, y);
+        super(id, x, y);
         ratio = delta;
         drawable = new Sprite();
         camera = RaniaGame.mView.getCamera();

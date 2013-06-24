@@ -89,7 +89,7 @@ public class LocationController {
 	public void addPlayer(){
 		if (player != null)
 		{
-			mController.addDynamicObject(player);
+			mController.addObject(player);
 			pController = new ShipController(player);
 			mController.addProcessor(pController);
 		}
@@ -97,7 +97,7 @@ public class LocationController {
 	
 	public void removePlayer(){
 		if (player != null) {
-			mController.removeDynamicObject(player);
+			mController.removeObject(player);
 			if (pController != null)
 				mController.removeProcessor(pController);
 			player = null;
@@ -149,7 +149,7 @@ public class LocationController {
 	
 	public void addRadar(){
 		if (radar != null)
-			mController.addDynamicHUDObject(radar);
+			mController.addHUDObject(radar);
 	}
 
 	public void removeRadar(){
@@ -172,19 +172,19 @@ public class LocationController {
 	}
 
 	public void addPlanets(){
-		mController.addStaticObject(star);
+		mController.addObject(star);
 		for (Planet planet : planets.values()) {
-			mController.addDynamicObject(planet);
+			mController.addObject(planet);
 		}
 	}
 
 	public void removePlanets(){
 		if (star != null) {
-			mController.removeStaticObject(star);
+			mController.removeObject(star);
 			star = null;
 		}
 		for (Planet planet : planets.values()) {
-			mController.removeDynamicObject(planet);
+			mController.removeObject(planet);
 		}
 		planets.clear();
 	}
@@ -193,14 +193,14 @@ public class LocationController {
 		if (planets.containsKey(planet.id))
 			return;
 		planets.put(planet.id, planet);
-		mController.addDynamicObject(planet);
+		mController.addObject(planet);
 	}
 	
 	public void removePlanet(Planet planet){
 		if (!planets.containsKey(planet.id))
 			return;
 		planets.remove(planet.id);
-		mController.removeDynamicObject(planet);
+		mController.removeObject(planet);
 	}
 
 	public void removePlanet(int id){
@@ -208,7 +208,7 @@ public class LocationController {
 		if (planet == null)
 			return;
 		planets.remove(id);
-		mController.removeDynamicObject(planet);
+		mController.removeObject(planet);
 	}
 	
 	//users
@@ -224,13 +224,13 @@ public class LocationController {
 	
 	public void addUsers(){
 		for (User user : users.values()) {
-			mController.addDynamicObject(user);
+			mController.addObject(user);
 		}
 	}
 
 	public void removeUsers(){
 		for (User user : users.values()) {
-			mController.removeDynamicObject(user);
+			mController.removeObject(user);
 		}
 		users.clear();
 	}
@@ -239,14 +239,14 @@ public class LocationController {
 		if (users.containsKey(user.id))
 			return;
 		users.put(user.id, user);
-		mController.addDynamicObject(user);
+		mController.addObject(user);
 	}
 	
 	public void removeUser(User user) {
 		if (!users.containsKey(user.id))
 			return;
 		users.remove(user.id);
-		mController.removeDynamicObject(user);
+		mController.removeObject(user);
 	}
 	
 	public void removeUser(int id) {
@@ -254,7 +254,7 @@ public class LocationController {
 		if (user == null)
 			return;
 		users.remove(id);
-		mController.removeDynamicObject(user);
+		mController.removeObject(user);
 	}
 	
 	//get objects

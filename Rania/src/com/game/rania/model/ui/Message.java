@@ -3,10 +3,10 @@ package com.game.rania.model.ui;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.Text;
-import com.game.rania.model.element.HUDDynamicObject;
+import com.game.rania.model.element.HUDObject;
 import com.game.rania.model.element.RegionID;
 
-public class Message extends HUDDynamicObject{
+public class Message extends HUDObject{
 
 	private float time = 0.0f;
 	private float delay = 0.0f;
@@ -24,7 +24,7 @@ public class Message extends HUDDynamicObject{
 		time += deltaTime;
 		
 		if (delay < time){
-			RaniaGame.mController.removeDynamicHUDObject(this);
+			RaniaGame.mController.removeHUDObject(this);
 		}
 	}
 	
@@ -41,7 +41,7 @@ public class Message extends HUDDynamicObject{
 	
 	@Override
 	public boolean touchUp(float x, float y) {	
-		RaniaGame.mController.removeDynamicHUDObject(this);
+		RaniaGame.mController.removeHUDObject(this);
 		return true;
 	}
 }

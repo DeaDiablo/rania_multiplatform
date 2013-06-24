@@ -10,23 +10,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.Text;
-import com.game.rania.model.element.HUDDynamicObject;
+import com.game.rania.model.element.HUDObject;
 import com.game.rania.model.element.RegionID;
 
-public class Edit extends HUDDynamicObject{
+public class Edit extends HUDObject{
 
 	protected Text 		    text      = null;
 	protected TouchAction   action    = null;
 	protected TextureRegion regionOn  = null;
 	protected int		    maxTextLength;
-
-	public Edit(TextureRegion texture, TextureRegion textureOn, float x, float y, Text text, int maxLength){
-		super(texture, x, y);
-		this.regionOn = textureOn;
-		this.text = text;
-		this.maxTextLength = maxLength;
-		touchObject = true;
-	}
 
 	public Edit(RegionID idTexture, RegionID idTextureOn, float x, float y, Text text, int maxLength){
 		super(idTexture, x, y);
@@ -36,14 +28,6 @@ public class Edit extends HUDDynamicObject{
 		touchObject = true;
 	}
 
-	public Edit(TextureRegion texture, TextureRegion textureOn, float x, float y, Text text, int maxLength, TouchAction action){
-		super(texture, x, y);
-		this.regionOn = textureOn;
-		this.text = text;
-		this.maxTextLength = maxLength;
-		this.action = action;
-		touchObject = true;
-	}
 	
 	public Edit(RegionID idTexture, RegionID idTextureOn, float x, float y, Text text, int maxLength, TouchAction action){
 		super(idTexture, x, y);

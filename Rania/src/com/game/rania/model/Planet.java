@@ -15,12 +15,13 @@ public class Planet extends Object{
 	public int radius			=  0;
 	public int atmosphere		= -1;
 	public String name    	    = "";
+	public int  idLocation   	= -1;
 	public Star star 			= null;
 	
 	private static float radianAndTime = MathUtils.PI / 180.0f / 3600.0f; 
 	private float time = 0.0f;
 
-	public Planet(int id, String name, int type, int radius, int atmosphere, int speed, int orbit, Star star) {
+	public Planet(int id, String name, int type, int radius, int atmosphere, int speed, int orbit, int idLocation) {
 		super(RegionID.fromInt(RegionID.PLANET_0.ordinal() + type), 0, 0);
 		this.id = id;
 		this.name = name;
@@ -29,7 +30,8 @@ public class Planet extends Object{
 		this.atmosphere = atmosphere;
 		this.speed = speed;
 		this.orbit = orbit;
-		this.star = star;
+		this.idLocation = idLocation;
+		this.star = Controllers.locController.getLocation(idLocation).star;
 		zIndex = 6;
 		updatePosition();
 	}

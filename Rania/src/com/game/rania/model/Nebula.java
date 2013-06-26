@@ -1,10 +1,13 @@
 package com.game.rania.model;
 
-public class Nebula {
+import com.game.rania.model.element.RegionID;
+
+public class Nebula extends ParallaxObject{
+
 	public int id;
-	public int Type;
-	public int x;
-	public int y;
-	public int Scale;
-	public int Angle;
+	
+	public Nebula(int id, int type, float x, float y, float angle, float scale) {
+		super(RegionID.fromInt(RegionID.NEBULA_0.ordinal() + type), x, y, angle, scale, scale, -0.4f);
+		this.id = id;
+	}
 }

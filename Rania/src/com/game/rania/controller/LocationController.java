@@ -167,12 +167,37 @@ public class LocationController {
 	public void loadPlanets(){
 		if (currentLocation == null)
 			return;
+
 		if (currentLocation.star == null)
 			currentLocation.star = new Star(currentLocation.starType, currentLocation.x, currentLocation.y, currentLocation.starRadius);
-		if (currentLocation.planets == null)
-			currentLocation.planets = cController.getPlanetList(currentLocation);
 		star = currentLocation.star;
-		planets.putAll(currentLocation.planets);
+		
+		if (currentLocation.planets == null)
+			currentLocation.planets = cController.getPlanetList(currentLocation.id);
+		planets = currentLocation.planets;
+	}
+	
+	public void switchLocation(Location newLocation){
+		if (newLocation == currentLocation)
+			return;
+		
+		removePlanets();
+		currentLocation = newLocation;
+		if (currentLocation == null)
+			return;
+		
+		if (currentLocation.star == null)
+			currentLocation.star = new Star(currentLocation.starType, currentLocation.x, currentLocation.y, currentLocation.starRadius);
+		star = currentLocation.star;
+		
+		if (currentLocation.planets != null) {
+			planets = currentLocation.planets;
+		}
+		else {
+			planets = currentLocation.planets = new HashMap<Integer, Planet>();
+			cController.updatePlanetList(currentLocation.id);
+		}
+		addPlanets();
 	}
 
 	public void addPlanets(){
@@ -190,21 +215,28 @@ public class LocationController {
 		for (Planet planet : planets.values()) {
 			mController.removeObject(planet);
 		}
-		planets.clear();
 	}
 
 	public void addPlanet(Planet planet){
-		if (planets.containsKey(planet.id))
+		Location location = locations.get(planet.idLocation);
+		if (location.planets == null)
+			location.planets = new HashMap<Integer, Planet>();
+		else if (location.planets.containsKey(planet.id))
 			return;
-		planets.put(planet.id, planet);
-		mController.addObject(planet);
+		location.planets.put(planet.id, planet);
+		if (location == currentLocation) {
+			mController.addObject(planet);
+		}
 	}
 	
 	public void removePlanet(Planet planet){
-		if (!planets.containsKey(planet.id))
+		Location location = locations.get(planet.idLocation);
+		if (!location.planets.containsKey(planet.id))
 			return;
-		planets.remove(planet.id);
-		mController.removeObject(planet);
+		location.planets.remove(planet.id);
+		if (location == currentLocation) {
+			mController.removeObject(planet);
+		}
 	}
 
 	public void removePlanet(int id){
@@ -291,49 +323,72 @@ public class LocationController {
 	}
 	
 	public Location getNearLocation(){
+		return getNearLocation(player.position.x, player.position.y);
+	}
+
+	public Location getNearLocation(float x, float y){
 		Location nearLocation = null;
 		float distance = Float.MAX_VALUE;
-		
 		for (Location location : locations.values()) {
-			distanceVec.set(location.x - player.position.x, location.y - player.position.y);
+			distanceVec.set(location.x - x, location.y - y);
 			distanceBuffer = distanceVec.len();
 			if (distance > distanceBuffer) {
 				distance = distanceBuffer;
 				nearLocation = location;
 			}
 		}
-		
 		return nearLocation;
-	}
-
-	public Location getLocation(int x, int y){
-		for (Location loc : locations.values()) {
-			if (loc.x == x && loc.y == y)
-				return loc;
-		}
-		return null;
 	}
 	
 	//get planets
 	public Collection<Planet> getPlanets(){
 		return planets.values();
 	}
-	
+
+	public Star getStar(int idLocation){
+		Location location = locations.get(idLocation);
+		if (location.star == null)
+			location.star = new Star(location.starType, location.x, location.y, location.starRadius);
+		return location.star;
+	}
+
 	public Collection<Planet> getPlanets(int idLocation){
 		Location location = locations.get(idLocation);
 		if (location == null)
 			return null;
 		if (location.planets == null)
-			location.planets = cController.getPlanetList(location);
+			location.planets = cController.getPlanetList(idLocation);
 		return location.planets.values();
 	}
 	
-	public Planet getPlanet(int id){
-		return planets.get(id);
+	public Planet getPlanet(int idPlanet){
+		return planets.get(idPlanet);
 	}
 
 	public Planet getPlanet(String name){
 		for (Planet planet : planets.values()) {
+			if (planet.name.compareTo(name) == 0)
+				return planet;
+		}
+		return null;
+	}
+	
+	public Planet getPlanet(int idLocation, int idPlanet){
+		Location location = locations.get(idLocation);
+		if (location == null)
+			return null;
+		if (location.planets == null)
+			location.planets = cController.getPlanetList(idLocation);
+		return location.planets.get(idPlanet);
+	}
+
+	public Planet getPlanet(int idLocation, String name){
+		Location location = locations.get(idLocation);
+		if (location == null)
+			return null;
+		if (location.planets == null)
+			location.planets = cController.getPlanetList(idLocation);
+		for (Planet planet : location.planets.values()) {
 			if (planet.name.compareTo(name) == 0)
 				return planet;
 		}
@@ -369,13 +424,7 @@ public class LocationController {
 	public void update(float deltaTime){
 		updateTime += deltaTime;
 		if (updateTime > 1.0f){
-			Location newLocation = getNearLocation();
-			if (newLocation.id != currentLocation.id){
-				removePlanets();
-				currentLocation = newLocation;
-				loadPlanets();
-				addPlanets();
-			}
+			switchLocation(getNearLocation());
 			updateTime -= 1.0f;
 		}
 	}

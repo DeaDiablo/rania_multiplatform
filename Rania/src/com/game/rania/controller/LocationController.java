@@ -33,7 +33,7 @@ public class LocationController {
 			mView.loadTexture("data/location/planets.png", RegionID.fromInt(RegionID.PLANET_0.ordinal() + i), i % 5 * 204, i / 5 * 204, 204, 204);
 		
 		for (int i = 0; i < 8; i++)
-			mView.loadTexture("data/backgrounds/nebulas.png", RegionID.fromInt(RegionID.NEBULA_0.ordinal() + i), i % 4 * 256, i / 4 * 256, 256, 256);
+			mView.loadTexture("data/backgrounds/nebulas(512x512).png", RegionID.fromInt(RegionID.NEBULA_0.ordinal() + i), i % 4 * 512, i / 4 * 512, 512, 512);
 
 		mView.loadTexture("data/location/star.png",        RegionID.STAR);
 		mView.loadTexture("data/location/radar.png",       RegionID.RADAR);
@@ -109,10 +109,14 @@ public class LocationController {
 		background = new Group();
 		background.addElement(new ParallaxLayer(RegionID.BACKGROUND_SPACE, 250, 300, -0.35f));
 		background.addElement(new ParallaxLayer(RegionID.BACKGROUND_STARS, -150, 0, -0.25f));
-		background.addElement(new ParallaxObject(RegionID.NEBULA_3, 500, 500, 45, 3, 3, -0.4f));
-		background.addElement(new ParallaxObject(RegionID.NEBULA_5, -500, 500, -45, 5, 5, -0.4f));
-		background.addElement(new ParallaxObject(RegionID.NEBULA_6, 500, -500, 0, 4, 4, -0.4f));
-		background.addElement(new ParallaxObject(RegionID.NEBULA_7, -500, -500, 200, 2, 2, -0.4f));
+		background.addElement(new ParallaxObject(RegionID.NEBULA_1, 500, 500, 45, 2, 2, -0.4f));
+		background.addElement(new ParallaxObject(RegionID.NEBULA_2, -500, 500, -45, 2, 2, -0.4f));
+		background.addElement(new ParallaxObject(RegionID.NEBULA_3, 500, -500, 0, 2, 2, -0.4f));
+		background.addElement(new ParallaxObject(RegionID.NEBULA_4, -500, -500, 200, 2, 2, -0.4f));
+		background.addElement(new ParallaxObject(RegionID.NEBULA_5, 1500, 1500, 45, 2, 2, -0.4f));
+		background.addElement(new ParallaxObject(RegionID.NEBULA_6, -1500, 1500, -45, 2, 2, -0.4f));
+		background.addElement(new ParallaxObject(RegionID.NEBULA_7, 1500, -1500, 0, 2, 2, -0.4f));
+		background.addElement(new ParallaxObject(RegionID.NEBULA_0, -1500, -1500, 200, 2, 2, -0.4f));
 	}
 	
 	public void setBackground(Group newBackground){

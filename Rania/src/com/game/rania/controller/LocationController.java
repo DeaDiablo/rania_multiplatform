@@ -33,7 +33,7 @@ public class LocationController {
 			mView.loadTexture("data/location/planets.png", RegionID.fromInt(RegionID.PLANET_0.ordinal() + i), i % 5 * 204, i / 5 * 204, 204, 204);
 		
 		for (int i = 0; i < 8; i++)
-			mView.loadTexture("data/backgrounds/nebulas(512x512).png", RegionID.fromInt(RegionID.NEBULA_0.ordinal() + i), i % 4 * 512, i / 4 * 512, 512, 512);
+			mView.loadTexture("data/backgrounds/nebulas.png", RegionID.fromInt(RegionID.NEBULA_0.ordinal() + i), i % 4 * 512, i / 4 * 512, 512, 512);
 
 		mView.loadTexture("data/location/star.png",        RegionID.STAR);
 		mView.loadTexture("data/location/radar.png",       RegionID.RADAR);

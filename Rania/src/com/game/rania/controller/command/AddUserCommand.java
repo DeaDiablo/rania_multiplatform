@@ -7,8 +7,8 @@ import com.game.rania.model.User;
 public class AddUserCommand extends ControllerCommand{
 
 	private User  user = null;
-	public AddUserCommand(int idUser, float targetX, float targetY, String ShipName){
-		user = new User(idUser, targetX, targetY, ShipName, "");
+	public AddUserCommand(User user){
+		this.user = user;
 	}
 	
 	@Override

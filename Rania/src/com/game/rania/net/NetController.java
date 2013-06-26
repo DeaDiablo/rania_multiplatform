@@ -8,6 +8,7 @@ import java.util.HashMap;
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.Config;
 import com.game.rania.controller.CommandController;
+import com.game.rania.controller.command.AddPlanetCommand;
 import com.game.rania.controller.command.AddUserCommand;
 import com.game.rania.controller.command.RemoveUserCommand;
 import com.game.rania.controller.command.SetTargetCommand;
@@ -74,7 +75,7 @@ public class NetController {
 				if (answer.idCommand == Command.login)
 				{
 					client.isLogin = true;
-					client.serverTime = GetIntValue(answer.data, 0);
+					client.serverTime = GetIntValue(answer.data, new AddressCommand());
 					receiver = new Receiver(client, this);
 					receiver.start();
 				}
@@ -118,25 +119,17 @@ public class NetController {
 		{
 			client.stream.sendCommand(Command.users);
 			Command command = waitCommand(Command.users);
-			int ArrPtr = 0;
+			AddressCommand ArrPtr = new AddressCommand();
 			int UsersCount = GetIntValue(command.data, ArrPtr);
-			ArrPtr=ArrPtr+4;
-			for (int i=0;i<UsersCount;i++)
+			for (int i=0; i<UsersCount; i++)
 			{
 				int UserId = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				int ShipNameLen = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				String ShipName = GetStringValue(command.data, ArrPtr, ShipNameLen);
-				ArrPtr=ArrPtr+ShipNameLen;
 				int UserX = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				int UserY = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				int UserTargetX = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				int UserTargetY = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				User userShip = new User(UserId, UserX, UserY, ShipName, "");
 				userShip.setPositionTarget(UserTargetX, UserTargetY);
 				UsersMap.put(userShip.id, userShip);
@@ -149,43 +142,35 @@ public class NetController {
 		return UsersMap;
 	}
 
-	public HashMap<Integer, Planet> GetCurrentPlanets(Client client, Location location)
+	public HashMap<Integer, Planet> GetPlanets(Client client, int idLocation, boolean wait)
 	{
 		HashMap<Integer, Planet> planets = new HashMap<Integer, Planet>();
 		try
 		{
-			client.stream.sendCommand(Command.planets, intToByteArray(location.id));
+			client.stream.sendCommand(Command.planets, intToByteArray(idLocation));
+			if (!wait)
+				return null;
+			
 			Command command = waitCommand(Command.planets);
-			int ArrPtr = 0;
-			client.serverTime = GetIntValue(command.data, ArrPtr);
-			ArrPtr=ArrPtr+4;
+			AddressCommand ArrPtr = new AddressCommand(4);
 			int PlanetsCount = GetIntValue(command.data, ArrPtr);
-			ArrPtr=ArrPtr+4;
-			for (int i=0;i<PlanetsCount;i++)
+			for (int i=0; i<PlanetsCount; i++)
 			{
 				int PlanetId = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				int PlanetNameLen = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				String PlanetName = GetStringValue(command.data, ArrPtr, PlanetNameLen);
-				ArrPtr=ArrPtr+PlanetNameLen;
 				int PlanetType = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				int PlanetSpeed = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				int PlanetOrbit = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				int PlanetRadius = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				char[] ColorArr = new char[4];
 				for (int j=0;j<4;j++)
 				{
-					ColorArr[j]=(char)command.data[ArrPtr];
-					ArrPtr++;
+					ColorArr[j]=(char)command.data[ArrPtr.address];
+					ArrPtr.delta(1);
 				}
 				int PlanetAtmosphere = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
-				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetAtmosphere, PlanetSpeed, PlanetOrbit, location.star);
+				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetAtmosphere, PlanetSpeed, PlanetOrbit, idLocation);
 				planet.color  = new Color(ColorArr[0] / 255.0f, ColorArr[1] / 255.0f, ColorArr[2] / 255.0f, ColorArr[3] / 255.0f);
 				planets.put(PlanetId, planet);
 			}
@@ -204,25 +189,17 @@ public class NetController {
 		{
 			client.stream.sendCommand(Command.locations);
 			Command command = waitCommand(Command.locations);
-			int ArrPtr = 0;
+			AddressCommand ArrPtr = new AddressCommand();
 			int LocationsCount = GetIntValue(command.data, ArrPtr);
-			ArrPtr=ArrPtr+4;
-			for (int i=0;i<LocationsCount;i++)
+			for (int i=0; i<LocationsCount; i++)
 			{
 				int StarId = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				int StarNameLen = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				String StarName = GetStringValue(command.data, ArrPtr, StarNameLen);
-				ArrPtr=ArrPtr+StarNameLen;
 				int StarType = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				int StarX = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				int StarY = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				int StarRadius = GetIntValue(command.data, ArrPtr);
-				ArrPtr=ArrPtr+4;
 				Location Loc   = new Location();
 				Loc.id         = StarId;
 				Loc.x          = StarX;
@@ -247,29 +224,15 @@ public class NetController {
 			client.stream.sendCommand(Command.player);
 
 			Command command = waitCommand(Command.player);
-			
-			int ArrPtr = 0;
-			int UserId = GetIntValue(command.data, ArrPtr);
-			ArrPtr=ArrPtr+4;
-			
-			int UserX = GetIntValue(command.data, ArrPtr);
-			ArrPtr=ArrPtr+4;
 
+			AddressCommand ArrPtr = new AddressCommand();
+			int UserId = GetIntValue(command.data, ArrPtr);			
+			int UserX = GetIntValue(command.data, ArrPtr);
 			int UserY = GetIntValue(command.data, ArrPtr);
-			ArrPtr=ArrPtr+4;
-			
 			int PnameLen = GetIntValue(command.data, ArrPtr);
-			ArrPtr=ArrPtr+4;
-			
-			String PName = GetStringValue(command.data, ArrPtr, PnameLen);
-			ArrPtr=ArrPtr+PnameLen;
-			
-			int SnameLen = GetIntValue(command.data, ArrPtr);
-			ArrPtr=ArrPtr+4;
-			
-			String SName = GetStringValue(command.data, ArrPtr, SnameLen);
-			ArrPtr=ArrPtr+SnameLen;
-			
+			String PName = GetStringValue(command.data, ArrPtr, PnameLen);			
+			int SnameLen = GetIntValue(command.data, ArrPtr);			
+			String SName = GetStringValue(command.data, ArrPtr, SnameLen);			
 			Player player = new Player(UserId, UserX, UserY, PName, SName);
 			return player;
 		}
@@ -313,58 +276,103 @@ public class NetController {
 			cCopyCommand.signalWait();
 			return;
 		}
-
-		if (command.idCommand == Command.addUser) //игрок id появился в локации
-		{
-			int ArrPtr = 0;
-			int UserId = GetIntValue(command.data, ArrPtr);
-			ArrPtr = ArrPtr+4;
-			int ShipNameLen = GetIntValue(command.data, ArrPtr);
-			ArrPtr = ArrPtr+4;
-			String ShipName = GetStringValue(command.data, ArrPtr, ShipNameLen);
-			ArrPtr = ArrPtr+ShipNameLen;
-			int UserX = GetIntValue(command.data, ArrPtr);
-			ArrPtr = ArrPtr+4;
-			int UserY = GetIntValue(command.data, ArrPtr);
-			cController.addCommand(new AddUserCommand(UserId, UserX, UserY, ShipName));
-		}
 		
-		if (command.idCommand == Command.touchUser) //игрок id тыкнул в экран
+		switch (command.idCommand) {
+		case Command.addUser:
 		{
-			int ArrPtr =0;
+			AddressCommand ArrPtr = new AddressCommand();
 			int UserId = GetIntValue(command.data, ArrPtr);
-			ArrPtr = ArrPtr+4;
+			int ShipNameLen = GetIntValue(command.data, ArrPtr);
+			String ShipName = GetStringValue(command.data, ArrPtr, ShipNameLen);
+			int UserX = GetIntValue(command.data, ArrPtr);
+			int UserY = GetIntValue(command.data, ArrPtr);
+			User user = new User(UserId, UserX, UserY, ShipName, "");
+			cController.addCommand(new AddUserCommand(user));
+			break;
+		}
+		case Command.touchUser:
+		{
+			AddressCommand ArrPtr = new AddressCommand();
+			int UserId = GetIntValue(command.data, ArrPtr);
 			int UserTouchX = GetIntValue(command.data, ArrPtr);
-			ArrPtr = ArrPtr+4;
 			int UserTouchY = GetIntValue(command.data, ArrPtr);
 			cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY));
+			break;
 		}
-
-		if (command.idCommand == Command.removeUser) //игрок id пропал из локации. хз куда делся) эт не важно)
+		case Command.removeUser:
 		{
-			int UserId = GetIntValue(command.data, 0);
+			int UserId = GetIntValue(command.data, new AddressCommand());
 			cController.addCommand(new RemoveUserCommand(UserId));
+			break;
+		}
+		case Command.planets:
+		{
+			AddressCommand ArrPtr = new AddressCommand(0);
+			int locID = GetIntValue(command.data, ArrPtr);
+			int PlanetsCount = GetIntValue(command.data, ArrPtr);
+			for (int i=0; i<PlanetsCount; i++)
+			{
+				int PlanetId      = GetIntValue(command.data, ArrPtr);
+				int PlanetNameLen = GetIntValue(command.data, ArrPtr);
+				String PlanetName = GetStringValue(command.data, ArrPtr, PlanetNameLen);
+				int PlanetType 	  = GetIntValue(command.data, ArrPtr);
+				int PlanetSpeed   = GetIntValue(command.data, ArrPtr);
+				int PlanetOrbit   = GetIntValue(command.data, ArrPtr);
+				int PlanetRadius  = GetIntValue(command.data, ArrPtr);
+				char[] ColorArr   = new char[4];
+				for (int j=0;j<4;j++)
+				{
+					ColorArr[j]=(char)command.data[ArrPtr.address];
+					ArrPtr.delta(1);
+				}
+				int PlanetAtmosphere = GetIntValue(command.data, ArrPtr);
+				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetAtmosphere, PlanetSpeed, PlanetOrbit, locID);
+				planet.color  = new Color(ColorArr[0] / 255.0f, ColorArr[1] / 255.0f, ColorArr[2] / 255.0f, ColorArr[3] / 255.0f);
+				cController.addCommand(new AddPlanetCommand(planet));
+			}
+			break;
 		}
 
+		default:
+			break;
+		}
 	}
-	private int GetIntValue(byte[] data, int SI)
+
+	private int GetIntValue(byte[] data, AddressCommand AC)
 	{
 		int Res=0;
 		byte[] Arr = new byte[4];
-		System.arraycopy(data, SI, Arr, 0, 4);
+		System.arraycopy(data, AC.address, Arr, 0, 4);
+		AC.delta(4);
 		Res = byteArrayToInt(Arr);
 		return Res;
 	}
-	private String GetStringValue(byte[] data, int SI, int SL)
+
+	private String GetStringValue(byte[] data, AddressCommand AC, int SL)
 	{
 		String Res = "";
 		byte[] Arr = new byte[SL];
-		System.arraycopy(data, SI, Arr, 0, SL);
+		System.arraycopy(data, AC.address, Arr, 0, SL);
+		AC.delta(SL);
 		try {
 			Res = new String(Arr, "UTF-16LE");
 		} catch (UnsupportedEncodingException e) {
 
 		}
 		return Res;
+	}
+	
+	class AddressCommand {
+		public AddressCommand() {
+			this.address = 0;
+		}
+		public AddressCommand(int start){
+			this.address = start;
+		}
+		
+		public int address;
+		public void delta(int delta){
+			address += delta;
+		}
 	}
 }

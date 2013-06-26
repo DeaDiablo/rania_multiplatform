@@ -11,6 +11,7 @@ import com.game.rania.controller.CommandController;
 import com.game.rania.controller.command.AddUserCommand;
 import com.game.rania.controller.command.RemoveUserCommand;
 import com.game.rania.controller.command.SetTargetCommand;
+import com.game.rania.model.Nebula;
 import com.game.rania.model.Player;
 import com.game.rania.model.User;
 import com.game.rania.model.Location;
@@ -238,6 +239,47 @@ public class NetController {
 			ClientRelogin(client);
 		}
 		return locations;
+	}
+	
+	public HashMap<Integer, Nebula> GetAllNebulas(Client client)
+	{
+		HashMap<Integer, Nebula> nebulas = new HashMap<Integer, Nebula>();
+		try
+		{
+			client.stream.sendCommand(Command.nebulas);
+			Command command = waitCommand(Command.nebulas);
+			int ArrPtr = 0;
+			int NebulasCount = GetIntValue(command.data, ArrPtr);
+			ArrPtr=ArrPtr+4;
+			for (int i=0;i<NebulasCount;i++)
+			{
+				int NebId = GetIntValue(command.data, ArrPtr);
+				ArrPtr=ArrPtr+4;
+				int NebType = GetIntValue(command.data, ArrPtr);
+				ArrPtr=ArrPtr+4;
+				int NebX = GetIntValue(command.data, ArrPtr);
+				ArrPtr=ArrPtr+4;
+				int NebY = GetIntValue(command.data, ArrPtr);
+				ArrPtr=ArrPtr+4;
+				int NebScale = GetIntValue(command.data, ArrPtr);
+				ArrPtr=ArrPtr+4;
+				int NebAngle = GetIntValue(command.data, ArrPtr);
+				ArrPtr=ArrPtr+4;
+				Nebula Neb   = new Nebula();
+				Neb.id         = NebId;
+				Neb.x          = NebX;
+				Neb.y          = NebY;
+				Neb.Angle = NebAngle;
+				Neb.Scale = NebScale;
+				Neb.Type   = NebType;
+				nebulas.put(Neb.id, Neb);
+			}
+		}
+		catch (Exception ex)
+		{
+			ClientRelogin(client);
+		}
+		return nebulas;
 	}
 	
 	public Player getPlayerData(Client client)

@@ -16,6 +16,7 @@ public class Command
 	public static int addUser       = 12;
 	public static int touchUser     = 13;
 	public static int removeUser    = 14;
+	public static int nebulas    = 15;
 	
 	public int idCommand  = none;
 	public int length     = 0;

@@ -20,7 +20,7 @@ public class ClientController {
 	
 	public boolean login(String login, String password){
 		mClient = netController.ClientLogin(login, password);
-		if (mClient.socket.isConnected() && mClient.isLogin)
+		if (mClient != null && mClient.socket.isConnected() && mClient.isLogin)
 			return true;
 		return false;
 	}

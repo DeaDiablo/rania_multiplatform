@@ -6,6 +6,8 @@ public class Command
 	public static final int none          = 0;
 	public static final int login         = 1;
 	public static final int faillogin     = 2;
+	public static final int domains		  = 3;
+	public static final int message		  = 4;
 	public static final int disconnect    = 5;
 	public static final int password      = 6;
 	public static final int player        = 7;
@@ -16,7 +18,8 @@ public class Command
 	public static final int addUser       = 12;
 	public static final int touchUser     = 13;
 	public static final int removeUser    = 14;
-	public static final int nebulas    = 15;
+	public static final int nebulas		  = 15;
+	public static final int items		  = 16;
 	
 	public int idCommand  = none;
 	public int length     = 0;

@@ -32,11 +32,13 @@ public class LocationScreen extends RaniaScreen{
 			return;
 		
 		locController.loadBackground();
+		locController.loadNebulas();
 		locController.loadPlanets();
 		locController.loadUsers();
 		locController.loadRadar();
 		
 		locController.addBackground();
+		locController.addNebulas();
 		locController.addPlanets();
 		locController.addUsers();
 		locController.addRadar();

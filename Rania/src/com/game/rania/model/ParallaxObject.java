@@ -9,13 +9,15 @@ import com.game.rania.view.Camera;
 
 public class ParallaxObject extends Object{
 
-	private float  ratio = 0.0f;
-	private Camera camera = null;
+	private float   ratio = 0.0f;
+	private Camera  camera = null;
+	public  Vector2 parallaxPosition = new Vector2(); 
 	
     public ParallaxObject(RegionID id, float x, float y, float delta) {
         super(id, x, y);
         ratio = delta;
         camera = RaniaGame.mView.getCamera();
+        parallaxPosition.set(position.x - camera.position.x * ratio, position.y - camera.position.y * ratio);
     }
     
     public ParallaxObject(RegionID id, float x, float y, float angle, float scaleX, float scaleY, float delta) {
@@ -24,6 +26,7 @@ public class ParallaxObject extends Object{
         this.angle = angle;
         scale.set(scaleX, scaleY);
         camera = RaniaGame.mView.getCamera();
+        parallaxPosition.set(position.x - camera.position.x * ratio, position.y - camera.position.y * ratio);
     }
     
     @Override
@@ -31,6 +34,7 @@ public class ParallaxObject extends Object{
 		if (!visible)
 			return false;
 
-		return draw(sprite, new Vector2(position.x - camera.position.x * ratio, position.y - camera.position.y * ratio), angle, scale, color);
+		parallaxPosition.set(position.x - camera.position.x * ratio, position.y - camera.position.y * ratio);
+		return draw(sprite, parallaxPosition, angle, scale, color);
     }
 }

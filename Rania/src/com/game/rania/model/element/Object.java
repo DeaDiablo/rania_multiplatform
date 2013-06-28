@@ -55,6 +55,10 @@ public class Object {
 	public HUDObject asHUDObject(){
 		return null;
 	}
+	
+	public float getMaxSize(){
+		return Math.max(region.getRegionWidth() * scale.x, region.getRegionHeight() * scale.y);
+	}
 
 	public float getWidth(){
 		return region.getRegionWidth() * scale.x;

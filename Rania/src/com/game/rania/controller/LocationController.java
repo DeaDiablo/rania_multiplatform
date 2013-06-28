@@ -2,11 +2,13 @@ package com.game.rania.controller;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Vector;
 
 import com.badlogic.gdx.math.Vector2;
+import com.game.rania.Config;
 import com.game.rania.model.Location;
+import com.game.rania.model.Nebula;
 import com.game.rania.model.ParallaxLayer;
-import com.game.rania.model.ParallaxObject;
 import com.game.rania.model.Planet;
 import com.game.rania.model.Player;
 import com.game.rania.model.Radar;
@@ -47,14 +49,16 @@ public class LocationController {
 
 	//list objects
 	private HashMap<Integer, Location> locations = null;
+	private HashMap<Integer, Nebula>   nebulas   = null;
 	private HashMap<Integer, Planet>   planets   = new HashMap<Integer, Planet>();
 	private HashMap<Integer, User> 	   users     = null;
 	//objects
-	private Player   player 		 = null;
-	private Group	 background		 = null;
-	private Radar    radar  		 = null;
-	private Star	 star 			 = null;
-	private	Location currentLocation = null;
+	private Player   player 		   = null;
+	private Group	 background		   = null;
+	private Radar    radar  		   = null;
+	private Star	 star 			   = null;
+	private	Location currentLocation   = null;
+	private Vector<Nebula> showNebulas = new Vector<Nebula>();
 	//help objects
 	private ShipController pController = null;
 	
@@ -66,7 +70,7 @@ public class LocationController {
 		removeUsers();
 	}
 
-	public void loadLocations() {
+	public void loadLocationsAndNebulas() {
 		locations = nController.getAllLocations();
 	}
 	
@@ -110,14 +114,6 @@ public class LocationController {
 		background = new Group();
 		background.addElement(new ParallaxLayer(RegionID.BACKGROUND_SPACE, 250, 300, -0.35f));
 		background.addElement(new ParallaxLayer(RegionID.BACKGROUND_STARS, -150, 0, -0.25f));
-		background.addElement(new ParallaxObject(RegionID.NEBULA_1, 500, 500, 45, 2, 2, -0.4f));
-		background.addElement(new ParallaxObject(RegionID.NEBULA_2, -500, 500, -45, 2, 2, -0.4f));
-		background.addElement(new ParallaxObject(RegionID.NEBULA_3, 500, -500, 0, 2, 2, -0.4f));
-		background.addElement(new ParallaxObject(RegionID.NEBULA_4, -500, -500, 200, 2, 2, -0.4f));
-		background.addElement(new ParallaxObject(RegionID.NEBULA_5, 1500, 1500, 45, 2, 2, -0.4f));
-		background.addElement(new ParallaxObject(RegionID.NEBULA_6, -1500, 1500, -45, 2, 2, -0.4f));
-		background.addElement(new ParallaxObject(RegionID.NEBULA_7, 1500, -1500, 0, 2, 2, -0.4f));
-		background.addElement(new ParallaxObject(RegionID.NEBULA_0, -1500, -1500, 200, 2, 2, -0.4f));
 	}
 	
 	public void setBackground(Group newBackground){
@@ -135,6 +131,38 @@ public class LocationController {
 		if (background != null) {
 			mController.removeObject(background);
 			background = null;
+		}
+	}
+	
+	//nebulas
+	public void loadNebulas(){
+		if (nebulas == null)
+			nebulas = nController.getAllNebulas();
+	}
+	
+	public void addNebulas(){
+		updateNearNebulas();
+	}
+	
+	public void removeNebulas(){
+		for (Nebula nebula : showNebulas) {
+			mController.removeObject(nebula);
+		}
+		showNebulas.clear();
+	}
+
+	public void updateNearNebulas(){
+		for (Nebula nebula : nebulas.values()) {
+			distanceVec.set(nebula.parallaxPosition.x - player.position.x, nebula.parallaxPosition.y - player.position.y);
+			if (distanceVec.len() < nebula.getMaxSize() * 0.5f + Config.nebulaRadius) {
+				mController.addObject(nebula);
+				showNebulas.add(nebula);	
+			}
+			else if (showNebulas.contains(nebula)){
+				mController.removeObject(nebula);
+				showNebulas.remove(nebula);
+			}
+				
 		}
 	}
 	
@@ -421,10 +449,14 @@ public class LocationController {
 		return null;
 	}
 	
+	//
+	
+	//update
 	private float updateTime = 0.0f;
 	public void update(float deltaTime){
 		updateTime += deltaTime;
 		if (updateTime > 1.0f){
+			updateNearNebulas();
 			switchLocation(getNearLocation());
 			updateTime -= 1.0f;
 		}

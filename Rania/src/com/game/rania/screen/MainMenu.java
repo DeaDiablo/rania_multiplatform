@@ -73,7 +73,7 @@ public class MainMenu extends RaniaScreen{
 											if (Controllers.netController.login(loginEdit.getText(), passwordEdit.getText()))
 											{
 												dispose();
-												Controllers.locController.loadLocations();
+												Controllers.locController.loadLocationsAndNebulas();
 												RaniaGame.mGame.setScreen(new LocationScreen());
 											}
 											else

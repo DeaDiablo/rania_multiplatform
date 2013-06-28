@@ -70,7 +70,7 @@ public class MainMenu extends RaniaScreen{
 									public void execute(boolean touch) {	
 										if ((loginEdit.getText() != "") && (passwordEdit.getText() != ""))
 										{
-											if (Controllers.clientController.login(loginEdit.getText(), passwordEdit.getText()))
+											if (Controllers.netController.login(loginEdit.getText(), passwordEdit.getText()))
 											{
 												dispose();
 												Controllers.locController.loadLocations();

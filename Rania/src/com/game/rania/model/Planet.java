@@ -37,7 +37,7 @@ public class Planet extends Object{
 	}
 	
 	public void updatePosition(){
-		time = Controllers.clientController.getServerTime();
+		time = Controllers.netController.getServerTime();
 		calcPosition(time);
 		if (region != null)
 			scale.set(2.0f * radius / region.getRegionWidth(), 2.0f * radius / region.getRegionHeight());

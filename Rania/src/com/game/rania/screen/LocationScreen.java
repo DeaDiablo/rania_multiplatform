@@ -106,7 +106,7 @@ public class LocationScreen extends RaniaScreen{
 				  new TouchAction() {
 					@Override
 					public void execute(boolean touch) {
-								Controllers.clientController.disconnect();
+								Controllers.netController.disconnect();
 								dispose();
 								RaniaGame.mGame.setScreen(new MainMenu());
 							}});

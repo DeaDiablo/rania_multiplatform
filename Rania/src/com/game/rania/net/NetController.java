@@ -28,6 +28,7 @@ public class NetController {
 
 	private Receiver receiver = null;
 	private CommandController cController = null;
+	private Client mClient = null;
 	
 	public NetController(CommandController commandController){
 		cController = commandController;
@@ -38,7 +39,7 @@ public class NetController {
 			receiver.stopThread();
 	}
 
-	public void SendTouchPoint(int x, int y, int currentX, int currentY, Client client)
+	public void sendTouchPoint(int x, int y, int currentX, int currentY)
 	{
 		byte[] data = new byte[16];
 		byte[] xArr = intToByteArray(x);
@@ -51,58 +52,62 @@ public class NetController {
 		System.arraycopy(useryArr, 0, data, 12, 4);
 		try
 		{
-			client.stream.sendCommand(Command.touchPlayer, data);
+			mClient.stream.sendCommand(Command.touchPlayer, data);
 		}
 		catch (Exception ex)
 		{
 
 		}
 	}
+	
+	public int getServerTime(){
+		return mClient.serverTime;
+	}
 
-	public Client ClientLogin(String Login, String Password)
+	public boolean login(String Login, String Password)
 	{
-		Client client = new Client();
-		client.login = Login;
-		client.socket = null;
-		client.isLogin = false;
+		mClient = new Client();
+		mClient.login = Login;
+		mClient.socket = null;
+		mClient.isLogin = false;
 		try
 		{
-			client.socket = new Socket(InetAddress.getByName(Config.serverAddress), Config.serverPort);
-			if (client.socket.isConnected())
+			mClient.socket = new Socket(InetAddress.getByName(Config.serverAddress), Config.serverPort);
+			if (mClient.socket.isConnected())
 			{
-				client.stream = new IOStream(client.socket.getInputStream(), client.socket.getOutputStream());
-				client.stream.sendCommand(Command.login, Login.getBytes("UTF-16LE"));
-				client.stream.sendCommand(Command.password, Password.getBytes("UTF-16LE"));
+				mClient.stream = new IOStream(mClient.socket.getInputStream(), mClient.socket.getOutputStream());
+				mClient.stream.sendCommand(Command.login, Login.getBytes("UTF-16LE"));
+				mClient.stream.sendCommand(Command.password, Password.getBytes("UTF-16LE"));
 
-				Command answer = client.stream.readCommand();
+				Command answer = mClient.stream.readCommand();
 				if (answer.idCommand == Command.login)
 				{
-					client.isLogin = true;
-					client.serverTime = GetIntValue(answer.data, new AddressCommand());
-					receiver = new Receiver(client, this);
+					mClient.isLogin = true;
+					mClient.serverTime = GetIntValue(answer.data, new AddressCommand());
+					receiver = new Receiver(mClient, this);
 					receiver.start();
+					return true;
 				}
+				
 				if (answer.idCommand == Command.faillogin)
-				{
-					client.isLogin = false;
-				}
+					mClient.isLogin = false;
 			}
 		}
 		catch (Exception ex)
 		{
-			return null;
+			return false;
 		}
-		return client;
+		return false;
 	}
 	
-	public void ClientDisconnect(Client client)
+	public void disconnect()
 	{
 		try
 		{
-			client.stream.sendCommand(Command.disconnect);
-			client.socket.shutdownInput();
-			client.socket.shutdownOutput();
-			client.socket.close();
+			mClient.stream.sendCommand(Command.disconnect);
+			mClient.socket.shutdownInput();
+			mClient.socket.shutdownOutput();
+			mClient.socket.close();
 		}
 		catch (Exception ex)
 		{
@@ -110,17 +115,17 @@ public class NetController {
 		}
 	}
 	
-	public void ClientRelogin(Client client)
+	public void clientRelogin()
 	{
-		
+		//mClient.relogin
 	}
 	
-	public HashMap<Integer, User> GetUsersInLocation(Client client)
+	public HashMap<Integer, User> geNearUsers()
 	{
 		HashMap<Integer, User> UsersMap = new HashMap<Integer, User>();
 		try
 		{
-			client.stream.sendCommand(Command.users);
+			mClient.stream.sendCommand(Command.users);
 			Command command = waitCommand(Command.users);
 			AddressCommand ArrPtr = new AddressCommand();
 			int UsersCount = GetIntValue(command.data, ArrPtr);
@@ -145,12 +150,12 @@ public class NetController {
 		return UsersMap;
 	}
 
-	public HashMap<Integer, Planet> GetPlanets(Client client, int idLocation, boolean wait)
+	public HashMap<Integer, Planet> getPlanets(int idLocation, boolean wait)
 	{
 		HashMap<Integer, Planet> planets = new HashMap<Integer, Planet>();
 		try
 		{
-			client.stream.sendCommand(Command.planets, intToByteArray(idLocation));
+			mClient.stream.sendCommand(Command.planets, intToByteArray(idLocation));
 			if (!wait)
 				return null;
 			
@@ -180,17 +185,17 @@ public class NetController {
 		}
 		catch (Exception ex)
 		{
-			ClientRelogin(client);
+			clientRelogin();
 		}
 		return planets;
 	}
 	
-	public HashMap<Integer, Location> GetAllLocations(Client client)
+	public HashMap<Integer, Location> getAllLocations()
 	{
 		HashMap<Integer, Location> locations = new HashMap<Integer, Location>();
 		try
 		{
-			client.stream.sendCommand(Command.locations);
+			mClient.stream.sendCommand(Command.locations);
 			Command command = waitCommand(Command.locations);
 			AddressCommand ArrPtr = new AddressCommand();
 			int LocationsCount = GetIntValue(command.data, ArrPtr);
@@ -215,17 +220,17 @@ public class NetController {
 		}
 		catch (Exception ex)
 		{
-			ClientRelogin(client);
+			clientRelogin();
 		}
 		return locations;
 	}
 	
-	public HashMap<Integer, Nebula> GetAllNebulas(Client client)
+	public HashMap<Integer, Nebula> getAllNebulas()
 	{
 		HashMap<Integer, Nebula> nebulas = new HashMap<Integer, Nebula>();
 		try
 		{
-			client.stream.sendCommand(Command.nebulas);
+			mClient.stream.sendCommand(Command.nebulas);
 			Command command = waitCommand(Command.nebulas);
 			AddressCommand ArrPtr = new AddressCommand();
 			int NebulasCount = GetIntValue(command.data, ArrPtr);
@@ -243,17 +248,17 @@ public class NetController {
 		}
 		catch (Exception ex)
 		{
-			ClientRelogin(client);
+			clientRelogin();
 		}
 		return nebulas;
 	}
 	
-	public HashMap<Integer, Item> GetAllItems(Client client)
+	public HashMap<Integer, Item> getAllItems()
 	{
 		HashMap<Integer, Item> items = new HashMap<Integer, Item>();
 		try
 		{
-			client.stream.sendCommand(Command.nebulas);
+			mClient.stream.sendCommand(Command.nebulas);
 			Command command = waitCommand(Command.nebulas);
 			AddressCommand ArrPtr = new AddressCommand();
 			int ItemsCount = GetIntValue(command.data, ArrPtr);
@@ -272,17 +277,17 @@ public class NetController {
 		}
 		catch (Exception ex)
 		{
-			ClientRelogin(client);
+			clientRelogin();
 		}
 		return items;
 	}
 	
-	public HashMap<Integer, Domain> GetAllDomains(Client client)
+	public HashMap<Integer, Domain> getAllDomains()
 	{
 		HashMap<Integer, Domain> domains = new HashMap<Integer, Domain>();
 		try
 		{
-			client.stream.sendCommand(Command.nebulas);
+			mClient.stream.sendCommand(Command.nebulas);
 			Command command = waitCommand(Command.nebulas);
 			AddressCommand ArrPtr = new AddressCommand();
 			int DomainsCount = GetIntValue(command.data, ArrPtr);
@@ -297,16 +302,16 @@ public class NetController {
 		}
 		catch (Exception ex)
 		{
-			ClientRelogin(client);
+			clientRelogin();
 		}
 		return domains;
 	}
 	
-	public Player getPlayerData(Client client)
+	public Player getPlayerData()
 	{
 		try
 		{
-			client.stream.sendCommand(Command.player);
+			mClient.stream.sendCommand(Command.player);
 
 			Command command = waitCommand(Command.player);
 
@@ -323,7 +328,7 @@ public class NetController {
 		}
 		catch (Exception ex)
 		{
-			ClientRelogin(client);
+			clientRelogin();
 		}
 		return null;
 	}

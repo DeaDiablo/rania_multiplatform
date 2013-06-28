@@ -14,18 +14,19 @@ import com.game.rania.model.Star;
 import com.game.rania.model.User;
 import com.game.rania.model.element.Group;
 import com.game.rania.model.element.RegionID;
+import com.game.rania.net.NetController;
 import com.game.rania.view.MainView;
 
 public class LocationController {
 	
 	private MainView mView = null;
 	private MainController mController = null;
-	private ClientController cController = null;
+	private NetController nController = null;
 	
-	public LocationController(MainController mController, MainView mView, ClientController cController) {
+	public LocationController(MainController mController, MainView mView, NetController cController) {
 		this.mView = mView;
 		this.mController = mController;
-		this.cController = cController;
+		this.nController = cController;
 	}
 	
 	public void loadTextures(){
@@ -66,12 +67,12 @@ public class LocationController {
 	}
 
 	public void loadLocations() {
-		locations = cController.getLocationList();
+		locations = nController.getAllLocations();
 	}
 	
 	//player
 	public boolean loadPlayer(){
-		player = cController.getPlayerData();
+		player = nController.getPlayerData();
 		if (player == null)
 			return false;
 		currentLocation = getNearLocation();
@@ -173,7 +174,7 @@ public class LocationController {
 		star = currentLocation.star;
 		
 		if (currentLocation.planets == null)
-			currentLocation.planets = cController.getPlanetList(currentLocation.id);
+			currentLocation.planets = nController.getPlanets(currentLocation.id, true);
 		planets = currentLocation.planets;
 	}
 	
@@ -195,7 +196,7 @@ public class LocationController {
 		}
 		else {
 			planets = currentLocation.planets = new HashMap<Integer, Planet>();
-			cController.updatePlanetList(currentLocation.id);
+			nController.getPlanets(currentLocation.id, false);
 		}
 		addPlanets();
 	}
@@ -249,12 +250,12 @@ public class LocationController {
 	
 	//users
 	public void loadUsers(){
-		users = cController.getUsersList();
+		users = nController.geNearUsers();
 	}
 	
 	public void updateUsers(){
 		removeUsers();
-		users = cController.getUsersList();
+		users = nController.geNearUsers();
 		addUsers();
 	}
 	
@@ -357,7 +358,7 @@ public class LocationController {
 		if (location == null)
 			return null;
 		if (location.planets == null)
-			location.planets = cController.getPlanetList(idLocation);
+			location.planets = nController.getPlanets(idLocation, true);
 		return location.planets.values();
 	}
 	
@@ -378,7 +379,7 @@ public class LocationController {
 		if (location == null)
 			return null;
 		if (location.planets == null)
-			location.planets = cController.getPlanetList(idLocation);
+			location.planets = nController.getPlanets(idLocation, true);
 		return location.planets.get(idPlanet);
 	}
 
@@ -387,7 +388,7 @@ public class LocationController {
 		if (location == null)
 			return null;
 		if (location.planets == null)
-			location.planets = cController.getPlanetList(idLocation);
+			location.planets = nController.getPlanets(idLocation, true);
 		for (Planet planet : location.planets.values()) {
 			if (planet.name.compareTo(name) == 0)
 				return planet;

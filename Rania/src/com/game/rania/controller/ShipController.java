@@ -22,7 +22,7 @@ public class ShipController extends UpdateController{
 	public boolean touchUp(int x, int y, int pointer, int button) {
 		touchPoint.set(x, Gdx.graphics.getHeight() - y);
 		RaniaGame.mView.getCamera().toCameraCoord(touchPoint);
-		Controllers.clientController.SendTouchPoint((int)touchPoint.x, (int)touchPoint.y, (int)controllObject.position.x, (int)controllObject.position.y);
+		Controllers.netController.sendTouchPoint((int)touchPoint.x, (int)touchPoint.y, (int)controllObject.position.x, (int)controllObject.position.y);
 		controllObject.setPositionTarget(touchPoint);
 		return true;
 	}

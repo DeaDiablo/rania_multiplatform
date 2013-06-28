@@ -12,6 +12,8 @@ import com.game.rania.controller.command.AddPlanetCommand;
 import com.game.rania.controller.command.AddUserCommand;
 import com.game.rania.controller.command.RemoveUserCommand;
 import com.game.rania.controller.command.SetTargetCommand;
+import com.game.rania.model.Domain;
+import com.game.rania.model.Item;
 import com.game.rania.model.Nebula;
 import com.game.rania.model.Player;
 import com.game.rania.model.User;
@@ -244,6 +246,60 @@ public class NetController {
 			ClientRelogin(client);
 		}
 		return nebulas;
+	}
+	
+	public HashMap<Integer, Item> GetAllItems(Client client)
+	{
+		HashMap<Integer, Item> items = new HashMap<Integer, Item>();
+		try
+		{
+			client.stream.sendCommand(Command.nebulas);
+			Command command = waitCommand(Command.nebulas);
+			AddressCommand ArrPtr = new AddressCommand();
+			int ItemsCount = GetIntValue(command.data, ArrPtr);
+			for (int i=0;i<ItemsCount;i++)
+			{
+				Item item = new Item();
+				item.id = GetIntValue(command.data, ArrPtr);
+				item.type = GetIntValue(command.data, ArrPtr);
+				int ItemNameLen = GetIntValue(command.data, ArrPtr);
+				item.description = GetStringValue(command.data, ArrPtr, ItemNameLen);
+				item.power = GetIntValue(command.data, ArrPtr);
+				item.weight = GetIntValue(command.data, ArrPtr);
+				item.vendor = GetIntValue(command.data, ArrPtr);
+				items.put(item.id, item);
+			}
+		}
+		catch (Exception ex)
+		{
+			ClientRelogin(client);
+		}
+		return items;
+	}
+	
+	public HashMap<Integer, Domain> GetAllDomains(Client client)
+	{
+		HashMap<Integer, Domain> domains = new HashMap<Integer, Domain>();
+		try
+		{
+			client.stream.sendCommand(Command.nebulas);
+			Command command = waitCommand(Command.nebulas);
+			AddressCommand ArrPtr = new AddressCommand();
+			int DomainsCount = GetIntValue(command.data, ArrPtr);
+			for (int i=0;i<DomainsCount;i++)
+			{
+				Domain domain = new Domain();
+				domain.id = GetIntValue(command.data, ArrPtr);
+				int DomainNameLen = GetIntValue(command.data, ArrPtr);
+				domain.DomainName = GetStringValue(command.data, ArrPtr, DomainNameLen);
+				domains.put(domain.id, domain);
+			}
+		}
+		catch (Exception ex)
+		{
+			ClientRelogin(client);
+		}
+		return domains;
 	}
 	
 	public Player getPlayerData(Client client)

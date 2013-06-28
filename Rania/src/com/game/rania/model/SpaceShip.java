@@ -11,19 +11,16 @@ public class SpaceShip extends Object{
 	public SpaceShip(float posX, float posY, String ShipName){
 		super(RegionID.SHIP, posX, posY);
 		shipName = ShipName;
-		zIndex = 7;
 	}
 	
 	public SpaceShip(float posX, float posY, float rotAngle, String ShipName){
 		super(RegionID.SHIP, posX, posY, rotAngle);
 		shipName = ShipName;
-		zIndex = 7;
 	}
 	
 	public SpaceShip(float posX, float posY, float rotAngle, float scaleX, float scaleY, String ShipName){
 		super(RegionID.SHIP, posX, posY, rotAngle, scaleX, scaleY);
 		shipName = ShipName;
-		zIndex = 7;
 	}
 
 	private Vector2 targetPosition = new Vector2(0, 0);

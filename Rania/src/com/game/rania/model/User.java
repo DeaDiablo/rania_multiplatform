@@ -9,5 +9,6 @@ public class User extends SpaceShip{
 		super(posX, posY, ShipName);
 		id = Id;
 		pilotName = PilotName;
+		zIndex = Indexes.users;
 	}
 }

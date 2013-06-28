@@ -18,7 +18,7 @@ public class Planet extends Object{
 	public int  idLocation   	= -1;
 	public Star star 			= null;
 	
-	private static float radianAndTime = MathUtils.PI / 180.0f / 3600.0f; 
+	private static final float radianAndTime = MathUtils.PI / 180.0f / 3600.0f / 100.0f; 
 	private float time = 0.0f;
 
 	public Planet(int id, String name, int type, int radius, int atmosphere, int speed, int orbit, int idLocation) {
@@ -32,7 +32,7 @@ public class Planet extends Object{
 		this.orbit = orbit;
 		this.idLocation = idLocation;
 		this.star = Controllers.locController.getLocation(idLocation).star;
-		zIndex = 6;
+		zIndex = Indexes.planets;
 		updatePosition();
 	}
 	

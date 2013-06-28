@@ -10,7 +10,7 @@ public class Star extends Object{
 	public Star(int type, float x, float y, int radius) {
 		super(RegionID.STAR, x, y);
 		this.type = type;
-		zIndex = 5;
+		zIndex = Indexes.star;
 		if (region != null)
 			scale.set(2.0f * radius / region.getRegionWidth(), 2.0f * radius / region.getRegionHeight());
 	}

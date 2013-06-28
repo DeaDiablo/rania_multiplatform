@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
+import com.game.rania.model.Indexes;
 
 public class Object {
 
@@ -18,7 +19,7 @@ public class Object {
 	public float	angle       = 0.0f;
 	public Vector2	scale       = new Vector2(1.0f, 1.0f);
 	public Color	color       = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-	public int		zIndex		= 0;
+	public int		zIndex		= Indexes.object;
 
 	public TextureRegion region = null;
 	

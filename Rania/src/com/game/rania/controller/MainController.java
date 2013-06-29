@@ -91,13 +91,12 @@ public class MainController extends InputMultiplexer{
 	//group object	
 	public void addObject(Group group){
 		for(Object object : group.getElements()){
-			if (object.asHUDObject() != null)
-			{
+			if (object.asHUDObject() != null) {
 				addHUDObject(object.asHUDObject());
-				return;
 			}
-
-			addObject(object);
+			else {
+				addObject(object);
+			}
 		}
 	}
 	

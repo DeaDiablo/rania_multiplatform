@@ -65,6 +65,10 @@ public enum RegionID {
 	BTN_UI_EXIT_ON,
 	BTN_UI_BACK_OFF,
 	BTN_UI_BACK_ON,
+	FIELD_CHAT,
+	EDIT_CHAT,
+	BTN_UI_SEND_OFF,
+	BTN_UI_SEND_ON,
 	
 	//emblems
 	MORT,

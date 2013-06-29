@@ -45,4 +45,25 @@ public class Group {
 			element.visible = visible;
 		}
 	}
+	
+	public void setVisible(Object object){
+		for(Object element : elements){
+			if (element == object) {
+				element.visible = true;
+			} else {
+				element.visible = false;
+			}
+		}
+	}
+	
+	public void setVisible(Group group){
+		Vector<Object> groupElements =  group.getElements();
+		for(Object element : elements) {
+			if (groupElements.contains(element)) {
+				element.visible = true;
+			} else {
+				element.visible = false;
+			}
+		}
+	}
 }

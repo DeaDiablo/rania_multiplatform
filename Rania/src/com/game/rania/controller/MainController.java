@@ -107,7 +107,7 @@ public class MainController extends InputMultiplexer{
 				removeHUDObjects.add(object.asHUDObject());
 				return;
 			}
-			removeSceneObjects.add(object);;
+			removeSceneObjects.add(object);
 		}
 	}
 	

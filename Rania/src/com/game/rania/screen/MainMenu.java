@@ -43,16 +43,16 @@ public class MainMenu extends RaniaScreen{
 				     	 RegionID.EDIT_ON,
 						 -halfWidth * 0.625f,
 						 -halfHeight * 0.7f,
-						 new Text(Config.autoLogin, Font.getFont("data/fonts/Picaresque Two.ttf", 20), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
-						 20);
+						 new Text(Config.autoLogin, Font.getFont("data/fonts/Arial.ttf", 30), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
+						 16);
 		
 		final Edit passwordEdit = 
 				new Edit(RegionID.EDIT_OFF, 
 				     	 RegionID.EDIT_ON,
 				     	 -halfWidth * 0.0916f,
 				     	 -halfHeight * 0.7f,
-						 new Text(Config.autoPassword, Font.getFont("data/fonts/Picaresque Two.ttf", 20), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
-						 20);
+						 new Text(Config.autoPassword, Font.getFont("data/fonts/Arial.ttf", 30), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
+						 16);
 		
 		loginEdit.nextControll = passwordEdit;
 		passwordEdit.nextControll = loginEdit;

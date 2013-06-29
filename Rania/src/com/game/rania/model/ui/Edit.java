@@ -16,31 +16,33 @@ import com.game.rania.model.element.RegionID;
 public class Edit extends HUDObject{
 
 	protected Text 		    text      = null;
-	protected TouchAction   action    = null;
+	protected EditAction    action    = null;
 	protected TextureRegion regionOn  = null;
 	protected int		    maxTextVisible;
 	protected int		    beginVisible = 0;
 	protected int		    endVisible   = 0;
+	public 	  boolean	    readOnly  = false;
 
 	public Edit(RegionID idTexture, RegionID idTextureOn, float x, float y, Text text, int maxTextVisible){
 		super(idTexture, x, y);
 		this.regionOn = RaniaGame.mView.getTextureRegion(idTextureOn);
 		this.text = text;
 		this.maxTextVisible = maxTextVisible;
+		touchObject = true;
 		init();
 	}
 
-	public Edit(RegionID idTexture, RegionID idTextureOn, float x, float y, Text text, int maxTextVisible, TouchAction action){
+	public Edit(RegionID idTexture, RegionID idTextureOn, float x, float y, Text text, int maxTextVisible, EditAction action){
 		super(idTexture, x, y);
 		this.regionOn = RaniaGame.mView.getTextureRegion(idTextureOn);
 		this.text = text;
 		this.maxTextVisible = maxTextVisible;
 		this.action = action;
+		touchObject = true;
 		init();
 	}
 	
 	protected void init(){
-		touchObject = true;
 		cursorPos = text.content.length();
 		beginVisible = Math.max(0, cursorPos - maxTextVisible);
 		endVisible = cursorPos;
@@ -51,9 +53,17 @@ public class Edit extends HUDObject{
 	}
 	
 	public void setText(String newText){
+		changeText(newText);
+		init(); 
+	}
+	
+	protected void changeText(String newText){
 		text.content = newText;
+	}
+	
+	protected void applyText(){
 		if (action != null)
-			action.execute(true);
+			action.execute(text.content);
 	}
 
 	public Object     nextControll = null;
@@ -75,6 +85,9 @@ public class Edit extends HUDObject{
 			dragPosX = x;
 			startDrag = true;
 		}
+		
+		if (readOnly)
+			return true;
 
 		float minX = text.getTextBound(beginVisible, endVisible).width;
 		float findX = x + text.getTextBound(beginVisible, endVisible).width * 0.5f;
@@ -128,6 +141,8 @@ public class Edit extends HUDObject{
 	public boolean touchUp(float x, float y) {
 		startDrag = false;
 		FocusElement.setFocus(this);
+		if (readOnly)
+			return true;
 		cursorTime = updateTime;
 		showCursor = true;
 		return true;
@@ -135,6 +150,9 @@ public class Edit extends HUDObject{
 	
 	@Override
 	public void update(float deltaTime){
+		if (readOnly)
+			return;
+			
 		updateTime += deltaTime;
 		
 		if (FocusElement.getFocus() == this)
@@ -197,6 +215,7 @@ public class Edit extends HUDObject{
 					}
 				}
 				keysObject = false;
+				applyText();
 			}
 		}
 	}
@@ -252,7 +271,9 @@ public class Edit extends HUDObject{
 	
 	@Override
 	public boolean keyTyped(char character) {
-		setText(text.content.substring(0, cursorPos) + character + text.content.substring(cursorPos));
+		if (readOnly)
+			return true;
+		changeText(text.content.substring(0, cursorPos) + character + text.content.substring(cursorPos));
 		cursorPos++;
 		return true;
 	}
@@ -290,6 +311,8 @@ public class Edit extends HUDObject{
 	
 	@Override
 	public boolean keyDown(int keycode) {
+		if (readOnly)
+			return true;
 		if (key != 0)
 			return true;
 			
@@ -341,14 +364,14 @@ public class Edit extends HUDObject{
 	
 	protected void removeLeftChar(){
 		if (cursorPos > 0) {
-			setText(text.content.substring(0, cursorPos-1) + text.content.substring(cursorPos));
+			changeText(text.content.substring(0, cursorPos-1) + text.content.substring(cursorPos));
 			cursorPos--;
 		}
 	}
 
 	protected void removeRightChar(){
 		if (cursorPos != text.content.length())
-			setText(text.content.substring(0, cursorPos) + text.content.substring(cursorPos+1));
+			changeText(text.content.substring(0, cursorPos) + text.content.substring(cursorPos+1));
 	}
 	
 	protected void nextLeftPosition(){
@@ -359,6 +382,10 @@ public class Edit extends HUDObject{
 	protected void nextRightPosition(){
 		if (cursorPos < text.content.length())
 			cursorPos++;
+	}
+
+	public void setFocus() {
+		FocusElement.setFocus(this);
 	}
 	
 }

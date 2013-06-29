@@ -18,6 +18,11 @@ public class InputController extends InputAdapter{
 	
 	@Override
 	public boolean keyDown (int keycode) {
+		for(Object object : mController.getHUDObjects()){
+			if (object.keysObject)
+				if (object.keyDown(keycode))
+					return true;
+		}
 		for(Object object : mController.getObjects()){
 			if (object.keysObject)
 				if (object.keyDown(keycode))
@@ -28,6 +33,11 @@ public class InputController extends InputAdapter{
 
 	@Override
 	public boolean keyUp (int keycode) {
+		for(Object object : mController.getHUDObjects()){
+			if (object.keysObject)
+				if (object.keyUp(keycode))
+					return true;
+		}
 		for(Object object : mController.getObjects()){
 			if (object.keysObject)
 				if (object.keyUp(keycode))
@@ -50,6 +60,12 @@ public class InputController extends InputAdapter{
 			character == enterChar ||
 			character == delChar)
 			return false;
+		
+		for(Object object : mController.getHUDObjects()){
+			if (object.keysObject)
+				if (object.keyTyped(character))
+					return true;
+		}
 
 		for(Object object : mController.getObjects()){
 			if (object.keysObject)

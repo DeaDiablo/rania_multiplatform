@@ -44,7 +44,7 @@ public class MainMenu extends RaniaScreen{
 						 -halfWidth * 0.625f,
 						 -halfHeight * 0.7f,
 						 new Text(Config.autoLogin, Font.getFont("data/fonts/Picaresque Two.ttf", 20), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
-						 16);
+						 20);
 		
 		final Edit passwordEdit = 
 				new Edit(RegionID.EDIT_OFF, 
@@ -52,7 +52,7 @@ public class MainMenu extends RaniaScreen{
 				     	 -halfWidth * 0.0916f,
 				     	 -halfHeight * 0.7f,
 						 new Text(Config.autoPassword, Font.getFont("data/fonts/Picaresque Two.ttf", 20), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
-						 16);
+						 20);
 		
 		loginEdit.nextControll = passwordEdit;
 		passwordEdit.nextControll = loginEdit;

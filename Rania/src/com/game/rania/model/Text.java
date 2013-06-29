@@ -16,8 +16,8 @@ public class Text extends HUDObject{
 	public Text(String text, BitmapFont font, Color color, float x, float y){
 		super(x, y, 0, 1, 1);
 		this.content = text;
-		this.font = font;
-		this.color = color;
+		this.font    = font;
+		this.color   = color;
 	}
 
 	protected Matrix4	 transformMatrix = new Matrix4();
@@ -58,13 +58,8 @@ public class Text extends HUDObject{
 		if (!visible || content.isEmpty())
 			return false;
 
-		font.getBounds(content, textBound);
-
-		sprite.setTransformMatrix(transformMatrix.setToRotation(0, 0, 1, angle));
-		font.setColor(color);
-		font.setScale(scale.x, scale.y);
-		font.draw(sprite, content, position.x - textBound.width * 0.5f, position.y + textBound.height * 0.5f);
-		sprite.getTransformMatrix().idt();
+		preDraw(position.x, position.y, angle, scale.x, scale.y);
+		draw(sprite, content);
 
 		return true;
 	}
@@ -73,22 +68,42 @@ public class Text extends HUDObject{
 		return draw(sprite, x, y, 0, 1, 1);
 	}
 	
+	public boolean draw(SpriteBatch sprite, int begin, int end, float x, float y){
+		return draw(sprite, begin, end, x, y, 0, 1, 1);
+	}
+	
 	public boolean draw(SpriteBatch sprite, float x, float y, float angle, float scaleX, float scaleY){
 		if (!visible || content.isEmpty())
 			return false;
 
-		font.getBounds(content, textBound);
+		preDraw(x, y, angle, scaleX, scaleY);
+		draw(sprite, content);
 		
+		return true;
+	}
+	
+	public boolean draw(SpriteBatch sprite, int begin, int end, float x, float y, float angle, float scaleX, float scaleY){
+		if (!visible || content.isEmpty())
+			return false;
+
+		preDraw(x, y, angle, scaleX, scaleY);
+		draw(sprite, content.substring(begin, end));
+		
+		return true;
+	}
+
+	protected void preDraw(float x, float y, float angle, float scaleX, float scaleY){
 		transformMatrix.setToRotation(0, 0, 1, angle);
 		transformMatrix.mul(bufferMatrix.setToTranslation(x, y, 0));
 		transformMatrix.mul(bufferMatrix.setToRotation(0, 0, 1, this.angle));
-
-		sprite.setTransformMatrix(transformMatrix);
 		font.setColor(color);
 		font.setScale(scale.x * scaleX, scale.y * scaleY);
-		font.draw(sprite, content, -textBound.width * 0.5f, textBound.height * 0.5f);
+	}
+	
+	protected void draw(SpriteBatch sprite, String string){
+		sprite.setTransformMatrix(transformMatrix);
+		font.getBounds(string, textBound);
+		font.draw(sprite, string, -textBound.width * 0.5f, textBound.height * 0.5f);
 		sprite.setTransformMatrix(transformMatrix.idt());
-		
-		return true;
 	}
 }

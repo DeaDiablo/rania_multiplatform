@@ -18,31 +18,39 @@ public class Edit extends HUDObject{
 	protected Text 		    text      = null;
 	protected TouchAction   action    = null;
 	protected TextureRegion regionOn  = null;
-	protected int		    maxTextLength;
+	protected int		    maxTextVisible;
+	protected int		    beginVisible = 0;
+	protected int		    endVisible   = 0;
 
-	public Edit(RegionID idTexture, RegionID idTextureOn, float x, float y, Text text, int maxLength){
+	public Edit(RegionID idTexture, RegionID idTextureOn, float x, float y, Text text, int maxTextVisible){
 		super(idTexture, x, y);
 		this.regionOn = RaniaGame.mView.getTextureRegion(idTextureOn);
 		this.text = text;
-		this.maxTextLength = maxLength;
-		touchObject = true;
+		this.maxTextVisible = maxTextVisible;
+		init();
 	}
 
-	
-	public Edit(RegionID idTexture, RegionID idTextureOn, float x, float y, Text text, int maxLength, TouchAction action){
+	public Edit(RegionID idTexture, RegionID idTextureOn, float x, float y, Text text, int maxTextVisible, TouchAction action){
 		super(idTexture, x, y);
 		this.regionOn = RaniaGame.mView.getTextureRegion(idTextureOn);
 		this.text = text;
-		this.maxTextLength = maxLength;
+		this.maxTextVisible = maxTextVisible;
 		this.action = action;
+		init();
+	}
+	
+	protected void init(){
 		touchObject = true;
+		cursorPos = text.content.length();
+		beginVisible = Math.max(0, cursorPos - maxTextVisible);
+		endVisible = cursorPos;
 	}
 	
 	public String getText(){
 		return text.content;
 	}
 	
-	protected void setText(String newText){
+	public void setText(String newText){
 		text.content = newText;
 		if (action != null)
 			action.execute(true);
@@ -58,18 +66,25 @@ public class Edit extends HUDObject{
 	protected float   updateTime = 0.0f;
 	protected float   cursorTime = 0.0f;
 	protected float   keyTime    = 0.0f;
+	protected boolean startDrag  = false;
+	protected float   dragPosX   = 0.0f;
 
 	@Override
 	public boolean touchDown(float x, float y) {
-		float minX = text.getTextBound().width;
-		float findX = x + text.getTextBound().width * 0.5f;
+		if (text.content.length() > maxTextVisible) {
+			dragPosX = x;
+			startDrag = true;
+		}
+
+		float minX = text.getTextBound(beginVisible, endVisible).width;
+		float findX = x + text.getTextBound(beginVisible, endVisible).width * 0.5f;
 		if (findX > minX){
-			cursorPos = text.content.length();
+			cursorPos = endVisible;
 			return true;
 		}
 		cursorPos = 0;
-		for(int i = 0; i < text.content.length(); i++){
-			float posChar = Math.abs(text.getTextBound(0, i).width - findX);
+		for(int i = beginVisible; i < endVisible; i++){
+			float posChar = Math.abs(text.getTextBound(beginVisible, i).width - findX);
 			if (minX > posChar){
 				cursorPos = i;
 				minX = posChar;
@@ -77,14 +92,41 @@ public class Edit extends HUDObject{
 		}
 		return true;
 	}
+
+	protected static final float speedDrag = 2.0f;
 	
 	@Override
 	public boolean touchDragged(float x, float y) {
+		if(!startDrag)
+			return true;
+		
+		int len   = text.content.length();
+		int delta = (int) ((dragPosX - x) * speedDrag * 0.1f);
+		dragPosX = x;
+		if (delta != 0) {
+			beginVisible += delta;
+			if (beginVisible < 0)
+				beginVisible = 0;
+			if (beginVisible > len - maxTextVisible)
+				beginVisible = len - maxTextVisible;
+			
+			if (len < beginVisible + maxTextVisible)
+				endVisible = len;
+			else
+				endVisible = beginVisible + maxTextVisible;
+			
+			if (cursorPos < beginVisible)
+				cursorPos = beginVisible;
+			else if (cursorPos > endVisible)
+				cursorPos = endVisible;
+		}		
+		
 		return true;
 	}
 	
 	@Override
 	public boolean touchUp(float x, float y) {
+		startDrag = false;
 		FocusElement.setFocus(this);
 		cursorTime = updateTime;
 		showCursor = true;
@@ -170,8 +212,10 @@ public class Edit extends HUDObject{
 		else
 			drawRegion(sprite, region);
 		
-		if (text != null)
-			text.draw(sprite, text.position.x + position.x, text.position.y + position.y, angle, scale.x, scale.y);			
+		if (text != null){
+			updateTextLength();
+			text.draw(sprite, beginVisible, endVisible, text.position.x + position.x, text.position.y + position.y, angle, scale.x, scale.y);
+		}			
 		
 		return true;
 	}
@@ -196,7 +240,7 @@ public class Edit extends HUDObject{
 			float widthCursor = text.font.getSpaceWidth() * 0.2f;
 			float heightCursor = text.font.getCapHeight();
 			shape.setColor(text.color);
-			shape.filledRect(position.x + text.position.x + text.getTextBound(0, cursorPos).width - text.getTextBound().width * 0.5f - widthCursor * 0.5f,
+			shape.filledRect(position.x + text.position.x + text.getTextBound(beginVisible, cursorPos).width - text.getTextBound(beginVisible, endVisible).width * 0.5f - widthCursor * 0.5f,
 						     position.y + text.position.y - heightCursor * 0.5f,
 						     widthCursor,
 						     heightCursor);
@@ -208,11 +252,34 @@ public class Edit extends HUDObject{
 	
 	@Override
 	public boolean keyTyped(char character) {
-		if (maxTextLength <= text.content.length())
-			return true;
 		setText(text.content.substring(0, cursorPos) + character + text.content.substring(cursorPos));
 		cursorPos++;
 		return true;
+	}
+	
+	protected void updateTextLength(){
+		int len = text.content.length();
+		if (len > maxTextVisible){
+			if (endVisible > len) {
+				beginVisible = beginVisible - (endVisible - len);
+				endVisible = len;
+				return;
+			}
+			if (cursorPos > endVisible){
+				beginVisible = beginVisible + (cursorPos - endVisible);
+				endVisible = beginVisible + maxTextVisible;
+				return;
+			}
+			if (cursorPos <= beginVisible){
+				endVisible = endVisible - (beginVisible - cursorPos);
+				beginVisible = endVisible - maxTextVisible;
+				return;
+			}
+		} else {
+			beginVisible = 0;
+			endVisible = len;
+			return;
+		}
 	}
 
 	private static final int backspaceKey = 1;

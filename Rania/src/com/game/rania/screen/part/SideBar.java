@@ -179,9 +179,9 @@ public class SideBar extends Group implements Part{
 										}
 									});
 
+		menu.addElement(panelBlank);
 		menu.addElement(btnDisconnect);
 		menu.addElement(btnCancel);
-		menu.addElement(panelBlank);
 		addElement(menu);
 		
 		panel.addElement(btnMenu);

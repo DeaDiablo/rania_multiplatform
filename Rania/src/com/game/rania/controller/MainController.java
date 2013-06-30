@@ -1,5 +1,6 @@
 package com.game.rania.controller;
 
+import java.util.Collections;
 import java.util.Vector;
 
 import com.badlogic.gdx.InputMultiplexer;
@@ -49,6 +50,12 @@ public class MainController extends InputMultiplexer{
 		return sceneObjects;
 	}
 	
+	public Vector<Object> getReverseObjects(){
+		Vector<Object> reverseVec = new Vector<Object>(sceneObjects);
+		Collections.reverse(reverseVec);
+		return reverseVec;
+	}
+	
 	public void addObject(Object object){
 		if (sceneObjects.contains(object))
 			return;
@@ -69,6 +76,12 @@ public class MainController extends InputMultiplexer{
 	//HUD objects
 	public Vector<HUDObject> getHUDObjects(){
 		return HUDObjects;
+	}
+
+	public Vector<HUDObject> getReverseHUDObjects(){
+		Vector<HUDObject> reverseVec = new Vector<HUDObject>(HUDObjects);
+		Collections.reverse(reverseVec);
+		return reverseVec;
 	}
 	
 	public void addHUDObject(HUDObject object){

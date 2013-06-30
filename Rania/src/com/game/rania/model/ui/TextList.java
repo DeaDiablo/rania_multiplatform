@@ -20,7 +20,7 @@ public class TextList extends HUDObject{
 	}
 	
 	protected MultilineText text = null;
-	protected Vector<TextLine> lines = new Vector<TextList.TextLine>();
+	protected Vector<TextLine> lines = new Vector<TextLine>();
 	protected float widthList = 0.0f;
 	protected float heightList = 0.0f;
 

@@ -54,16 +54,13 @@ public class Edit extends HUDObject{
 	
 	public void setText(String newText){
 		changeText(newText);
-		init(); 
+		init();
+		if (action != null && action.set)
+			action.execute(this);
 	}
 	
 	protected void changeText(String newText){
 		text.content = newText;
-	}
-	
-	protected void applyText(){
-		if (action != null)
-			action.execute(text.content);
 	}
 
 	public Object     nextControll = null;
@@ -89,15 +86,10 @@ public class Edit extends HUDObject{
 		if (readOnly)
 			return true;
 
-		float minX = text.getTextBound(beginVisible, endVisible).width;
-		float findX = x + text.getTextBound(beginVisible, endVisible).width * 0.5f;
-		if (findX > minX){
-			cursorPos = endVisible;
-			return true;
-		}
+		float minX = Float.MAX_VALUE;
 		cursorPos = 0;
-		for(int i = beginVisible; i < endVisible; i++){
-			float posChar = Math.abs(text.getTextBound(beginVisible, i).width - findX);
+		for(int i = beginVisible; i <= endVisible; i++){
+			float posChar = Math.abs(text.getTextBound(beginVisible, i).width + text.position.x + text.getOffset().x - x);
 			if (minX > posChar){
 				cursorPos = i;
 				minX = posChar;
@@ -215,7 +207,9 @@ public class Edit extends HUDObject{
 					}
 				}
 				keysObject = false;
-				applyText();
+
+				if (action != null && action.focus)
+					action.execute(this);
 			}
 		}
 	}
@@ -243,29 +237,27 @@ public class Edit extends HUDObject{
 	public boolean draw(ShapeRenderer shape){
 		if (!focus || !visible || (!showCursor && !fillEdit))
 			return false;
-
+		
 		shape.begin(ShapeType.FilledRectangle);
+		//if (fillEdit) {
+		//	shape.setColor(0, 0, 0, 1);
+		//	shape.filledRect(position.x + text.position.x - getWidth() * 0.5f,
+		//					 position.y + text.position.y - getHeight() * 0.5f,
+		//					 getWidth(),
+		//					 getHeight());
+		//}
 		
-		if (fillEdit) {
-			shape.setColor(0, 0, 0, 1);
-			shape.filledRect(position.x + text.position.x - getWidth() * 0.5f,
-							 position.y + text.position.y - getHeight() * 0.5f,
-							 getWidth(),
-							 getHeight());
-		}
-		
-		if (showCursor)
-		{		
+		if (showCursor) {
 			float widthCursor = text.font.getSpaceWidth() * 0.2f;
 			float heightCursor = text.font.getCapHeight();
 			shape.setColor(text.color);
-			shape.filledRect(position.x + text.position.x + text.getTextBound(beginVisible, cursorPos).width - text.getTextBound(beginVisible, endVisible).width * 0.5f - widthCursor * 0.5f,
-						     position.y + text.position.y - heightCursor * 0.5f,
+			shape.filledRect(position.x + text.position.x + text.getTextBound(beginVisible, cursorPos).width + text.getOffset().x - widthCursor * 0.5f,
+							 position.y + text.position.y - heightCursor * 0.5f,
 						     widthCursor,
 						     heightCursor);
 		}
-		
 		shape.end();
+
 		return true;
 	}
 	
@@ -337,6 +329,14 @@ public class Edit extends HUDObject{
 			key = rightKey;
 			break;
 
+		case Input.Keys.END:
+			cursorPos = text.content.length();
+			break;
+
+		case Input.Keys.HOME:
+			cursorPos = 0;
+			break;
+
 		default:
 			break;
 		}
@@ -351,6 +351,9 @@ public class Edit extends HUDObject{
 		switch (keycode) {			
 		case Input.Keys.ENTER:
 			FocusElement.clearFocus();
+			if (action != null && action.enter)
+				action.execute(this);
+			break;
 		case Input.Keys.TAB:
 			FocusElement.setFocus(nextControll);
 			break;

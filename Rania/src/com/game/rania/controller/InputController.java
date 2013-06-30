@@ -82,7 +82,7 @@ public class InputController extends InputAdapter{
 		
 		RaniaGame.mView.getHUDCamera().toCameraCoord(touchPoint);
 		for(HUDObject object : mController.getHUDObjects()){
-			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
+			if ((object.touchObject && object.visible && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
 				if (object.touchDown(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;
 		}
@@ -90,7 +90,7 @@ public class InputController extends InputAdapter{
 		touchPoint.set(screenX, screenY);
 		RaniaGame.mView.getCamera().toCameraCoord(touchPoint);
 		for(Object object : mController.getObjects()){
-			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
+			if ((object.touchObject && object.visible && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
 				if (object.touchDown(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;
 		}
@@ -104,7 +104,7 @@ public class InputController extends InputAdapter{
 		
 		RaniaGame.mView.getHUDCamera().toCameraCoord(touchPoint);
 		for(HUDObject object : mController.getHUDObjects()){
-			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
+			if ((object.touchObject && object.visible && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
 				if (object.touchDragged(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;
 		}
@@ -112,7 +112,7 @@ public class InputController extends InputAdapter{
 		touchPoint.set(screenX, screenY);
 		RaniaGame.mView.getCamera().toCameraCoord(touchPoint);
 		for(Object object : mController.getObjects()){
-			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
+			if ((object.touchObject && object.visible && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
 				if (object.touchDragged(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;
 		}
@@ -126,7 +126,7 @@ public class InputController extends InputAdapter{
 		
 		RaniaGame.mView.getHUDCamera().toCameraCoord(touchPoint);
 		for(HUDObject object : mController.getHUDObjects()){
-			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
+			if ((object.touchObject && object.visible && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
 				if (object.touchUp(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;
 		}
@@ -134,7 +134,7 @@ public class InputController extends InputAdapter{
 		touchPoint.set(screenX, screenY);
 		RaniaGame.mView.getCamera().toCameraCoord(touchPoint);
 		for(Object object : mController.getObjects()){
-			if ((object.touchObject && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
+			if ((object.touchObject && object.visible && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
 				if (object.touchUp(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;
 		}

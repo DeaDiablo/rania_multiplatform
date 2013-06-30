@@ -115,13 +115,6 @@ public class MainMenu extends RaniaScreen{
 	}
 
 	@Override
-	public void dispose() {
-		Gdx.input.setOnscreenKeyboardVisible(false);
-		mController.clear();
-		mView.clear();
-	}
-
-	@Override
 	public void hide() {
 	}
 

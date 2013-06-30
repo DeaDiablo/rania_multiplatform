@@ -17,9 +17,9 @@ public class Controllers {
 	}
 	
 	public static void clearGlobalControllers(){
-		commandController = null;
-		netController	  = null;
-		inputController   = null;
 		locController     = null;
+		inputController   = null;
+		netController     = null;
+		commandController = null;
 	}
 }

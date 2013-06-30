@@ -6,12 +6,13 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.MainController;
 import com.game.rania.screen.MainMenu;
+import com.game.rania.screen.part.Parts;
 import com.game.rania.view.MainView;
 
 public class RaniaGame extends Game {
 
 	//game
-	public static RaniaGame   	   mGame = null;
+	public static RaniaGame mGame = null;
 	private float widthCamera = 0.0f;
 	private float heightCamera = 0.0f;
 	
@@ -58,6 +59,7 @@ public class RaniaGame extends Game {
 
 	@Override
 	public void dispose() {
+		mView.clearAll();
 		Gdx.app.exit();
 	}
 }

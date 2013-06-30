@@ -2,6 +2,8 @@ package com.game.rania.view;
 
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -31,8 +33,9 @@ public class MainView {
 	
 	//textures
 	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
+	private Vector<String> notAutoTextures = new Vector<String>();
 	private EnumMap<RegionID, TextureRegion> textureRegions = new EnumMap<RegionID, TextureRegion>(RegionID.class);
-	
+
 	public MainView(float widthCamera, float heightCamera){
 		//create camera
 		camera = new Camera(widthCamera, heightCamera);
@@ -44,32 +47,55 @@ public class MainView {
 	}
 	
 	public TextureRegion loadTexture(String fileTexture, RegionID id) {
+		return loadTexture(fileTexture, id, true);
+	}
+	
+	public TextureRegion loadTexture(String fileTexture, RegionID id, boolean autoUnload) {
 		Texture texture = textures.get(fileTexture);
-		if (texture == null)
-		{
+		if (texture == null) {
 			texture = new Texture(Gdx.files.internal(fileTexture));
+			texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			textures.put(fileTexture, texture);
 		}
+		if (!autoUnload && !notAutoTextures.contains(fileTexture))
+			notAutoTextures.add(fileTexture);
 		TextureRegion region = new TextureRegion(texture);
-		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		textureRegions.put(id, region);
 		return region;
 	}
 	
 	public TextureRegion loadTexture(String fileTexture, RegionID id, int x, int y, int width, int height) {
+		return loadTexture(fileTexture, id, x, y, width, height, true);
+	}
+	
+	public TextureRegion loadTexture(String fileTexture, RegionID id, int x, int y, int width, int height, boolean autoUnload) {
 		Texture texture = textures.get(fileTexture);
-		if (texture == null)
-		{
+		if (texture == null) {
 			texture = new Texture(Gdx.files.internal(fileTexture));
 			texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			textures.put(fileTexture, texture);
 		}
+
+		if (!autoUnload && !notAutoTextures.contains(fileTexture))
+			notAutoTextures.add(fileTexture);
+		
 		TextureRegion region = new TextureRegion(texture, x, y, width, height);
 		textureRegions.put(id, region);
 		return region;
 	}
 	
 	public void unloadTexture(String fileTexture){
+		Texture texture = textures.get(fileTexture);
+		if (texture == null)
+			return;
+
+		Iterator<TextureRegion> region = textureRegions.values().iterator();
+		while(region.hasNext()){
+			if (region.next().getTexture() == texture)
+				region.remove();
+		}
+
+		texture.dispose();
 		textures.remove(fileTexture);
 	}
 	
@@ -86,6 +112,28 @@ public class MainView {
 		if (regTexture == null)
 			return null;
 		return regTexture.getTexture();
+	}
+	
+	public void clear(){
+		HashMap<String, Texture> texturesBuffer = new HashMap<String, Texture>(textures);
+	
+		for (String textureFile : notAutoTextures) {
+			texturesBuffer.remove(textureFile);
+		}
+		notAutoTextures.clear();
+
+		for (String textureFile : texturesBuffer.keySet()) {
+			unloadTexture(textureFile);
+		}
+	}
+	
+	public void clearAll(){
+		textureRegions.clear();
+		for (Texture texture : textures.values()) {
+			texture.dispose();
+		}
+		textures.clear();
+		notAutoTextures.clear();
 	}
 	
 	public Camera getCamera(){
@@ -110,14 +158,6 @@ public class MainView {
 	
 	public ShapeRenderer getShapeRenderer(){
 		return shapeRenderer;
-	}
-	
-	public void clear(){
-		textureRegions.clear();
-		for(Texture texture : textures.values()){
-			texture.dispose();
-		}
-		textures.clear();
 	}
 	
 	public void draw(){

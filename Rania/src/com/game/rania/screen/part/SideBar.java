@@ -1,7 +1,6 @@
-package com.game.rania.screen;
+package com.game.rania.screen.part;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
@@ -16,14 +15,13 @@ import com.game.rania.model.ui.EditAction;
 import com.game.rania.model.ui.PressedButton;
 import com.game.rania.model.ui.TextList;
 import com.game.rania.model.ui.TouchAction;
+import com.game.rania.screen.MainMenu;
 import com.game.rania.view.MainView;
 
-public class Sidebar extends Group{
+public class SideBar extends Group implements Part{
 
 	private MainView 		   mView 	   = RaniaGame.mView;
 	private LocationController lController = Controllers.locController;
-
-	private Screen		  screen 	 	= null;
 
 	private Group		  menu       	= new Group();
 	private PressedButton panelBlank 	= null;
@@ -34,30 +32,53 @@ public class Sidebar extends Group{
 	private PressedButton btnMenu 		= null;
 	private PressedButton btnChat 		= null;
 
-	private Group		  chat       	= new Group();
-	private boolean		  chatVisible	= false;
-	private TextList	  fieldChat		= null;
-	private Edit		  editUser		= null;
-	private PressedButton btnSend 		= null;
+	public Group		  chat       	= new Group();
+	public boolean		  chatVisible	= false;
+	public TextList	      fieldChat		= null;
+	public Edit		      editUser		= null;
+	public PressedButton  btnSend 		= null;
 	
-	public Sidebar(Screen screen){
-		this.screen = screen;
+	public SideBar(){
+		loadTextures();
+		loadElements();
+	}
+	
+	@Override
+	public void loadTextures(){
+		mView.loadTexture("data/gui/blank.png", RegionID.BLANK, false);
+		mView.loadTexture("data/gui/ui_menu.png", RegionID.BTN_UI_MENU_OFF, 0,   0, 96,  96, false);
+		mView.loadTexture("data/gui/ui_menu.png", RegionID.BTN_UI_MENU_ON,  0,  96, 96,  96, false);
+		mView.loadTexture("data/gui/ui_chat.png", RegionID.BTN_UI_CHAT_OFF, 0,   0, 96,  96, false);
+		mView.loadTexture("data/gui/ui_chat.png", RegionID.BTN_UI_CHAT_ON,  0,  96, 96,  96, false);
+		mView.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_OFF, 0,   0, 450, 100, false);
+		mView.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_ON,  0, 100, 450, 100, false);
+		mView.loadTexture("data/gui/ui_exit.png", RegionID.BTN_UI_EXIT_OFF, 0,   0, 450, 100, false);
+		mView.loadTexture("data/gui/ui_exit.png", RegionID.BTN_UI_EXIT_ON,  0, 100, 450, 100, false);
+		mView.loadTexture("data/gui/chat_field.png", RegionID.FIELD_CHAT, false);
+		mView.loadTexture("data/gui/chat_edit.png", RegionID.EDIT_CHAT, false);
+		mView.loadTexture("data/gui/btn_send.png", RegionID.BTN_UI_SEND_OFF,  0, 0, 128, 64, false);
+		mView.loadTexture("data/gui/btn_send.png", RegionID.BTN_UI_SEND_ON,  0, 64, 128, 64, false);
+	}
+	
+	@Override
+	public void unloadTextures(){
+		mView.unloadTexture("data/gui/blank.png");
+		mView.unloadTexture("data/gui/ui_menu.png");
+		mView.unloadTexture("data/gui/ui_menu.png");
+		mView.unloadTexture("data/gui/ui_chat.png");
+		mView.unloadTexture("data/gui/ui_chat.png");
+		mView.unloadTexture("data/gui/ui_back.png");
+		mView.unloadTexture("data/gui/ui_back.png");
+		mView.unloadTexture("data/gui/ui_exit.png");
+		mView.unloadTexture("data/gui/ui_exit.png");
+		mView.unloadTexture("data/gui/chat_field.png");
+		mView.unloadTexture("data/gui/chat_edit.png");
+		mView.unloadTexture("data/gui/btn_send.png");
+		mView.unloadTexture("data/gui/btn_send.png");
 	}
 
-	public void loadSidebar(){
-		mView.loadTexture("data/gui/blank.png", RegionID.BLANK);
-		mView.loadTexture("data/gui/ui_menu.png", RegionID.BTN_UI_MENU_OFF, 0,   0, 96,  96);
-		mView.loadTexture("data/gui/ui_menu.png", RegionID.BTN_UI_MENU_ON,  0,  96, 96,  96);
-		mView.loadTexture("data/gui/ui_chat.png", RegionID.BTN_UI_CHAT_OFF, 0,   0, 96,  96);
-		mView.loadTexture("data/gui/ui_chat.png", RegionID.BTN_UI_CHAT_ON,  0,  96, 96,  96);
-		mView.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_OFF, 0,   0, 450, 100);
-		mView.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_ON,  0, 100, 450, 100);
-		mView.loadTexture("data/gui/ui_exit.png", RegionID.BTN_UI_EXIT_OFF, 0,   0, 450, 100);
-		mView.loadTexture("data/gui/ui_exit.png", RegionID.BTN_UI_EXIT_ON,  0, 100, 450, 100);
-		mView.loadTexture("data/gui/chat_field.png", RegionID.FIELD_CHAT);
-		mView.loadTexture("data/gui/chat_edit.png", RegionID.EDIT_CHAT);
-		mView.loadTexture("data/gui/btn_send.png", RegionID.BTN_UI_SEND_OFF,  0, 0, 128, 64);
-		mView.loadTexture("data/gui/btn_send.png", RegionID.BTN_UI_SEND_ON,  0, 64, 128, 64);
+	@Override
+	public void loadElements(){
 
 		float halfWidth = mView.getHUDCamera().getWidth() * 0.5f;
 		float halfHeight  = mView.getHUDCamera().getHeight() * 0.5f;
@@ -72,7 +93,8 @@ public class Sidebar extends Group{
 											  @Override
 											  public void execute(boolean touch) {
 												  Controllers.netController.disconnect();
-												  screen.dispose();
+												  if (RaniaGame.mGame.getScreen() != null)
+													  RaniaGame.mGame.getScreen().dispose();
 												  RaniaGame.mGame.setScreen(new MainMenu());
 											  }
 										 });
@@ -107,7 +129,7 @@ public class Sidebar extends Group{
 										public void execute(boolean touch) {
 											chatVisible = !chatVisible;
 											chat.setVisible(chatVisible);
-					  						lController.getRadar().visible = false;
+					  						lController.getRadar().visible = !chatVisible;
 										}
 									});
 		
@@ -169,7 +191,19 @@ public class Sidebar extends Group{
 		chat.addElement(editUser);
 		chat.addElement(btnSend);
 		addElement(chat);
-		
+	}
+	
+	public void addSideBar(){
+	}
+
+	@Override
+	public void addElements() {
 		setVisible(panel);
-	}	
+		RaniaGame.mController.addObject(this);
+	}
+
+	@Override
+	public void removeElements() {
+		RaniaGame.mController.removeObject(this);
+	}
 }

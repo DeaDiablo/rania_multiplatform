@@ -19,11 +19,26 @@ public class Text extends HUDObject{
 		this.font    = font;
 		this.color   = color;
 	}
+	
+	public Text(String text, BitmapFont font, Color color, float x, float y, Align horzAlign, Align vertAligin){
+		super(x, y, 0, 1, 1);
+		this.content = text;
+		this.font    = font;
+		this.color   = color;
+		hAlign = horzAlign;
+		vAlign = vertAligin;
+	}
 
 	protected Matrix4	 transformMatrix = new Matrix4();
 	protected Matrix4	 bufferMatrix = new Matrix4();
 	protected TextBounds textBound 	  = new TextBounds();
 	
+	public TextBounds getTextBound(String text){
+		font.setScale(scale.x, scale.y);
+		font.getBounds(text, textBound);
+		return textBound;
+	}
+
 	public TextBounds getTextBound(){
 		font.setScale(scale.x, scale.y);
 		font.getBounds(content, textBound);
@@ -48,6 +63,34 @@ public class Text extends HUDObject{
 		return position.y + textBound.height * 0.5f;
 	}
 	
+	public enum Align{
+		LEFT,
+		RIGHT,
+		CENTER,
+		TOP,
+		BOTTOM
+	}
+	
+	protected Vector2 offset = new Vector2(0, 0);
+	protected Align hAlign = Align.CENTER, vAlign = Align.CENTER;
+
+	public void setAlign(Align horzAlign, Align vertAlign){
+		hAlign = horzAlign;
+		vAlign = vertAlign;
+	}
+	
+	public Align getHorzAlign(){
+		return hAlign;
+	}
+	
+	public Align getVertAlign(){
+		return vAlign;
+	}
+	
+	public Vector2 getOffset(){
+		return offset;
+	}
+
 	@Override
 	public boolean draw(SpriteBatch sprite){
 		return draw(sprite, position, angle, scale, color);
@@ -100,10 +143,37 @@ public class Text extends HUDObject{
 		font.setScale(scale.x * scaleX, scale.y * scaleY);
 	}
 	
+	protected void calcOffset(TextBounds bound){
+		switch (hAlign) {
+		case LEFT:
+			offset.x = 0.0f;
+			break;
+		case RIGHT:
+			offset.x = -bound.width;
+			break;
+		default:
+			offset.x = -bound.width * 0.5f;
+			break;
+		}
+		
+		switch (vAlign) {
+		case TOP:
+			offset.y = 0.0f;
+			break;
+		case BOTTOM:
+			offset.y = bound.height;
+			break;
+		default:
+			offset.y = bound.height * 0.5f;
+			break;
+		}
+	}
+	
 	protected void draw(SpriteBatch sprite, String string){
-		sprite.setTransformMatrix(transformMatrix);
 		font.getBounds(string, textBound);
-		font.draw(sprite, string, -textBound.width * 0.5f, textBound.height * 0.5f);
+		calcOffset(textBound);
+		sprite.setTransformMatrix(transformMatrix);
+		font.draw(sprite, string, offset.x, offset.y);
 		sprite.setTransformMatrix(transformMatrix.idt());
 	}
 }

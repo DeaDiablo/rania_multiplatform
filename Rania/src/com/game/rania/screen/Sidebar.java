@@ -1,16 +1,20 @@
 package com.game.rania.screen;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.LocationController;
+import com.game.rania.model.MultilineText;
 import com.game.rania.model.Text;
 import com.game.rania.model.element.Font;
 import com.game.rania.model.element.Group;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.ui.Edit;
+import com.game.rania.model.ui.EditAction;
 import com.game.rania.model.ui.PressedButton;
+import com.game.rania.model.ui.TextList;
 import com.game.rania.model.ui.TouchAction;
 import com.game.rania.view.MainView;
 
@@ -32,7 +36,7 @@ public class Sidebar extends Group{
 
 	private Group		  chat       	= new Group();
 	private boolean		  chatVisible	= false;
-	private Edit		  fieldChat		= null;
+	private TextList	  fieldChat		= null;
 	private Edit		  editUser		= null;
 	private PressedButton btnSend 		= null;
 	
@@ -107,28 +111,48 @@ public class Sidebar extends Group{
 										}
 									});
 		
-		fieldChat = new Edit(RegionID.FIELD_CHAT,
-							RegionID.FIELD_CHAT,
-		  					halfWidth * 0.0f, halfHeight * 0.95f,
-							new Text("", Font.getFont("data/fonts/Arial.ttf", 20), new Color(1, 1, 1, 1), 0, 0),
-							255);
-		fieldChat.readOnly = true;
+
+		fieldChat = new TextList(RegionID.FIELD_CHAT,
+								 halfWidth * 0.0f, halfHeight - mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.5f,
+								 new MultilineText("", Font.getFont("data/fonts/Arial.ttf", 20), 
+										 		   new Color(1, 1, 1, 1),
+										 		   -mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.5f + 20.0f,
+										 		   mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.5f - 10.0f, 
+										 		   Text.Align.LEFT, Text.Align.TOP),
+							     mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.95f,
+								 mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.95f);
 		
 		editUser = new Edit(RegionID.EDIT_CHAT,
 							RegionID.EDIT_CHAT,
-							halfWidth * 0.0f, halfHeight * 0.1f,
-		  					new Text("", Font.getFont("data/fonts/Arial.ttf", 20), new Color(1, 1, 1, 1), 0, 0),
-		  					255);
+							0.0f,
+							fieldChat.position.y
+							- mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.5f
+							- mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionHeight() * 0.5f,
+							new Text("", Font.getFont("data/fonts/Arial.ttf", 20),
+							         new Color(1, 1, 1, 1),
+							         -mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionWidth() * 0.5f + 20.0f,
+									 0,
+									 Text.Align.LEFT, Text.Align.CENTER),
+							255,
+							new EditAction() {
+								@Override
+								public void execute(Edit edit) {
+									fieldChat.addText("name: " + edit.getText(), new Color((float)Math.random() * 0.5f + 0.5f, (float)Math.random() *0.5f + 0.5f, (float)Math.random() *0.5f + 0.5f, 1.0f));
+									edit.setText("");
+									edit.setFocus();
+								}
+							});
 		
 		btnSend = new PressedButton(RegionID.BTN_UI_SEND_OFF,
 									RegionID.BTN_UI_SEND_ON,
-									halfWidth * 0.9f, -halfHeight * 0.0f,
+									halfWidth - mView.getTextureRegion(RegionID.BTN_UI_SEND_OFF).getRegionWidth() * 0.5f,
+									editUser.position.y 
+									- mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionHeight() * 0.5f
+									- mView.getTextureRegion(RegionID.BTN_UI_SEND_OFF).getRegionHeight() * 0.5f,
 									new TouchAction() {
 										@Override
 										public void execute(boolean touch) {
-											fieldChat.setText(fieldChat.getText() + " \n>> " + editUser.getText());
-											editUser.setText("");
-											editUser.setFocus();
+											editUser.keyUp(Input.Keys.ENTER);
 										}
 									});
 

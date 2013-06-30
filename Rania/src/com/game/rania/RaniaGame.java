@@ -58,6 +58,7 @@ public class RaniaGame extends Game {
 
 	@Override
 	public void dispose() {
+		Controllers.netController.disconnect();
 		mView.clearAll();
 		Gdx.app.exit();
 	}

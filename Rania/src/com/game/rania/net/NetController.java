@@ -105,10 +105,12 @@ public class NetController {
 	{
 		try
 		{
-			mClient.stream.sendCommand(Command.disconnect);
-			mClient.socket.shutdownInput();
-			mClient.socket.shutdownOutput();
-			mClient.socket.close();
+			if (mClient != null && mClient.socket.isConnected() && mClient.isLogin) {
+				mClient.stream.sendCommand(Command.disconnect);
+				mClient.socket.shutdownInput();
+				mClient.socket.shutdownOutput();
+				mClient.socket.close();
+			}
 		}
 		catch (Exception ex)
 		{
@@ -117,7 +119,11 @@ public class NetController {
 	}
 	public void sendChatMessage(String Message)
 	{
+		if (Message.isEmpty())
+			return;
+
 		try {
+
 			byte[] ChannelArr = intToByteArray(0);
 			byte[] MessageArr = Message.getBytes("UTF-16LE");
 			byte[] MessageLenArr = intToByteArray(MessageArr.length);
@@ -126,8 +132,8 @@ public class NetController {
 			System.arraycopy(MessageLenArr, 0, data, 4, 4);
 			System.arraycopy(MessageArr, 0, data, 8, MessageArr.length);
 			mClient.stream.sendCommand(Command.message, data);
-		} catch (Exception ex)
-		{
+		
+		} catch (Exception ex) {
 		}
 	}
 	

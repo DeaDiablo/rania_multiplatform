@@ -10,6 +10,7 @@ import com.game.rania.Config;
 import com.game.rania.controller.CommandController;
 import com.game.rania.controller.command.AddPlanetCommand;
 import com.game.rania.controller.command.AddUserCommand;
+import com.game.rania.controller.command.ChatNewMessageCommand;
 import com.game.rania.controller.command.RemoveUserCommand;
 import com.game.rania.controller.command.SetTargetCommand;
 import com.game.rania.model.Domain;
@@ -114,7 +115,7 @@ public class NetController {
 			
 		}
 	}
-	public void SendChatMessage(String Message)
+	public void sendChatMessage(String Message)
 	{
 		try {
 			byte[] ChannelArr = intToByteArray(0);
@@ -413,12 +414,12 @@ public class NetController {
 		case Command.message:
 		{
 			AddressCommand ArrPtr = new AddressCommand();
-			int Channel = GetIntValue(command.data, ArrPtr);
-			int MessageLen = GetIntValue(command.data, ArrPtr);
-			String Message = GetStringValue(command.data, ArrPtr, MessageLen);
-			int LoginLen = GetIntValue(command.data, ArrPtr);
-			String Login = GetStringValue(command.data, ArrPtr, LoginLen);
-			//cController.addCommand(new ChatNewMessageCommand(Login, Channel, Message));
+			int 	channel 	= GetIntValue(command.data, ArrPtr);
+			int 	messageLen 	= GetIntValue(command.data, ArrPtr);
+			String 	message 	= GetStringValue(command.data, ArrPtr, messageLen);
+			int 	nameLen 	= GetIntValue(command.data, ArrPtr);
+			String 	userName 	= GetStringValue(command.data, ArrPtr, nameLen);
+			cController.addCommand(new ChatNewMessageCommand(userName, channel, message));
 			break;
 		}
 		case Command.planets:

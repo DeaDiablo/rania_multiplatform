@@ -130,6 +130,7 @@ public class SideBar extends Group implements Part{
 											chatVisible = !chatVisible;
 											chat.setVisible(chatVisible);
 					  						lController.getRadar().visible = !chatVisible;
+											editUser.setFocus();
 										}
 									});
 		
@@ -159,7 +160,7 @@ public class SideBar extends Group implements Part{
 							new EditAction() {
 								@Override
 								public void execute(Edit edit) {
-									fieldChat.addText("name: " + edit.getText(), new Color((float)Math.random() * 0.5f + 0.5f, (float)Math.random() *0.5f + 0.5f, (float)Math.random() *0.5f + 0.5f, 1.0f));
+									Controllers.netController.sendChatMessage(edit.getText());
 									edit.setText("");
 									edit.setFocus();
 								}

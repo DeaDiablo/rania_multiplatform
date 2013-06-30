@@ -114,6 +114,21 @@ public class NetController {
 			
 		}
 	}
+	public void SendChatMessage(String Message)
+	{
+		try {
+			byte[] ChannelArr = intToByteArray(0);
+			byte[] MessageArr = Message.getBytes("UTF-16LE");
+			byte[] MessageLenArr = intToByteArray(MessageArr.length);
+			byte[] data = new byte[ChannelArr.length+MessageArr.length+MessageLenArr.length];
+			System.arraycopy(ChannelArr, 0, data, 0, 4);
+			System.arraycopy(MessageLenArr, 0, data, 4, 4);
+			System.arraycopy(MessageArr, 0, data, 8, MessageArr.length);
+			mClient.stream.sendCommand(Command.message, data);
+		} catch (Exception ex)
+		{
+		}
+	}
 	
 	public void clientRelogin()
 	{
@@ -393,6 +408,17 @@ public class NetController {
 		{
 			int UserId = GetIntValue(command.data, new AddressCommand());
 			cController.addCommand(new RemoveUserCommand(UserId));
+			break;
+		}
+		case Command.message:
+		{
+			AddressCommand ArrPtr = new AddressCommand();
+			int Channel = GetIntValue(command.data, ArrPtr);
+			int MessageLen = GetIntValue(command.data, ArrPtr);
+			String Message = GetStringValue(command.data, ArrPtr, MessageLen);
+			int LoginLen = GetIntValue(command.data, ArrPtr);
+			String Login = GetStringValue(command.data, ArrPtr, LoginLen);
+			//cController.addCommand(new ChatNewMessageCommand(Login, Channel, Message));
 			break;
 		}
 		case Command.planets:

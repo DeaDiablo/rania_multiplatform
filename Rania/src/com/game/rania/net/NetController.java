@@ -107,9 +107,7 @@ public class NetController {
 		{
 			if (mClient != null && mClient.socket.isConnected() && mClient.isLogin) {
 				mClient.stream.sendCommand(Command.disconnect);
-				mClient.socket.shutdownInput();
-				mClient.socket.shutdownOutput();
-				mClient.socket.close();
+				receiver.stopThread();
 			}
 		}
 		catch (Exception ex)
@@ -421,6 +419,18 @@ public class NetController {
 			int UserId = GetIntValue(command.data, new AddressCommand());
 			cController.addCommand(new RemoveUserCommand(UserId));
 			break;
+		}
+		case Command.disconnect:
+		{
+			try
+			{
+				mClient.socket.shutdownInput();
+				mClient.socket.shutdownOutput();
+				mClient.socket.close();
+			}
+			catch (Exception ex)
+			{
+			}
 		}
 		case Command.message:
 		{

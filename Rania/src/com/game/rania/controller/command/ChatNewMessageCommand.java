@@ -7,8 +7,10 @@ public class ChatNewMessageCommand extends ControllerCommand{
 
 	private String text = "";
 	
-	public ChatNewMessageCommand(String userName, int channel, String message) {
-		text = userName + ": " + message;
+	public ChatNewMessageCommand(String userName, int channel, String message, String toPilot) {
+		text = userName + ": ";
+		if (toPilot!="") {text += toPilot + ", ";}
+		text += message;
 	}
 
 	@Override

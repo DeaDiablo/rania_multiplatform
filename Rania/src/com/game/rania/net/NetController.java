@@ -119,18 +119,22 @@ public class NetController {
 	}
 	public void sendChatMessage(String Message)
 	{
+		String toPilot = "";
 		if (Message.isEmpty())
 			return;
 
 		try {
-
-			byte[] ChannelArr = intToByteArray(0);
+			byte[] ChannelArr = intToByteArray(1);
 			byte[] MessageArr = Message.getBytes("UTF-16LE");
 			byte[] MessageLenArr = intToByteArray(MessageArr.length);
-			byte[] data = new byte[ChannelArr.length+MessageArr.length+MessageLenArr.length];
+			byte[] toPilotArr = toPilot.getBytes("UTF-16LE");
+			byte[] toPilotLenArr = intToByteArray(toPilotArr.length);
+			byte[] data = new byte[ChannelArr.length+MessageArr.length+MessageLenArr.length+toPilotArr.length+toPilotLenArr.length];
 			System.arraycopy(ChannelArr, 0, data, 0, 4);
 			System.arraycopy(MessageLenArr, 0, data, 4, 4);
 			System.arraycopy(MessageArr, 0, data, 8, MessageArr.length);
+			System.arraycopy(toPilotLenArr, 0, data, 8+MessageArr.length, 4);
+			System.arraycopy(toPilotArr, 0, data, 8+MessageArr.length+4, toPilotArr.length);
 			mClient.stream.sendCommand(Command.message, data);
 		
 		} catch (Exception ex) {
@@ -160,7 +164,7 @@ public class NetController {
 				int UserY = GetIntValue(command.data, ArrPtr);
 				int UserTargetX = GetIntValue(command.data, ArrPtr);
 				int UserTargetY = GetIntValue(command.data, ArrPtr);
-				User userShip = new User(UserId, UserX, UserY, ShipName, "");
+				User userShip = new User(UserId, UserX, UserY, ShipName, "", 8);
 				userShip.setPositionTarget(UserTargetX, UserTargetY);
 				UsersMap.put(userShip.id, userShip);
 			}
@@ -341,11 +345,12 @@ public class NetController {
 			int UserId = GetIntValue(command.data, ArrPtr);			
 			int UserX = GetIntValue(command.data, ArrPtr);
 			int UserY = GetIntValue(command.data, ArrPtr);
+			int UserDomain = GetIntValue(command.data, ArrPtr);
 			int PnameLen = GetIntValue(command.data, ArrPtr);
 			String PName = GetStringValue(command.data, ArrPtr, PnameLen);			
 			int SnameLen = GetIntValue(command.data, ArrPtr);			
 			String SName = GetStringValue(command.data, ArrPtr, SnameLen);			
-			Player player = new Player(UserId, UserX, UserY, PName, SName);
+			Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain);
 			return player;
 		}
 		catch (Exception ex)
@@ -398,7 +403,7 @@ public class NetController {
 			String ShipName = GetStringValue(command.data, ArrPtr, ShipNameLen);
 			int UserX = GetIntValue(command.data, ArrPtr);
 			int UserY = GetIntValue(command.data, ArrPtr);
-			User user = new User(UserId, UserX, UserY, ShipName, "");
+			User user = new User(UserId, UserX, UserY, ShipName, "", 8);
 			cController.addCommand(new AddUserCommand(user));
 			break;
 		}
@@ -425,7 +430,9 @@ public class NetController {
 			String 	message 	= GetStringValue(command.data, ArrPtr, messageLen);
 			int 	nameLen 	= GetIntValue(command.data, ArrPtr);
 			String 	userName 	= GetStringValue(command.data, ArrPtr, nameLen);
-			cController.addCommand(new ChatNewMessageCommand(userName, channel, message));
+			int 	toPilotLen 	= GetIntValue(command.data, ArrPtr);
+			String 	toPilot 	= GetStringValue(command.data, ArrPtr, toPilotLen);
+			cController.addCommand(new ChatNewMessageCommand(userName, channel, message, toPilot));
 			break;
 		}
 		case Command.planets:

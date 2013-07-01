@@ -43,6 +43,7 @@ public enum RegionID {
 	PLANET_17,
 	
 	//dynamic elements
+	CLOUDS,
 	SHIP,
 	
 	//gui

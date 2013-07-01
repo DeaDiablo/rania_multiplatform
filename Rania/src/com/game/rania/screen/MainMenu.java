@@ -64,7 +64,6 @@ public class MainMenu extends RaniaScreen{
 				new PressedButton(RegionID.BTNLOGIN_OFF,
 								  RegionID.BTNLOGIN_ON,
 								  halfWidth * 0.675f, halfHeight * 0.188f,
-								  //new Text("б онкер", Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
 								  new TouchAction() {
 									@Override
 									public void execute(boolean touch) {	
@@ -91,7 +90,6 @@ public class MainMenu extends RaniaScreen{
 				new PressedButton(RegionID.BTNREG_OFF,
 								  RegionID.BTNREG_ON,
 								  halfWidth * 0.675f, -halfHeight * 0.06f,
-								  //new Text("мнбши охкнр", Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
 								  new TouchAction() {
 									@Override
 									public void execute(boolean touch) {	
@@ -104,7 +102,6 @@ public class MainMenu extends RaniaScreen{
 				new PressedButton(RegionID.BTNEXIT_OFF,
 								  RegionID.BTNEXIT_ON,
 								  halfWidth * 0.675f, -halfHeight * 0.308f,
-								  //new Text("бшунд", Font.getFont("data/fonts/Postmodern One.ttf", 15), new Color(0.774f, 0.957f, 1.0f, 1.0f), 0, 0),
 								  new TouchAction() {
 									@Override
 									public void execute(boolean touch) {	

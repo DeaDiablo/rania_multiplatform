@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Vector;
 
+import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.Config;
 import com.game.rania.model.Location;
@@ -38,6 +39,8 @@ public class LocationController {
 		for (int i = 0; i < 8; i++)
 			mView.loadTexture("data/backgrounds/nebulas.png", RegionID.fromInt(RegionID.NEBULA_0.ordinal() + i), i % 4 * 512, i / 4 * 512, 512, 512);
 
+		mView.loadTexture("data/location/clouds.png",      RegionID.CLOUDS);
+		mView.getTexture(RegionID.CLOUDS).setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		mView.loadTexture("data/location/star.png",        RegionID.STAR);
 		mView.loadTexture("data/location/radar.png",       RegionID.RADAR);
 		mView.loadTexture("data/location/sensor.png",      RegionID.RADAR_SENSOR);

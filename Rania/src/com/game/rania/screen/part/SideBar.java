@@ -193,9 +193,6 @@ public class SideBar extends Group implements Part{
 		chat.addElement(btnSend);
 		addElement(chat);
 	}
-	
-	public void addSideBar(){
-	}
 
 	@Override
 	public void addElements() {

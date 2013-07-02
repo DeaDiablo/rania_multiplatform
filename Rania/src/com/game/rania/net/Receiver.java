@@ -38,9 +38,9 @@ public class Receiver extends Thread
 		{
 			if (!stopThread) {
 				Gdx.app.log("receiver", "Error: " + ex.getMessage());
-				//TODO : message "disconnect"
-				Controllers.commandController.addCommand(new SwitchScreenCommand(new MainMenu()));
 			}
+			//TODO : message "disconnect"
+			Controllers.commandController.addCommand(new SwitchScreenCommand(new MainMenu()));
 		}
 	}
 }

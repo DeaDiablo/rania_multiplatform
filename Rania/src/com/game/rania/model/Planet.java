@@ -19,6 +19,7 @@ public class Planet extends Object{
 	public int orbit			=  0;
 	public int radius			=  0;
 	public int atmosphere		= -1;
+	public int domain		= -1;
 	public String name    	    = "";
 	public int  idLocation   	= -1;
 	public Star star 			= null;
@@ -31,7 +32,7 @@ public class Planet extends Object{
 	private final float cloudSpeedY = 0.002f;
 	private Vector2 v_speed = new Vector2();
 
-	public Planet(int id, String name, int type, int radius, int atmosphere, int speed, int orbit, int idLocation) {
+	public Planet(int id, String name, int type, int radius, int atmosphere, int speed, int orbit, int idLocation, int Domain) {
 		super(RegionID.fromInt(RegionID.PLANET_0.ordinal() + type), 0, 0);
 		cloudTexture = RaniaGame.mView.getTexture(RegionID.CLOUDS);
 		this.id = id;
@@ -42,6 +43,7 @@ public class Planet extends Object{
 		this.speed = speed;
 		this.orbit = orbit;
 		this.idLocation = idLocation;
+		this.domain = Domain;
 		this.star = Controllers.locController.getLocation(idLocation).star;
 		zIndex = Indexes.planets;
 		updatePosition();

@@ -167,7 +167,8 @@ public class NetController {
 				int UserY = GetIntValue(command.data, ArrPtr);
 				int UserTargetX = GetIntValue(command.data, ArrPtr);
 				int UserTargetY = GetIntValue(command.data, ArrPtr);
-				User userShip = new User(UserId, UserX, UserY, ShipName, "", 8);
+				int UserDomain = GetIntValue(command.data, ArrPtr);
+				User userShip = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
 				userShip.setPositionTarget(UserTargetX, UserTargetY);
 				UsersMap.put(userShip.id, userShip);
 			}
@@ -207,7 +208,8 @@ public class NetController {
 					ArrPtr.delta(1);
 				}
 				int PlanetAtmosphere = GetIntValue(command.data, ArrPtr);
-				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetAtmosphere, PlanetSpeed, PlanetOrbit, idLocation);
+				int PlanetDomain = GetIntValue(command.data, ArrPtr);
+				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetAtmosphere, PlanetSpeed, PlanetOrbit, idLocation, PlanetDomain);
 				planet.color  = new Color(ColorArr[0] / 255.0f, ColorArr[1] / 255.0f, ColorArr[2] / 255.0f, ColorArr[3] / 255.0f);
 				planets.put(PlanetId, planet);
 			}
@@ -230,20 +232,15 @@ public class NetController {
 			int LocationsCount = GetIntValue(command.data, ArrPtr);
 			for (int i=0; i<LocationsCount; i++)
 			{
-				int StarId = GetIntValue(command.data, ArrPtr);
-				int StarNameLen = GetIntValue(command.data, ArrPtr);
-				String StarName = GetStringValue(command.data, ArrPtr, StarNameLen);
-				int StarType = GetIntValue(command.data, ArrPtr);
-				int StarX = GetIntValue(command.data, ArrPtr);
-				int StarY = GetIntValue(command.data, ArrPtr);
-				int StarRadius = GetIntValue(command.data, ArrPtr);
 				Location Loc   = new Location();
-				Loc.id         = StarId;
-				Loc.x          = StarX;
-				Loc.y          = StarY;
-				Loc.starRadius = StarRadius;
-				Loc.starType   = StarType;
-				Loc.starName   = StarName;
+				Loc.id = GetIntValue(command.data, ArrPtr);
+				int StarNameLen = GetIntValue(command.data, ArrPtr);
+				Loc.starName = GetStringValue(command.data, ArrPtr, StarNameLen);
+				Loc.starType = GetIntValue(command.data, ArrPtr);
+				Loc.x = GetIntValue(command.data, ArrPtr);
+				Loc.y = GetIntValue(command.data, ArrPtr);
+				Loc.starRadius = GetIntValue(command.data, ArrPtr);
+				Loc.domain = GetIntValue(command.data, ArrPtr);
 				locations.put(Loc.id, Loc);
 			}
 		}
@@ -301,6 +298,7 @@ public class NetController {
 				item.power = GetIntValue(command.data, ArrPtr);
 				item.weight = GetIntValue(command.data, ArrPtr);
 				item.vendor = GetIntValue(command.data, ArrPtr);
+				item.region_id = GetIntValue(command.data, ArrPtr);
 				items.put(item.id, item);
 			}
 		}
@@ -349,11 +347,12 @@ public class NetController {
 			int UserX = GetIntValue(command.data, ArrPtr);
 			int UserY = GetIntValue(command.data, ArrPtr);
 			int UserDomain = GetIntValue(command.data, ArrPtr);
+			int UserInPlanet = GetIntValue(command.data, ArrPtr);
 			int PnameLen = GetIntValue(command.data, ArrPtr);
 			String PName = GetStringValue(command.data, ArrPtr, PnameLen);			
 			int SnameLen = GetIntValue(command.data, ArrPtr);			
 			String SName = GetStringValue(command.data, ArrPtr, SnameLen);			
-			Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain);
+			Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain, UserInPlanet);
 			return player;
 		}
 		catch (Exception ex)
@@ -406,7 +405,8 @@ public class NetController {
 			String ShipName = GetStringValue(command.data, ArrPtr, ShipNameLen);
 			int UserX = GetIntValue(command.data, ArrPtr);
 			int UserY = GetIntValue(command.data, ArrPtr);
-			User user = new User(UserId, UserX, UserY, ShipName, "", 8);
+			int UserDomain = GetIntValue(command.data, ArrPtr);
+			User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
 			cController.addCommand(new AddUserCommand(user));
 			break;
 		}
@@ -473,7 +473,8 @@ public class NetController {
 					ArrPtr.delta(1);
 				}
 				int PlanetAtmosphere = GetIntValue(command.data, ArrPtr);
-				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetAtmosphere, PlanetSpeed, PlanetOrbit, locID);
+				int PlanetDomain = GetIntValue(command.data, ArrPtr);
+				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetAtmosphere, PlanetSpeed, PlanetOrbit, locID, PlanetDomain);
 				planet.color  = new Color(ColorArr[0] / 255.0f, ColorArr[1] / 255.0f, ColorArr[2] / 255.0f, ColorArr[3] / 255.0f);
 				cController.addCommand(new AddPlanetCommand(planet));
 			}

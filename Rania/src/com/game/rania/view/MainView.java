@@ -97,6 +97,7 @@ public class MainView {
 
 		texture.dispose();
 		textures.remove(fileTexture);
+		notAutoTextures.remove(fileTexture);
 	}
 	
 	public Texture getTexture(String fileTexture){
@@ -120,7 +121,6 @@ public class MainView {
 		for (String textureFile : notAutoTextures) {
 			texturesBuffer.remove(textureFile);
 		}
-		notAutoTextures.clear();
 
 		for (String textureFile : texturesBuffer.keySet()) {
 			unloadTexture(textureFile);

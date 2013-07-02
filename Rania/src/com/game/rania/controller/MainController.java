@@ -23,7 +23,6 @@ public class MainController extends InputMultiplexer{
 	}
 	
 	public void init(){
-		clear();
 		if (Controllers.inputController != null)
 			super.addProcessor(0, Controllers.inputController);
 	}

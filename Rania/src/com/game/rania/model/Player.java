@@ -6,4 +6,8 @@ public class Player extends User{
 		super(id, posX, posY, ShipName, PilotName, domain);
 		zIndex = Indexes.player;
 	}
+	public Player(int id, float posX, float posY, String ShipName, String PilotName, int domain, int inPlanet) {
+		super(id, posX, posY, ShipName, PilotName, domain, inPlanet);
+		zIndex = Indexes.player;
+	}
 }

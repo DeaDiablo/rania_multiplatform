@@ -342,11 +342,12 @@ public class NetController {
 			int UserX = GetIntValue(command.data, ArrPtr);
 			int UserY = GetIntValue(command.data, ArrPtr);
 			int UserDomain = GetIntValue(command.data, ArrPtr);
+			int UserInPlanet = GetIntValue(command.data, ArrPtr);
 			int PnameLen = GetIntValue(command.data, ArrPtr);
 			String PName = GetStringValue(command.data, ArrPtr, PnameLen);			
 			int SnameLen = GetIntValue(command.data, ArrPtr);			
 			String SName = GetStringValue(command.data, ArrPtr, SnameLen);			
-			Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain);
+			Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain, UserInPlanet);
 			return player;
 		}
 		catch (Exception ex)

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.MainController;
 import com.game.rania.screen.MainMenu;
+import com.game.rania.screen.part.Parts;
 import com.game.rania.view.MainView;
 
 public class RaniaGame extends Game {
@@ -59,6 +60,7 @@ public class RaniaGame extends Game {
 	@Override
 	public void dispose() {
 		Controllers.netController.disconnect();
+		Parts.removeSideBar();
 		mView.clearAll();
 		Gdx.app.exit();
 	}

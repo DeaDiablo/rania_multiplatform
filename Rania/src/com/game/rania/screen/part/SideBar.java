@@ -15,7 +15,6 @@ import com.game.rania.model.ui.EditAction;
 import com.game.rania.model.ui.PressedButton;
 import com.game.rania.model.ui.TextList;
 import com.game.rania.model.ui.TouchAction;
-import com.game.rania.screen.MainMenu;
 import com.game.rania.view.MainView;
 
 public class SideBar extends Group implements Part{
@@ -93,9 +92,6 @@ public class SideBar extends Group implements Part{
 											  @Override
 											  public void execute(boolean touch) {
 												  Controllers.netController.disconnect();
-												  if (RaniaGame.mGame.getScreen() != null)
-													  RaniaGame.mGame.getScreen().dispose();
-												  RaniaGame.mGame.setScreen(new MainMenu());
 											  }
 										 });
 

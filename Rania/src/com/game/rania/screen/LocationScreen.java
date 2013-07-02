@@ -17,7 +17,8 @@ public class LocationScreen extends RaniaScreen{
 	}
 
 	@Override
-	public void show() {		
+	public void show() {
+		super.show();
 		locController.loadTextures();
 		if (!locController.loadPlayer())
 			return;

@@ -33,7 +33,7 @@ public class RegisterScreen extends RaniaScreen{
 
 	@Override
 	public void show() {
-		
+		super.show();
 		float width = mView.getCamera().getWidth();
 		float height = mView.getCamera().getHeight();
 		float halfWidth = width/2.0f;

@@ -4,6 +4,8 @@ public class Indexes {
 
 	static public final int nebulas = 3;
 	static public final int object  = 10;
+	static public final int button  = 11;
+	static public final int edit    = 12;
 	static public final int star 	= 14;
 	static public final int planets = 15;
 	static public final int users   = 20;

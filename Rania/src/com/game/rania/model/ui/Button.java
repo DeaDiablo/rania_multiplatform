@@ -3,6 +3,7 @@ package com.game.rania.model.ui;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.game.rania.RaniaGame;
+import com.game.rania.model.Indexes;
 import com.game.rania.model.Text;
 import com.game.rania.model.element.HUDObject;
 import com.game.rania.model.element.RegionID;
@@ -19,6 +20,7 @@ public abstract class Button extends HUDObject{
 		this.text = text;
 		this.action = action;
 		touchObject = true;
+		zIndex = Indexes.button;
 	}
 	
 	@Override

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
+import com.game.rania.model.Indexes;
 import com.game.rania.model.Text;
 import com.game.rania.model.element.HUDObject;
 import com.game.rania.model.element.RegionID;
@@ -46,6 +47,7 @@ public class Edit extends HUDObject{
 		cursorPos = text.content.length();
 		beginVisible = Math.max(0, cursorPos - maxTextVisible);
 		endVisible = cursorPos;
+		zIndex = Indexes.edit;
 	}
 	
 	public String getText(){

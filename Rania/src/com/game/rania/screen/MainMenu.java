@@ -18,10 +18,12 @@ import com.game.rania.model.ui.TouchAction;
 public class MainMenu extends RaniaScreen{
 	
 	public MainMenu(){
+		super();
 	}
 	
 	@Override
 	public void show() {
+		super.show();
 		float halfWidth = mView.getHUDCamera().getWidth() * 0.5f;
 		float halfHeight = mView.getHUDCamera().getHeight() * 0.5f;
 		mView.loadTexture("data/backgrounds/menu.jpg", RegionID.BACKGROUND_MENU);

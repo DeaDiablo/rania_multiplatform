@@ -1,4 +1,4 @@
-package com.game.rania.utils;
+package com.game.rania.model.element;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -13,4 +13,6 @@ public class Shader extends ShaderProgram{
 	        Gdx.app.log("Problem loading shader:", getLog());
 	    }
 	}
+	
+	
 }

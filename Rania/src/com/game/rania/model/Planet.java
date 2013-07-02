@@ -10,7 +10,6 @@ import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
-import com.game.rania.utils.Shader;
 
 public class Planet extends Object{
 
@@ -23,7 +22,6 @@ public class Planet extends Object{
 	public String name    	    = "";
 	public int  idLocation   	= -1;
 	public Star star 			= null;
-	public Shader shader	    = new Shader("data/shaders/main.vert", "data/shaders/planet.frag") ;
 	private Texture cloudTexture = null;
 	
 	private static final float radianAndTime = MathUtils.PI / 180.0f / 3600.0f / 100.0f; 
@@ -47,6 +45,7 @@ public class Planet extends Object{
 		this.star = Controllers.locController.getLocation(idLocation).star;
 		zIndex = Indexes.planets;
 		updatePosition();
+		shader = Controllers.shaderManager.getShader("data/shaders/main.vert", "data/shaders/planet.frag");
 	}
 	
 	public void updatePosition(){
@@ -66,26 +65,18 @@ public class Planet extends Object{
 	public boolean draw(SpriteBatch sprite){
 		if (star == null)
 			return false;
-		if (shader.isCompiled())
-			return shaderDraw(sprite);
 		return super.draw(sprite);
 	}
-	
-	protected boolean shaderDraw(SpriteBatch sprite) {
-		if (!visible)
-			return false;
 
-		sprite.setShader(shader);
+	@Override
+	public boolean setShader(SpriteBatch sprite){
+		if (!super.setShader(sprite))
+			return false;
 
 		cloudTexture.bind(1);
 		Gdx.gl.glActiveTexture(GL10.GL_TEXTURE0);
 		shader.setUniformi("u_texture2", 1);
 		shader.setUniformf("v_speed", v_speed);
-		
-		super.draw(sprite);
-
-		sprite.setShader(null);
-
 		return true;
 	}
 

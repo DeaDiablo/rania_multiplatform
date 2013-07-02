@@ -174,7 +174,7 @@ public class LocationController {
 		radar = new Radar(player,
 						 (mView.getHUDCamera().getWidth()  - mView.getTextureRegion(RegionID.RADAR).getRegionWidth())  * 0.5f,
 						 (mView.getHUDCamera().getHeight() - mView.getTextureRegion(RegionID.RADAR).getRegionHeight()) * 0.5f,
-						  2000);
+						  10000);
 	}
 	
 	public void setRadar(Radar newRadar){

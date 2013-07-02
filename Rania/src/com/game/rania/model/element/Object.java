@@ -10,6 +10,8 @@ import com.game.rania.RaniaGame;
 import com.game.rania.model.Indexes;
 
 public class Object {
+	
+	public static Shader currentShader = null;
 
 	public boolean	keysObject  = false;
 	public boolean	touchObject = false;
@@ -20,6 +22,7 @@ public class Object {
 	public Vector2	scale       = new Vector2(1.0f, 1.0f);
 	public Color	color       = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 	public int		zIndex		= Indexes.object;
+	public Shader   shader 		= null;
 
 	public TextureRegion region = null;
 	
@@ -128,6 +131,14 @@ public class Object {
 	
 	//update and draw
 	public void update(float deltaTime){
+	}
+	
+	public boolean setShader(SpriteBatch sprite){
+		if (currentShader == shader)
+			return false;
+		sprite.setShader(shader);
+		currentShader = shader;
+		return true;
 	}
 	
 	public boolean draw(SpriteBatch sprite){

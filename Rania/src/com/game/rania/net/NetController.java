@@ -13,6 +13,7 @@ import com.game.rania.controller.command.AddUserCommand;
 import com.game.rania.controller.command.ChatNewMessageCommand;
 import com.game.rania.controller.command.RemoveUserCommand;
 import com.game.rania.controller.command.SetTargetCommand;
+import com.game.rania.controller.command.SwitchScreenCommand;
 import com.game.rania.model.Domain;
 import com.game.rania.model.Item;
 import com.game.rania.model.Nebula;
@@ -20,6 +21,7 @@ import com.game.rania.model.Player;
 import com.game.rania.model.User;
 import com.game.rania.model.Location;
 import com.game.rania.model.Planet;
+import com.game.rania.screen.MainMenu;
 import com.game.rania.userdata.Command;
 import com.game.rania.userdata.Client;
 import com.game.rania.userdata.IOStream;
@@ -108,6 +110,9 @@ public class NetController {
 			if (mClient != null && mClient.socket.isConnected() && mClient.isLogin) {
 				mClient.stream.sendCommand(Command.disconnect);
 				receiver.stopThread();
+				mClient.socket.shutdownInput();
+				mClient.socket.shutdownOutput();
+				mClient.socket.close();
 			}
 		}
 		catch (Exception ex)
@@ -424,9 +429,11 @@ public class NetController {
 		{
 			try
 			{
+				receiver.stopThread();
 				mClient.socket.shutdownInput();
 				mClient.socket.shutdownOutput();
 				mClient.socket.close();
+				cController.addCommand(new SwitchScreenCommand(new MainMenu()));
 			}
 			catch (Exception ex)
 			{

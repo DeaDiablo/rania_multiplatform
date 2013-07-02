@@ -1,6 +1,9 @@
 package com.game.rania.net;
 
 import com.badlogic.gdx.Gdx;
+import com.game.rania.controller.Controllers;
+import com.game.rania.controller.command.SwitchScreenCommand;
+import com.game.rania.screen.MainMenu;
 import com.game.rania.userdata.Client;
 import com.game.rania.userdata.IOStream;
 
@@ -18,6 +21,7 @@ public class Receiver extends Thread
 	public void stopThread()
     {
         stopThread = true;
+		interrupt();
     }
 
 	public void run()
@@ -32,7 +36,11 @@ public class Receiver extends Thread
 		}
 		catch (Exception ex)
 		{
-			Gdx.app.log("receiver", "Error: " + ex.getMessage());
+			if (!stopThread) {
+				Gdx.app.log("receiver", "Error: " + ex.getMessage());
+				//TODO : message "disconnect"
+				Controllers.commandController.addCommand(new SwitchScreenCommand(new MainMenu()));
+			}
 		}
 	}
 }

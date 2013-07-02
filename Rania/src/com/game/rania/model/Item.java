@@ -7,5 +7,5 @@ public class Item{
 	public int power			=  0;
 	public int weight      		=  0;
 	public int vendor			= -1;
-
+	public int region_id		= -1;
 }

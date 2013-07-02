@@ -8,6 +8,7 @@ public class Location{
 	public int y;
 	public int starRadius;
 	public int starType;
+	public int domain;
 	public String starName;
 	public Star star = null;
 	public HashMap<Integer, Planet> planets = null;

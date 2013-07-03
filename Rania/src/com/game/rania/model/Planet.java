@@ -15,22 +15,22 @@ public class Planet extends Object{
 
 	public int id				= -1;
 	public int type      		= -1;
-	public int speed			=  0;
+	public float speed			=  0;
 	public int orbit			=  0;
 	public int radius			=  0;
 	public int atmosphere		= -1;
-	public int domain		= -1;
+	public int domain			= -1;
 	public String name    	    = "";
 	public int  idLocation   	= -1;
 	public Star star 			= null;
 	private Texture cloudTexture = null;
-	
-	private static final float radianAndTime = MathUtils.PI / 180.0f / 3600.0f / 100.0f; 
+
+	private static final float radianSec = MathUtils.degreesToRadians / 3600.0f; 
 	private float time = 0.0f;
 	private float dt = 0.0f;
 	private final float cloudSpeedX = 0.005f;
 	private final float cloudSpeedY = 0.002f;
-	private Vector2 v_speed = new Vector2();
+	private Vector2 cloudSpeed = new Vector2();
 
 	public Planet(int id, String name, int type, int radius, int atmosphere, int speed, int orbit, int idLocation, int Domain) {
 		super(RegionID.fromInt(RegionID.PLANET_0.ordinal() + type), 0, 0);
@@ -40,7 +40,7 @@ public class Planet extends Object{
 		this.type = type;
 		this.radius = radius;
 		this.atmosphere = atmosphere;
-		this.speed = speed;
+		this.speed = speed * radianSec / 100.0f;
 		this.orbit = orbit;
 		this.idLocation = idLocation;
 		this.domain = Domain;
@@ -51,7 +51,8 @@ public class Planet extends Object{
 	}
 	
 	public void updatePosition(){
-		time = Controllers.netController.getServerTime();
+		int serverTime = Controllers.netController.getServerTime();
+		time = serverTime % (2.0f * MathUtils.PI / speed);
 		calcPosition(time);
 		if (region != null)
 			scale.set(2.0f * radius / region.getRegionWidth(), 2.0f * radius / region.getRegionHeight());
@@ -59,7 +60,7 @@ public class Planet extends Object{
 	@Override
 	public void update(float deltaTime){
 		dt += deltaTime;
-		v_speed.set(cloudSpeedX * dt, cloudSpeedY * dt);
+		cloudSpeed.set(cloudSpeedX * dt, cloudSpeedY * dt);
 		calcPosition(time + dt);
 	}
 	
@@ -84,7 +85,7 @@ public class Planet extends Object{
 		cloudTexture.bind(1);
 		Gdx.gl.glActiveTexture(GL10.GL_TEXTURE0);
 		shader.setUniformi("u_texture2", 1);
-		shader.setUniformf("v_speed", v_speed);
+		shader.setUniformf("v_speed", cloudSpeed);
 
 		return true;
 	}
@@ -92,10 +93,11 @@ public class Planet extends Object{
 	private void calcPosition(float currentTime) {
 		if (star == null)
 			return;
-		position.set(MathUtils.cos(speed * currentTime * radianAndTime), 
-					 MathUtils.sin(speed * currentTime * radianAndTime));
+		float calcAngle = speed * currentTime;
+		position.set((float)Math.cos(calcAngle), 
+					 (float)Math.sin(calcAngle));
 		position.mul(orbit);
 		position.add(star.position);
-		angle = speed * currentTime + 45.0f;
+		angle = MathUtils.radiansToDegrees * calcAngle + 45.0f;
 	}
 }

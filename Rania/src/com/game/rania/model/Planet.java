@@ -67,7 +67,13 @@ public class Planet extends Object{
 	public boolean draw(SpriteBatch sprite){
 		if (star == null)
 			return false;
-		return super.draw(sprite);
+		if (currentShader == shader && shader != null){
+			shader.setUniformf("uvMin", new Vector2(region.getU(), region.getV()));
+			shader.setUniformf("uvMax", new Vector2(region.getU2(), region.getV2()));
+		}
+		boolean ret =  super.draw(sprite);
+		sprite.flush();
+		return ret;
 	}
 
 	@Override
@@ -79,6 +85,7 @@ public class Planet extends Object{
 		Gdx.gl.glActiveTexture(GL10.GL_TEXTURE0);
 		shader.setUniformi("u_texture2", 1);
 		shader.setUniformf("v_speed", v_speed);
+
 		return true;
 	}
 

@@ -1,5 +1,6 @@
 package com.game.rania.model;
 
+import java.util.HashMap;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
@@ -7,22 +8,44 @@ import com.game.rania.model.element.RegionID;
 public class SpaceShip extends Object{
 
 	public String   shipName;
-
+	public HashMap<Integer, Item> Equip = null;
+	
 	public SpaceShip(float posX, float posY, String ShipName){
 		super(RegionID.SHIP, posX, posY);
 		shipName = ShipName;
+		Equip = new HashMap<Integer, Item>();
 	}
 	
 	public SpaceShip(float posX, float posY, float rotAngle, String ShipName){
 		super(RegionID.SHIP, posX, posY, rotAngle);
 		shipName = ShipName;
+		Equip = new HashMap<Integer, Item>();
 	}
 	
 	public SpaceShip(float posX, float posY, float rotAngle, float scaleX, float scaleY, String ShipName){
 		super(RegionID.SHIP, posX, posY, rotAngle, scaleX, scaleY);
 		shipName = ShipName;
+		Equip = new HashMap<Integer, Item>();
 	}
-
+	
+	public SpaceShip(float posX, float posY, String ShipName, HashMap<Integer, Item> equip){
+		super(RegionID.SHIP, posX, posY);
+		shipName = ShipName;
+		Equip = equip;
+	}
+	
+	public SpaceShip(float posX, float posY, float rotAngle, String ShipName, HashMap<Integer, Item> equip){
+		super(RegionID.SHIP, posX, posY, rotAngle);
+		shipName = ShipName;
+		Equip = equip;
+	}
+	
+	public SpaceShip(float posX, float posY, float rotAngle, float scaleX, float scaleY, String ShipName, HashMap<Integer, Item> equip){
+		super(RegionID.SHIP, posX, posY, rotAngle, scaleX, scaleY);
+		shipName = ShipName;
+		Equip = equip;
+	}
+	
 	private Vector2 targetPosition = new Vector2(0, 0);
 	private Vector2 moveVec        = new Vector2(0, 0);
 	private Vector2 addVec         = new Vector2(0, 0);

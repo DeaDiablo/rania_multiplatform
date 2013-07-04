@@ -1,6 +1,7 @@
 package com.game.rania.model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,8 +19,10 @@ public class Planet extends Object{
 	public float speed			=  0;
 	public int orbit			=  0;
 	public int radius			=  0;
-	public int atmosphere		= -1;
+	public Color	atmColor    = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 	public int domain			= -1;
+	public int Atmosphere_speedX= -1;
+	public int Atmosphere_speedY= -1;
 	public String name    	    = "";
 	public int  idLocation   	= -1;
 	public Star star 			= null;
@@ -32,18 +35,19 @@ public class Planet extends Object{
 	private final float cloudSpeedY = 0.002f;
 	private Vector2 cloudSpeed = new Vector2();
 
-	public Planet(int id, String name, int type, int radius, int atmosphere, int speed, int orbit, int idLocation, int Domain) {
+	public Planet(int id, String name, int type, int radius, int speed, int orbit, int idLocation, int Domain, int ASX, int ASY) {
 		super(RegionID.fromInt(RegionID.PLANET_0.ordinal() + type), 0, 0);
 		cloudTexture = RaniaGame.mView.getTexture(RegionID.CLOUDS);
 		this.id = id;
 		this.name = name;
 		this.type = type;
 		this.radius = radius;
-		this.atmosphere = atmosphere;
 		this.speed = speed * radianSec / 100.0f;
 		this.orbit = orbit;
 		this.idLocation = idLocation;
 		this.domain = Domain;
+		this.Atmosphere_speedX = ASX;
+		this.Atmosphere_speedY = ASY;
 		this.star = Controllers.locController.getLocation(idLocation).star;
 		zIndex = Indexes.planets;
 		updatePosition();

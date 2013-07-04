@@ -208,10 +208,18 @@ public class NetController {
 					ColorArr[j]=(char)command.data[ArrPtr.address];
 					ArrPtr.delta(1);
 				}
-				int PlanetAtmosphere = GetIntValue(command.data, ArrPtr);
+				char[] AtmColorArr = new char[4];
+				for (int j=0;j<4;j++)
+				{
+					AtmColorArr[j]=(char)command.data[ArrPtr.address];
+					ArrPtr.delta(1);
+				}
 				int PlanetDomain = GetIntValue(command.data, ArrPtr);
-				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetAtmosphere, PlanetSpeed, PlanetOrbit, idLocation, PlanetDomain);
+				int PlanetAtmosphere_speedX = GetIntValue(command.data, ArrPtr);
+				int PlanetAtmosphere_speedY = GetIntValue(command.data, ArrPtr);
+				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, idLocation, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
 				planet.color  = new Color(ColorArr[0] / 255.0f, ColorArr[1] / 255.0f, ColorArr[2] / 255.0f, ColorArr[3] / 255.0f);
+				planet.atmColor  = new Color(AtmColorArr[0] / 255.0f, AtmColorArr[1] / 255.0f, AtmColorArr[2] / 255.0f, AtmColorArr[3] / 255.0f);
 				planets.put(PlanetId, planet);
 			}
 		}
@@ -498,10 +506,18 @@ public class NetController {
 					ColorArr[j]=(char)command.data[ArrPtr.address];
 					ArrPtr.delta(1);
 				}
-				int PlanetAtmosphere = GetIntValue(command.data, ArrPtr);
+				char[] AtmColorArr   = new char[4];
+				for (int j=0;j<4;j++)
+				{
+					AtmColorArr[j]=(char)command.data[ArrPtr.address];
+					ArrPtr.delta(1);
+				}
 				int PlanetDomain = GetIntValue(command.data, ArrPtr);
-				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetAtmosphere, PlanetSpeed, PlanetOrbit, locID, PlanetDomain);
+				int PlanetAtmosphere_speedX = GetIntValue(command.data, ArrPtr);
+				int PlanetAtmosphere_speedY = GetIntValue(command.data, ArrPtr);
+				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, locID, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
 				planet.color  = new Color(ColorArr[0] / 255.0f, ColorArr[1] / 255.0f, ColorArr[2] / 255.0f, ColorArr[3] / 255.0f);
+				planet.atmColor  = new Color(AtmColorArr[0] / 255.0f, AtmColorArr[1] / 255.0f, AtmColorArr[2] / 255.0f, AtmColorArr[3] / 255.0f);
 				cController.addCommand(new AddPlanetCommand(planet));
 			}
 			break;

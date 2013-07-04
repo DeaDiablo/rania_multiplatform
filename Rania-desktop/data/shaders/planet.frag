@@ -16,6 +16,8 @@ void main() {
     vec2 texCoordCloud = 2.0 * (v_texCoords - uvMin)/len - 1.0;
 
     float radius = dot(texCoordCloud, texCoordCloud);
+    if (radius > 1.0)
+      discard;
     float f = (1.0 - sqrt(1.0 - radius))/(radius);
   	
   	texCoordCloud = texCoordCloud * f * len + uvMin + v_speed;

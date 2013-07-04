@@ -33,6 +33,7 @@ public class NetController {
 	private Receiver receiver = null;
 	private CommandController cController = null;
 	private Client mClient = null;
+	private int ProtocolVersion = 1;
 	
 	public NetController(CommandController commandController){
 		cController = commandController;
@@ -80,9 +81,15 @@ public class NetController {
 			if (mClient.socket.isConnected())
 			{
 				mClient.stream = new IOStream(mClient.socket.getInputStream(), mClient.socket.getOutputStream());
-				mClient.stream.sendCommand(Command.login, Login.getBytes("UTF-16LE"));
+				byte[] LoginArr = Login.getBytes("UTF-16LE");
+				byte[] LoginLenArr = intToByteArray(LoginArr.length);
+				byte[] ProtocolVersionArr = intToByteArray(ProtocolVersion);
+				byte[] data = new byte[LoginArr.length+LoginLenArr.length+ProtocolVersionArr.length];
+				System.arraycopy(ProtocolVersionArr, 0, data, 0, 4);
+				System.arraycopy(LoginLenArr, 0, data, 4, 4);
+				System.arraycopy(LoginArr, 0, data, 8, LoginArr.length);
+				mClient.stream.sendCommand(Command.login, data);
 				mClient.stream.sendCommand(Command.password, Password.getBytes("UTF-16LE"));
-
 				Command answer = mClient.stream.readCommand();
 				if (answer.idCommand == Command.login)
 				{
@@ -94,6 +101,8 @@ public class NetController {
 				}
 				
 				if (answer.idCommand == Command.faillogin)
+					mClient.isLogin = false;
+				if (answer.idCommand == Command.failversion)
 					mClient.isLogin = false;
 			}
 		}

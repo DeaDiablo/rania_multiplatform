@@ -65,6 +65,25 @@ public class NetController {
 		}
 	}
 	
+	public void sendTarget(Object obj)
+	{
+		int targetType = 0;
+		int targetId = 0;
+		byte[] data = new byte[8];
+		byte[] targetTypeArr = intToByteArray(targetType);
+		byte[] targetArr = intToByteArray(targetId);
+		System.arraycopy(targetTypeArr, 0, data, 0, 4);
+		System.arraycopy(targetArr, 0, data, 4, 4);
+		try
+		{
+			mClient.stream.sendCommand(Command.setTarget, data);
+		}
+		catch (Exception ex)
+		{
+
+		}
+	}
+	
 	public int getServerTime(){
 		return mClient.serverTime;
 	}

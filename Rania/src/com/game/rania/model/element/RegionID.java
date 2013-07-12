@@ -11,6 +11,7 @@ public enum RegionID {
 	RADAR,
 	RADAR_SENSOR,
 	RADAR_OBJECT,
+	TARGET,
 	
 	//nebulas
 	NEBULA_0,

@@ -19,6 +19,7 @@ import com.game.rania.model.Equip;
 import com.game.rania.model.Item;
 import com.game.rania.model.Nebula;
 import com.game.rania.model.Player;
+import com.game.rania.model.Target;
 import com.game.rania.model.User;
 import com.game.rania.model.Location;
 import com.game.rania.model.Planet;
@@ -65,13 +66,11 @@ public class NetController {
 		}
 	}
 	
-	public void sendTarget(Object obj)
+	public void sendTarget(Target target)
 	{
-		int targetType = 0;
-		int targetId = 0;
 		byte[] data = new byte[8];
-		byte[] targetTypeArr = intToByteArray(targetType);
-		byte[] targetArr = intToByteArray(targetId);
+		byte[] targetTypeArr = intToByteArray(target.type);
+		byte[] targetArr = intToByteArray(target.id);
 		System.arraycopy(targetTypeArr, 0, data, 0, 4);
 		System.arraycopy(targetArr, 0, data, 4, 4);
 		try

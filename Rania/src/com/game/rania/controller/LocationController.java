@@ -46,6 +46,7 @@ public class LocationController {
 		mView.loadTexture("data/location/sensor.png",      RegionID.RADAR_SENSOR);
 		mView.loadTexture("data/location/radarObject.png", RegionID.RADAR_OBJECT);
 		mView.loadTexture("data/location/SpaceShip.png",   RegionID.SHIP);
+		mView.loadTexture("data/location/target.png",      RegionID.TARGET);
 		mView.loadTexture("data/backgrounds/space.png",    RegionID.BACKGROUND_SPACE);
 		mView.loadTexture("data/backgrounds/stars.png",    RegionID.BACKGROUND_STARS);
 	}
@@ -63,7 +64,7 @@ public class LocationController {
 	private	Location currentLocation   = null;
 	private Vector<Nebula> showNebulas = new Vector<Nebula>();
 	//help objects
-	private ShipController pController = null;
+	private PlayerController pController = null;
 	
 	public void clearObjects(){
 		removePlayer();
@@ -98,7 +99,7 @@ public class LocationController {
 		if (player != null)
 		{
 			mController.addObject(player);
-			pController = new ShipController(player);
+			pController = new PlayerController(player);
 			mController.addProcessor(pController);
 		}
 	}
@@ -201,7 +202,11 @@ public class LocationController {
 			return;
 
 		if (currentLocation.star == null)
-			currentLocation.star = new Star(currentLocation.starType, currentLocation.x, currentLocation.y, currentLocation.starRadius);
+			currentLocation.star = new Star(currentLocation.id,
+											currentLocation.starType,
+											currentLocation.x,
+											currentLocation.y,
+											currentLocation.starRadius);
 		star = currentLocation.star;
 		
 		if (currentLocation.planets == null)
@@ -219,7 +224,11 @@ public class LocationController {
 			return;
 		
 		if (currentLocation.star == null)
-			currentLocation.star = new Star(currentLocation.starType, currentLocation.x, currentLocation.y, currentLocation.starRadius);
+			currentLocation.star = new Star(currentLocation.id,
+										    currentLocation.starType,
+										    currentLocation.x,
+										    currentLocation.y,
+										    currentLocation.starRadius);
 		star = currentLocation.star;
 		
 		if (currentLocation.planets != null) {
@@ -380,7 +389,7 @@ public class LocationController {
 	public Star getStar(int idLocation){
 		Location location = locations.get(idLocation);
 		if (location.star == null)
-			location.star = new Star(location.starType, location.x, location.y, location.starRadius);
+			location.star = new Star(location.id, location.starType, location.x, location.y, location.starRadius);
 		return location.star;
 	}
 

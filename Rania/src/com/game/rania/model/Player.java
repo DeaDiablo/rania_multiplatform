@@ -1,7 +1,11 @@
 package com.game.rania.model;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 public class Player extends User{
 
+	public Target target = new Target(0, Target.none, null);
+	
 	public Player(int id, float posX, float posY, String ShipName, String PilotName, int domain) {
 		super(id, posX, posY, ShipName, PilotName, domain);
 		zIndex = Indexes.player;
@@ -11,5 +15,11 @@ public class Player extends User{
 		super(id, posX, posY, ShipName, PilotName, domain, inPlanet);
 		zIndex = Indexes.player;
 		isPlayer = true;
+	}
+	
+	@Override
+	public boolean draw(SpriteBatch sprite){
+		target.draw(sprite);
+		return super.draw(sprite);
 	}
 }

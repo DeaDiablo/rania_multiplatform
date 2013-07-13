@@ -6,6 +6,7 @@ import com.game.rania.screen.part.Parts;
 public class ChatNewMessageCommand extends ControllerCommand{
 
 	private String text = "";
+	private int channel;
 	
 	public ChatNewMessageCommand(String userName, int channel, String message, String toPilot) {
 		text = userName + ": ";
@@ -13,12 +14,13 @@ public class ChatNewMessageCommand extends ControllerCommand{
 			text += toPilot + ", ";
 			}
 		text += message;
+		this.channel = channel;
 	}
 
 	@Override
 	public void update(MainController controller, float deltaTime) {
 		if (text.isEmpty())
 			return;
-		Parts.getSideBar().fieldChat.addText(text);
+		Parts.getSideBar().fieldChat.addText(text, channel);
 	}
 }

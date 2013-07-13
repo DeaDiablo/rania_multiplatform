@@ -35,20 +35,20 @@ public class TextList extends HUDObject{
 		this.heightList = heightList;
 		touchObject = true;
 		countLine = (int) (heightList / text.font.getLineHeight());
-		parseText(text.content, text.color);
+		parseText(lines, text.content, text.color);
 	}
 	
 	public void addText(String text){
-		parseText(text, this.text.color);
+		parseText(lines, text, this.text.color);
 	}
 	
 	public void addText(String text, Color color){
-		parseText(text, color);
+		parseText(lines, text, color);
 	}
 	
 	protected String bufferText;
 	
-	protected void parseText(String text, Color color){
+	protected void parseText(Vector<TextLine> lines, String text, Color color){
 		if (text.isEmpty())
 			return;
 
@@ -78,8 +78,8 @@ public class TextList extends HUDObject{
 			textWidth = this.text.getTextBound(text).width;
 		} while(textWidth > 0);
 
-		endLine = lines.size();
-		beginLine = Math.max(0, endLine - countLine);
+		//endLine = lines.size();
+		//beginLine = Math.max(0, endLine - countLine);
 	}
 	
 	@Override
@@ -92,9 +92,13 @@ public class TextList extends HUDObject{
 		
 		if (text != null){
 			for (int i = beginLine; i < endLine; i++) {
-				text.content = lines.get(i).text;
-				text.color = lines.get(i).color;
-				text.draw(sprite, text.position.x + position.x, text.position.y + position.y - (i - beginLine) * text.font.getLineHeight(), angle, scale.x, scale.y);
+				TextLine line = lines.get(i);
+				//if (line != null)
+				{
+					text.content = line.text;
+					text.color = line.color;
+					text.draw(sprite, text.position.x + position.x, text.position.y + position.y - (i - beginLine) * text.font.getLineHeight(), angle, scale.x, scale.y);
+				}
 			}
 		}			
 		

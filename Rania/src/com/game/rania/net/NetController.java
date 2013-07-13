@@ -148,7 +148,7 @@ public class NetController {
 			
 		}
 	}
-	public void sendChatMessage(String Message)
+	public void sendChatMessage(String Message, int channel)
 	{
 		String toPilot = "";
 		if (Message.isEmpty())

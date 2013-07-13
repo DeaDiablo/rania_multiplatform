@@ -26,11 +26,21 @@ public class ChatList extends TextList{
 	}
 	
 	public void addText(String text, int channel){
+		boolean needUpdate = false;
+		if (channel == currentChannel && lines.size() == endLine)
+			needUpdate = true;
 		parseText(listChannel.get(channel - 1), text, this.text.color);
+		if (needUpdate)
+			goToEnd();
 	}
 
 	public void addText(String text, Color color, int channel){
-		parseText(listChannel.get(channel - 1),text, color);
+		boolean needUpdate = false;
+		if (channel == currentChannel && lines.size() == endLine)
+			needUpdate = true;
+		parseText(listChannel.get(channel - 1), text, color);
+		if (needUpdate)
+			goToEnd();
 	}
 	
 	protected int currentChannel = 1;

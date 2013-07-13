@@ -11,10 +11,11 @@ import com.game.rania.model.element.Font;
 import com.game.rania.model.element.Group;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.ui.ChatList;
-import com.game.rania.model.ui.CheckButton;
 import com.game.rania.model.ui.Edit;
 import com.game.rania.model.ui.EditAction;
 import com.game.rania.model.ui.PressedButton;
+import com.game.rania.model.ui.RadioButton;
+import com.game.rania.model.ui.RadioGroup;
 import com.game.rania.model.ui.TouchAction;
 import com.game.rania.view.MainView;
 
@@ -37,11 +38,13 @@ public class SideBar extends Group implements Part{
 	public ChatList	      fieldChat		= null;
 	public Edit		      editUser		= null;
 	public PressedButton  btnSend 		= null;
-	public CheckButton    btnMain 		= null;
-	public CheckButton    btnLocation   = null;
-	public CheckButton    btnPlanet     = null;
-	public CheckButton    btnDomain     = null;
-	public CheckButton    btnPrivate    = null;
+	
+	public RadioGroup	  grpButtons	= null;
+	public RadioButton    btnMain 		= null;
+	public RadioButton    btnLocation   = null;
+	public RadioButton    btnPlanet     = null;
+	public RadioButton    btnDomain     = null;
+	public RadioButton    btnPrivate    = null;
 	
 	public SideBar(){
 		loadTextures();
@@ -51,10 +54,10 @@ public class SideBar extends Group implements Part{
 	@Override
 	public void loadTextures(){
 		mView.loadTexture("data/gui/blank.png", RegionID.BLANK, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_MENU_OFF, 192, 192, 96, 96, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_MENU_ON,  192, 288, 96, 96, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHAT_OFF, 288, 192, 96,  96, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHAT_ON,  288, 288, 96,  96, false);
+		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHAT_OFF, 192, 192, 96, 96, false);
+		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHAT_ON,  192, 288, 96, 96, false);
+		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_MENU_OFF, 288, 192, 96,  96, false);
+		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_MENU_ON,  288, 288, 96,  96, false);
 		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHANNEL_MAIN_OFF,  0, 0, 96,  96, false);
 		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHANNEL_MAIN_ON, 0, 96, 96,  96, false);
 		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHANNEL_LOCATION_OFF,  96, 0, 96,  96, false);
@@ -65,10 +68,6 @@ public class SideBar extends Group implements Part{
 		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHANNEL_DOMAIN_ON, 288, 96, 96,  96, false);
 		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHANNEL_PRIVATE_OFF,  0, 192, 96,  96, false);
 		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHANNEL_PRIVATE_ON, 0, 288, 96,  96, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHAT_OFF, 288, 192, 96,  96, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHAT_ON,  288, 288, 96,  96, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHAT_OFF, 288, 192, 96,  96, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHAT_ON,  288, 288, 96,  96, false);
 		mView.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_OFF, 0,   0, 450, 100, false);
 		mView.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_ON,  0, 100, 450, 100, false);
 		mView.loadTexture("data/gui/ui_exit.png", RegionID.BTN_UI_EXIT_OFF, 0,   0, 450, 100, false);
@@ -195,7 +194,8 @@ public class SideBar extends Group implements Part{
 										}
 									});
 		
-		btnMain = new CheckButton(RegionID.BTN_UI_CHANNEL_MAIN_OFF,
+		grpButtons = new RadioGroup();
+		btnMain = new RadioButton(RegionID.BTN_UI_CHANNEL_MAIN_OFF,
 								  RegionID.BTN_UI_CHANNEL_MAIN_ON,
 								  halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth() * 0.5f,
 								  halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 0.5f ,
@@ -206,8 +206,9 @@ public class SideBar extends Group implements Part{
 									  }
 								  });
 		btnMain.setCheck(true);
+		grpButtons.addButton(btnMain);
 		
-		btnLocation = new CheckButton(RegionID.BTN_UI_CHANNEL_LOCATION_OFF,
+		btnLocation = new RadioButton(RegionID.BTN_UI_CHANNEL_LOCATION_OFF,
 									  RegionID.BTN_UI_CHANNEL_LOCATION_ON,
 									  halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth() * 0.5f,
 									  halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 1.5f ,
@@ -217,8 +218,9 @@ public class SideBar extends Group implements Part{
 									          fieldChat.setCurrentChannel(ChatList.locationChannel);
 									      }
 									  });
+		grpButtons.addButton(btnLocation);
 		
-		btnPlanet = new CheckButton(RegionID.BTN_UI_CHANNEL_PLANET_OFF,
+		btnPlanet = new RadioButton(RegionID.BTN_UI_CHANNEL_PLANET_OFF,
 									RegionID.BTN_UI_CHANNEL_PLANET_ON,
 									halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth() * 0.5f,
 									halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 2.5f ,
@@ -228,8 +230,9 @@ public class SideBar extends Group implements Part{
 										    fieldChat.setCurrentChannel(ChatList.planetChannel);
 										}
 									});
+		grpButtons.addButton(btnPlanet);
 		
-		btnDomain = new CheckButton(RegionID.BTN_UI_CHANNEL_DOMAIN_OFF,
+		btnDomain = new RadioButton(RegionID.BTN_UI_CHANNEL_DOMAIN_OFF,
 									RegionID.BTN_UI_CHANNEL_DOMAIN_ON,
 									halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth() * 0.5f,
 									halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 3.5f ,
@@ -239,9 +242,10 @@ public class SideBar extends Group implements Part{
 										    fieldChat.setCurrentChannel(ChatList.domainChannel);
 										}
 									});
+		grpButtons.addButton(btnDomain);
 		
-		btnPrivate = new CheckButton(RegionID.BTN_UI_CHANNEL_PLANET_OFF,
-									 RegionID.BTN_UI_CHANNEL_PLANET_ON,
+		btnPrivate = new RadioButton(RegionID.BTN_UI_CHANNEL_PRIVATE_OFF,
+									 RegionID.BTN_UI_CHANNEL_PRIVATE_ON,
 									 halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth() * 0.5f,
 									 halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 4.5f ,
 									 new TouchAction() {
@@ -250,6 +254,7 @@ public class SideBar extends Group implements Part{
 										     fieldChat.setCurrentChannel(ChatList.privateChannel);
 										 }
 									 });
+		grpButtons.addButton(btnPrivate);
 
 		menu.addElement(panelBlank);
 		menu.addElement(btnDisconnect);

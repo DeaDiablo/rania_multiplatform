@@ -40,13 +40,20 @@ public class TextList extends HUDObject{
 	
 	public void addText(String text){
 		parseText(lines, text, this.text.color);
+		goToEnd();
 	}
 	
 	public void addText(String text, Color color){
 		parseText(lines, text, color);
+		goToEnd();
 	}
 	
 	protected String bufferText;
+	
+	protected void goToEnd(){
+		endLine = lines.size();
+		beginLine = Math.max(0, endLine - countLine);
+	}
 	
 	protected void parseText(Vector<TextLine> lines, String text, Color color){
 		if (text.isEmpty())
@@ -77,9 +84,6 @@ public class TextList extends HUDObject{
 			text = text.substring(divIndex + 1);
 			textWidth = this.text.getTextBound(text).width;
 		} while(textWidth > 0);
-
-		//endLine = lines.size();
-		//beginLine = Math.max(0, endLine - countLine);
 	}
 	
 	@Override

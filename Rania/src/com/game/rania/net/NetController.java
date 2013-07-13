@@ -34,7 +34,7 @@ public class NetController {
 	private Receiver receiver = null;
 	private CommandController cController = null;
 	private Client mClient = null;
-	private int ProtocolVersion = 1;
+	private int ProtocolVersion = 2;
 	
 	public NetController(CommandController commandController){
 		cController = commandController;

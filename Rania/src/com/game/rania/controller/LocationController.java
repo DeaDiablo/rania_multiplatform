@@ -7,6 +7,7 @@ import java.util.Vector;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.Config;
+import com.game.rania.model.Domain;
 import com.game.rania.model.Location;
 import com.game.rania.model.Nebula;
 import com.game.rania.model.ParallaxLayer;
@@ -53,6 +54,7 @@ public class LocationController {
 
 	//list objects
 	private HashMap<Integer, Location> locations = null;
+	public HashMap<Integer, Domain> domains = null;
 	private HashMap<Integer, Nebula>   nebulas   = null;
 	private HashMap<Integer, Planet>   planets   = new HashMap<Integer, Planet>();
 	private HashMap<Integer, User> 	   users     = null;
@@ -76,6 +78,7 @@ public class LocationController {
 
 	public void loadLocationsAndNebulas() {
 		locations = nController.getAllLocations();
+		domains = nController.getAllDomains();
 	}
 	
 	//player

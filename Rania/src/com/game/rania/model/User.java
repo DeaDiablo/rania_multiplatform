@@ -2,6 +2,7 @@ package com.game.rania.model;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.game.rania.controller.Controllers;
 import com.game.rania.model.element.Font;
 
 public class User extends SpaceShip{
@@ -9,24 +10,24 @@ public class User extends SpaceShip{
 	protected boolean isPlayer = false;
 	public int id;
 	public String pilotName;
-	public int domain;
+	public Domain domain;
 	public int inPlanet;
 
-	public User(int Id, float posX, float posY, String ShipName, String PilotName, int Domain) {
+	public User(int Id, float posX, float posY, String ShipName, String PilotName, int Dom) {
 		super(posX, posY, ShipName);
 		id = Id;
 		pilotName = PilotName;
-		domain = Domain;
+		domain = Controllers.locController.domains.get(Dom);
 		inPlanet = 0;
 		zIndex = Indexes.users;
 		textShip.content = shipName;
 	}
 
-	public User(int Id, float posX, float posY, String ShipName, String PilotName, int Domain, int InPlanet) {
+	public User(int Id, float posX, float posY, String ShipName, String PilotName, int Dom, int InPlanet) {
 		super(posX, posY, ShipName);
 		id = Id;
 		pilotName = PilotName;
-		domain = Domain;
+		domain = Controllers.locController.domains.get(Dom);
 		inPlanet = InPlanet;
 		zIndex = Indexes.users;
 		textShip.content = shipName;

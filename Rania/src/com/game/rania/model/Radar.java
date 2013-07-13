@@ -120,12 +120,12 @@ public class Radar extends HUDObject{
 			}
 
 			for (Planet planet : locController.getPlanets()) {
-				colorObject.set(Domain.getColor(planet.domain));
+				colorObject.set(planet.domain.color);
 				drawRadarObject(planet, 0);
 			}
 
 			for (User user : locController.getUsers()) {
-				colorObject.set(Domain.getColor(user.domain));
+				colorObject.set(user.domain.color);
 				drawRadarObject(user, 5);
 			}
 		}

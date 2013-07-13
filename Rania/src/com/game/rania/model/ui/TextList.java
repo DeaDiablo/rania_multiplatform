@@ -97,7 +97,7 @@ public class TextList extends HUDObject{
 		if (text != null){
 			for (int i = beginLine; i < endLine; i++) {
 				TextLine line = lines.get(i);
-				//if (line != null)
+				if (line != null)
 				{
 					text.content = line.text;
 					text.color = line.color;

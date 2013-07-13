@@ -1,4 +1,4 @@
-package com.game.rania.model;
+package com.game.rania.model.items;
 
 public class Item{
 	public int id				= -1;

@@ -113,19 +113,20 @@ public class Radar extends HUDObject{
 
 		spriteBuffer.begin();
 		if (objRegion != null) {
-
-			colorObject.set(1, 1, 1, 1);
 			if (locController.getStar() != null)
-				drawRadarObject(locController.getStar());
-
-			colorObject.set(1, 1, 1, 1);
-			for (Object object : locController.getPlanets()) {
-				drawRadarObject(object);
+			{
+				colorObject.set(1, 1, 1, 1);
+				drawRadarObject(locController.getStar(), 0);
 			}
 
-			colorObject.set(1, 0, 0, 1);
-			for (Object object : locController.getUsers()) {
-				drawRadarObject(object);
+			for (Planet planet : locController.getPlanets()) {
+				colorObject.set(Domain.getColor(planet.domain));
+				drawRadarObject(planet, 0);
+			}
+
+			for (User user : locController.getUsers()) {
+				colorObject.set(Domain.getColor(user.domain));
+				drawRadarObject(user, 5);
 			}
 		}
 		
@@ -148,16 +149,21 @@ public class Radar extends HUDObject{
 		return true;
 	}
 	
-	protected void drawRadarObject(Object object){
+	protected void drawRadarObject(Object object, int fixedSize){
 		posObject.set(object.position);
 		posObject.sub(player.position);
 		posObject.mul(width / size, height / size);
 		posObject.add(width * 0.5f, height * 0.5f);
 
-		scaleObject.set(object.scale.x, object.scale.y);
+		if (fixedSize == 0) {
+			scaleObject.set(object.scale.x, object.scale.y);
+		} else {
+			scaleObject.set(fixedSize, fixedSize);
+		}
 		scaleObject.mul(object.region.getRegionWidth() * width / size / objRegion.getRegionWidth(),
 						object.region.getRegionHeight() * height / size / objRegion.getRegionHeight());
-		
+			
+
 		if (Config.radarNoiseOn) {
 			alpha = (deltaSensor - posObject.x) / width;
 			if (alpha < 0)

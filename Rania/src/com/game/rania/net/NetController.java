@@ -15,14 +15,13 @@ import com.game.rania.controller.command.RemoveUserCommand;
 import com.game.rania.controller.command.SetTargetCommand;
 import com.game.rania.controller.command.SwitchScreenCommand;
 import com.game.rania.model.Domain;
-import com.game.rania.model.Equip;
-import com.game.rania.model.Item;
 import com.game.rania.model.Nebula;
 import com.game.rania.model.Player;
 import com.game.rania.model.Target;
 import com.game.rania.model.User;
 import com.game.rania.model.Location;
 import com.game.rania.model.Planet;
+import com.game.rania.model.items.Item;
 import com.game.rania.screen.MainMenu;
 import com.game.rania.userdata.Command;
 import com.game.rania.userdata.Client;
@@ -344,32 +343,7 @@ public class NetController {
 		}
 		return items;
 	}
-	
-	public HashMap<Integer, Equip> getEquips()
-	{
-		HashMap<Integer, Equip> Equips = new HashMap<Integer, Equip>();
-		try
-		{
-			mClient.stream.sendCommand(Command.equip);
-			Command command = waitCommand(Command.equip);
-			AddressCommand ArrPtr = new AddressCommand();
-			int EquipCount = GetIntValue(command.data, ArrPtr);
-			for (int i=0;i<EquipCount;i++)
-			{
-				Equip equip = new Equip();
-				equip.id = GetIntValue(command.data, ArrPtr);
-				equip.item_id = GetIntValue(command.data, ArrPtr);
-				equip.in_use = GetIntValue(command.data, ArrPtr);
-				Equips.put(equip.id, equip);
-			}
-		}
-		catch (Exception ex)
-		{
-			clientRelogin();
-		}
-		return Equips;
-	}
-	
+
 	public HashMap<Integer, Domain> getAllDomains()
 	{
 		HashMap<Integer, Domain> domains = new HashMap<Integer, Domain>();

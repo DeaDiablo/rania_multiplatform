@@ -45,10 +45,10 @@ public class SideBar extends Group implements Part{
 	@Override
 	public void loadTextures(){
 		mView.loadTexture("data/gui/blank.png", RegionID.BLANK, false);
-		mView.loadTexture("data/gui/ui_menu.png", RegionID.BTN_UI_MENU_OFF, 0,   0, 96,  96, false);
-		mView.loadTexture("data/gui/ui_menu.png", RegionID.BTN_UI_MENU_ON,  0,  96, 96,  96, false);
-		mView.loadTexture("data/gui/ui_chat.png", RegionID.BTN_UI_CHAT_OFF, 0,   0, 96,  96, false);
-		mView.loadTexture("data/gui/ui_chat.png", RegionID.BTN_UI_CHAT_ON,  0,  96, 96,  96, false);
+		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_MENU_OFF, 192, 192, 96, 96, false);
+		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_MENU_ON,  192, 288, 96, 96, false);
+		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHAT_OFF, 288, 192, 96,  96, false);
+		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHAT_ON,  288, 288, 96,  96, false);
 		mView.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_OFF, 0,   0, 450, 100, false);
 		mView.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_ON,  0, 100, 450, 100, false);
 		mView.loadTexture("data/gui/ui_exit.png", RegionID.BTN_UI_EXIT_OFF, 0,   0, 450, 100, false);
@@ -58,7 +58,7 @@ public class SideBar extends Group implements Part{
 		mView.loadTexture("data/gui/btn_send.png", RegionID.BTN_UI_SEND_OFF,  0, 0, 128, 64, false);
 		mView.loadTexture("data/gui/btn_send.png", RegionID.BTN_UI_SEND_ON,  0, 64, 128, 64, false);
 	}
-	
+
 	@Override
 	public void unloadTextures(){
 		mView.unloadTexture("data/gui/blank.png");

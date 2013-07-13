@@ -437,6 +437,7 @@ public class NetController {
 			int TargetY = GetIntValue(command.data, ArrPtr);
 			int UserDomain = GetIntValue(command.data, ArrPtr);
 			User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
+			user.setPositionTarget(TargetX, TargetY);
 			cController.addCommand(new AddUserCommand(user));
 			break;
 		}

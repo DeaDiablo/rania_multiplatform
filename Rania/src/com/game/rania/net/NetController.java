@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.Config;
 import com.game.rania.controller.CommandController;
@@ -228,24 +229,14 @@ public class NetController {
 				int PlanetSpeed = GetIntValue(command.data, ArrPtr);
 				int PlanetOrbit = GetIntValue(command.data, ArrPtr);
 				int PlanetRadius = GetIntValue(command.data, ArrPtr);
-				char[] ColorArr = new char[4];
-				for (int j=0;j<4;j++)
-				{
-					ColorArr[j]=(char)command.data[ArrPtr.address];
-					ArrPtr.delta(1);
-				}
-				char[] AtmColorArr = new char[4];
-				for (int j=0;j<4;j++)
-				{
-					AtmColorArr[j]=(char)command.data[ArrPtr.address];
-					ArrPtr.delta(1);
-				}
+				Color color = GetColorValue(command.data, ArrPtr);
+				Color atmColor = GetColorValue(command.data, ArrPtr);
 				int PlanetDomain = GetIntValue(command.data, ArrPtr);
 				int PlanetAtmosphere_speedX = GetIntValue(command.data, ArrPtr);
 				int PlanetAtmosphere_speedY = GetIntValue(command.data, ArrPtr);
 				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, idLocation, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
-				planet.color  = new Color(ColorArr[0] / 255.0f, ColorArr[1] / 255.0f, ColorArr[2] / 255.0f, ColorArr[3] / 255.0f);
-				planet.atmColor  = new Color(AtmColorArr[0] / 255.0f, AtmColorArr[1] / 255.0f, AtmColorArr[2] / 255.0f, AtmColorArr[3] / 255.0f);
+				planet.color  = color;
+				planet.atmColor  = atmColor;
 				planets.put(PlanetId, planet);
 			}
 		}
@@ -358,6 +349,7 @@ public class NetController {
 				Domain domain = new Domain();
 				domain.id = GetIntValue(command.data, ArrPtr);
 				int DomainNameLen = GetIntValue(command.data, ArrPtr);
+				domain.color = GetColorValue(command.data, ArrPtr);
 				domain.DomainName = GetStringValue(command.data, ArrPtr, DomainNameLen);
 				domains.put(domain.id, domain);
 			}
@@ -501,24 +493,14 @@ public class NetController {
 				int PlanetSpeed   = GetIntValue(command.data, ArrPtr);
 				int PlanetOrbit   = GetIntValue(command.data, ArrPtr);
 				int PlanetRadius  = GetIntValue(command.data, ArrPtr);
-				char[] ColorArr   = new char[4];
-				for (int j=0;j<4;j++)
-				{
-					ColorArr[j]=(char)command.data[ArrPtr.address];
-					ArrPtr.delta(1);
-				}
-				char[] AtmColorArr   = new char[4];
-				for (int j=0;j<4;j++)
-				{
-					AtmColorArr[j]=(char)command.data[ArrPtr.address];
-					ArrPtr.delta(1);
-				}
+				Color PlanetColor = GetColorValue(command.data, ArrPtr);
+				Color AtmColor = GetColorValue(command.data, ArrPtr);
 				int PlanetDomain = GetIntValue(command.data, ArrPtr);
 				int PlanetAtmosphere_speedX = GetIntValue(command.data, ArrPtr);
 				int PlanetAtmosphere_speedY = GetIntValue(command.data, ArrPtr);
 				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, locID, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
-				planet.color  = new Color(ColorArr[0] / 255.0f, ColorArr[1] / 255.0f, ColorArr[2] / 255.0f, ColorArr[3] / 255.0f);
-				planet.atmColor  = new Color(AtmColorArr[0] / 255.0f, AtmColorArr[1] / 255.0f, AtmColorArr[2] / 255.0f, AtmColorArr[3] / 255.0f);
+				planet.color = PlanetColor;
+				planet.atmColor = AtmColor;
 				cController.addCommand(new AddPlanetCommand(planet));
 			}
 			break;
@@ -552,6 +534,18 @@ public class NetController {
 		}
 		return Res;
 	}
+	
+	 private Color GetColorValue(byte[] data, AddressCommand AC)
+	 {
+		 char[] ColorArr = new char[4];
+			for (int j=0;j<4;j++)
+			{
+				ColorArr[j]=(char)data[AC.address];
+				AC.delta(1);
+			}
+		Color Res =	new Color(ColorArr[0] / 255.0f, ColorArr[1] / 255.0f, ColorArr[2] / 255.0f, ColorArr[3] / 255.0f);
+		return Res;
+	 }
 	
 	class AddressCommand {
 		public AddressCommand() {

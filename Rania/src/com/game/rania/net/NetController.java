@@ -177,7 +177,7 @@ public class NetController {
 		//mClient.relogin
 	}
 	
-	public HashMap<Integer, User> geNearUsers()
+	public HashMap<Integer, User> getNearUsers()
 	{
 		HashMap<Integer, User> UsersMap = new HashMap<Integer, User>();
 		try

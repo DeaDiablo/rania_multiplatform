@@ -23,13 +23,13 @@ public class Target extends Object{
 		this.id = id;
 		this.type = type;
 	}
-	
-	
+
 	@Override
 	public boolean draw(SpriteBatch sprite){
 		if (object == null || region == null)
 			return false;
 		scale.set(object.getWidth() / region.getRegionWidth(), object.getHeight() / region.getRegionHeight());
+		angle = object.angle;
 		position.set(object.position);
 		return super.draw(sprite);
 	}

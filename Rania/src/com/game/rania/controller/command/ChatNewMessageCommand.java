@@ -9,7 +9,9 @@ public class ChatNewMessageCommand extends ControllerCommand{
 	
 	public ChatNewMessageCommand(String userName, int channel, String message, String toPilot) {
 		text = userName + ": ";
-		if (toPilot!="") {text += toPilot + ", ";}
+		if (!toPilot.isEmpty()) {
+			text += toPilot + ", ";
+			}
 		text += message;
 	}
 

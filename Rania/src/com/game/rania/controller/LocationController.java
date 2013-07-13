@@ -290,12 +290,12 @@ public class LocationController {
 	
 	//users
 	public void loadUsers(){
-		users = nController.geNearUsers();
+		users = nController.getNearUsers();
 	}
 	
 	public void updateUsers(){
 		removeUsers();
-		users = nController.geNearUsers();
+		users = nController.getNearUsers();
 		addUsers();
 	}
 	

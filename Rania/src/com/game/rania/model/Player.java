@@ -18,6 +18,12 @@ public class Player extends User{
 	}
 	
 	@Override
+	public void update(float deltaTime){
+		super.update(deltaTime);
+		target.update(deltaTime);
+	}
+	
+	@Override
 	public boolean draw(SpriteBatch sprite){
 		target.draw(sprite);
 		return super.draw(sprite);

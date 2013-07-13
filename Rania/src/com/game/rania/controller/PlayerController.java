@@ -2,6 +2,7 @@ package com.game.rania.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.game.rania.Config;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.Planet;
 import com.game.rania.model.Player;
@@ -28,8 +29,9 @@ public class PlayerController extends UpdateController{
 		RaniaGame.mView.getCamera().toCameraCoord(touchPoint);
 
 		Target currentTarget = getTarget(touchPoint.x, touchPoint.y);
-		if (currentTarget.id   != player.target.id ||
-			currentTarget.type != player.target.type)
+		if (currentTarget.type != Target.none && 
+			(currentTarget.id   != player.target.id ||
+			 currentTarget.type != player.target.type))
 		{
 			player.target = currentTarget;
 			Controllers.netController.sendTarget(currentTarget);
@@ -42,10 +44,21 @@ public class PlayerController extends UpdateController{
 		return true;
 	}
 
+	protected Vector2 deltaPosition = new Vector2();
 	@Override
 	public void update(float deltaTime) {
-		if (player != null)
+		if (player != null)	{
 			camera.position.set(player.position.x, player.position.y, 0);
+			
+			if (player.target.type != Target.none) {
+				deltaPosition.set(player.target.object.position);
+				deltaPosition.sub(player.position);
+				if (deltaPosition.len() > Config.nebulaRadius || !RaniaGame.mController.getObjects().contains(player.target.object)) {
+					player.target = new Target(0, Target.none, null);
+					Controllers.netController.sendTarget(player.target);
+				}
+			}
+		}
 	}
 	
 	protected Target getTarget(float x, float y){

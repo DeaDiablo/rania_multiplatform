@@ -151,7 +151,8 @@ public class SideBar extends Group implements Part{
 		
 
 		fieldChat = new ChatList(RegionID.FIELD_CHAT,
-								 halfWidth * 0.0f, halfHeight - mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.5f,
+								 -halfWidth + mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.5f,
+								  halfHeight - mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.5f,
 								 new MultilineText("", Font.getFont("data/fonts/Arial.ttf", 20), 
 										 		   new Color(1, 1, 1, 1),
 										 		   -mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.5f + 20.0f,
@@ -162,10 +163,8 @@ public class SideBar extends Group implements Part{
 		
 		editUser = new Edit(RegionID.EDIT_CHAT,
 							RegionID.EDIT_CHAT,
-							0.0f,
-							fieldChat.position.y
-							- mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.5f
-							- mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionHeight() * 0.5f,
+							-halfWidth + mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionWidth() * 0.5f,
+							-halfHeight	+ mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionHeight() * 0.5f,
 							new Text("", Font.getFont("data/fonts/Arial.ttf", 20),
 							         new Color(1, 1, 1, 1),
 							         -mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionWidth() * 0.5f + 20.0f,
@@ -183,10 +182,9 @@ public class SideBar extends Group implements Part{
 		
 		btnSend = new PressedButton(RegionID.BTN_UI_SEND_OFF,
 									RegionID.BTN_UI_SEND_ON,
-									halfWidth - mView.getTextureRegion(RegionID.BTN_UI_SEND_OFF).getRegionWidth() * 0.5f,
-									editUser.position.y 
-									- mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionHeight() * 0.5f
-									- mView.getTextureRegion(RegionID.BTN_UI_SEND_OFF).getRegionHeight() * 0.5f,
+									-halfWidth + mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionWidth()
+									+ mView.getTextureRegion(RegionID.BTN_UI_SEND_OFF).getRegionWidth() * 0.5f,
+									editUser.position.y,
 									new TouchAction() {
 										@Override
 										public void execute(boolean touch) {
@@ -197,8 +195,8 @@ public class SideBar extends Group implements Part{
 		grpButtons = new RadioGroup();
 		btnMain = new RadioButton(RegionID.BTN_UI_CHANNEL_MAIN_OFF,
 								  RegionID.BTN_UI_CHANNEL_MAIN_ON,
-								  halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth() * 0.5f,
-								  halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 0.5f ,
+								  halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth(),
+								  halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 0.75f,
 								  new TouchAction() {
 								      @Override
 									  public void execute(boolean touch) {
@@ -210,8 +208,8 @@ public class SideBar extends Group implements Part{
 		
 		btnLocation = new RadioButton(RegionID.BTN_UI_CHANNEL_LOCATION_OFF,
 									  RegionID.BTN_UI_CHANNEL_LOCATION_ON,
-									  halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth() * 0.5f,
-									  halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 1.5f ,
+									  halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth(),
+									  halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 2.0f ,
 									  new TouchAction() {
 									  @Override
 									  public void execute(boolean touch) {
@@ -222,8 +220,8 @@ public class SideBar extends Group implements Part{
 		
 		btnPlanet = new RadioButton(RegionID.BTN_UI_CHANNEL_PLANET_OFF,
 									RegionID.BTN_UI_CHANNEL_PLANET_ON,
-									halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth() * 0.5f,
-									halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 2.5f ,
+									halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth(),
+									halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 3.25f ,
 									new TouchAction() {
 									    @Override
 										public void execute(boolean touch) {
@@ -234,8 +232,8 @@ public class SideBar extends Group implements Part{
 		
 		btnDomain = new RadioButton(RegionID.BTN_UI_CHANNEL_DOMAIN_OFF,
 									RegionID.BTN_UI_CHANNEL_DOMAIN_ON,
-									halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth() * 0.5f,
-									halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 3.5f ,
+									halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth(),
+									halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 4.5f ,
 									new TouchAction() {
 									    @Override
 										public void execute(boolean touch) {
@@ -246,8 +244,8 @@ public class SideBar extends Group implements Part{
 		
 		btnPrivate = new RadioButton(RegionID.BTN_UI_CHANNEL_PRIVATE_OFF,
 									 RegionID.BTN_UI_CHANNEL_PRIVATE_ON,
-									 halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth() * 0.5f,
-									 halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 4.5f ,
+									 halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth(),
+									 halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 5.75f ,
 									 new TouchAction() {
 									     @Override
 										 public void execute(boolean touch) {

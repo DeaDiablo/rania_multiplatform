@@ -28,8 +28,8 @@ public class Target extends Object{
 	public boolean draw(SpriteBatch sprite){
 		if (object == null || region == null)
 			return false;
-		scale.set(object.getWidth() / region.getRegionWidth(), object.getHeight() / region.getRegionHeight());
-		angle = object.angle;
+		float maxSize = Math.max(object.getWidth(), object.getHeight());
+		scale.set(maxSize / region.getRegionWidth(), maxSize / region.getRegionHeight());
 		position.set(object.position);
 		return super.draw(sprite);
 	}

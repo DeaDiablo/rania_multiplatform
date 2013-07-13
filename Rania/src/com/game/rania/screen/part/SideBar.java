@@ -195,7 +195,7 @@ public class SideBar extends Group implements Part{
 		grpButtons = new RadioGroup();
 		btnMain = new RadioButton(RegionID.BTN_UI_CHANNEL_MAIN_OFF,
 								  RegionID.BTN_UI_CHANNEL_MAIN_ON,
-								  halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth(),
+								  halfWidth * 0.9396f,
 								  halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 0.75f,
 								  new TouchAction() {
 								      @Override
@@ -208,7 +208,7 @@ public class SideBar extends Group implements Part{
 		
 		btnLocation = new RadioButton(RegionID.BTN_UI_CHANNEL_LOCATION_OFF,
 									  RegionID.BTN_UI_CHANNEL_LOCATION_ON,
-									  halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth(),
+									  halfWidth * 0.9396f,
 									  halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 2.0f ,
 									  new TouchAction() {
 									  @Override
@@ -220,7 +220,7 @@ public class SideBar extends Group implements Part{
 		
 		btnPlanet = new RadioButton(RegionID.BTN_UI_CHANNEL_PLANET_OFF,
 									RegionID.BTN_UI_CHANNEL_PLANET_ON,
-									halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth(),
+									halfWidth * 0.9396f,
 									halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 3.25f ,
 									new TouchAction() {
 									    @Override
@@ -232,7 +232,7 @@ public class SideBar extends Group implements Part{
 		
 		btnDomain = new RadioButton(RegionID.BTN_UI_CHANNEL_DOMAIN_OFF,
 									RegionID.BTN_UI_CHANNEL_DOMAIN_ON,
-									halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth(),
+									halfWidth * 0.9396f,
 									halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 4.5f ,
 									new TouchAction() {
 									    @Override
@@ -244,7 +244,7 @@ public class SideBar extends Group implements Part{
 		
 		btnPrivate = new RadioButton(RegionID.BTN_UI_CHANNEL_PRIVATE_OFF,
 									 RegionID.BTN_UI_CHANNEL_PRIVATE_ON,
-									 halfWidth - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionWidth(),
+									 halfWidth * 0.9396f,
 									 halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 5.75f ,
 									 new TouchAction() {
 									     @Override

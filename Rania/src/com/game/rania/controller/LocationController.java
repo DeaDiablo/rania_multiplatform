@@ -69,6 +69,7 @@ public class LocationController {
 	private PlayerController pController = null;
 	
 	public void clearObjects(){
+		player.stop();
 		removePlayer();
 		removeBackground();
 		removeRadar();
@@ -114,6 +115,10 @@ public class LocationController {
 				mController.removeProcessor(pController);
 			player = null;
 		}
+	}
+	
+	public PlayerController getPlayerController(){
+		return pController;
 	}
 	
 	//background

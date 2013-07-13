@@ -39,8 +39,7 @@ public class TextList extends HUDObject{
 	}
 	
 	public void addText(String text){
-		parseText(lines, text, this.text.color);
-		goToEnd();
+		addText(text, this.text.color);
 	}
 	
 	public void addText(String text, Color color){

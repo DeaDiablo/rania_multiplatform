@@ -5,7 +5,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.Config;
 import com.game.rania.controller.CommandController;

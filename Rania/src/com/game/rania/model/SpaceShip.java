@@ -33,6 +33,12 @@ public class SpaceShip extends Object{
 		setPositionTarget(target.x, target.y);
 	}
 	
+	public void stop(){
+		move = false;
+		moveVec.set(0, 0);
+		targetPosition.set(position);
+	}
+	
 	public void setPositionTarget(float x, float y){
 		targetPosition.set(x, y);
 
@@ -52,14 +58,10 @@ public class SpaceShip extends Object{
 		addVec.set(moveVec);
 		addVec.mul(deltaTime);
 
-		if (!targetPosition.epsilonEquals(position, addVec.len())){
+		if (!targetPosition.epsilonEquals(position, addVec.len()))
 			position.add(addVec);
-		}
-		else {
-			moveVec.set(0.0f, 0.0f);
-			position.set(targetPosition);
-			move = false;
-		}
+		else
+			stop();
 		angle = (float)Math.toDegrees(Math.atan2(-addVec.x, addVec.y));
 	}
 }

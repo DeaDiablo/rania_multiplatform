@@ -14,7 +14,7 @@ public class ChatList extends TextList{
 	public static final int domainChannel   = 4;
 	public static final int privateChannel  = 5;
 	
-	public static final int maxCoundLines = 250;
+	public static final int maxCoundLines = 500;
 	
 	protected Vector<Vector<TextLine>> listChannel = new Vector<Vector<TextLine>>();
 	
@@ -28,7 +28,11 @@ public class ChatList extends TextList{
 	}
 	
 	public void addText(String text, int channel){
-		
+		addText(text, this.text.color, channel);
+	}
+
+	public void addText(String text, Color color, int channel){
+
 		boolean needUpdate = false;
 		
 		if (channel == currentChannel && lines.size() == endLine)
@@ -36,21 +40,9 @@ public class ChatList extends TextList{
 		
 		Vector<TextLine> textLines = listChannel.get(channel - 1);
 		parseText(textLines, text, this.text.color);
-		if (textLines.size() > maxCoundLines)
+		while (textLines.size() > maxCoundLines) {
 			textLines.remove(0);
-		
-		if (needUpdate)
-			goToEnd();
-	}
-
-	public void addText(String text, Color color, int channel){
-		
-		boolean needUpdate = false;
-		
-		if (channel == currentChannel && lines.size() == endLine)
-			needUpdate = true;
-		
-		parseText(listChannel.get(channel - 1), text, color);
+		}
 		
 		if (needUpdate)
 			goToEnd();

@@ -29,19 +29,18 @@ public class MainController extends InputMultiplexer{
 	
 	//update controllers
 	public void addProcessor(UpdateController controller){
-		if (!updateControllers.contains(controller))
-		{
-			updateControllers.add(controller);
-			super.addProcessor(controller);
-		}
+		if (updateControllers.contains(controller))
+			return;
+		updateControllers.add(controller);
+		super.addProcessor(controller);
 	}
 	
 	public void removeProcessor(UpdateController controller){
 		if (!updateControllers.contains(controller))
-		{
-			updateControllers.remove(controller);
-			super.removeProcessor(controller);
-		}
+			return;
+		controller.stopContoller();
+		updateControllers.remove(controller);
+		super.removeProcessor(controller);
 	}
 	
 	//scene objects

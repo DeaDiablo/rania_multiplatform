@@ -22,6 +22,11 @@ public class PlayerController extends UpdateController{
 		this.player = player;
 		camera = RaniaGame.mView.getCamera();
 	}
+	
+	@Override
+	public void stopContoller(){
+		player.stop();
+	}
 
 	@Override
 	public boolean touchUp(int x, int y, int pointer, int button) {

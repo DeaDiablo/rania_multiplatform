@@ -5,7 +5,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.Config;
 import com.game.rania.controller.CommandController;
@@ -340,16 +339,16 @@ public class NetController {
 		HashMap<Integer, Domain> domains = new HashMap<Integer, Domain>();
 		try
 		{
-			mClient.stream.sendCommand(Command.nebulas);
-			Command command = waitCommand(Command.nebulas);
+			mClient.stream.sendCommand(Command.domains);
+			Command command = waitCommand(Command.domains);
 			AddressCommand ArrPtr = new AddressCommand();
 			int DomainsCount = GetIntValue(command.data, ArrPtr);
 			for (int i=0;i<DomainsCount;i++)
 			{
 				Domain domain = new Domain();
 				domain.id = GetIntValue(command.data, ArrPtr);
-				int DomainNameLen = GetIntValue(command.data, ArrPtr);
 				domain.color = GetColorValue(command.data, ArrPtr);
+				int DomainNameLen = GetIntValue(command.data, ArrPtr);
 				domain.DomainName = GetStringValue(command.data, ArrPtr, DomainNameLen);
 				domains.put(domain.id, domain);
 			}

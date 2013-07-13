@@ -13,21 +13,21 @@ public class User extends SpaceShip{
 	public Domain domain;
 	public int inPlanet;
 
-	public User(int Id, float posX, float posY, String ShipName, String PilotName, int Dom) {
+	public User(int Id, float posX, float posY, String ShipName, String PilotName, int Domain) {
 		super(posX, posY, ShipName);
 		id = Id;
 		pilotName = PilotName;
-		domain = Controllers.locController.domains.get(Dom);
+		domain = Controllers.locController.getDomain(Domain);
 		inPlanet = 0;
 		zIndex = Indexes.users;
 		textShip.content = shipName;
 	}
 
-	public User(int Id, float posX, float posY, String ShipName, String PilotName, int Dom, int InPlanet) {
+	public User(int Id, float posX, float posY, String ShipName, String PilotName, int Domain, int InPlanet) {
 		super(posX, posY, ShipName);
 		id = Id;
 		pilotName = PilotName;
-		domain = Controllers.locController.domains.get(Dom);
+		domain = Controllers.locController.getDomain(Domain);
 		inPlanet = InPlanet;
 		zIndex = Indexes.users;
 		textShip.content = shipName;

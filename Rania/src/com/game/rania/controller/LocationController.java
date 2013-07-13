@@ -54,7 +54,7 @@ public class LocationController {
 
 	//list objects
 	private HashMap<Integer, Location> locations = null;
-	public HashMap<Integer, Domain> domains = null;
+	private HashMap<Integer, Domain>   domains   = null;
 	private HashMap<Integer, Nebula>   nebulas   = null;
 	private HashMap<Integer, Planet>   planets   = new HashMap<Integer, Planet>();
 	private HashMap<Integer, User> 	   users     = null;
@@ -357,6 +357,14 @@ public class LocationController {
 
 	public Location getLocation(int id){
 		return locations.get(id);
+	}
+	
+	public Collection<Domain> getDomains(){
+		return domains.values();
+	}
+
+	public Domain getDomain(int id){
+		return domains.get(id);
 	}
 	
 	private Vector2 distanceVec = new Vector2();

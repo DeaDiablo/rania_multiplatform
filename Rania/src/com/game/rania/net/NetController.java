@@ -352,7 +352,7 @@ public class NetController {
 				int DomainNameLen = GetIntValue(command.data, ArrPtr);
 				domain.DomainName = GetStringValue(command.data, ArrPtr, DomainNameLen);
 				domains.put(domain.id, domain);
-				Gdx.app.log("Domain", domain.DomainName +": "+ "R:"+String.format("%s",domain.color.r)+"  G:"+String.format("%s",domain.color.g)+"  B:"+String.format("%s",domain.color.b)+"  A:"+String.format("%s",domain.color.a));
+				//Gdx.app.log("Domain", domain.DomainName +": "+ "R:"+String.format("%s",domain.color.r)+"  G:"+String.format("%s",domain.color.g)+"  B:"+String.format("%s",domain.color.b)+"  A:"+String.format("%s",domain.color.a));
 			}
 		}
 		catch (Exception ex)
@@ -541,14 +541,15 @@ public class NetController {
 	
 	 private Color GetColorValue(byte[] data, AddressCommand AC)
 	 {
-		 char[] ColorArr = new char[4];
-			for (int j=0;j<4;j++)
-			{
-				ColorArr[j]=(char)data[AC.address];
-				AC.delta(1);
-			}
-		Color Res =	new Color(ColorArr[0] / 255.0f, ColorArr[1] / 255.0f, ColorArr[2] / 255.0f, ColorArr[3] / 255.0f);
-		return Res;
+		 byte[] Arr = new byte[4];
+		 System.arraycopy(data, AC.address, Arr, 0, 4);
+		 AC.delta(4);
+		 char R = (char)(Arr[0]&0xFF);
+		 char G = (char)(Arr[1]&0xFF);
+		 char B = (char)(Arr[2]&0xFF);
+		 char A = (char)(Arr[3]&0xFF);
+		 Color Res =	new Color( R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
+		 return Res;
 	 }
 	
 	class AddressCommand {

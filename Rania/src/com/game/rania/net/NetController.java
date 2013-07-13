@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.Config;
 import com.game.rania.controller.CommandController;
@@ -154,7 +155,7 @@ public class NetController {
 			return;
 
 		try {
-			byte[] ChannelArr = intToByteArray(1);
+			byte[] ChannelArr = intToByteArray(channel);
 			byte[] MessageArr = Message.getBytes("UTF-16LE");
 			byte[] MessageLenArr = intToByteArray(MessageArr.length);
 			byte[] toPilotArr = toPilot.getBytes("UTF-16LE");
@@ -351,6 +352,7 @@ public class NetController {
 				int DomainNameLen = GetIntValue(command.data, ArrPtr);
 				domain.DomainName = GetStringValue(command.data, ArrPtr, DomainNameLen);
 				domains.put(domain.id, domain);
+				Gdx.app.log("Domain", domain.DomainName +": "+ "R:"+String.format("%s",domain.color.r)+"  G:"+String.format("%s",domain.color.g)+"  B:"+String.format("%s",domain.color.b)+"  A:"+String.format("%s",domain.color.a));
 			}
 		}
 		catch (Exception ex)
@@ -431,6 +433,8 @@ public class NetController {
 			String ShipName = GetStringValue(command.data, ArrPtr, ShipNameLen);
 			int UserX = GetIntValue(command.data, ArrPtr);
 			int UserY = GetIntValue(command.data, ArrPtr);
+			int TargetX = GetIntValue(command.data, ArrPtr);
+			int TargetY = GetIntValue(command.data, ArrPtr);
 			int UserDomain = GetIntValue(command.data, ArrPtr);
 			User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
 			cController.addCommand(new AddUserCommand(user));

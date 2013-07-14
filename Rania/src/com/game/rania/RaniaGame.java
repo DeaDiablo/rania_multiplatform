@@ -32,10 +32,14 @@ public class RaniaGame extends Game {
 	@Override
 	public void create() {
 		//logging java
-		try {
-			System.setOut(new PrintStream(new FileOutputStream(Config.logFile)));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		if (Config.logInFile)
+		{
+			try {
+				System.setErr(new PrintStream(new FileOutputStream(Config.errorLogFile)));
+				System.setOut(new PrintStream(new FileOutputStream(Config.logFile)));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		//game

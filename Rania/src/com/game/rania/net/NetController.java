@@ -304,36 +304,6 @@ public class NetController {
 		return nebulas;
 	}
 	
-	public HashMap<Integer, Item> getAllItems()
-	{
-		HashMap<Integer, Item> items = new HashMap<Integer, Item>();
-		try
-		{
-			mClient.stream.sendCommand(Command.nebulas);
-			Command command = waitCommand(Command.nebulas);
-			AddressCommand ArrPtr = new AddressCommand();
-			int ItemsCount = GetIntValue(command.data, ArrPtr);
-			for (int i=0;i<ItemsCount;i++)
-			{
-				Item item = new Item(0, 0);
-				item.id = GetIntValue(command.data, ArrPtr);
-				item.type = GetIntValue(command.data, ArrPtr);
-				int ItemNameLen = GetIntValue(command.data, ArrPtr);
-				item.description = GetStringValue(command.data, ArrPtr, ItemNameLen);
-				item.power = GetIntValue(command.data, ArrPtr);
-				item.weight = GetIntValue(command.data, ArrPtr);
-				item.vendor = GetIntValue(command.data, ArrPtr);
-				item.region_id = GetIntValue(command.data, ArrPtr);
-				items.put(item.id, item);
-			}
-		}
-		catch (Exception ex)
-		{
-			clientRelogin();
-		}
-		return items;
-	}
-
 	public HashMap<Integer, Domain> getAllDomains()
 	{
 		HashMap<Integer, Domain> domains = new HashMap<Integer, Domain>();

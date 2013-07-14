@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.Config;
 import com.game.rania.controller.CommandController;
@@ -198,6 +199,7 @@ public class NetController {
 			Command command = waitCommand(Command.items);
 			AddressCommand ArrPtr = new AddressCommand();
 			int ItemsCount = GetIntValue(command.data, ArrPtr);
+			Gdx.app.log("LoadItems", "Count: "+ItemsCount);
 			for (int i=0; i<ItemsCount; i++)
 			{
 				Item item = new Item();
@@ -205,15 +207,20 @@ public class NetController {
 				item.itemType = GetIntValue(command.data, ArrPtr);
 				int ItemDescriptionLen = GetIntValue(command.data, ArrPtr);
 				item.description = GetStringValue(command.data, ArrPtr, ItemDescriptionLen);
+				Gdx.app.log("LoadItems", "Предмет: "+item.description);
 				item.volume = GetIntValue(command.data, ArrPtr);
 				item.region_id = GetIntValue(command.data, ArrPtr);
 				switch (item.itemType)
 				{
 					case ItemType.device:
 					{
-						Device device = (Device)item;
+						Device device = item.asDevice();
 						int DeviceVendorLen = GetIntValue(command.data, ArrPtr);
-						device.vendorStr = GetStringValue(command.data, ArrPtr, DeviceVendorLen);
+						Gdx.app.log("LoadItems", "Длинна строки: "+DeviceVendorLen);
+						String vendorStr = GetStringValue(command.data, ArrPtr, DeviceVendorLen);
+						Gdx.app.log("LoadItems", "Вендор: "+vendorStr);
+						device.setVendor(vendorStr);
+						Gdx.app.log("LoadItems", "Вендор присвоился");
 						device.deviceType = GetIntValue(command.data, ArrPtr);
 						device.durability = GetIntValue(command.data, ArrPtr);
 						switch (device.deviceType)
@@ -221,6 +228,7 @@ public class NetController {
 							case DeviceType.ship:
 							{
 								Ship ship = (Ship)device;
+								Gdx.app.log("LoadItems", "Тип: корпус");
 								ship.slot_weapons = GetIntValue(command.data, ArrPtr);
 								ship.slot_droids = GetIntValue(command.data, ArrPtr);
 								ship.slot_shield = GetIntValue(command.data, ArrPtr);
@@ -231,6 +239,7 @@ public class NetController {
 							case DeviceType.engine:
 							{
 								Engine engine = (Engine)device;
+								Gdx.app.log("LoadItems", "Тип: двигатель");
 								engine.power = GetIntValue(command.data, ArrPtr);
 								engine.economic = GetIntValue(command.data, ArrPtr);
 								Items.add(engine);
@@ -239,6 +248,7 @@ public class NetController {
 							case DeviceType.fuelbag:
 							{
 								Fuelbag fuelbag = (Fuelbag)device;
+								Gdx.app.log("LoadItems", "Тип: топливный бак");
 								fuelbag.compress = GetIntValue(command.data, ArrPtr);
 								Items.add(fuelbag);
 								break;
@@ -246,6 +256,7 @@ public class NetController {
 							case DeviceType.droid:
 							{
 								Droid droid = (Droid)device;
+								Gdx.app.log("LoadItems", "Тип: дроид");
 								droid.power = GetIntValue(command.data, ArrPtr);
 								droid.time_reload = GetIntValue(command.data, ArrPtr);
 								Items.add(droid);
@@ -254,6 +265,7 @@ public class NetController {
 							case DeviceType.shield:
 							{
 								Shield shield = (Shield)device;
+								Gdx.app.log("LoadItems", "Тип: щит");
 								shield.power = GetIntValue(command.data, ArrPtr);
 								Items.add(shield);
 								break;
@@ -261,6 +273,7 @@ public class NetController {
 							case DeviceType.hyper:
 							{
 								Hyper hyper = (Hyper)device;
+								Gdx.app.log("LoadItems", "Тип: гипер");
 								hyper.radius = GetIntValue(command.data, ArrPtr);
 								hyper.time_start = GetIntValue(command.data, ArrPtr);
 								hyper.time_reload = GetIntValue(command.data, ArrPtr);
@@ -270,6 +283,7 @@ public class NetController {
 							case DeviceType.radar:
 							{
 								Radar radar = (Radar)device;
+								Gdx.app.log("LoadItems", "Тип: радар");
 								radar.radius = GetIntValue(command.data, ArrPtr);
 								radar.defense = GetIntValue(command.data, ArrPtr);
 								Items.add(radar);
@@ -278,6 +292,7 @@ public class NetController {
 							case DeviceType.weapon:
 							{
 								Weapon weapon = (Weapon)device;
+								Gdx.app.log("LoadItems", "Тип: оружие");
 								weapon.weaponType = GetIntValue(command.data, ArrPtr);
 								weapon.radius = GetIntValue(command.data, ArrPtr);
 								weapon.power = GetIntValue(command.data, ArrPtr);
@@ -289,6 +304,7 @@ public class NetController {
 							case DeviceType.none:
 							{
 								Items.add(device);
+								Gdx.app.log("LoadItems", "Тип девайса: н/а");
 								break;
 							}
 						}
@@ -296,6 +312,7 @@ public class NetController {
 					}
 					case ItemType.none:
 					{
+						Gdx.app.log("LoadItems", "Тип итема: н/а");
 						Items.add(item);
 						break;
 					}					
@@ -304,7 +321,7 @@ public class NetController {
 		}
 		catch (Exception ex)
 		{
-
+			Gdx.app.log("LoadItems", "Ошибка: " + ex.getMessage());
 		}
 		return Items;
 	}
@@ -637,7 +654,7 @@ public class NetController {
 		try {
 			Res = new String(Arr, "UTF-16LE");
 		} catch (UnsupportedEncodingException e) {
-
+			Gdx.app.log("Получение строки", "Ошибка: " + e.getMessage());
 		}
 		return Res;
 	}

@@ -353,7 +353,6 @@ public class NetController {
 				domain.x = GetIntValue(command.data, ArrPtr);
 				domain.y = GetIntValue(command.data, ArrPtr);
 				domains.put(domain.id, domain);
-				//Gdx.app.log("Domain", domain.DomainName +": "+ "R:"+String.format("%s",domain.color.r)+"  G:"+String.format("%s",domain.color.g)+"  B:"+String.format("%s",domain.color.b)+"  A:"+String.format("%s",domain.color.a));
 			}
 		}
 		catch (Exception ex)

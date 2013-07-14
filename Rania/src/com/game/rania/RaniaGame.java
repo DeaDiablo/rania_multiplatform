@@ -1,5 +1,9 @@
 package com.game.rania;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -27,6 +31,14 @@ public class RaniaGame extends Game {
 
 	@Override
 	public void create() {
+		//logging java
+		try {
+			System.setOut(new PrintStream(new FileOutputStream(Config.logFile)));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		//game
 		ShaderProgram.pedantic = false;
 		mGame = this;
 		mView = new MainView(widthCamera, heightCamera);

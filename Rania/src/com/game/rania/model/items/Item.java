@@ -12,10 +12,6 @@ public class Item extends Object{
 		super(0, 0);
 	}
 	
-	public Device asDevice() {
-		return null;
-	}
-	
 	public int id;
     public int itemType;
     public String description;

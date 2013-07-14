@@ -9,16 +9,7 @@ public class Device extends Item {
 		super(0, 0);
 	}
 
-	@Override
-	public Device asDevice() {
-		return this;
-	}
-	public void setVendor(String str)
-	{
-		this.vendorPlanet = str;
-	}
-	
     public int deviceType;
-    public String vendorPlanet;
+    public String vendorStr;
     public int durability;
 }

@@ -6,6 +6,10 @@ public class Engine extends Device {
 		super(posX, posY);
 	}
 
+	public Engine() {
+
+	}
+
 	public int power;
     public int economic;
 }

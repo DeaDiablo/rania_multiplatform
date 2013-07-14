@@ -202,107 +202,194 @@ public class NetController {
 			Gdx.app.log("LoadItems", "Count: "+ItemsCount);
 			for (int i=0; i<ItemsCount; i++)
 			{
-				Item item = new Item();
-				item.id = GetIntValue(command.data, ArrPtr);
-				item.itemType = GetIntValue(command.data, ArrPtr);
-				int ItemDescriptionLen = GetIntValue(command.data, ArrPtr);
-				item.description = GetStringValue(command.data, ArrPtr, ItemDescriptionLen);
-				Gdx.app.log("LoadItems", "Предмет: "+item.description);
-				item.volume = GetIntValue(command.data, ArrPtr);
-				item.region_id = GetIntValue(command.data, ArrPtr);
-				switch (item.itemType)
+				int item_id = GetIntValue(command.data, ArrPtr);
+				int item_itemType = GetIntValue(command.data, ArrPtr);
+				int Item_DescriptionLen = GetIntValue(command.data, ArrPtr);
+				String item_description = GetStringValue(command.data, ArrPtr, Item_DescriptionLen);
+				Gdx.app.log("LoadItems", "Предмет: "+item_description);
+				int item_volume = GetIntValue(command.data, ArrPtr);
+				int item_region_id = GetIntValue(command.data, ArrPtr);
+				switch (item_itemType)
 				{
 					case ItemType.device:
 					{
-						Device device = item.asDevice();
 						int DeviceVendorLen = GetIntValue(command.data, ArrPtr);
-						Gdx.app.log("LoadItems", "Длинна строки: "+DeviceVendorLen);
-						String vendorStr = GetStringValue(command.data, ArrPtr, DeviceVendorLen);
-						Gdx.app.log("LoadItems", "Вендор: "+vendorStr);
-						device.setVendor(vendorStr);
-						Gdx.app.log("LoadItems", "Вендор присвоился");
-						device.deviceType = GetIntValue(command.data, ArrPtr);
-						device.durability = GetIntValue(command.data, ArrPtr);
-						switch (device.deviceType)
+						String device_vendorStr = GetStringValue(command.data, ArrPtr, DeviceVendorLen);
+						int device_deviceType = GetIntValue(command.data, ArrPtr);
+						int device_durability = GetIntValue(command.data, ArrPtr);
+						switch (device_deviceType)
 						{
 							case DeviceType.ship:
 							{
-								Ship ship = (Ship)device;
 								Gdx.app.log("LoadItems", "Тип: корпус");
-								ship.slot_weapons = GetIntValue(command.data, ArrPtr);
-								ship.slot_droids = GetIntValue(command.data, ArrPtr);
-								ship.slot_shield = GetIntValue(command.data, ArrPtr);
-								ship.slot_hyper = GetIntValue(command.data, ArrPtr);
+								int ship_slot_weapons = GetIntValue(command.data, ArrPtr);
+								int ship_slot_droids = GetIntValue(command.data, ArrPtr);
+								int ship_slot_shield = GetIntValue(command.data, ArrPtr);
+								int ship_slot_hyper = GetIntValue(command.data, ArrPtr);
+								Ship ship = new Ship();
+								ship.id = item_id;
+								ship.itemType = item_itemType;
+								ship.description = item_description;
+								ship.volume = item_volume;
+								ship.region_id = item_region_id;
+								ship.vendorStr = device_vendorStr;
+								ship.deviceType = device_deviceType;
+								ship.durability = device_durability;
+								ship.slot_weapons = ship_slot_weapons;
+								ship.slot_droids = ship_slot_droids;
+								ship.slot_shield = ship_slot_shield;
+								ship.slot_hyper = ship_slot_hyper;
 								Items.add(ship);
 								break;
 							}
 							case DeviceType.engine:
 							{
-								Engine engine = (Engine)device;
 								Gdx.app.log("LoadItems", "Тип: двигатель");
-								engine.power = GetIntValue(command.data, ArrPtr);
-								engine.economic = GetIntValue(command.data, ArrPtr);
+								int engine_power = GetIntValue(command.data, ArrPtr);
+								int engine_economic = GetIntValue(command.data, ArrPtr);
+								Engine engine = new Engine();
+								engine.id = item_id;
+								engine.itemType = item_itemType;
+								engine.description = item_description;
+								engine.volume = item_volume;
+								engine.region_id = item_region_id;
+								engine.vendorStr = device_vendorStr;
+								engine.deviceType = device_deviceType;
+								engine.durability = device_durability;
+								engine.power = engine_power;
+								engine.economic = engine_economic;
 								Items.add(engine);
 								break;
 							}
 							case DeviceType.fuelbag:
 							{
-								Fuelbag fuelbag = (Fuelbag)device;
 								Gdx.app.log("LoadItems", "Тип: топливный бак");
-								fuelbag.compress = GetIntValue(command.data, ArrPtr);
+								int fuelbag_compress = GetIntValue(command.data, ArrPtr);
+								Fuelbag fuelbag = new Fuelbag();
+								fuelbag.id = item_id;
+								fuelbag.itemType = item_itemType;
+								fuelbag.description = item_description;
+								fuelbag.volume = item_volume;
+								fuelbag.region_id = item_region_id;
+								fuelbag.vendorStr = device_vendorStr;
+								fuelbag.deviceType = device_deviceType;
+								fuelbag.durability = device_durability;
+								fuelbag.compress = fuelbag_compress;
 								Items.add(fuelbag);
 								break;
 							}
 							case DeviceType.droid:
 							{
-								Droid droid = (Droid)device;
 								Gdx.app.log("LoadItems", "Тип: дроид");
-								droid.power = GetIntValue(command.data, ArrPtr);
-								droid.time_reload = GetIntValue(command.data, ArrPtr);
+								int droid_power = GetIntValue(command.data, ArrPtr);
+								int droid_time_reload = GetIntValue(command.data, ArrPtr);
+								Droid droid = new Droid();
+								droid.id = item_id;
+								droid.itemType = item_itemType;
+								droid.description = item_description;
+								droid.volume = item_volume;
+								droid.region_id = item_region_id;
+								droid.vendorStr = device_vendorStr;
+								droid.deviceType = device_deviceType;
+								droid.durability = device_durability;
+								droid.power = droid_power;
+								droid.time_reload = droid_time_reload;
 								Items.add(droid);
 								break;
 							}
 							case DeviceType.shield:
 							{
-								Shield shield = (Shield)device;
 								Gdx.app.log("LoadItems", "Тип: щит");
-								shield.power = GetIntValue(command.data, ArrPtr);
+								int shield_power = GetIntValue(command.data, ArrPtr);
+								Shield shield = new Shield();
+								shield.id = item_id;
+								shield.itemType = item_itemType;
+								shield.description = item_description;
+								shield.volume = item_volume;
+								shield.region_id = item_region_id;
+								shield.vendorStr = device_vendorStr;
+								shield.deviceType = device_deviceType;
+								shield.durability = device_durability;
+								shield.power = shield_power;
 								Items.add(shield);
 								break;
 							}
 							case DeviceType.hyper:
 							{
-								Hyper hyper = (Hyper)device;
 								Gdx.app.log("LoadItems", "Тип: гипер");
-								hyper.radius = GetIntValue(command.data, ArrPtr);
-								hyper.time_start = GetIntValue(command.data, ArrPtr);
-								hyper.time_reload = GetIntValue(command.data, ArrPtr);
+								int hyper_radius = GetIntValue(command.data, ArrPtr);
+								int hyper_time_start = GetIntValue(command.data, ArrPtr);
+								int hyper_time_reload = GetIntValue(command.data, ArrPtr);
+								Hyper hyper = new Hyper();
+								hyper.id = item_id;
+								hyper.itemType = item_itemType;
+								hyper.description = item_description;
+								hyper.volume = item_volume;
+								hyper.region_id = item_region_id;
+								hyper.vendorStr = device_vendorStr;
+								hyper.deviceType = device_deviceType;
+								hyper.durability = device_durability;
+								hyper.radius = hyper_radius;
+								hyper.time_start = hyper_time_start;
+								hyper.time_reload = hyper_time_reload;
 								Items.add(hyper);
 								break;
 							}
 							case DeviceType.radar:
 							{
-								Radar radar = (Radar)device;
 								Gdx.app.log("LoadItems", "Тип: радар");
-								radar.radius = GetIntValue(command.data, ArrPtr);
-								radar.defense = GetIntValue(command.data, ArrPtr);
+								int radar_radius = GetIntValue(command.data, ArrPtr);
+								int radar_defense = GetIntValue(command.data, ArrPtr);
+								Radar radar = new Radar();
+								radar.id = item_id;
+								radar.itemType = item_itemType;
+								radar.description = item_description;
+								radar.volume = item_volume;
+								radar.region_id = item_region_id;
+								radar.vendorStr = device_vendorStr;
+								radar.deviceType = device_deviceType;
+								radar.durability = device_durability;
+								radar.radius = radar_radius;
+								radar.defense = radar_defense;
 								Items.add(radar);
 								break;
 							}
 							case DeviceType.weapon:
 							{
-								Weapon weapon = (Weapon)device;
 								Gdx.app.log("LoadItems", "Тип: оружие");
-								weapon.weaponType = GetIntValue(command.data, ArrPtr);
-								weapon.radius = GetIntValue(command.data, ArrPtr);
-								weapon.power = GetIntValue(command.data, ArrPtr);
-								weapon.time_start = GetIntValue(command.data, ArrPtr);
-								weapon.time_reload = GetIntValue(command.data, ArrPtr);
+								int weapon_weaponType = GetIntValue(command.data, ArrPtr);
+								int weapon_radius = GetIntValue(command.data, ArrPtr);
+								int weapon_power = GetIntValue(command.data, ArrPtr);
+								int weapon_time_start = GetIntValue(command.data, ArrPtr);
+								int weapon_time_reload = GetIntValue(command.data, ArrPtr);
+								Weapon weapon = new Weapon();
+								weapon.id = item_id;
+								weapon.itemType = item_itemType;
+								weapon.description = item_description;
+								weapon.volume = item_volume;
+								weapon.region_id = item_region_id;
+								weapon.vendorStr = device_vendorStr;
+								weapon.deviceType = device_deviceType;
+								weapon.durability = device_durability;
+								weapon.weaponType = weapon_weaponType;
+								weapon.radius = weapon_radius;
+								weapon.power = weapon_power;
+								weapon.time_start = weapon_time_start;
+								weapon.time_reload = weapon_time_reload;
 								Items.add(weapon);
 								break;
 							}
 							case DeviceType.none:
 							{
+								Device device = new Device();
+								device.id = item_id;
+								device.itemType = item_itemType;
+								device.description = item_description;
+								device.volume = item_volume;
+								device.region_id = item_region_id;
+								device.vendorStr = device_vendorStr;
+								device.deviceType = device_deviceType;
+								device.durability = device_durability;
 								Items.add(device);
 								Gdx.app.log("LoadItems", "Тип девайса: н/а");
 								break;
@@ -313,6 +400,12 @@ public class NetController {
 					case ItemType.none:
 					{
 						Gdx.app.log("LoadItems", "Тип итема: н/а");
+						Item item = new Item();
+						item.id = item_id;
+						item.itemType = item_itemType;
+						item.description = item_description;
+						item.volume = item_volume;
+						item.region_id = item_region_id;
 						Items.add(item);
 						break;
 					}					

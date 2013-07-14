@@ -6,5 +6,9 @@ public class Fuelbag extends Device{
 		super(posX, posY);
 	}
 
+	public Fuelbag() {
+
+	}
+
 	public int compress;
 }

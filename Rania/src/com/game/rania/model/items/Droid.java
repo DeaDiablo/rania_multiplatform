@@ -6,6 +6,9 @@ public class Droid extends Device{
 		super(posX, posY);
 	}
 
+	public Droid() {
+	}
+
 	public int power;
     public int time_reload;
 }

@@ -6,6 +6,10 @@ public class Ship extends Device{
 		super(posX, posY);
 	}
 
+	public Ship() {
+
+	}
+
 	public int slot_weapons;
     public int slot_droids;
     public int slot_shield;

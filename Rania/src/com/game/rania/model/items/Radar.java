@@ -6,6 +6,9 @@ public class Radar extends Device{
 		super(posX, posY);
 	}
 
+	public Radar() {
+	}
+
 	public int radius;
     public int defense;
 }

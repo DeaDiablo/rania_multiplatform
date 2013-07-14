@@ -6,6 +6,9 @@ public class Weapon extends Device{
 		super(posX, posY);
 	}
 
+	public Weapon() {
+	}
+
 	public int weaponType;
     public int radius;
     public int power;

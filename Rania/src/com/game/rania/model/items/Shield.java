@@ -6,5 +6,8 @@ public class Shield extends Device{
 		super(posX, posY);
 	}
 
+	public Shield() {
+	}
+
 	public int power;
 }

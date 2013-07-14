@@ -2,6 +2,7 @@ package com.game.rania.controller;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
@@ -58,6 +59,7 @@ public class LocationController {
 	private HashMap<Integer, Nebula>   nebulas   = null;
 	private HashMap<Integer, Planet>   planets   = new HashMap<Integer, Planet>();
 	private HashMap<Integer, User> 	   users     = null;
+	private List<Object> 			   items	 = null;
 	//objects
 	private Player   player 		   = null;
 	private Group	 background		   = null;
@@ -67,6 +69,7 @@ public class LocationController {
 	private Vector<Nebula> showNebulas = new Vector<Nebula>();
 	//help objects
 	private PlayerController pController = null;
+	
 	
 	public void clearObjects(){
 		player.stop();
@@ -80,6 +83,7 @@ public class LocationController {
 	public void loadLocationsAndNebulas() {
 		locations = nController.getAllLocations();
 		domains = nController.getAllDomains();
+		items = nController.getItems();
 	}
 	
 	//player
@@ -373,7 +377,7 @@ public class LocationController {
 	public Domain getDomain(int id){
 		return domains.get(id);
 	}
-	
+
 	private Vector2 distanceVec = new Vector2();
 	private float distanceBuffer = 0.0f;
 	

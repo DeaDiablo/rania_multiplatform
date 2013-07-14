@@ -3,8 +3,11 @@ package com.game.rania.net;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.Config;
 import com.game.rania.controller.CommandController;
@@ -21,7 +24,18 @@ import com.game.rania.model.Target;
 import com.game.rania.model.User;
 import com.game.rania.model.Location;
 import com.game.rania.model.Planet;
+import com.game.rania.model.items.Device;
+import com.game.rania.model.items.DeviceType;
+import com.game.rania.model.items.Droid;
+import com.game.rania.model.items.Engine;
+import com.game.rania.model.items.Fuelbag;
+import com.game.rania.model.items.Hyper;
 import com.game.rania.model.items.Item;
+import com.game.rania.model.items.ItemType;
+import com.game.rania.model.items.Radar;
+import com.game.rania.model.items.Shield;
+import com.game.rania.model.items.Ship;
+import com.game.rania.model.items.Weapon;
 import com.game.rania.screen.MainMenu;
 import com.game.rania.userdata.Command;
 import com.game.rania.userdata.Client;
@@ -174,6 +188,142 @@ public class NetController {
 	public void clientRelogin()
 	{
 		//mClient.relogin
+	}
+	
+	public List<Object> getItems()
+	{
+		List<Object> Items = new ArrayList<Object>();
+		try
+		{
+			mClient.stream.sendCommand(Command.items);
+			Command command = waitCommand(Command.items);
+			AddressCommand ArrPtr = new AddressCommand();
+			int ItemsCount = GetIntValue(command.data, ArrPtr);
+			Gdx.app.log("LoadItems", "Count: "+ItemsCount);
+			for (int i=0; i<ItemsCount; i++)
+			{
+				Item item = new Item();
+				item.id = GetIntValue(command.data, ArrPtr);
+				item.itemType = GetIntValue(command.data, ArrPtr);
+				int ItemDescriptionLen = GetIntValue(command.data, ArrPtr);
+				item.description = GetStringValue(command.data, ArrPtr, ItemDescriptionLen);
+				Gdx.app.log("LoadItems", "Предмет: "+item.description);
+				item.volume = GetIntValue(command.data, ArrPtr);
+				item.region_id = GetIntValue(command.data, ArrPtr);
+				switch (item.itemType)
+				{
+					case ItemType.device:
+					{
+						Device device = item.asDevice();
+						int DeviceVendorLen = GetIntValue(command.data, ArrPtr);
+						Gdx.app.log("LoadItems", "Длинна строки: "+DeviceVendorLen);
+						String vendorStr = GetStringValue(command.data, ArrPtr, DeviceVendorLen);
+						Gdx.app.log("LoadItems", "Вендор: "+vendorStr);
+						device.setVendor(vendorStr);
+						Gdx.app.log("LoadItems", "Вендор присвоился");
+						device.deviceType = GetIntValue(command.data, ArrPtr);
+						device.durability = GetIntValue(command.data, ArrPtr);
+						switch (device.deviceType)
+						{
+							case DeviceType.ship:
+							{
+								Ship ship = (Ship)device;
+								Gdx.app.log("LoadItems", "Тип: корпус");
+								ship.slot_weapons = GetIntValue(command.data, ArrPtr);
+								ship.slot_droids = GetIntValue(command.data, ArrPtr);
+								ship.slot_shield = GetIntValue(command.data, ArrPtr);
+								ship.slot_hyper = GetIntValue(command.data, ArrPtr);
+								Items.add(ship);
+								break;
+							}
+							case DeviceType.engine:
+							{
+								Engine engine = (Engine)device;
+								Gdx.app.log("LoadItems", "Тип: двигатель");
+								engine.power = GetIntValue(command.data, ArrPtr);
+								engine.economic = GetIntValue(command.data, ArrPtr);
+								Items.add(engine);
+								break;
+							}
+							case DeviceType.fuelbag:
+							{
+								Fuelbag fuelbag = (Fuelbag)device;
+								Gdx.app.log("LoadItems", "Тип: топливный бак");
+								fuelbag.compress = GetIntValue(command.data, ArrPtr);
+								Items.add(fuelbag);
+								break;
+							}
+							case DeviceType.droid:
+							{
+								Droid droid = (Droid)device;
+								Gdx.app.log("LoadItems", "Тип: дроид");
+								droid.power = GetIntValue(command.data, ArrPtr);
+								droid.time_reload = GetIntValue(command.data, ArrPtr);
+								Items.add(droid);
+								break;
+							}
+							case DeviceType.shield:
+							{
+								Shield shield = (Shield)device;
+								Gdx.app.log("LoadItems", "Тип: щит");
+								shield.power = GetIntValue(command.data, ArrPtr);
+								Items.add(shield);
+								break;
+							}
+							case DeviceType.hyper:
+							{
+								Hyper hyper = (Hyper)device;
+								Gdx.app.log("LoadItems", "Тип: гипер");
+								hyper.radius = GetIntValue(command.data, ArrPtr);
+								hyper.time_start = GetIntValue(command.data, ArrPtr);
+								hyper.time_reload = GetIntValue(command.data, ArrPtr);
+								Items.add(hyper);
+								break;
+							}
+							case DeviceType.radar:
+							{
+								Radar radar = (Radar)device;
+								Gdx.app.log("LoadItems", "Тип: радар");
+								radar.radius = GetIntValue(command.data, ArrPtr);
+								radar.defense = GetIntValue(command.data, ArrPtr);
+								Items.add(radar);
+								break;
+							}
+							case DeviceType.weapon:
+							{
+								Weapon weapon = (Weapon)device;
+								Gdx.app.log("LoadItems", "Тип: оружие");
+								weapon.weaponType = GetIntValue(command.data, ArrPtr);
+								weapon.radius = GetIntValue(command.data, ArrPtr);
+								weapon.power = GetIntValue(command.data, ArrPtr);
+								weapon.time_start = GetIntValue(command.data, ArrPtr);
+								weapon.time_reload = GetIntValue(command.data, ArrPtr);
+								Items.add(weapon);
+								break;
+							}
+							case DeviceType.none:
+							{
+								Items.add(device);
+								Gdx.app.log("LoadItems", "Тип девайса: н/а");
+								break;
+							}
+						}
+						break;
+					}
+					case ItemType.none:
+					{
+						Gdx.app.log("LoadItems", "Тип итема: н/а");
+						Items.add(item);
+						break;
+					}					
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			Gdx.app.log("LoadItems", "Ошибка: " + ex.getMessage());
+		}
+		return Items;
 	}
 	
 	public HashMap<Integer, User> getNearUsers()
@@ -504,7 +654,7 @@ public class NetController {
 		try {
 			Res = new String(Arr, "UTF-16LE");
 		} catch (UnsupportedEncodingException e) {
-
+			Gdx.app.log("Получение строки", "Ошибка: " + e.getMessage());
 		}
 		return Res;
 	}

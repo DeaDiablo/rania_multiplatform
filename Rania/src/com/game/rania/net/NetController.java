@@ -33,7 +33,7 @@ public class NetController {
 	private Receiver receiver = null;
 	private CommandController cController = null;
 	private Client mClient = null;
-	private int ProtocolVersion = 2;
+	private int ProtocolVersion = 3;
 	
 	public NetController(CommandController commandController){
 		cController = commandController;
@@ -350,6 +350,8 @@ public class NetController {
 				domain.color = GetColorValue(command.data, ArrPtr);
 				int DomainNameLen = GetIntValue(command.data, ArrPtr);
 				domain.domainName = GetStringValue(command.data, ArrPtr, DomainNameLen);
+				domain.x = GetIntValue(command.data, ArrPtr);
+				domain.y = GetIntValue(command.data, ArrPtr);
 				domains.put(domain.id, domain);
 				//Gdx.app.log("Domain", domain.DomainName +": "+ "R:"+String.format("%s",domain.color.r)+"  G:"+String.format("%s",domain.color.g)+"  B:"+String.format("%s",domain.color.b)+"  A:"+String.format("%s",domain.color.a));
 			}

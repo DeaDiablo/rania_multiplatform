@@ -6,4 +6,6 @@ public class Domain{
 	public int id;
 	public String domainName;
 	public Color color;
+	public int x;
+	public int y;
 }

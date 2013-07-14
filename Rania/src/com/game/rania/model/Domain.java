@@ -4,6 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 
 public class Domain{
 	public int id;
-	public String DomainName;
+	public String domainName;
 	public Color color;
 }

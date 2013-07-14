@@ -38,13 +38,17 @@ public class TextList extends HUDObject{
 		parseText(lines, text.content, text.color);
 	}
 	
-	public void addText(String text){
-		addText(text, this.text.color);
+	public void addLine(String text){
+		addLine(text, this.text.color);
 	}
 	
-	public void addText(String text, Color color){
+	public void addLine(String text, Color color){
 		parseText(lines, text, color);
 		goToEnd();
+	}
+	
+	public void clear(){
+		lines.clear();
 	}
 	
 	protected String bufferText;

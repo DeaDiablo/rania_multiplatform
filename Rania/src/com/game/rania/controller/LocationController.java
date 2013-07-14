@@ -211,6 +211,7 @@ public class LocationController {
 
 		if (currentLocation.star == null)
 			currentLocation.star = new Star(currentLocation.id,
+					                        currentLocation.starName,
 											currentLocation.starType,
 											currentLocation.x,
 											currentLocation.y,
@@ -233,6 +234,7 @@ public class LocationController {
 		
 		if (currentLocation.star == null)
 			currentLocation.star = new Star(currentLocation.id,
+											currentLocation.starName,
 										    currentLocation.starType,
 										    currentLocation.x,
 										    currentLocation.y,
@@ -405,7 +407,7 @@ public class LocationController {
 	public Star getStar(int idLocation){
 		Location location = locations.get(idLocation);
 		if (location.star == null)
-			location.star = new Star(location.id, location.starType, location.x, location.y, location.starRadius);
+			location.star = new Star(location.id, location.starName, location.starType, location.x, location.y, location.starRadius);
 		return location.star;
 	}
 

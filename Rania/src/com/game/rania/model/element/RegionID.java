@@ -81,6 +81,7 @@ public enum RegionID {
 	BTN_UI_CHANNEL_PRIVATE_OFF,
 	BTN_UI_SEND_OFF,
 	BTN_UI_SEND_ON,
+	INFO,
 	
 	//emblems
 	MORT,

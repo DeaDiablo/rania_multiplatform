@@ -1,20 +1,37 @@
 package com.game.rania.screen.part;
 
+import java.util.Vector;
+
 public class Parts {
 	
+	protected static Vector<Part> parts = new Vector<Part>();
+	
+	public static void removAllParts(){
+		for(Part part : parts){
+			part.unloadPart();
+		}
+		parts.clear();
+	}
+
 	//sidebar	
 	protected static SideBar sideBar = null;
 	
 	public static SideBar getSideBar(){
-		if (sideBar == null)
+		if (sideBar == null) {
 			sideBar = new SideBar();
+			parts.add(sideBar);
+		}
 		return sideBar;
 	}
 	
-	public static void removeSideBar(){
-		if (sideBar != null){
-			sideBar.unloadTextures();
-			sideBar = null;
+	//info panel
+	protected static InfoPanel infoPanel = null;
+	
+	public static InfoPanel getInfoPanel(){
+		if (infoPanel == null) {
+			infoPanel = new InfoPanel();
+			parts.add(infoPanel);
 		}
+		return infoPanel;
 	}
 }

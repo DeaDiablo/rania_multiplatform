@@ -4,13 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.LocationController;
+import com.game.rania.screen.part.InfoPanel;
 import com.game.rania.screen.part.Parts;
 import com.game.rania.screen.part.SideBar;
 
 public class LocationScreen extends RaniaScreen{
 	
 	private LocationController locController = Controllers.locController;
-	private SideBar sideBar                  = Parts.getSideBar();
+	private SideBar            sideBar       = Parts.getSideBar();
+	private InfoPanel          infoPanel     = Parts.getInfoPanel();
 	
 	public LocationScreen(){
 		super();
@@ -35,7 +37,8 @@ public class LocationScreen extends RaniaScreen{
 		locController.addUsers();
 		locController.addRadar();
 		locController.addPlayer();
-		sideBar.addElements();
+		sideBar.addPart();
+		infoPanel.addPart();
 	}
 	
 	@Override

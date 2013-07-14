@@ -9,6 +9,7 @@ import com.game.rania.model.Player;
 import com.game.rania.model.Star;
 import com.game.rania.model.Target;
 import com.game.rania.model.User;
+import com.game.rania.screen.part.Parts;
 import com.game.rania.view.Camera;
 
 public class PlayerController extends UpdateController{
@@ -39,6 +40,7 @@ public class PlayerController extends UpdateController{
 			 currentTarget.type != player.target.type))
 		{
 			player.target = currentTarget;
+			Parts.getInfoPanel().setTargetInfo(currentTarget);
 			Controllers.netController.sendTarget(currentTarget);
 			return true;
 		}

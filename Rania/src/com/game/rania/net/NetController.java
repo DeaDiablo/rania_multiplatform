@@ -315,7 +315,7 @@ public class NetController {
 			int ItemsCount = GetIntValue(command.data, ArrPtr);
 			for (int i=0;i<ItemsCount;i++)
 			{
-				Item item = new Item();
+				Item item = new Item(0, 0);
 				item.id = GetIntValue(command.data, ArrPtr);
 				item.type = GetIntValue(command.data, ArrPtr);
 				int ItemNameLen = GetIntValue(command.data, ArrPtr);
@@ -349,7 +349,7 @@ public class NetController {
 				domain.id = GetIntValue(command.data, ArrPtr);
 				domain.color = GetColorValue(command.data, ArrPtr);
 				int DomainNameLen = GetIntValue(command.data, ArrPtr);
-				domain.DomainName = GetStringValue(command.data, ArrPtr, DomainNameLen);
+				domain.domainName = GetStringValue(command.data, ArrPtr, DomainNameLen);
 				domains.put(domain.id, domain);
 				//Gdx.app.log("Domain", domain.DomainName +": "+ "R:"+String.format("%s",domain.color.r)+"  G:"+String.format("%s",domain.color.g)+"  B:"+String.format("%s",domain.color.b)+"  A:"+String.format("%s",domain.color.a));
 			}

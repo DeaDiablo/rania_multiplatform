@@ -60,7 +60,7 @@ public class RaniaGame extends Game {
 	@Override
 	public void dispose() {
 		Controllers.netController.disconnect();
-		Parts.removeSideBar();
+		Parts.removAllParts();
 		mView.clearAll();
 		Gdx.app.exit();
 	}

@@ -47,12 +47,11 @@ public class SideBar extends Group implements Part{
 	public RadioButton    btnPrivate    = null;
 	
 	public SideBar(){
-		loadTextures();
-		loadElements();
+		loadPart();
 	}
-	
+
 	@Override
-	public void loadTextures(){
+	public void loadPart(){
 		mView.loadTexture("data/gui/blank.png", RegionID.BLANK, false);
 		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHAT_OFF, 192, 192, 96, 96, false);
 		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHAT_ON,  192, 288, 96, 96, false);
@@ -76,27 +75,6 @@ public class SideBar extends Group implements Part{
 		mView.loadTexture("data/gui/chat_edit.png", RegionID.EDIT_CHAT, false);
 		mView.loadTexture("data/gui/btn_send.png", RegionID.BTN_UI_SEND_OFF,  0, 0, 128, 64, false);
 		mView.loadTexture("data/gui/btn_send.png", RegionID.BTN_UI_SEND_ON,  0, 64, 128, 64, false);
-	}
-
-	@Override
-	public void unloadTextures(){
-		mView.unloadTexture("data/gui/blank.png");
-		mView.unloadTexture("data/gui/ui_menu.png");
-		mView.unloadTexture("data/gui/ui_menu.png");
-		mView.unloadTexture("data/gui/ui_chat.png");
-		mView.unloadTexture("data/gui/ui_chat.png");
-		mView.unloadTexture("data/gui/ui_back.png");
-		mView.unloadTexture("data/gui/ui_back.png");
-		mView.unloadTexture("data/gui/ui_exit.png");
-		mView.unloadTexture("data/gui/ui_exit.png");
-		mView.unloadTexture("data/gui/chat_field.png");
-		mView.unloadTexture("data/gui/chat_edit.png");
-		mView.unloadTexture("data/gui/btn_send.png");
-		mView.unloadTexture("data/gui/btn_send.png");
-	}
-
-	@Override
-	public void loadElements(){
 
 		float halfWidth = mView.getHUDCamera().getWidth() * 0.5f;
 		float halfHeight  = mView.getHUDCamera().getHeight() * 0.5f;
@@ -281,13 +259,30 @@ public class SideBar extends Group implements Part{
 	}
 
 	@Override
-	public void addElements() {
+	public void unloadPart(){
+		mView.unloadTexture("data/gui/blank.png");
+		mView.unloadTexture("data/gui/ui_menu.png");
+		mView.unloadTexture("data/gui/ui_menu.png");
+		mView.unloadTexture("data/gui/ui_chat.png");
+		mView.unloadTexture("data/gui/ui_chat.png");
+		mView.unloadTexture("data/gui/ui_back.png");
+		mView.unloadTexture("data/gui/ui_back.png");
+		mView.unloadTexture("data/gui/ui_exit.png");
+		mView.unloadTexture("data/gui/ui_exit.png");
+		mView.unloadTexture("data/gui/chat_field.png");
+		mView.unloadTexture("data/gui/chat_edit.png");
+		mView.unloadTexture("data/gui/btn_send.png");
+		mView.unloadTexture("data/gui/btn_send.png");
+	}
+
+	@Override
+	public void addPart() {
 		setVisible(panel);
 		RaniaGame.mController.addObject(this);
 	}
 
 	@Override
-	public void removeElements() {
+	public void removePart() {
 		RaniaGame.mController.removeObject(this);
 	}
 }

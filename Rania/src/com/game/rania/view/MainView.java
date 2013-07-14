@@ -196,7 +196,7 @@ public class MainView {
 			object.setShader(spriteBatch);
 			object.draw(spriteBatch);
 		}
-		fps.draw(spriteBatch, cameraHUD.getLeft() + fps.getTextBound().width * 0.5f, cameraHUD.getTop() - fps.getTextBound().height * 0.5f);
+		fps.draw(spriteBatch, cameraHUD.getLeft() + fps.getTextBound().width * 0.5f, cameraHUD.getBottom() + fps.getTextBound().height * 0.5f);
 		spriteBatch.end();
 		
 		//HUD shape render

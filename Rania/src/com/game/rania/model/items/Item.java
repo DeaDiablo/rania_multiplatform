@@ -8,8 +8,12 @@ public class Item extends Object{
 		super(0, 0);
 	}
 
+	public Item() {
+		super(0, 0);
+	}
+
 	public int id;
-    public ItemType itemType;
+    public int itemType;
     public String description;
     public int volume;
     public int region_id;

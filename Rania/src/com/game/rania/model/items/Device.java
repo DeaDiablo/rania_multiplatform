@@ -8,7 +8,7 @@ public class Device extends Item {
 	}
 	
 	public Planet vendor;
-    public DeviceType deviceType;
+    public int deviceType;
     public String vendorStr;
     public int durability;
 }

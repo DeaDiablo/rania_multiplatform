@@ -11,6 +11,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.Config;
 import com.game.rania.controller.CommandController;
+import com.game.rania.controller.Controllers;
 import com.game.rania.controller.command.AddPlanetCommand;
 import com.game.rania.controller.command.AddUserCommand;
 import com.game.rania.controller.command.ChatNewMessageCommand;
@@ -28,9 +29,11 @@ import com.game.rania.model.items.Device;
 import com.game.rania.model.items.DeviceType;
 import com.game.rania.model.items.Droid;
 import com.game.rania.model.items.Engine;
+import com.game.rania.model.items.Equip;
 import com.game.rania.model.items.Fuelbag;
 import com.game.rania.model.items.Hyper;
 import com.game.rania.model.items.Item;
+import com.game.rania.model.items.ItemCollection;
 import com.game.rania.model.items.ItemType;
 import com.game.rania.model.items.Radar;
 import com.game.rania.model.items.Shield;
@@ -190,23 +193,21 @@ public class NetController {
 		//mClient.relogin
 	}
 	
-	public List<Object> getItems()
+	public ItemCollection getItems()
 	{
-		List<Object> Items = new ArrayList<Object>();
+		ItemCollection iCollect = new ItemCollection();
 		try
 		{
 			mClient.stream.sendCommand(Command.items);
 			Command command = waitCommand(Command.items);
 			AddressCommand ArrPtr = new AddressCommand();
 			int ItemsCount = GetIntValue(command.data, ArrPtr);
-			Gdx.app.log("LoadItems", "Count: "+ItemsCount);
 			for (int i=0; i<ItemsCount; i++)
 			{
 				int item_id = GetIntValue(command.data, ArrPtr);
 				int item_itemType = GetIntValue(command.data, ArrPtr);
 				int Item_DescriptionLen = GetIntValue(command.data, ArrPtr);
 				String item_description = GetStringValue(command.data, ArrPtr, Item_DescriptionLen);
-				Gdx.app.log("LoadItems", "Предмет: "+item_description);
 				int item_volume = GetIntValue(command.data, ArrPtr);
 				int item_region_id = GetIntValue(command.data, ArrPtr);
 				switch (item_itemType)
@@ -221,7 +222,6 @@ public class NetController {
 						{
 							case DeviceType.ship:
 							{
-								Gdx.app.log("LoadItems", "Тип: корпус");
 								int ship_slot_weapons = GetIntValue(command.data, ArrPtr);
 								int ship_slot_droids = GetIntValue(command.data, ArrPtr);
 								int ship_slot_shield = GetIntValue(command.data, ArrPtr);
@@ -239,12 +239,11 @@ public class NetController {
 								ship.slot_droids = ship_slot_droids;
 								ship.slot_shield = ship_slot_shield;
 								ship.slot_hyper = ship_slot_hyper;
-								Items.add(ship);
+								iCollect.items.add(ship);
 								break;
 							}
 							case DeviceType.engine:
 							{
-								Gdx.app.log("LoadItems", "Тип: двигатель");
 								int engine_power = GetIntValue(command.data, ArrPtr);
 								int engine_economic = GetIntValue(command.data, ArrPtr);
 								Engine engine = new Engine();
@@ -258,12 +257,11 @@ public class NetController {
 								engine.durability = device_durability;
 								engine.power = engine_power;
 								engine.economic = engine_economic;
-								Items.add(engine);
+								iCollect.items.add(engine);
 								break;
 							}
 							case DeviceType.fuelbag:
 							{
-								Gdx.app.log("LoadItems", "Тип: топливный бак");
 								int fuelbag_compress = GetIntValue(command.data, ArrPtr);
 								Fuelbag fuelbag = new Fuelbag();
 								fuelbag.id = item_id;
@@ -275,12 +273,11 @@ public class NetController {
 								fuelbag.deviceType = device_deviceType;
 								fuelbag.durability = device_durability;
 								fuelbag.compress = fuelbag_compress;
-								Items.add(fuelbag);
+								iCollect.items.add(fuelbag);
 								break;
 							}
 							case DeviceType.droid:
 							{
-								Gdx.app.log("LoadItems", "Тип: дроид");
 								int droid_power = GetIntValue(command.data, ArrPtr);
 								int droid_time_reload = GetIntValue(command.data, ArrPtr);
 								Droid droid = new Droid();
@@ -294,12 +291,11 @@ public class NetController {
 								droid.durability = device_durability;
 								droid.power = droid_power;
 								droid.time_reload = droid_time_reload;
-								Items.add(droid);
+								iCollect.items.add(droid);
 								break;
 							}
 							case DeviceType.shield:
 							{
-								Gdx.app.log("LoadItems", "Тип: щит");
 								int shield_power = GetIntValue(command.data, ArrPtr);
 								Shield shield = new Shield();
 								shield.id = item_id;
@@ -311,12 +307,11 @@ public class NetController {
 								shield.deviceType = device_deviceType;
 								shield.durability = device_durability;
 								shield.power = shield_power;
-								Items.add(shield);
+								iCollect.items.add(shield);
 								break;
 							}
 							case DeviceType.hyper:
 							{
-								Gdx.app.log("LoadItems", "Тип: гипер");
 								int hyper_radius = GetIntValue(command.data, ArrPtr);
 								int hyper_time_start = GetIntValue(command.data, ArrPtr);
 								int hyper_time_reload = GetIntValue(command.data, ArrPtr);
@@ -332,12 +327,11 @@ public class NetController {
 								hyper.radius = hyper_radius;
 								hyper.time_start = hyper_time_start;
 								hyper.time_reload = hyper_time_reload;
-								Items.add(hyper);
+								iCollect.items.add(hyper);
 								break;
 							}
 							case DeviceType.radar:
 							{
-								Gdx.app.log("LoadItems", "Тип: радар");
 								int radar_radius = GetIntValue(command.data, ArrPtr);
 								int radar_defense = GetIntValue(command.data, ArrPtr);
 								Radar radar = new Radar();
@@ -351,12 +345,11 @@ public class NetController {
 								radar.durability = device_durability;
 								radar.radius = radar_radius;
 								radar.defense = radar_defense;
-								Items.add(radar);
+								iCollect.items.add(radar);
 								break;
 							}
 							case DeviceType.weapon:
 							{
-								Gdx.app.log("LoadItems", "Тип: оружие");
 								int weapon_weaponType = GetIntValue(command.data, ArrPtr);
 								int weapon_radius = GetIntValue(command.data, ArrPtr);
 								int weapon_power = GetIntValue(command.data, ArrPtr);
@@ -376,48 +369,22 @@ public class NetController {
 								weapon.power = weapon_power;
 								weapon.time_start = weapon_time_start;
 								weapon.time_reload = weapon_time_reload;
-								Items.add(weapon);
-								break;
-							}
-							case DeviceType.none:
-							{
-								Device device = new Device();
-								device.id = item_id;
-								device.itemType = item_itemType;
-								device.description = item_description;
-								device.volume = item_volume;
-								device.region_id = item_region_id;
-								device.vendorStr = device_vendorStr;
-								device.deviceType = device_deviceType;
-								device.durability = device_durability;
-								Items.add(device);
-								Gdx.app.log("LoadItems", "Тип девайса: н/а");
+								iCollect.items.add(weapon);
 								break;
 							}
 						}
 						break;
 					}
-					case ItemType.none:
-					{
-						Gdx.app.log("LoadItems", "Тип итема: н/а");
-						Item item = new Item();
-						item.id = item_id;
-						item.itemType = item_itemType;
-						item.description = item_description;
-						item.volume = item_volume;
-						item.region_id = item_region_id;
-						Items.add(item);
-						break;
-					}					
 				}
 			}
 		}
 		catch (Exception ex)
 		{
-			Gdx.app.log("LoadItems", "Ошибка: " + ex.getMessage());
+			
 		}
-		return Items;
+		return iCollect;
 	}
+
 	
 	public HashMap<Integer, User> getNearUsers()
 	{
@@ -575,7 +542,7 @@ public class NetController {
 		return domains;
 	}
 	
-	public Player getPlayerData()
+	public Player getUserData()
 	{
 		try
 		{
@@ -594,6 +561,7 @@ public class NetController {
 			int SnameLen = GetIntValue(command.data, ArrPtr);			
 			String SName = GetStringValue(command.data, ArrPtr, SnameLen);			
 			Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain, UserInPlanet);
+			player.equips = new ArrayList<Equip>();
 			return player;
 		}
 		catch (Exception ex)
@@ -603,6 +571,94 @@ public class NetController {
 		return null;
 	}
 
+	public List<Equip> getEquips()
+	{
+		try
+		{
+			List<Equip> Res = new ArrayList<Equip>();
+			mClient.stream.sendCommand(Command.equip);
+			Command command = waitCommand(Command.equip);
+			AddressCommand ArrPtr = new AddressCommand();
+			int eqCount = GetIntValue(command.data, ArrPtr);
+			for (int i=0;i<eqCount;i++)
+			{
+				int item_id = GetIntValue(command.data, ArrPtr);
+				int iType = GetIntValue(command.data, ArrPtr);
+				int dType = GetIntValue(command.data, ArrPtr);
+				int in_use = GetIntValue(command.data, ArrPtr);
+				int condition = GetIntValue(command.data, ArrPtr);
+				int location = GetIntValue(command.data, ArrPtr);
+				Equip eq = new Equip();
+				eq.in_use = false;
+				if (in_use==1) {eq.in_use=true;}
+				eq.condition = condition;
+				eq.location = location;
+				eq.item = null;
+				if (iType==1)
+				{
+					switch (dType)
+					{
+						case DeviceType.droid:
+						{
+							Droid item = Controllers.locController.items.getDroid(item_id);
+							eq.item = item;
+							break;
+						}
+						case DeviceType.engine:
+						{
+							Engine item = Controllers.locController.items.getEngine(item_id);
+							eq.item = item;
+							break;
+						}
+						case DeviceType.fuelbag:
+						{
+							Fuelbag item = Controllers.locController.items.getFuelbag(item_id);
+							eq.item = item;
+							break;
+						}
+						case DeviceType.hyper:
+						{
+							Hyper item = Controllers.locController.items.getHyper(item_id);
+							eq.item = item;
+							break;
+						}
+						case DeviceType.radar:
+						{
+							Radar item = Controllers.locController.items.getRadar(item_id);
+							eq.item = item;
+							break;
+						}
+						case DeviceType.shield:
+						{
+							Shield item = Controllers.locController.items.getShield(item_id);
+							eq.item = item;
+							break;
+						}
+						case DeviceType.ship:
+						{
+							Ship item = Controllers.locController.items.getShip(item_id);
+							eq.item = item;
+							break;
+						}
+						case DeviceType.weapon:
+						{
+							Weapon item = Controllers.locController.items.getWeapon(item_id);
+							eq.item = item;
+							break;
+						}
+					}
+				}
+				Res.add(eq);
+			}
+			return Res;
+		}
+		catch (Exception ex)
+		{
+
+		}
+		return null;
+	}
+	
 	public static int byteArrayToInt(byte[] b)
 	{
 		return b[3] & 0xFF | (b[2] & 0xFF) << 8 | (b[1] & 0xFF) << 16 | (b[0] & 0xFF) << 24;

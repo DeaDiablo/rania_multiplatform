@@ -1,9 +1,13 @@
 package com.game.rania.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.rania.controller.Controllers;
 import com.game.rania.model.element.Font;
+import com.game.rania.model.items.Equip;
 
 public class User extends SpaceShip{
 
@@ -12,6 +16,7 @@ public class User extends SpaceShip{
 	public String pilotName;
 	public Domain domain;
 	public int inPlanet;
+	public List<Equip> equips = new ArrayList<Equip>();
 
 	public User(int Id, float posX, float posY, String ShipName, String PilotName, int Domain) {
 		super(posX, posY, ShipName);

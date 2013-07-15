@@ -55,6 +55,11 @@ public class MainController extends InputMultiplexer{
 	}
 	
 	public void addObject(Object object){
+		if (object.asHUDObject() != null){
+			addHUDObject(object.asHUDObject());
+			return;
+		}
+		
 		if (sceneObjects.contains(object))
 			return;
 		
@@ -68,7 +73,10 @@ public class MainController extends InputMultiplexer{
 	}
 	
 	public void removeObject(Object object){
-		removeSceneObjects.add(object);
+		if (object.asHUDObject() != null)
+			removeHUDObject(object.asHUDObject());
+		else
+			removeSceneObjects.add(object);
 	}
 
 	//HUD objects

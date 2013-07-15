@@ -1,8 +1,6 @@
 package com.game.rania.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.game.rania.Config;
 import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
@@ -19,6 +17,7 @@ public class MainMenu extends RaniaScreen{
 	
 	public MainMenu(){
 		super();
+		mController.init();
 	}
 	
 	@Override
@@ -74,8 +73,7 @@ public class MainMenu extends RaniaScreen{
 											if (Controllers.netController.login(loginEdit.getText(), passwordEdit.getText()))
 											{
 												dispose();
-												Controllers.locController.loadLocationsAndNebulas();
-												RaniaGame.mGame.setScreen(new LocationScreen());
+												new LocationScreen().set();
 											}
 											else
 											{
@@ -96,7 +94,7 @@ public class MainMenu extends RaniaScreen{
 									@Override
 									public void execute(boolean touch) {	
 										dispose();
-										RaniaGame.mGame.setScreen(new RegisterScreen());
+										new RegisterScreen().set();
 									}
 								  }));
 		
@@ -111,30 +109,5 @@ public class MainMenu extends RaniaScreen{
 							    		RaniaGame.mGame.dispose();
 									}
 								  }));
-	}
-
-	@Override
-	public void hide() {
-	}
-
-	@Override
-	public void pause() {		
-	}
-
-	@Override
-	public void render(float deltaTime) {		
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
-		mController.update(deltaTime);
-		mView.draw();
-	}
-
-	@Override
-	public void resize(int width, int height) {
-	}
-
-	@Override
-	public void resume() {
 	}
 }

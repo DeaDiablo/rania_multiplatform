@@ -81,9 +81,11 @@ public class LocationController {
 	}
 
 	public void loadLocationsAndNebulas() {
-		locations = nController.getAllLocations();
-		domains = nController.getAllDomains();
-		items = nController.getItems();
+		if (locations == null) {
+			locations = nController.getAllLocations();
+			domains = nController.getAllDomains();
+			items = nController.getItems();
+		}
 	}
 	
 	//player
@@ -213,13 +215,15 @@ public class LocationController {
 		if (currentLocation == null)
 			return;
 
-		if (currentLocation.star == null)
+		if (currentLocation.star == null) {
 			currentLocation.star = new Star(currentLocation.id,
 					                        currentLocation.starName,
 											currentLocation.starType,
 											currentLocation.x,
 											currentLocation.y,
 											currentLocation.starRadius);
+		}
+
 		star = currentLocation.star;
 		
 		if (currentLocation.planets == null)
@@ -236,13 +240,15 @@ public class LocationController {
 		if (currentLocation == null)
 			return;
 		
-		if (currentLocation.star == null)
+		if (currentLocation.star == null) {
 			currentLocation.star = new Star(currentLocation.id,
 											currentLocation.starName,
 										    currentLocation.starType,
 										    currentLocation.x,
 										    currentLocation.y,
 										    currentLocation.starRadius);
+		}
+
 		star = currentLocation.star;
 		
 		if (currentLocation.planets != null) {
@@ -482,8 +488,6 @@ public class LocationController {
 		}
 		return null;
 	}
-	
-	//
 	
 	//update
 	private float updateTime = 0.0f;

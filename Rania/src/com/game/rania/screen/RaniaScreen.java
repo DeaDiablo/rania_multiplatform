@@ -2,6 +2,7 @@ package com.game.rania.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL10;
 import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.MainController;
@@ -18,8 +19,20 @@ public class RaniaScreen implements Screen{
 		mController = RaniaGame.mController;
 	}
 
+	public boolean isLoaded(){
+		return true;
+	}
+	
+	public void update(float deltaTime){
+		mController.update(deltaTime);
+	}
+
 	@Override
-	public void render(float delta) {
+	public void render(float deltaTime) {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		mView.draw();
+		update(deltaTime);
 	}
 
 	@Override
@@ -28,7 +41,6 @@ public class RaniaScreen implements Screen{
 
 	@Override
 	public void show() {
-		mController.init();
 	}
 
 	@Override
@@ -37,7 +49,7 @@ public class RaniaScreen implements Screen{
 
 	@Override
 	public void pause() {
-		Controllers.commandController.addCommand(new SwitchScreenCommand(new MainMenu()));
+		new MainMenu().set();
 		Controllers.netController.disconnect();
 	}
 
@@ -50,6 +62,14 @@ public class RaniaScreen implements Screen{
 		Gdx.input.setOnscreenKeyboardVisible(false);
 		mController.clear();
 		mView.clear();
+	}
+	
+	public LoadableScreen asLoadableScreen(){
+		return null;
+	}
+
+	public void set() {
+		Controllers.commandController.addCommand(new SwitchScreenCommand(this));
 	}
 	
 }

@@ -36,6 +36,7 @@ public class TextList extends HUDObject{
 		touchObject = true;
 		countLine = (int) (heightList / text.font.getLineHeight());
 		parseText(lines, text.content, text.color);
+		goToEnd();
 	}
 	
 	public void addLine(String text){

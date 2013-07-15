@@ -1,36 +1,92 @@
 package com.game.rania.screen;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.LocationController;
 import com.game.rania.screen.part.InfoPanel;
 import com.game.rania.screen.part.Parts;
 import com.game.rania.screen.part.SideBar;
 
-public class LocationScreen extends RaniaScreen{
-	
+public class LocationScreen extends LoadableScreen{
+
 	private LocationController locController = Controllers.locController;
 	private SideBar            sideBar       = Parts.getSideBar();
 	private InfoPanel          infoPanel     = Parts.getInfoPanel();
 	
 	public LocationScreen(){
 		super();
+
+		
+		LoadObject loadObject = new LoadObject(new String("Загрузка текстур...")) {
+			@Override
+			public void load() {
+				locController.loadTextures();
+			}
+		};
+		addLoadObject(loadObject);
+
+		loadObject = new LoadObject(new String("Загрузка локаций...")) {
+			@Override
+			public void load() {
+				locController.loadLocationsAndNebulas();
+			}
+		};
+		addLoadObject(loadObject);
+		
+		loadObject = new LoadObject(new String("Загрузка игрока...")) {
+			@Override
+			public void load() {
+				locController.loadPlayer();
+			}
+		};
+		addLoadObject(loadObject);
+		
+		loadObject = new LoadObject(new String("Загрузка фона...")) {
+			@Override
+			public void load() {
+				locController.loadBackground();
+			}
+		};
+		addLoadObject(loadObject);
+
+		loadObject = new LoadObject(new String("Загрузка туманностей...")) {
+			@Override
+			public void load() {
+				locController.loadNebulas();
+			}
+		};
+		addLoadObject(loadObject);
+
+		loadObject = new LoadObject(new String("Загрузка планет...")) {
+			@Override
+			public void load() {
+				locController.loadPlanets();
+			}
+		};
+		addLoadObject(loadObject);
+
+		loadObject = new LoadObject(new String("Загрузка игроков...")) {
+			@Override
+			public void load() {
+				locController.loadUsers();
+			}
+		};
+		addLoadObject(loadObject);
+
+		loadObject = new LoadObject(new String("Загрузка радара...")) {
+			@Override
+			public void load() {
+				locController.loadRadar();
+				infoPanel.loadPart();
+			}
+		};
+		addLoadObject(loadObject);
 	}
 
 	@Override
 	public void show() {
-		super.show();
-		locController.loadTextures();
-		if (!locController.loadPlayer())
+		if (locController.getPlayer() == null || locController.getCurrentLocation() == null)
 			return;
-		
-		locController.loadBackground();
-		locController.loadNebulas();
-		locController.loadPlanets();
-		locController.loadUsers();
-		locController.loadRadar();
-		
+
 		locController.addBackground();
 		locController.addNebulas();
 		locController.addPlanets();
@@ -48,12 +104,8 @@ public class LocationScreen extends RaniaScreen{
 	}
 
 	@Override
-	public void render(float deltaTime) {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
+	public void update(float deltaTime) {
+		super.update(deltaTime);
 		locController.update(deltaTime);
-		mController.update(deltaTime);
-		mView.draw();
 	}
 }

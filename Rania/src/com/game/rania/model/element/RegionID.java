@@ -4,6 +4,7 @@ public enum RegionID {
 	NONE,
 	
 	//static elements
+	LOADING,
 	BACKGROUND_MENU,
 	BACKGROUND_SPACE,
 	BACKGROUND_STARS,

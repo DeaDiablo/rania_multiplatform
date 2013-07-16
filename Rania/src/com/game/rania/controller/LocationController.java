@@ -85,6 +85,15 @@ public class LocationController {
 			locations = nController.getAllLocations();
 			domains = nController.getAllDomains();
 			items = nController.getItems();
+		} else {
+			for(Location location : locations.values()) {
+				if (location.star != null) {
+					location.star.reloadTexture();
+					for(Planet planet : location.planets.values()){
+						planet.reloadTexture();
+					}
+				}
+			}
 		}
 	}
 	
@@ -93,6 +102,8 @@ public class LocationController {
 		player = nController.getUserData();
 		if (player == null)
 			return false;
+		player.equips = nController.getEquips(player.id);
+		player.updateUserShip();
 		currentLocation = getNearLocation();
 		if (currentLocation == null)
 			return false;
@@ -313,14 +324,10 @@ public class LocationController {
 		users = nController.getNearUsers();
 	}
 	
-	public void updateUsers(){
-		removeUsers();
-		users = nController.getNearUsers();
-		addUsers();
-	}
-	
 	public void addUsers(){
 		for (User user : users.values()) {
+			//user.equips = nController.getEquips(user.id);
+			//user.updateUserShip();
 			mController.addObject(user);
 		}
 	}
@@ -336,6 +343,8 @@ public class LocationController {
 		if (users.containsKey(user.id))
 			return;
 		users.put(user.id, user);
+		//user.equips = nController.getEquips(user.id);
+		//user.updateUserShip();
 		mController.addObject(user);
 	}
 	

@@ -516,8 +516,8 @@ public class NetController {
 				int PlanetAtmosphere_speedX = GetIntValue(command.data, ArrPtr);
 				int PlanetAtmosphere_speedY = GetIntValue(command.data, ArrPtr);
 				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, idLocation, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
-				planet.color  = color;
-				planet.atmColor  = atmColor;
+				planet.color = color;
+				planet.atmophereColor = atmColor;
 				planets.put(PlanetId, planet);
 			}
 		}
@@ -903,7 +903,7 @@ public class NetController {
 				int PlanetAtmosphere_speedY = GetIntValue(command.data, ArrPtr);
 				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, locID, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
 				planet.color = PlanetColor;
-				planet.atmColor = AtmColor;
+				planet.atmophereColor = AtmColor;
 				cController.addCommand(new AddPlanetCommand(planet));
 			}
 			break;

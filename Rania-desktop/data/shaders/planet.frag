@@ -9,6 +9,7 @@ uniform sampler2D u_texture2;
 uniform vec2 v_speed;
 uniform vec2 uvMin;
 uniform vec2 uvMax;
+uniform vec4 v_color2;
 
 void main() {
     vec4 planet = v_color * texture2D(u_texture, v_texCoords);
@@ -22,7 +23,7 @@ void main() {
   	
   	texCoordCloud = texCoordCloud * f * len + uvMin + v_speed;
     
-    vec4 cloud  = texture2D(u_texture2, texCoordCloud);
+    vec4 cloud = v_color2 * texture2D(u_texture2, texCoordCloud);
     planet.rgb = mix(planet.rgb, cloud.rgb, cloud.a);
     gl_FragColor = planet;
 }

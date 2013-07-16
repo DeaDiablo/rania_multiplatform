@@ -102,8 +102,6 @@ public class LocationController {
 		player = nController.getUserData();
 		if (player == null)
 			return false;
-		player.equips = nController.getEquips(player.id);
-		player.updateUserShip();
 		currentLocation = getNearLocation();
 		if (currentLocation == null)
 			return false;
@@ -326,8 +324,6 @@ public class LocationController {
 	
 	public void addUsers(){
 		for (User user : users.values()) {
-			//user.equips = nController.getEquips(user.id);
-			//user.updateUserShip();
 			mController.addObject(user);
 		}
 	}
@@ -343,8 +339,6 @@ public class LocationController {
 		if (users.containsKey(user.id))
 			return;
 		users.put(user.id, user);
-		//user.equips = nController.getEquips(user.id);
-		//user.updateUserShip();
 		mController.addObject(user);
 	}
 	

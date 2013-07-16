@@ -24,7 +24,8 @@ public class Object {
 	public int		zIndex		= Indexes.object;
 	public Shader   shader 		= null;
 
-	public TextureRegion region = null;
+	public RegionID	     regionID = RegionID.NONE;
+	public TextureRegion region   = null;
 	
 	public Object(float posX, float posY){
 		this(posX, posY, 0, 1, 1);
@@ -49,10 +50,15 @@ public class Object {
 	}	
 	
 	public Object(RegionID id, float posX, float posY, float rotAngle, float scaleX, float scaleY){
+		regionID = id;
 		region = RaniaGame.mView.getTextureRegion(id);
 		position.set(posX, posY);
 		angle = rotAngle;
 		scale.set(scaleX, scaleY);
+	}
+	
+	public void reloadTexture(){
+		region = RaniaGame.mView.getTextureRegion(regionID);
 	}
 	
 	public HUDObject asHUDObject(){

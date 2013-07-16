@@ -15,7 +15,6 @@ public class LocationScreen extends LoadableScreen{
 	public LocationScreen(){
 		super();
 
-		
 		LoadObject loadObject = new LoadObject(new String("Загрузка текстур...")) {
 			@Override
 			public void load() {

@@ -317,6 +317,8 @@ public class LocationController {
 	
 	public void addUsers(){
 		for (User user : users.values()) {
+			user.equips = nController.getEquips(user.login);
+			user.updateUserShip();
 			mController.addObject(user);
 		}
 	}
@@ -332,6 +334,8 @@ public class LocationController {
 		if (users.containsKey(user.id))
 			return;
 		users.put(user.id, user);
+		user.equips = nController.getEquips(user.login);
+		user.updateUserShip();
 		mController.addObject(user);
 	}
 	

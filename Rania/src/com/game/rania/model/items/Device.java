@@ -9,16 +9,62 @@ public class Device extends Item {
 		super(0, 0);
 	}
 
-	@Override
-	public Device asDevice() {
+    public int deviceType;
+    public String vendorStr;
+    public int durability;
+
+    public Device(Item item)
+    {
+    	super(0, 0);
+        this.id = item.id;
+        this.description = item.description;
+        this.itemType = item.itemType;
+        this.volume = item.volume;
+        this.region = item.region;
+    }
+    
+    @Override
+	public Device getDevice() {
 		return this;
 	}
-	public void setVendor(String str)
-	{
-		this.vendorPlanet = str;
+
+	@Override
+	public Ship getShip() {
+		return null;
 	}
-	
-    public int deviceType;
-    public String vendorPlanet;
-    public int durability;
+
+	@Override
+	public Engine getEngine() {
+		return null;
+	}
+
+	@Override
+	public Fuelbag getFuelbag() {
+		return null;
+	}
+
+	@Override
+	public Droid getDroid() {
+		return null;
+	}
+
+	@Override
+	public Hyper getHyper() {
+		return null;
+	}
+
+	@Override
+	public Radar getRadar() {
+		return null;
+	}
+
+	@Override
+	public Shield getShield() {
+		return null;
+	}
+
+	@Override
+	public Weapon getWeapon() {
+		return null;
+	}
 }

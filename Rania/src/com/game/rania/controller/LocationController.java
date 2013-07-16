@@ -2,7 +2,6 @@ package com.game.rania.controller;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Vector;
 
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
@@ -19,6 +18,7 @@ import com.game.rania.model.Star;
 import com.game.rania.model.User;
 import com.game.rania.model.element.Group;
 import com.game.rania.model.element.RegionID;
+import com.game.rania.model.items.ItemCollection;
 import com.game.rania.net.NetController;
 import com.game.rania.view.MainView;
 
@@ -59,7 +59,7 @@ public class LocationController {
 	private HashMap<Integer, Nebula>   nebulas   = null;
 	private HashMap<Integer, Planet>   planets   = new HashMap<Integer, Planet>();
 	private HashMap<Integer, User> 	   users     = null;
-	private List<Object> 			   items	 = null;
+	public ItemCollection		   	   items	 = null;
 	//objects
 	private Player   player 		   = null;
 	private Group	 background		   = null;
@@ -90,9 +90,11 @@ public class LocationController {
 	
 	//player
 	public boolean loadPlayer(){
-		player = nController.getPlayerData();
+		player = nController.getUserData();
 		if (player == null)
 			return false;
+		player.equips = nController.getEquips(player.login);
+		player.updateUserShip();
 		currentLocation = getNearLocation();
 		if (currentLocation == null)
 			return false;

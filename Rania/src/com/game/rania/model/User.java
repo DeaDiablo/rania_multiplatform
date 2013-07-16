@@ -23,6 +23,7 @@ public class User extends SpaceShip{
 
 	protected boolean isPlayer = false;
 	public int id;
+	public String login;
 	public String pilotName;
 	public Domain domain;
 	public int inPlanet;

@@ -91,11 +91,8 @@ public class LocationController {
 		player = nController.getUserData();
 		if (player == null)
 			return false;
-		player.equips = nController.getEquips();
+		player.equips = nController.getEquips(player.login);
 		player.updateUserShip();
-		player.userShip.shipDamage(35);
-		player.userShip.reFill(player.userShip.maxFuel);
-		player.userShip.unFill(0.11155);
 		currentLocation = getNearLocation();
 		if (currentLocation == null)
 			return false;

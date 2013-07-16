@@ -48,7 +48,7 @@ public class NetController {
 	private Receiver receiver = null;
 	private CommandController cController = null;
 	private Client mClient = null;
-	private int ProtocolVersion = 3;
+	private int ProtocolVersion = 4;
 	
 	public NetController(CommandController commandController){
 		cController = commandController;
@@ -398,12 +398,15 @@ public class NetController {
 				int UserId = GetIntValue(command.data, ArrPtr);
 				int ShipNameLen = GetIntValue(command.data, ArrPtr);
 				String ShipName = GetStringValue(command.data, ArrPtr, ShipNameLen);
+				int loginLen = GetIntValue(command.data, ArrPtr);
+				String login = GetStringValue(command.data, ArrPtr, loginLen);
 				int UserX = GetIntValue(command.data, ArrPtr);
 				int UserY = GetIntValue(command.data, ArrPtr);
 				int UserTargetX = GetIntValue(command.data, ArrPtr);
 				int UserTargetY = GetIntValue(command.data, ArrPtr);
 				int UserDomain = GetIntValue(command.data, ArrPtr);
 				User userShip = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
+				userShip.login = login;
 				userShip.setPositionTarget(UserTargetX, UserTargetY);
 				UsersMap.put(userShip.id, userShip);
 			}
@@ -560,6 +563,7 @@ public class NetController {
 			String SName = GetStringValue(command.data, ArrPtr, SnameLen);			
 			Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain, UserInPlanet);
 			player.equips = new ArrayList<Equip>();
+			player.login = mClient.login;
 			return player;
 		}
 		catch (Exception ex)
@@ -569,14 +573,20 @@ public class NetController {
 		return null;
 	}
 
-	public List<Equip> getEquips()
+	public List<Equip> getEquips(String userLogin)
 	{
 		try
 		{
-			List<Equip> Res = new ArrayList<Equip>();
-			mClient.stream.sendCommand(Command.equip);
+			byte[] userLoginArr = userLogin.getBytes("UTF-16LE");
+			byte[] userLoginLenArr = intToByteArray(userLoginArr.length);
+			byte[] data = new byte[userLoginLenArr.length+userLoginArr.length];
+			System.arraycopy(userLoginLenArr, 0, data, 0, 4);
+			System.arraycopy(userLoginArr, 0, data, 4, userLoginArr.length);
+			mClient.stream.sendCommand(Command.equip, data);
 			Command command = waitCommand(Command.equip);
+			
 			AddressCommand ArrPtr = new AddressCommand();
+			List<Equip> Res = new ArrayList<Equip>();
 			int eqCount = GetIntValue(command.data, ArrPtr);
 			for (int i=0;i<eqCount;i++)
 			{
@@ -698,12 +708,15 @@ public class NetController {
 			int UserId = GetIntValue(command.data, ArrPtr);
 			int ShipNameLen = GetIntValue(command.data, ArrPtr);
 			String ShipName = GetStringValue(command.data, ArrPtr, ShipNameLen);
+			int loginLen = GetIntValue(command.data, ArrPtr);
+			String login = GetStringValue(command.data, ArrPtr, loginLen);
 			int UserX = GetIntValue(command.data, ArrPtr);
 			int UserY = GetIntValue(command.data, ArrPtr);
 			int TargetX = GetIntValue(command.data, ArrPtr);
 			int TargetY = GetIntValue(command.data, ArrPtr);
 			int UserDomain = GetIntValue(command.data, ArrPtr);
 			User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
+			user.login = login;
 			user.setPositionTarget(TargetX, TargetY);
 			cController.addCommand(new AddUserCommand(user));
 			break;

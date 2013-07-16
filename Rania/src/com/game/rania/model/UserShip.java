@@ -188,6 +188,11 @@ public class UserShip {
             this.fuel = 0;
             this.maxSpeed = 0;
         }
+        if (this.fuel > maxFuel)
+        {
+            this.fuel = this.maxFuel;
+        }
+        this.maxSpeed = this.engine.device.power;
     }
     public void reFill(float f)
     {
@@ -206,6 +211,11 @@ public class UserShip {
             this.fuel = 0;
             this.maxSpeed = 0;
         }
+        if (this.fuel > maxFuel)
+        {
+            this.fuel = this.maxFuel;
+        }
+        this.maxSpeed = this.engine.device.power;
     }
     public void reFill(double f)
     {

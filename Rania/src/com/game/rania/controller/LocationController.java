@@ -2,7 +2,6 @@ package com.game.rania.controller;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Vector;
 
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
@@ -19,7 +18,6 @@ import com.game.rania.model.Star;
 import com.game.rania.model.User;
 import com.game.rania.model.element.Group;
 import com.game.rania.model.element.RegionID;
-import com.game.rania.model.items.Item;
 import com.game.rania.model.items.ItemCollection;
 import com.game.rania.net.NetController;
 import com.game.rania.view.MainView;
@@ -95,6 +93,9 @@ public class LocationController {
 			return false;
 		player.equips = nController.getEquips();
 		player.updateUserShip();
+		player.userShip.shipDamage(35);
+		player.userShip.reFill(player.userShip.maxFuel);
+		player.userShip.unFill(0.11155);
 		currentLocation = getNearLocation();
 		if (currentLocation == null)
 			return false;

@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.rania.controller.Controllers;
 import com.game.rania.model.element.Font;
 import com.game.rania.model.items.Droid;
+import com.game.rania.model.items.EDroid;
+import com.game.rania.model.items.EWeapon;
 import com.game.rania.model.items.Engine;
 import com.game.rania.model.items.Equip;
 import com.game.rania.model.items.Fuelbag;
@@ -65,21 +67,68 @@ public class User extends SpaceShip{
             if (this.equips.get(i).in_use)
             {
                 Ship ship = this.equips.get(i).item.getShip();
-                if (ship != null) { this.userShip.ship = ship; }
+                if (ship != null) 
+                { 
+
+                    this.userShip.ship.device = ship;
+                    this.userShip.ship.equip = this.equips.get(i);
+                }
                 Engine engine = this.equips.get(i).item.getEngine();
-                if (engine != null) { this.userShip.engine = engine; }
+                if (engine != null) 
+                { 
+                    this.userShip.engine.device = engine;
+                    this.userShip.engine.equip = this.equips.get(i);
+                }
                 Fuelbag fuelbag = this.equips.get(i).item.getFuelbag();
-                if (fuelbag != null) { this.userShip.fuelbag = fuelbag; }
+                if (fuelbag != null) 
+                { 
+                    this.userShip.fuelbag.device = fuelbag;
+                    this.userShip.fuelbag.equip = this.equips.get(i);
+                }
                 Hyper hyper = this.equips.get(i).item.getHyper();
-                if (hyper != null) { this.userShip.hyper = hyper; }
+                if (hyper != null) 
+                { 
+                    this.userShip.hyper.device = hyper;
+                    this.userShip.hyper.equip = this.equips.get(i);
+                }
                 Shield shield = this.equips.get(i).item.getShield();
-                if (shield != null) { this.userShip.shield = shield; }
+                if (shield != null) 
+                { 
+                    this.userShip.shield.device = shield;
+                    this.userShip.shield.equip = this.equips.get(i);
+                }
                 Radar radar = this.equips.get(i).item.getRadar();
-                if (radar != null) { this.userShip.radar = radar; }
+                if (radar != null) 
+                { 
+                    this.userShip.radar.device = radar;
+                    this.userShip.radar.equip = this.equips.get(i);
+                }
                 Weapon weapon = this.equips.get(i).item.getWeapon();
-                if (weapon != null) { this.userShip.weapons.add(weapon); }
+                if (weapon != null) 
+                {
+                    EWeapon eWeapon = new EWeapon();
+                    eWeapon.device = weapon;
+                    eWeapon.equip = this.equips.get(i);
+                    this.userShip.weapons.add(eWeapon); 
+                }
                 Droid droid = this.equips.get(i).item.getDroid();
-                if (droid != null) { this.userShip.droids.add(droid); }
+                if (droid != null) 
+                {
+                    EDroid eDroid = new EDroid();
+                    eDroid.device = droid;
+                    eDroid.equip = this.equips.get(i);
+                    this.userShip.droids.add(eDroid); 
+                }
+                this.userShip.maxFuel = 0;
+                this.userShip.maxSpeed = 0;
+                if (this.userShip.fuelbag != null)
+                {
+                    this.userShip.maxFuel = this.userShip.fuelbag.device.volume * this.userShip.fuelbag.device.compress / 100;
+                }
+                if (this.userShip.engine != null)
+                {
+                    this.userShip.maxSpeed = this.userShip.engine.device.power;
+                }
             }
         }
     }

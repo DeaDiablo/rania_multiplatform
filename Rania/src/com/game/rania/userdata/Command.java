@@ -20,7 +20,7 @@ public class Command
 	public static final int removeUser    = 14;
 	public static final int nebulas		  = 15;
 	public static final int items		  = 16;
-	public static final int equip		  = 17;
+	//public static final int equip		  = 17;
 	public static final int failversion	  = 18;
 	public static final int setTarget	  = 19;
 	

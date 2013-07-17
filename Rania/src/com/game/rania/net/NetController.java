@@ -404,79 +404,8 @@ public class NetController {
 				int UserTargetY = GetIntValue(command.data, ArrPtr);
 				int UserDomain = GetIntValue(command.data, ArrPtr);
 				User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
-				List<Equip> equip = new ArrayList<Equip>();
-				int eqCount = GetIntValue(command.data, ArrPtr);
-				for (int j=0;j<eqCount;j++)
-				{
-					int item_id = GetIntValue(command.data, ArrPtr);
-					int iType = GetIntValue(command.data, ArrPtr);
-					int dType = GetIntValue(command.data, ArrPtr);
-					int in_use = GetIntValue(command.data, ArrPtr);
-					int condition = GetIntValue(command.data, ArrPtr);
-					int location = GetIntValue(command.data, ArrPtr);
-					Equip eq = new Equip();
-					eq.in_use = false;
-					if (in_use==1) {eq.in_use=true;}
-					eq.condition = condition;
-					eq.location = location;
-					eq.item = null;
-					if (iType==1)
-					{
-						switch (dType)
-						{
-							case DeviceType.droid:
-							{
-								Droid item = Controllers.locController.items.getDroid(item_id);
-								eq.item = item;
-								break;
-							}
-							case DeviceType.engine:
-							{
-								Engine item = Controllers.locController.items.getEngine(item_id);
-								eq.item = item;
-								break;
-							}
-							case DeviceType.fuelbag:
-							{
-								Fuelbag item = Controllers.locController.items.getFuelbag(item_id);
-								eq.item = item;
-								break;
-							}
-							case DeviceType.hyper:
-							{
-								Hyper item = Controllers.locController.items.getHyper(item_id);
-								eq.item = item;
-								break;
-							}
-							case DeviceType.radar:
-							{
-								Radar item = Controllers.locController.items.getRadar(item_id);
-								eq.item = item;
-								break;
-							}
-							case DeviceType.shield:
-							{
-								Shield item = Controllers.locController.items.getShield(item_id);
-								eq.item = item;
-								break;
-							}
-							case DeviceType.ship:
-							{
-								Ship item = Controllers.locController.items.getShip(item_id);
-								eq.item = item;
-								break;
-							}
-							case DeviceType.weapon:
-							{
-								Weapon item = Controllers.locController.items.getWeapon(item_id);
-								eq.item = item;
-								break;
-							}
-						}
-					}
-					equip.add(eq);
-				}
-				user.equips = equip;
+				user.equips = new ArrayList<Equip>();
+				user.equips = getEquips(command.data, ArrPtr);
 				user.updateUserShip();
 				user.setPositionTarget(UserTargetX, UserTargetY);
 				UsersMap.put(user.id, user);
@@ -632,79 +561,7 @@ public class NetController {
 			String SName = GetStringValue(command.data, ArrPtr, SnameLen);			
 			Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain, UserInPlanet);
 			player.equips = new ArrayList<Equip>();
-			List<Equip> equip = new ArrayList<Equip>();
-			int eqCount = GetIntValue(command.data, ArrPtr);
-			for (int i=0;i<eqCount;i++)
-			{
-				int item_id = GetIntValue(command.data, ArrPtr);
-				int iType = GetIntValue(command.data, ArrPtr);
-				int dType = GetIntValue(command.data, ArrPtr);
-				int in_use = GetIntValue(command.data, ArrPtr);
-				int condition = GetIntValue(command.data, ArrPtr);
-				int location = GetIntValue(command.data, ArrPtr);
-				Equip eq = new Equip();
-				eq.in_use = false;
-				if (in_use==1) {eq.in_use=true;}
-				eq.condition = condition;
-				eq.location = location;
-				eq.item = null;
-				if (iType==1)
-				{
-					switch (dType)
-					{
-						case DeviceType.droid:
-						{
-							Droid item = Controllers.locController.items.getDroid(item_id);
-							eq.item = item;
-							break;
-						}
-						case DeviceType.engine:
-						{
-							Engine item = Controllers.locController.items.getEngine(item_id);
-							eq.item = item;
-							break;
-						}
-						case DeviceType.fuelbag:
-						{
-							Fuelbag item = Controllers.locController.items.getFuelbag(item_id);
-							eq.item = item;
-							break;
-						}
-						case DeviceType.hyper:
-						{
-							Hyper item = Controllers.locController.items.getHyper(item_id);
-							eq.item = item;
-							break;
-						}
-						case DeviceType.radar:
-						{
-							Radar item = Controllers.locController.items.getRadar(item_id);
-							eq.item = item;
-							break;
-						}
-						case DeviceType.shield:
-						{
-							Shield item = Controllers.locController.items.getShield(item_id);
-							eq.item = item;
-							break;
-						}
-						case DeviceType.ship:
-						{
-							Ship item = Controllers.locController.items.getShip(item_id);
-							eq.item = item;
-							break;
-						}
-						case DeviceType.weapon:
-						{
-							Weapon item = Controllers.locController.items.getWeapon(item_id);
-							eq.item = item;
-							break;
-						}
-					}
-				}
-				equip.add(eq);
-			}
-			player.equips = equip;
+			player.equips = getEquips(command.data, ArrPtr);
 			player.updateUserShip();
 			return player;
 		}
@@ -763,79 +620,8 @@ public class NetController {
 			int UserDomain = GetIntValue(command.data, ArrPtr);
 			User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
 			user.setPositionTarget(TargetX, TargetY);
-			List<Equip> equip = new ArrayList<Equip>();
-			int eqCount = GetIntValue(command.data, ArrPtr);
-			for (int i=0;i<eqCount;i++)
-			{
-				int item_id = GetIntValue(command.data, ArrPtr);
-				int iType = GetIntValue(command.data, ArrPtr);
-				int dType = GetIntValue(command.data, ArrPtr);
-				int in_use = GetIntValue(command.data, ArrPtr);
-				int condition = GetIntValue(command.data, ArrPtr);
-				int location = GetIntValue(command.data, ArrPtr);
-				Equip eq = new Equip();
-				eq.in_use = false;
-				if (in_use==1) {eq.in_use=true;}
-				eq.condition = condition;
-				eq.location = location;
-				eq.item = null;
-				if (iType==1)
-				{
-					switch (dType)
-					{
-						case DeviceType.droid:
-						{
-							Droid item = Controllers.locController.items.getDroid(item_id);
-							eq.item = item;
-							break;
-						}
-						case DeviceType.engine:
-						{
-							Engine item = Controllers.locController.items.getEngine(item_id);
-							eq.item = item;
-							break;
-						}
-						case DeviceType.fuelbag:
-						{
-							Fuelbag item = Controllers.locController.items.getFuelbag(item_id);
-							eq.item = item;
-							break;
-						}
-						case DeviceType.hyper:
-						{
-							Hyper item = Controllers.locController.items.getHyper(item_id);
-							eq.item = item;
-							break;
-						}
-						case DeviceType.radar:
-						{
-							Radar item = Controllers.locController.items.getRadar(item_id);
-							eq.item = item;
-							break;
-						}
-						case DeviceType.shield:
-						{
-							Shield item = Controllers.locController.items.getShield(item_id);
-							eq.item = item;
-							break;
-						}
-						case DeviceType.ship:
-						{
-							Ship item = Controllers.locController.items.getShip(item_id);
-							eq.item = item;
-							break;
-						}
-						case DeviceType.weapon:
-						{
-							Weapon item = Controllers.locController.items.getWeapon(item_id);
-							eq.item = item;
-							break;
-						}
-					}
-				}
-				equip.add(eq);
-			}
-			user.equips = equip;
+			user.equips = new ArrayList<Equip>();
+			user.equips = getEquips(command.data, ArrPtr);
 			user.updateUserShip();
 			cController.addCommand(new AddUserCommand(user));
 			break;
@@ -951,6 +737,83 @@ public class NetController {
 		 return Res;
 	 }
 	
+	 private List<Equip> getEquips(byte[] data, AddressCommand ArrPtr)
+	 {
+		 List<Equip> equip = new ArrayList<Equip>();
+		 int eqCount = GetIntValue(data, ArrPtr);
+		 for (int j=0;j<eqCount;j++)
+		 {
+			 int item_id = GetIntValue(data, ArrPtr);
+			 int iType = GetIntValue(data, ArrPtr);
+			 int dType = GetIntValue(data, ArrPtr);
+			 int in_use = GetIntValue(data, ArrPtr);
+			 int condition = GetIntValue(data, ArrPtr);
+			 int location = GetIntValue(data, ArrPtr);
+			 Equip eq = new Equip();
+			 eq.in_use = false;
+			 if (in_use==1) {eq.in_use=true;}
+			 eq.condition = condition;
+			 eq.location = location;
+			 eq.item = null;
+			 if (iType==1)
+			 {
+				 switch (dType)
+				 {
+					case DeviceType.droid:
+					{
+						Droid item = Controllers.locController.items.getDroid(item_id);
+						eq.item = item;
+						break;
+					}
+					case DeviceType.engine:
+					{
+						Engine item = Controllers.locController.items.getEngine(item_id);
+						eq.item = item;
+						break;
+					}
+					case DeviceType.fuelbag:
+					{
+						Fuelbag item = Controllers.locController.items.getFuelbag(item_id);
+						eq.item = item;
+						break;
+					}
+					case DeviceType.hyper:
+					{
+						Hyper item = Controllers.locController.items.getHyper(item_id);
+						eq.item = item;
+						break;
+					}
+					case DeviceType.radar:
+					{
+						Radar item = Controllers.locController.items.getRadar(item_id);
+						eq.item = item;
+						break;
+					}
+					case DeviceType.shield:
+					{
+						Shield item = Controllers.locController.items.getShield(item_id);
+						eq.item = item;
+						break;
+					}
+					case DeviceType.ship:
+					{
+						Ship item = Controllers.locController.items.getShip(item_id);
+						eq.item = item;
+						break;
+					}
+					case DeviceType.weapon:
+					{
+						Weapon item = Controllers.locController.items.getWeapon(item_id);
+						eq.item = item;
+						break;
+					}
+				}
+			}
+			equip.add(eq);
+		}
+		return equip;
+	}
+	 
 	class AddressCommand {
 		public AddressCommand() {
 			this.address = 0;

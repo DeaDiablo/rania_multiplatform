@@ -26,10 +26,4 @@ public class Hyper extends Device{
         this.vendorStr = dev.vendorStr;
         this.durability = dev.durability;
     }
-    
-    @Override
-    public Hyper getHyper()
-    {
-        return this;
-    }
 }

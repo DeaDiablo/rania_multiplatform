@@ -25,10 +25,4 @@ public class Radar extends Device{
         this.vendorStr = dev.vendorStr;
         this.durability = dev.durability;
     }
-    
-    @Override
-    public Radar getRadar()
-    {
-        return this;
-    }
 }

@@ -59,7 +59,7 @@ public class LocationController {
 	private HashMap<Integer, Nebula>   nebulas   = null;
 	private HashMap<Integer, Planet>   planets   = new HashMap<Integer, Planet>();
 	private HashMap<Integer, User> 	   users     = null;
-	public ItemCollection		   	   items	 = null;
+	private ItemCollection		   	   items	 = null;
 	//objects
 	private Player   player 		   = null;
 	private Group	 background		   = null;
@@ -69,7 +69,6 @@ public class LocationController {
 	private Vector<Nebula> showNebulas = new Vector<Nebula>();
 	//help objects
 	private PlayerController pController = null;
-	
 	
 	public void clearObjects(){
 		player.stop();
@@ -84,7 +83,6 @@ public class LocationController {
 		if (locations == null) {
 			locations = nController.getAllLocations();
 			domains = nController.getAllDomains();
-			items = nController.getItems();
 		} else {
 			for(Location location : locations.values()) {
 				if (location.star != null) {
@@ -97,6 +95,15 @@ public class LocationController {
 		}
 	}
 	
+	public void loadItems() {
+		if (items == null) {
+			items = nController.getItems();
+		}
+	}
+
+	public ItemCollection getItems(){
+		return items;
+	}
 	//player
 	public boolean loadPlayer(){
 		player = nController.getUserData();

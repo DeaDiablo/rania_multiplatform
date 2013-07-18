@@ -2,6 +2,12 @@ package com.game.rania.model.items;
 
 public class Weapon extends Device{
 
+	public class Type {
+		public static final int Laser	= 0;
+		public static final int Rocket	= 1;
+		public static final int BFG		= 2;
+	}
+	
 	public Weapon(float posX, float posY) {
 		super(posX, posY);
 	}
@@ -27,10 +33,5 @@ public class Weapon extends Device{
         this.deviceType = dev.deviceType;
         this.vendorStr = dev.vendorStr;
         this.durability = dev.durability;
-    }
-    @Override
-    public Weapon getWeapon()
-    {
-        return this;
     }
 }

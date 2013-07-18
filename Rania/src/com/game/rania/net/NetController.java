@@ -25,17 +25,17 @@ import com.game.rania.model.Target;
 import com.game.rania.model.User;
 import com.game.rania.model.Location;
 import com.game.rania.model.Planet;
-import com.game.rania.model.items.DeviceType;
+import com.game.rania.model.items.Device;
 import com.game.rania.model.items.Droid;
 import com.game.rania.model.items.Engine;
 import com.game.rania.model.items.Equip;
 import com.game.rania.model.items.Fuelbag;
 import com.game.rania.model.items.Hyper;
+import com.game.rania.model.items.Item;
 import com.game.rania.model.items.ItemCollection;
-import com.game.rania.model.items.ItemType;
 import com.game.rania.model.items.Radar;
 import com.game.rania.model.items.Shield;
-import com.game.rania.model.items.Ship;
+import com.game.rania.model.items.Body;
 import com.game.rania.model.items.Weapon;
 import com.game.rania.screen.MainMenu;
 import com.game.rania.userdata.Command;
@@ -210,7 +210,7 @@ public class NetController {
 				int item_region_id = GetIntValue(command.data, ArrPtr);
 				switch (item_itemType)
 				{
-					case ItemType.device:
+					case Item.Type.device:
 					{
 						int DeviceVendorLen = GetIntValue(command.data, ArrPtr);
 						String device_vendorStr = GetStringValue(command.data, ArrPtr, DeviceVendorLen);
@@ -218,135 +218,135 @@ public class NetController {
 						int device_durability = GetIntValue(command.data, ArrPtr);
 						switch (device_deviceType)
 						{
-							case DeviceType.ship:
+							case Device.Type.body:
 							{
-								int ship_slot_weapons = GetIntValue(command.data, ArrPtr);
-								int ship_slot_droids = GetIntValue(command.data, ArrPtr);
-								int ship_slot_shield = GetIntValue(command.data, ArrPtr);
-								int ship_slot_hyper = GetIntValue(command.data, ArrPtr);
-								Ship ship = new Ship();
-								ship.id = item_id;
-								ship.itemType = item_itemType;
-								ship.description = item_description;
-								ship.volume = item_volume;
-								ship.region_id = item_region_id;
-								ship.vendorStr = device_vendorStr;
-								ship.deviceType = device_deviceType;
-								ship.durability = device_durability;
-								ship.slot_weapons = ship_slot_weapons;
-								ship.slot_droids = ship_slot_droids;
-								ship.slot_shield = ship_slot_shield;
-								ship.slot_hyper = ship_slot_hyper;
-								iCollect.items.add(ship);
+								int body_slot_weapons = GetIntValue(command.data, ArrPtr);
+								int body_slot_droids  = GetIntValue(command.data, ArrPtr);
+								int body_slot_shield  = GetIntValue(command.data, ArrPtr);
+								int body_slot_hyper   = GetIntValue(command.data, ArrPtr);
+								Body body 			= new Body();
+								body.id 			= item_id;
+								body.itemType 		= item_itemType;
+								body.description 	= item_description;
+								body.volume 		= item_volume;
+								body.region_id 		= item_region_id;
+								body.vendorStr 		= device_vendorStr;
+								body.deviceType 	= device_deviceType;
+								body.durability 	= device_durability;
+								body.slot_weapons 	= body_slot_weapons;
+								body.slot_droids 	= body_slot_droids;
+								body.slot_shield 	= body_slot_shield;
+								body.slot_hyper 	= body_slot_hyper;
+								iCollect.bodies.put(String.valueOf(body.id), body);
 								break;
 							}
-							case DeviceType.engine:
+							case Device.Type.engine:
 							{
-								int engine_power = GetIntValue(command.data, ArrPtr);
+								int engine_power 	= GetIntValue(command.data, ArrPtr);
 								int engine_economic = GetIntValue(command.data, ArrPtr);
-								Engine engine = new Engine();
-								engine.id = item_id;
-								engine.itemType = item_itemType;
-								engine.description = item_description;
-								engine.volume = item_volume;
-								engine.region_id = item_region_id;
-								engine.vendorStr = device_vendorStr;
-								engine.deviceType = device_deviceType;
-								engine.durability = device_durability;
-								engine.power = engine_power;
-								engine.economic = engine_economic;
-								iCollect.items.add(engine);
+								Engine engine 		= new Engine();
+								engine.id 			= item_id;
+								engine.itemType 	= item_itemType;
+								engine.description 	= item_description;
+								engine.volume 		= item_volume;
+								engine.region_id 	= item_region_id;
+								engine.vendorStr 	= device_vendorStr;
+								engine.deviceType 	= device_deviceType;
+								engine.durability 	= device_durability;
+								engine.power 		= engine_power;
+								engine.economic 	= engine_economic;
+								iCollect.engines.put(String.valueOf(engine.id), engine);
 								break;
 							}
-							case DeviceType.fuelbag:
+							case Device.Type.fuelbag:
 							{
 								int fuelbag_compress = GetIntValue(command.data, ArrPtr);
-								Fuelbag fuelbag = new Fuelbag();
-								fuelbag.id = item_id;
-								fuelbag.itemType = item_itemType;
+								Fuelbag fuelbag 	= new Fuelbag();
+								fuelbag.id 			= item_id;
+								fuelbag.itemType 	= item_itemType;
 								fuelbag.description = item_description;
-								fuelbag.volume = item_volume;
-								fuelbag.region_id = item_region_id;
-								fuelbag.vendorStr = device_vendorStr;
-								fuelbag.deviceType = device_deviceType;
-								fuelbag.durability = device_durability;
-								fuelbag.compress = fuelbag_compress;
-								iCollect.items.add(fuelbag);
+								fuelbag.volume 		= item_volume;
+								fuelbag.region_id 	= item_region_id;
+								fuelbag.vendorStr 	= device_vendorStr;
+								fuelbag.deviceType 	= device_deviceType;
+								fuelbag.durability 	= device_durability;
+								fuelbag.compress 	= fuelbag_compress;
+								iCollect.fuelbags.put(String.valueOf(fuelbag.id), fuelbag);
 								break;
 							}
-							case DeviceType.droid:
+							case Device.Type.droid:
 							{
-								int droid_power = GetIntValue(command.data, ArrPtr);
+								int droid_power 	  = GetIntValue(command.data, ArrPtr);
 								int droid_time_reload = GetIntValue(command.data, ArrPtr);
-								Droid droid = new Droid();
-								droid.id = item_id;
-								droid.itemType = item_itemType;
-								droid.description = item_description;
-								droid.volume = item_volume;
-								droid.region_id = item_region_id;
-								droid.vendorStr = device_vendorStr;
-								droid.deviceType = device_deviceType;
-								droid.durability = device_durability;
-								droid.power = droid_power;
-								droid.time_reload = droid_time_reload;
-								iCollect.items.add(droid);
+								Droid droid 		= new Droid();
+								droid.id 			= item_id;
+								droid.itemType 		= item_itemType;
+								droid.description 	= item_description;
+								droid.volume 		= item_volume;
+								droid.region_id 	= item_region_id;
+								droid.vendorStr 	= device_vendorStr;
+								droid.deviceType 	= device_deviceType;
+								droid.durability 	= device_durability;
+								droid.power 		= droid_power;
+								droid.time_reload 	= droid_time_reload;
+								iCollect.droids.put(String.valueOf(droid.id), droid);
 								break;
 							}
-							case DeviceType.shield:
+							case Device.Type.shield:
 							{
-								int shield_power = GetIntValue(command.data, ArrPtr);
-								Shield shield = new Shield();
-								shield.id = item_id;
-								shield.itemType = item_itemType;
-								shield.description = item_description;
-								shield.volume = item_volume;
-								shield.region_id = item_region_id;
-								shield.vendorStr = device_vendorStr;
-								shield.deviceType = device_deviceType;
-								shield.durability = device_durability;
-								shield.power = shield_power;
-								iCollect.items.add(shield);
+								int shield_power 	= GetIntValue(command.data, ArrPtr);
+								Shield shield 		= new Shield();
+								shield.id 			= item_id;
+								shield.itemType 	= item_itemType;
+								shield.description 	= item_description;
+								shield.volume 		= item_volume;
+								shield.region_id 	= item_region_id;
+								shield.vendorStr 	= device_vendorStr;
+								shield.deviceType 	= device_deviceType;
+								shield.durability 	= device_durability;
+								shield.power 		= shield_power;
+								iCollect.shields.put(String.valueOf(shield.id), shield);
 								break;
 							}
-							case DeviceType.hyper:
+							case Device.Type.hyper:
 							{
-								int hyper_radius = GetIntValue(command.data, ArrPtr);
-								int hyper_time_start = GetIntValue(command.data, ArrPtr);
-								int hyper_time_reload = GetIntValue(command.data, ArrPtr);
-								Hyper hyper = new Hyper();
-								hyper.id = item_id;
-								hyper.itemType = item_itemType;
-								hyper.description = item_description;
-								hyper.volume = item_volume;
-								hyper.region_id = item_region_id;
-								hyper.vendorStr = device_vendorStr;
-								hyper.deviceType = device_deviceType;
-								hyper.durability = device_durability;
-								hyper.radius = hyper_radius;
-								hyper.time_start = hyper_time_start;
-								hyper.time_reload = hyper_time_reload;
-								iCollect.items.add(hyper);
+								int hyper_radius 		= GetIntValue(command.data, ArrPtr);
+								int hyper_time_start 	= GetIntValue(command.data, ArrPtr);
+								int hyper_time_reload 	= GetIntValue(command.data, ArrPtr);
+								Hyper hyper 		= new Hyper();
+								hyper.id 			= item_id;
+								hyper.itemType 		= item_itemType;
+								hyper.description 	= item_description;
+								hyper.volume 		= item_volume;
+								hyper.region_id 	= item_region_id;
+								hyper.vendorStr 	= device_vendorStr;
+								hyper.deviceType 	= device_deviceType;
+								hyper.durability 	= device_durability;
+								hyper.radius 		= hyper_radius;
+								hyper.time_start 	= hyper_time_start;
+								hyper.time_reload 	= hyper_time_reload;
+								iCollect.hypers.put(String.valueOf(hyper.id), hyper);
 								break;
 							}
-							case DeviceType.radar:
+							case Device.Type.radar:
 							{
-								int radar_radius = GetIntValue(command.data, ArrPtr);
+								int radar_radius 	= GetIntValue(command.data, ArrPtr);
 								int radar_defense = GetIntValue(command.data, ArrPtr);
-								Radar radar = new Radar();
-								radar.id = item_id;
-								radar.itemType = item_itemType;
-								radar.description = item_description;
-								radar.volume = item_volume;
-								radar.region_id = item_region_id;
-								radar.vendorStr = device_vendorStr;
-								radar.deviceType = device_deviceType;
-								radar.durability = device_durability;
-								radar.radius = radar_radius;
-								radar.defense = radar_defense;
-								iCollect.items.add(radar);
+								Radar radar 		= new Radar();
+								radar.id 			= item_id;
+								radar.itemType 		= item_itemType;
+								radar.description 	= item_description;
+								radar.volume 		= item_volume;
+								radar.region_id 	= item_region_id;
+								radar.vendorStr 	= device_vendorStr;
+								radar.deviceType 	= device_deviceType;
+								radar.durability 	= device_durability;
+								radar.radius 		= radar_radius;
+								radar.defense 		= radar_defense;
+								iCollect.radars.put(String.valueOf(radar.id), radar);
 								break;
 							}
-							case DeviceType.weapon:
+							case Device.Type.weapon:
 							{
 								int weapon_weaponType = GetIntValue(command.data, ArrPtr);
 								int weapon_radius = GetIntValue(command.data, ArrPtr);
@@ -354,20 +354,20 @@ public class NetController {
 								int weapon_time_start = GetIntValue(command.data, ArrPtr);
 								int weapon_time_reload = GetIntValue(command.data, ArrPtr);
 								Weapon weapon = new Weapon();
-								weapon.id = item_id;
-								weapon.itemType = item_itemType;
-								weapon.description = item_description;
-								weapon.volume = item_volume;
-								weapon.region_id = item_region_id;
-								weapon.vendorStr = device_vendorStr;
-								weapon.deviceType = device_deviceType;
-								weapon.durability = device_durability;
-								weapon.weaponType = weapon_weaponType;
-								weapon.radius = weapon_radius;
-								weapon.power = weapon_power;
-								weapon.time_start = weapon_time_start;
-								weapon.time_reload = weapon_time_reload;
-								iCollect.items.add(weapon);
+								weapon.id 			= item_id;
+								weapon.itemType 	= item_itemType;
+								weapon.description 	= item_description;
+								weapon.volume 		= item_volume;
+								weapon.region_id 	= item_region_id;
+								weapon.vendorStr 	= device_vendorStr;
+								weapon.deviceType 	= device_deviceType;
+								weapon.durability 	= device_durability;
+								weapon.weaponType 	= weapon_weaponType;
+								weapon.radius 		= weapon_radius;
+								weapon.power 		= weapon_power;
+								weapon.time_start 	= weapon_time_start;
+								weapon.time_reload 	= weapon_time_reload;
+								iCollect.weapons.put(String.valueOf(weapon.id), weapon);
 								break;
 							}
 						}
@@ -404,9 +404,7 @@ public class NetController {
 				int UserTargetY = GetIntValue(command.data, ArrPtr);
 				int UserDomain = GetIntValue(command.data, ArrPtr);
 				User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
-				user.equips = new ArrayList<Equip>();
-				user.equips = getEquips(command.data, ArrPtr);
-				user.updateUserShip();
+				user.setEquips(getEquips(command.data, ArrPtr));
 				user.setPositionTarget(UserTargetX, UserTargetY);
 				UsersMap.put(user.id, user);
 			}
@@ -560,9 +558,7 @@ public class NetController {
 			int SnameLen = GetIntValue(command.data, ArrPtr);			
 			String SName = GetStringValue(command.data, ArrPtr, SnameLen);			
 			Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain, UserInPlanet);
-			player.equips = new ArrayList<Equip>();
-			player.equips = getEquips(command.data, ArrPtr);
-			player.updateUserShip();
+			player.setEquips(getEquips(command.data, ArrPtr));
 			return player;
 		}
 		catch (Exception ex)
@@ -620,9 +616,7 @@ public class NetController {
 			int UserDomain = GetIntValue(command.data, ArrPtr);
 			User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
 			user.setPositionTarget(TargetX, TargetY);
-			user.equips = new ArrayList<Equip>();
-			user.equips = getEquips(command.data, ArrPtr);
-			user.updateUserShip();
+			user.setEquips(getEquips(command.data, ArrPtr));
 			cController.addCommand(new AddUserCommand(user));
 			break;
 		}
@@ -737,74 +731,71 @@ public class NetController {
 		 return Res;
 	 }
 	
-	 private List<Equip> getEquips(byte[] data, AddressCommand ArrPtr)
+	 private List<Equip<Item>> getEquips(byte[] data, AddressCommand ArrPtr)
 	 {
-		 List<Equip> equip = new ArrayList<Equip>();
+		 ItemCollection items = Controllers.locController.getItems();
+		 if (items == null)
+			 return null;
+
+		 List<Equip<Item>> equip = new ArrayList<Equip<Item>>();
 		 int eqCount = GetIntValue(data, ArrPtr);
-		 for (int j=0;j<eqCount;j++)
+		 
+		 for (int j = 0; j < eqCount; j++)
 		 {
-			 int item_id = GetIntValue(data, ArrPtr);
-			 int iType = GetIntValue(data, ArrPtr);
-			 int dType = GetIntValue(data, ArrPtr);
-			 int in_use = GetIntValue(data, ArrPtr);
-			 int condition = GetIntValue(data, ArrPtr);
-			 int location = GetIntValue(data, ArrPtr);
-			 Equip eq = new Equip();
+			 int item_id 	= GetIntValue(data, ArrPtr);
+			 int iType 		= GetIntValue(data, ArrPtr);
+			 int dType 		= GetIntValue(data, ArrPtr);
+			 int in_use 	= GetIntValue(data, ArrPtr);
+			 int wear 		= GetIntValue(data, ArrPtr);
+			 int location 	= GetIntValue(data, ArrPtr);
+			 Equip<Item> eq = new Equip<Item>();
 			 eq.in_use = false;
 			 if (in_use==1) {eq.in_use=true;}
-			 eq.condition = condition;
+			 eq.wear = wear;
 			 eq.location = location;
 			 eq.item = null;
 			 if (iType==1)
 			 {
 				 switch (dType)
 				 {
-					case DeviceType.droid:
+					case Device.Type.droid:
 					{
-						Droid item = Controllers.locController.items.getDroid(item_id);
-						eq.item = item;
+						eq.item = items.droids.get(item_id);
 						break;
 					}
-					case DeviceType.engine:
+					case Device.Type.engine:
 					{
-						Engine item = Controllers.locController.items.getEngine(item_id);
-						eq.item = item;
+						eq.item = items.engines.get(item_id);
 						break;
 					}
-					case DeviceType.fuelbag:
+					case Device.Type.fuelbag:
 					{
-						Fuelbag item = Controllers.locController.items.getFuelbag(item_id);
-						eq.item = item;
+						eq.item = items.fuelbags.get(item_id);
 						break;
 					}
-					case DeviceType.hyper:
+					case Device.Type.hyper:
 					{
-						Hyper item = Controllers.locController.items.getHyper(item_id);
-						eq.item = item;
+						eq.item = items.hypers.get(item_id);
 						break;
 					}
-					case DeviceType.radar:
+					case Device.Type.radar:
 					{
-						Radar item = Controllers.locController.items.getRadar(item_id);
-						eq.item = item;
+						eq.item = items.radars.get(item_id);
 						break;
 					}
-					case DeviceType.shield:
+					case Device.Type.shield:
 					{
-						Shield item = Controllers.locController.items.getShield(item_id);
-						eq.item = item;
+						eq.item = items.shields.get(item_id);
 						break;
 					}
-					case DeviceType.ship:
+					case Device.Type.body:
 					{
-						Ship item = Controllers.locController.items.getShip(item_id);
-						eq.item = item;
+						eq.item = items.bodies.get(item_id);
 						break;
 					}
-					case DeviceType.weapon:
+					case Device.Type.weapon:
 					{
-						Weapon item = Controllers.locController.items.getWeapon(item_id);
-						eq.item = item;
+						eq.item = items.weapons.get(item_id);
 						break;
 					}
 				}

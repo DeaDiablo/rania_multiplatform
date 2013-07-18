@@ -25,10 +25,4 @@ public class Engine extends Device {
         this.vendorStr = dev.vendorStr;
         this.durability = dev.durability;
     }
-
-    @Override
-    public Engine getEngine()
-    {
-        return this;
-    }
 }

@@ -24,10 +24,4 @@ public class Fuelbag extends Device{
         this.vendorStr = dev.vendorStr;
         this.durability = dev.durability;
     }
-	
-	@Override
-    public Fuelbag getFuelbag()
-    {
-        return this;
-    }
 }

@@ -31,6 +31,14 @@ public class LocationScreen extends LoadableScreen{
 		};
 		addLoadObject(loadObject);
 		
+		loadObject = new LoadObject(new String("Загрузка предметов...")) {
+			@Override
+			public void load() {
+				locController.loadItems();
+			}
+		};
+		addLoadObject(loadObject);
+		
 		loadObject = new LoadObject(new String("Загрузка игрока...")) {
 			@Override
 			public void load() {

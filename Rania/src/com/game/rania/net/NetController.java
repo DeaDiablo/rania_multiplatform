@@ -237,7 +237,7 @@ public class NetController {
 								body.slot_droids 	= body_slot_droids;
 								body.slot_shield 	= body_slot_shield;
 								body.slot_hyper 	= body_slot_hyper;
-								iCollect.bodies.put(String.valueOf(body.id), body);
+								iCollect.bodies.put(body.id, body);
 								break;
 							}
 							case Device.Type.engine:
@@ -255,7 +255,7 @@ public class NetController {
 								engine.durability 	= device_durability;
 								engine.power 		= engine_power;
 								engine.economic 	= engine_economic;
-								iCollect.engines.put(String.valueOf(engine.id), engine);
+								iCollect.engines.put(engine.id, engine);
 								break;
 							}
 							case Device.Type.fuelbag:
@@ -271,7 +271,7 @@ public class NetController {
 								fuelbag.deviceType 	= device_deviceType;
 								fuelbag.durability 	= device_durability;
 								fuelbag.compress 	= fuelbag_compress;
-								iCollect.fuelbags.put(String.valueOf(fuelbag.id), fuelbag);
+								iCollect.fuelbags.put(fuelbag.id, fuelbag);
 								break;
 							}
 							case Device.Type.droid:
@@ -289,7 +289,7 @@ public class NetController {
 								droid.durability 	= device_durability;
 								droid.power 		= droid_power;
 								droid.time_reload 	= droid_time_reload;
-								iCollect.droids.put(String.valueOf(droid.id), droid);
+								iCollect.droids.put(droid.id, droid);
 								break;
 							}
 							case Device.Type.shield:
@@ -305,7 +305,7 @@ public class NetController {
 								shield.deviceType 	= device_deviceType;
 								shield.durability 	= device_durability;
 								shield.power 		= shield_power;
-								iCollect.shields.put(String.valueOf(shield.id), shield);
+								iCollect.shields.put(shield.id, shield);
 								break;
 							}
 							case Device.Type.hyper:
@@ -325,7 +325,7 @@ public class NetController {
 								hyper.radius 		= hyper_radius;
 								hyper.time_start 	= hyper_time_start;
 								hyper.time_reload 	= hyper_time_reload;
-								iCollect.hypers.put(String.valueOf(hyper.id), hyper);
+								iCollect.hypers.put(hyper.id, hyper);
 								break;
 							}
 							case Device.Type.radar:
@@ -343,7 +343,7 @@ public class NetController {
 								radar.durability 	= device_durability;
 								radar.radius 		= radar_radius;
 								radar.defense 		= radar_defense;
-								iCollect.radars.put(String.valueOf(radar.id), radar);
+								iCollect.radars.put(radar.id, radar);
 								break;
 							}
 							case Device.Type.weapon:
@@ -367,7 +367,7 @@ public class NetController {
 								weapon.power 		= weapon_power;
 								weapon.time_start 	= weapon_time_start;
 								weapon.time_reload 	= weapon_time_reload;
-								iCollect.weapons.put(String.valueOf(weapon.id), weapon);
+								iCollect.weapons.put(weapon.id, weapon);
 								break;
 							}
 						}
@@ -603,94 +603,94 @@ public class NetController {
 		}
 		
 		switch (command.idCommand) {
-		case Command.addUser:
-		{
-			AddressCommand ArrPtr = new AddressCommand();
-			int UserId = GetIntValue(command.data, ArrPtr);
-			int ShipNameLen = GetIntValue(command.data, ArrPtr);
-			String ShipName = GetStringValue(command.data, ArrPtr, ShipNameLen);
-			int UserX = GetIntValue(command.data, ArrPtr);
-			int UserY = GetIntValue(command.data, ArrPtr);
-			int TargetX = GetIntValue(command.data, ArrPtr);
-			int TargetY = GetIntValue(command.data, ArrPtr);
-			int UserDomain = GetIntValue(command.data, ArrPtr);
-			User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
-			user.setPositionTarget(TargetX, TargetY);
-			user.setEquips(getEquips(command.data, ArrPtr));
-			cController.addCommand(new AddUserCommand(user));
-			break;
-		}
-		case Command.touchUser:
-		{
-			AddressCommand ArrPtr = new AddressCommand();
-			int UserId = GetIntValue(command.data, ArrPtr);
-			int UserTouchX = GetIntValue(command.data, ArrPtr);
-			int UserTouchY = GetIntValue(command.data, ArrPtr);
-			cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY));
-			break;
-		}
-		case Command.removeUser:
-		{
-			int UserId = GetIntValue(command.data, new AddressCommand());
-			cController.addCommand(new RemoveUserCommand(UserId));
-			break;
-		}
-		case Command.disconnect:
-		{
-			try
+			case Command.addUser:
 			{
-				receiver.stopThread();
-				mClient.socket.shutdownInput();
-				mClient.socket.shutdownOutput();
-				mClient.socket.close();
-				cController.addCommand(new SwitchScreenCommand(new MainMenu()));
+				AddressCommand ArrPtr = new AddressCommand();
+				int UserId = GetIntValue(command.data, ArrPtr);
+				int ShipNameLen = GetIntValue(command.data, ArrPtr);
+				String ShipName = GetStringValue(command.data, ArrPtr, ShipNameLen);
+				int UserX = GetIntValue(command.data, ArrPtr);
+				int UserY = GetIntValue(command.data, ArrPtr);
+				int TargetX = GetIntValue(command.data, ArrPtr);
+				int TargetY = GetIntValue(command.data, ArrPtr);
+				int UserDomain = GetIntValue(command.data, ArrPtr);
+				User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
+				user.setPositionTarget(TargetX, TargetY);
+				user.setEquips(getEquips(command.data, ArrPtr));
+				cController.addCommand(new AddUserCommand(user));
+				break;
 			}
-			catch (Exception ex)
+			case Command.touchUser:
 			{
+				AddressCommand ArrPtr = new AddressCommand();
+				int UserId = GetIntValue(command.data, ArrPtr);
+				int UserTouchX = GetIntValue(command.data, ArrPtr);
+				int UserTouchY = GetIntValue(command.data, ArrPtr);
+				cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY));
+				break;
 			}
-		}
-		case Command.message:
-		{
-			AddressCommand ArrPtr = new AddressCommand();
-			int 	channel 	= GetIntValue(command.data, ArrPtr);
-			int 	messageLen 	= GetIntValue(command.data, ArrPtr);
-			String 	message 	= GetStringValue(command.data, ArrPtr, messageLen);
-			int 	nameLen 	= GetIntValue(command.data, ArrPtr);
-			String 	userName 	= GetStringValue(command.data, ArrPtr, nameLen);
-			int 	toPilotLen 	= GetIntValue(command.data, ArrPtr);
-			String 	toPilot 	= GetStringValue(command.data, ArrPtr, toPilotLen);
-			cController.addCommand(new ChatNewMessageCommand(userName, channel, message, toPilot));
-			break;
-		}
-		case Command.planets:
-		{
-			AddressCommand ArrPtr = new AddressCommand(0);
-			int locID = GetIntValue(command.data, ArrPtr);
-			int PlanetsCount = GetIntValue(command.data, ArrPtr);
-			for (int i=0; i<PlanetsCount; i++)
+			case Command.removeUser:
 			{
-				int PlanetId      = GetIntValue(command.data, ArrPtr);
-				int PlanetNameLen = GetIntValue(command.data, ArrPtr);
-				String PlanetName = GetStringValue(command.data, ArrPtr, PlanetNameLen);
-				int PlanetType 	  = GetIntValue(command.data, ArrPtr);
-				int PlanetSpeed   = GetIntValue(command.data, ArrPtr);
-				int PlanetOrbit   = GetIntValue(command.data, ArrPtr);
-				int PlanetRadius  = GetIntValue(command.data, ArrPtr);
-				Color PlanetColor = GetColorValue(command.data, ArrPtr);
-				Color AtmColor = GetColorValue(command.data, ArrPtr);
-				int PlanetDomain = GetIntValue(command.data, ArrPtr);
-				int PlanetAtmosphere_speedX = GetIntValue(command.data, ArrPtr);
-				int PlanetAtmosphere_speedY = GetIntValue(command.data, ArrPtr);
-				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, locID, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
-				planet.color = PlanetColor;
-				planet.atmophereColor = AtmColor;
-				cController.addCommand(new AddPlanetCommand(planet));
+				int UserId = GetIntValue(command.data, new AddressCommand());
+				cController.addCommand(new RemoveUserCommand(UserId));
+				break;
 			}
-			break;
-		}
-
-		default:
-			break;
+			case Command.disconnect:
+			{
+				try
+				{
+					receiver.stopThread();
+					mClient.socket.shutdownInput();
+					mClient.socket.shutdownOutput();
+					mClient.socket.close();
+					cController.addCommand(new SwitchScreenCommand(new MainMenu()));
+				}
+				catch (Exception ex)
+				{
+				}
+			}
+			case Command.message:
+			{
+				AddressCommand ArrPtr = new AddressCommand();
+				int 	channel 	= GetIntValue(command.data, ArrPtr);
+				int 	messageLen 	= GetIntValue(command.data, ArrPtr);
+				String 	message 	= GetStringValue(command.data, ArrPtr, messageLen);
+				int 	nameLen 	= GetIntValue(command.data, ArrPtr);
+				String 	userName 	= GetStringValue(command.data, ArrPtr, nameLen);
+				int 	toPilotLen 	= GetIntValue(command.data, ArrPtr);
+				String 	toPilot 	= GetStringValue(command.data, ArrPtr, toPilotLen);
+				cController.addCommand(new ChatNewMessageCommand(userName, channel, message, toPilot));
+				break;
+			}
+			case Command.planets:
+			{
+				AddressCommand ArrPtr = new AddressCommand(0);
+				int locID = GetIntValue(command.data, ArrPtr);
+				int PlanetsCount = GetIntValue(command.data, ArrPtr);
+				for (int i=0; i<PlanetsCount; i++)
+				{
+					int PlanetId      = GetIntValue(command.data, ArrPtr);
+					int PlanetNameLen = GetIntValue(command.data, ArrPtr);
+					String PlanetName = GetStringValue(command.data, ArrPtr, PlanetNameLen);
+					int PlanetType 	  = GetIntValue(command.data, ArrPtr);
+					int PlanetSpeed   = GetIntValue(command.data, ArrPtr);
+					int PlanetOrbit   = GetIntValue(command.data, ArrPtr);
+					int PlanetRadius  = GetIntValue(command.data, ArrPtr);
+					Color PlanetColor = GetColorValue(command.data, ArrPtr);
+					Color AtmColor = GetColorValue(command.data, ArrPtr);
+					int PlanetDomain = GetIntValue(command.data, ArrPtr);
+					int PlanetAtmosphere_speedX = GetIntValue(command.data, ArrPtr);
+					int PlanetAtmosphere_speedY = GetIntValue(command.data, ArrPtr);
+					Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, locID, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
+					planet.color = PlanetColor;
+					planet.atmophereColor = AtmColor;
+					cController.addCommand(new AddPlanetCommand(planet));
+				}
+				break;
+			}
+	
+			default:
+				break;
 		}
 	}
 
@@ -749,12 +749,11 @@ public class NetController {
 			 int wear 		= GetIntValue(data, ArrPtr);
 			 int location 	= GetIntValue(data, ArrPtr);
 			 Equip<Item> eq = new Equip<Item>();
-			 eq.in_use = false;
-			 if (in_use==1) {eq.in_use=true;}
+			 eq.in_use = in_use == 1 ? true : false;
 			 eq.wear = wear;
 			 eq.location = location;
 			 eq.item = null;
-			 if (iType==1)
+			 if (iType == 1)
 			 {
 				 switch (dType)
 				 {

@@ -3,6 +3,9 @@ package com.game.rania.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
@@ -79,6 +82,28 @@ public class SpaceShip extends Object{
 		angle = (float)Math.toDegrees(Math.atan2(-addVec.x, addVec.y));
 	}
 	
+	@Override
+	public boolean draw(ShapeRenderer shape){
+		if (!visible || region == null)
+			return false;
+		shape.begin(ShapeType.FilledRectangle);
+		float maxSize = Math.max(region.getRegionWidth(), region.getRegionHeight());
+		if (body != null) {
+			shape.setColor(new Color(1, 0, 0, 0.75f));
+			shape.filledRect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f + 5, maxSize * (body.wear / body.item.durability), 5);
+		}
+		if (shield != null) {
+			shape.setColor(new Color(0, 0, 1, 0.75f));
+			shape.filledRect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * (shield.wear / shield.item.power), 5);
+		}
+		if (fuelbag != null) {
+			shape.setColor(new Color(0, 1, 0, 0.75f));
+			shape.filledRect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * (fuel / maxFuel), 5);
+		}
+		shape.end();
+		return true;
+	}
+	
 	//equips
 	public Equip<Engine>  engine  = null;
 	public Equip<Droid>   droid   = null;
@@ -106,54 +131,46 @@ public class SpaceShip extends Object{
             }
             else
             {
-                Body body = (Body)equip.item;
-                if (body != null) {
+                if (equip.item.getClass() == Body.class) {
                 	this.body = new Equip<Body>(equip, Body.class);
                 	continue;
                 }
-                
-                Engine engine = (Engine)equip.item;
-                if (engine != null) {
+
+                if (equip.item.getClass() == Engine.class) {
                 	this.engine = new Equip<Engine>(equip, Engine.class);
                 	continue;
                 }
-                
-                Fuelbag fuelbag = (Fuelbag)equip.item;
-                if (fuelbag != null) {
+
+                if (equip.item.getClass() == Fuelbag.class) {
                 	this.fuelbag = new Equip<Fuelbag>(equip, Fuelbag.class);
                 	continue;
                 }
-                
-                Hyper hyper = (Hyper)equip.item;
-                if (hyper != null) 
+
+                if (equip.item.getClass() == Hyper.class) 
                 {
                 	this.hyper = new Equip<Hyper>(equip, Hyper.class);
                 	continue;
                 }
-                
-                Shield shield = (Shield)equip.item;
-                if (shield != null) 
+
+                if (equip.item.getClass() == Shield.class) 
                 {
                 	this.shield = new Equip<Shield>(equip, Shield.class);
                 	continue;
                 }
 
-                Radar radar = (Radar)equip.item;
-                if (radar != null) 
+                if (equip.item.getClass() == Radar.class) 
                 { 
                 	this.radar = new Equip<Radar>(equip, Radar.class);
                 	continue;
                 }
-                
-                Weapon weapon = (Weapon)equip.item;
-                if (weapon != null) 
+
+                if (equip.item.getClass() == Weapon.class) 
                 {
                 	this.weapon = new Equip<Weapon>(equip, Weapon.class);
                 	continue;
                 }
-                
-                Droid droid = (Droid)equip.item;
-                if (droid != null) 
+
+                if (equip.item.getClass() == Droid.class) 
                 {
                 	this.droid = new Equip<Droid>(equip, Droid.class);
                 	continue;
@@ -167,6 +184,7 @@ public class SpaceShip extends Object{
         if (fuelbag != null)
         {
             maxFuel = fuelbag.item.volume * fuelbag.item.compress / 100;
+            fuel = maxFuel;
         }
         
         if (engine != null)

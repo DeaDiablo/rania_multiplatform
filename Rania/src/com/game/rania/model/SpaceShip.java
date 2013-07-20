@@ -94,7 +94,7 @@ public class SpaceShip extends Object{
 		}
 		if (shield != null) {
 			shape.setColor(new Color(0, 0, 1, 0.75f));
-			shape.filledRect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * (shield.wear / shield.item.power), 5);
+			shape.filledRect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * (shield.wear / shield.item.durability), 5);
 		}
 		if (fuelbag != null) {
 			shape.setColor(new Color(0, 1, 0, 0.75f));

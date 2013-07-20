@@ -44,7 +44,6 @@ public class SpaceShip extends Object{
 	private Vector2 moveVec        = new Vector2(0, 0);
 	private Vector2 addVec         = new Vector2(0, 0);
 	private boolean move           = false;
-	private float   speed          = 5.0f;
 
 	public void setPositionTarget(Vector2 target){
 		setPositionTarget(target.x, target.y);
@@ -62,7 +61,7 @@ public class SpaceShip extends Object{
 		moveVec.set(targetPosition);
 		moveVec.sub(position);
 		moveVec.nor();
-		moveVec.mul(speed * 100);
+		moveVec.mul(100);
 
 		move = true;
 	}
@@ -72,8 +71,15 @@ public class SpaceShip extends Object{
 		if (!move)
 			return;
 
+		unFuel(deltaTime / engine.item.economic);
+		
+		if (fuel <= 0) {
+			stop();
+			return;
+		}
+		
 		addVec.set(moveVec);
-		addVec.mul(deltaTime);
+		addVec.mul(deltaTime * maxSpeed);
 
 		if (!targetPosition.epsilonEquals(position, addVec.len()))
 			position.add(addVec);
@@ -189,7 +195,7 @@ public class SpaceShip extends Object{
         
         if (engine != null)
         {
-            maxSpeed = engine.item.power;
+            maxSpeed = (float)engine.item.power / 10;
         }
     }
 	
@@ -205,26 +211,26 @@ public class SpaceShip extends Object{
 
     public void unFuel(float f)
     {
-        this.fuel -= f;
-        if (this.fuel < 0)
+        fuel -= f;
+        if (fuel < 0)
         {
-            this.fuel = 0;
-            this.maxSpeed = 0;
+            fuel = 0;
+            maxSpeed = 0;
         }
-        if (this.fuel > maxFuel)
+        
+        if (fuel > maxFuel)
         {
-            this.fuel = this.maxFuel;
+            fuel = maxFuel;
         }
-        this.maxSpeed = this.engine.item.power;
     }
 
     public void reFuel(float f)
     {
-        this.fuel += f;
-        if (this.fuel > maxFuel)
+        fuel += f;
+        if (fuel > maxFuel)
         {
-            this.fuel = this.maxFuel;
+            fuel = maxFuel;
         }
-        this.maxSpeed = this.engine.item.power;
+        maxSpeed = (float)engine.item.power / 10;
     }
 }

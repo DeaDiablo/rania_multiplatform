@@ -212,6 +212,7 @@ public class NetController {
 				String item_description = GetStringValue(command.data, ArrPtr, Item_DescriptionLen);
 				int item_volume = GetIntValue(command.data, ArrPtr);
 				int item_region_id = GetIntValue(command.data, ArrPtr);
+				int item_packing = GetIntValue(command.data, ArrPtr);
 				switch (item_itemType)
 				{
 					case Item.Type.device:
@@ -234,6 +235,7 @@ public class NetController {
 								body.description 	= item_description;
 								body.volume 		= item_volume;
 								body.region_id 		= item_region_id;
+								body.packing 		= item_packing;
 								body.vendorStr 		= device_vendorStr;
 								body.deviceType 	= device_deviceType;
 								body.durability 	= device_durability;
@@ -254,6 +256,7 @@ public class NetController {
 								engine.description 	= item_description;
 								engine.volume 		= item_volume;
 								engine.region_id 	= item_region_id;
+								engine.packing 		= item_packing;
 								engine.vendorStr 	= device_vendorStr;
 								engine.deviceType 	= device_deviceType;
 								engine.durability 	= device_durability;
@@ -271,6 +274,7 @@ public class NetController {
 								fuelbag.description = item_description;
 								fuelbag.volume 		= item_volume;
 								fuelbag.region_id 	= item_region_id;
+								fuelbag.packing 		= item_packing;
 								fuelbag.vendorStr 	= device_vendorStr;
 								fuelbag.deviceType 	= device_deviceType;
 								fuelbag.durability 	= device_durability;
@@ -288,6 +292,7 @@ public class NetController {
 								droid.description 	= item_description;
 								droid.volume 		= item_volume;
 								droid.region_id 	= item_region_id;
+								droid.packing 		= item_packing;
 								droid.vendorStr 	= device_vendorStr;
 								droid.deviceType 	= device_deviceType;
 								droid.durability 	= device_durability;
@@ -305,6 +310,7 @@ public class NetController {
 								shield.description 	= item_description;
 								shield.volume 		= item_volume;
 								shield.region_id 	= item_region_id;
+								shield.packing 		= item_packing;
 								shield.vendorStr 	= device_vendorStr;
 								shield.deviceType 	= device_deviceType;
 								shield.durability 	= device_durability;
@@ -323,6 +329,7 @@ public class NetController {
 								hyper.description 	= item_description;
 								hyper.volume 		= item_volume;
 								hyper.region_id 	= item_region_id;
+								hyper.packing 		= item_packing;
 								hyper.vendorStr 	= device_vendorStr;
 								hyper.deviceType 	= device_deviceType;
 								hyper.durability 	= device_durability;
@@ -343,6 +350,7 @@ public class NetController {
 								radar.description 	= item_description;
 								radar.volume 		= item_volume;
 								radar.region_id 	= item_region_id;
+								radar.packing 		= item_packing;
 								radar.vendorStr 	= device_vendorStr;
 								radar.deviceType 	= device_deviceType;
 								radar.durability 	= device_durability;
@@ -365,6 +373,7 @@ public class NetController {
 								weapon.description 	= item_description;
 								weapon.volume 		= item_volume;
 								weapon.region_id 	= item_region_id;
+								weapon.packing 		= item_packing;
 								weapon.vendorStr 	= device_vendorStr;
 								weapon.deviceType 	= device_deviceType;
 								weapon.durability 	= device_durability;

@@ -18,4 +18,5 @@ public abstract class Item extends Object{
     public String description;
     public int volume;
     public int region_id;
+    public int packing;
 }

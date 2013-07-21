@@ -165,40 +165,12 @@ public class Object {
 		return true;
 	}
 
-	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion){
-		if (textureRegion == null)
-			return false;
-
-		sprite.draw(textureRegion, 
-					position.x - textureRegion.getRegionWidth() * 0.5f,
-					position.y - textureRegion.getRegionHeight() * 0.5f,
-					textureRegion.getRegionWidth() * 0.5f,
-					textureRegion.getRegionHeight() * 0.5f,
-					textureRegion.getRegionWidth(),
-					textureRegion.getRegionHeight(),
-					scale.x,
-					scale.y,
-					angle);
-		
-		return true;
+	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion){	
+		return drawRegion(sprite, textureRegion, position.x, position.y, angle, scale.x, scale.y);
 	}
 	
-	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, Vector2 position, float angle, Vector2 scale){
-		if (textureRegion == null)
-			return false;
-
-		sprite.draw(textureRegion, 
-					position.x - textureRegion.getRegionWidth() * 0.5f,
-					position.y - textureRegion.getRegionHeight() * 0.5f,
-					textureRegion.getRegionWidth() * 0.5f,
-					textureRegion.getRegionHeight() * 0.5f,
-					textureRegion.getRegionWidth(),
-					textureRegion.getRegionHeight(),
-					scale.x,
-					scale.y,
-					angle);
-		
-		return true;
+	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, Vector2 position, float angle, Vector2 scale){		
+		return drawRegion(sprite, textureRegion, position.x, position.y, angle, scale.x, scale.y);
 	}
 	
 	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, float x, float y, float angle, float scaleX, float scaleY){

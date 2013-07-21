@@ -79,7 +79,7 @@ public class SpaceShip extends Object{
 		}
 		
 		addVec.set(moveVec);
-		addVec.mul(deltaTime * maxSpeed);
+		addVec.mul(deltaTime * maxSpeed * 10);
 
 		if (!targetPosition.epsilonEquals(position, addVec.len()))
 			position.add(addVec);

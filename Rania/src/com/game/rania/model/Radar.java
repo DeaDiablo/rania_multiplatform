@@ -33,18 +33,40 @@ public class Radar extends HUDObject{
 	private TextureRegion sensorRegion, objRegion;
 	private LocationController locController = Controllers.locController;
 
-	public Radar(Player player, float x, float y, float size) {
+	public Radar(Player player, float x, float y) {
 		super(RegionID.RADAR, x, y);
 		this.player = player;
-		this.size = size;
 		sensorRegion = RaniaGame.mView.getTextureRegion(RegionID.RADAR_SENSOR);
 		objRegion = RaniaGame.mView.getTextureRegion(RegionID.RADAR_OBJECT);
 		initFrameBuffer();
+		touchObject = true;
 	}
 	
-	private float speedSensor = 150.0f;
-	private float deltaSensor = 0.0f;
-	private float alpha = 0.0f;
+	private float 	speedSensor = 150.0f;
+	private float 	deltaSensor = 0.0f;
+	private float 	alpha 		= 0.0f;
+	private boolean smallMode 	= true;
+
+	@Override
+	public boolean touchUp(float x, float y) {
+		if (!visible)
+			return false;
+		
+		smallMode = !smallMode;
+		if (smallMode){
+			RaniaGame.mController.addProcessor(Controllers.locController.getPlayerController());
+			position.set(savePosition);
+			scale.set(saveScale);
+		} else {
+			RaniaGame.mController.removeProcessor(Controllers.locController.getPlayerController());
+			player.stop();
+			savePosition.set(position);
+			position.set(0, 0);
+			saveScale.set(scale);
+			scale.set(4, 4);
+		}
+		return true;
+	}
 	
 	@Override 
 	public void update(float deltaTime){
@@ -60,6 +82,7 @@ public class Radar extends HUDObject{
 	private TextureRegion regionBuffer = null;
 	private SpriteBatch spriteBuffer = null;
 	private ShapeRenderer shapeBuffer = null;
+	private Vector2 savePosition = new Vector2(0, 0), saveScale = new Vector2(1, 1);
 	private float width, height;
 	
 	private void initFrameBuffer(){
@@ -83,85 +106,117 @@ public class Radar extends HUDObject{
 	public boolean draw(SpriteBatch sprite){
 		if (!visible || player == null || region == null)
 			return false;
-
+		
 		sprite.end();
-
+		
 		frameBuffer.begin();
 
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
-		spriteBuffer.begin();
-		spriteBuffer.setColor(color);
-		drawRegion(spriteBuffer, region, width * 0.5f, height * 0.5f, angle, 1, 1);
-		spriteBuffer.end();
-
-		if (locController.getStar() != null){
-			posObject.set(locController.getStar().position);
-			posObject.sub(player.position);
-			posObject.mul(width / size, height / size);
-			posObject.add(width * 0.5f, height * 0.5f);
 		
-			//orbits
-			shapeBuffer.begin(ShapeType.Line);
-			shapeBuffer.setColor(1, 1, 1, 0.75f);
-			for (Planet planet : locController.getPlanets()) {
-				DrawUtils.drawDottedCircle(shapeBuffer, posObject.x, posObject.y, planet.orbit * width / size, 4.0f);
-			}
-			shapeBuffer.end();
-		}
-
-		spriteBuffer.begin();
-		if (objRegion != null) {
-			if (locController.getStar() != null)
-			{
-				colorObject.set(1, 1, 1, 1);
-				drawRadarObject(locController.getStar(), 0);
-			}
-
-			for (Planet planet : locController.getPlanets()) {
-				colorObject.set(planet.domain.color);
-				drawRadarObject(planet, 0);
-			}
-
-			for (User user : locController.getUsers()) {
-				colorObject.set(user.domain.color);
-				drawRadarObject(user, 5);
-			}
-		}
-		
-		if (Config.radarNoiseOn && sensorRegion != null) {
+		if(smallMode)
+		{
+			size = player.radar.item.radius;
+			spriteBuffer.begin();
 			spriteBuffer.setColor(color);
-			drawRegion(spriteBuffer, sensorRegion, deltaSensor, height * 0.5f, angle, 1, height * 0.98f / sensorRegion.getRegionHeight());
-		}
+			drawRegion(spriteBuffer, region, width * 0.5f, height * 0.5f, angle, 1, 1);
+			spriteBuffer.end();
+	
+			if (locController.getStar() != null){
+				posObject.set(locController.getStar().position);
+				posObject.sub(player.position);
+				posObject.mul(width / size, height / size);
+				posObject.add(width * 0.5f, height * 0.5f);
+			
+				//orbits
+				shapeBuffer.begin(ShapeType.Line);
+				shapeBuffer.setColor(1, 1, 1, 0.75f);
+				for (Planet planet : locController.getPlanets()) {
+					DrawUtils.drawDottedCircle(shapeBuffer, posObject.x, posObject.y, planet.orbit * width / size, 4.0f);
+				}
+				shapeBuffer.end();
+			}
 
-		textCoord.draw(spriteBuffer);
-		textUsers.draw(spriteBuffer);
-		
-		spriteBuffer.end();
+			spriteBuffer.begin();
+			if (objRegion != null) {
+				if (locController.getStar() != null)
+				{
+					colorObject.set(1, 1, 1, 1);
+					drawRadarObject(locController.getStar(), 0, size);
+				}
+	
+				for (Planet planet : locController.getPlanets()) {
+					colorObject.set(planet.domain.color);
+					drawRadarObject(planet, 0, size);
+				}
+	
+				for (User user : locController.getUsers()) {
+					colorObject.set(user.domain.color);
+					drawRadarObject(user, 0.01f, size);
+				}
+			}
+			
+			if (Config.radarNoiseOn && sensorRegion != null) {
+				spriteBuffer.setColor(color);
+				drawRegion(spriteBuffer, sensorRegion, deltaSensor, height * 0.5f, angle, 1, height * 0.98f / sensorRegion.getRegionHeight());
+			}
+	
+			textCoord.draw(spriteBuffer);
+			textUsers.draw(spriteBuffer);
+			spriteBuffer.end();
+		} else {
+			size = player.radar.item.big_radius;
+			spriteBuffer.begin();
+			spriteBuffer.setColor(color);
+			drawRegion(spriteBuffer, region, width * 0.5f, height * 0.5f, angle, 1, 1);
+			spriteBuffer.end();
+			
+			spriteBuffer.begin();
+			if (objRegion != null) {
+				colorObject.set(1, 1, 1, 1);
+				for (Location location : locController.getLocations())
+				{
+					drawRadarObject(location.x, location.y, 0, 0.04f, 0.04f, size);
+				}
+			}
+			spriteBuffer.end();
+		}
 		frameBuffer.end();
 		
 		sprite.begin();
 		colorObject.set(1, 1, 1, 1);
-		sprite.setColor(colorObject);
 		drawRegion(sprite, regionBuffer, position.x, position.y, 0, scale.x, scale.y);
 		
 		return true;
 	}
 	
-	protected void drawRadarObject(Object object, int fixedSize){
-		posObject.set(object.position);
+	protected void drawRadarObject(Object object, float fixedSize, float gridSize){
+		if (fixedSize == 0) {
+			drawRadarObject(object.position.x,
+					   		object.position.y,
+					   		object.angle,
+					   		object.region.getRegionWidth() * object.scale.x / gridSize,
+					   		object.region.getRegionHeight() * object.scale.y / gridSize,
+					   		gridSize);
+		} else {
+			drawRadarObject(object.position.x,
+					   		object.position.y,
+					   		object.angle,
+					   		fixedSize,
+					   		fixedSize,
+					   		gridSize);
+		}
+	}
+	
+	protected void drawRadarObject(float posX, float posY, float angle, float w, float h, float gridSize){
+		posObject.set(posX, posY);
 		posObject.sub(player.position);
-		posObject.mul(width / size, height / size);
+		posObject.mul(width / gridSize, height / gridSize);
 		posObject.add(width * 0.5f, height * 0.5f);
 
-		if (fixedSize == 0) {
-			scaleObject.set(object.scale.x, object.scale.y);
-		} else {
-			scaleObject.set(fixedSize, fixedSize);
-		}
-		scaleObject.mul(object.region.getRegionWidth() * width / size / objRegion.getRegionWidth(),
-						object.region.getRegionHeight() * height / size / objRegion.getRegionHeight());
+		scaleObject.set(w, h);
+		scaleObject.mul(width / objRegion.getRegionWidth(),
+						height / objRegion.getRegionHeight());
 			
 
 		if (Config.radarNoiseOn) {
@@ -172,6 +227,6 @@ public class Radar extends HUDObject{
 		}
 		
 		spriteBuffer.setColor(colorObject);
-		drawRegion(spriteBuffer, objRegion, posObject, object.angle, scaleObject);
+		drawRegion(spriteBuffer, objRegion, posObject, angle, scaleObject);
 	}
 }

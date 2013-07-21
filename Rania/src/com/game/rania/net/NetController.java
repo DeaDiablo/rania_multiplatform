@@ -331,7 +331,8 @@ public class NetController {
 							case Device.Type.radar:
 							{
 								int radar_radius 	= GetIntValue(command.data, ArrPtr);
-								int radar_defense = GetIntValue(command.data, ArrPtr);
+								int radar_defense 	= GetIntValue(command.data, ArrPtr);
+								int big_radius 		= GetIntValue(command.data, ArrPtr);
 								Radar radar 		= new Radar();
 								radar.id 			= item_id;
 								radar.itemType 		= item_itemType;
@@ -343,17 +344,18 @@ public class NetController {
 								radar.durability 	= device_durability;
 								radar.radius 		= radar_radius;
 								radar.defense 		= radar_defense;
+								radar.big_radius	= big_radius;
 								iCollect.radars.put(radar.id, radar);
 								break;
 							}
 							case Device.Type.weapon:
 							{
-								int weapon_weaponType = GetIntValue(command.data, ArrPtr);
-								int weapon_radius = GetIntValue(command.data, ArrPtr);
-								int weapon_power = GetIntValue(command.data, ArrPtr);
-								int weapon_time_start = GetIntValue(command.data, ArrPtr);
-								int weapon_time_reload = GetIntValue(command.data, ArrPtr);
-								Weapon weapon = new Weapon();
+								int weapon_weaponType 	= GetIntValue(command.data, ArrPtr);
+								int weapon_radius 		= GetIntValue(command.data, ArrPtr);
+								int weapon_power 		= GetIntValue(command.data, ArrPtr);
+								int weapon_time_start 	= GetIntValue(command.data, ArrPtr);
+								int weapon_time_reload 	= GetIntValue(command.data, ArrPtr);
+								Weapon weapon 		= new Weapon();
 								weapon.id 			= item_id;
 								weapon.itemType 	= item_itemType;
 								weapon.description 	= item_description;

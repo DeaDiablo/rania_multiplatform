@@ -10,12 +10,13 @@ public class Radar extends Device{
 		super(0, 0);
 	}
 
-	public int radius;
+    public int radius;
     public int defense;
+    public int big_radius;
     
     public Radar(Device dev)
     {
-    	super(0, 0);
+        super(0, 0);
         this.id = dev.id;
         this.description = dev.description;
         this.itemType = dev.itemType;

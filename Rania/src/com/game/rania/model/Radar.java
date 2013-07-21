@@ -22,8 +22,10 @@ import com.game.rania.model.element.RegionID;
 import com.game.rania.utils.DrawUtils;
 
 public class Radar extends HUDObject{
+	
+	private static final int bigCoeff = 4;
 
-	private Text    textCoord = null;
+	private Text    textCoord = null, textPlanet = null;
 	private Text    textUsers = null;
 	private Vector2 posObject = new Vector2();
 	private Vector2 scaleObject = new Vector2();
@@ -56,14 +58,23 @@ public class Radar extends HUDObject{
 		if (smallMode){
 			RaniaGame.mController.addProcessor(Controllers.locController.getPlayerController());
 			position.set(savePosition);
-			scale.set(saveScale);
+			scale.div(bigCoeff);
+			width /= bigCoeff;
+			height /= bigCoeff;
+			projMatrix.setToOrtho2D(0, 0, width, height);
+			frameBuffer = smallFrameBuffer;
+			regionBuffer = smallRegionBuffer;
 		} else {
 			RaniaGame.mController.removeProcessor(Controllers.locController.getPlayerController());
 			player.stop();
 			savePosition.set(position);
 			position.set(0, 0);
-			saveScale.set(scale);
-			scale.set(4, 4);
+			scale.mul(bigCoeff);
+			width *= bigCoeff;
+			height *= bigCoeff;
+			projMatrix.setToOrtho2D(0, 0, width, height);
+			frameBuffer = bigFrameBuffer;
+			regionBuffer = bigRegionBuffer;
 		}
 		return true;
 	}
@@ -74,30 +85,35 @@ public class Radar extends HUDObject{
 		float widthRadar = getWidth();
 		if (deltaSensor > widthRadar)
 			deltaSensor -= widthRadar;
-		textCoord.content = String.format("%.0f %.0f", player.position.x, player.position.y);
+		textCoord.content = String.format("%.0f %.0f", player.position.x - player.domain.x, player.position.y - player.domain.y);
 		textUsers.content = String.valueOf(locController.getUsers().size());
 	}
 
-	private FrameBuffer frameBuffer = null;
-	private TextureRegion regionBuffer = null;
+	private FrameBuffer smallFrameBuffer = null, bigFrameBuffer = null, frameBuffer = null;
+	private TextureRegion smallRegionBuffer = null, bigRegionBuffer = null, regionBuffer = null;
 	private SpriteBatch spriteBuffer = null;
 	private ShapeRenderer shapeBuffer = null;
-	private Vector2 savePosition = new Vector2(0, 0), saveScale = new Vector2(1, 1);
+	private Vector2 savePosition = new Vector2(0, 0);
 	private float width, height;
+	Matrix4 projMatrix = new Matrix4();
 	
 	private void initFrameBuffer(){
 		width = region.getRegionWidth();
 		height = region.getRegionHeight();
-		frameBuffer = new FrameBuffer(Format.RGBA4444, region.getRegionWidth(), region.getRegionHeight(), false);
-		regionBuffer = new TextureRegion(frameBuffer.getColorBufferTexture());
-		regionBuffer.flip(false, true);
+		
+		frameBuffer = smallFrameBuffer = new FrameBuffer(Format.RGBA4444, region.getRegionWidth(), region.getRegionHeight(), false);
+		regionBuffer = smallRegionBuffer = new TextureRegion(smallFrameBuffer.getColorBufferTexture());
+		smallRegionBuffer.flip(false, true);
+		
+		bigFrameBuffer = new FrameBuffer(Format.RGBA4444, region.getRegionWidth() * bigCoeff, region.getRegionHeight() * bigCoeff, false);
+		bigRegionBuffer = new TextureRegion(bigFrameBuffer.getColorBufferTexture());
+		bigRegionBuffer.flip(false, true);
+		
 		spriteBuffer = new SpriteBatch();
 		shapeBuffer = new ShapeRenderer();
-		Matrix4 projMatrix = new Matrix4();
 		projMatrix.setToOrtho2D(0, 0, width, height);
-		spriteBuffer.setProjectionMatrix(projMatrix);
-		shapeBuffer.setProjectionMatrix(projMatrix);
-		
+
+		textPlanet = new Text("", Font.getFont("data/fonts/Postmodern One.ttf", 20), color, 0, 0);
 		textCoord = new Text("", Font.getFont("data/fonts/Postmodern One.ttf", 20), color, width * 0.5f, 20);
 		textUsers = new Text("", Font.getFont("data/fonts/Postmodern One.ttf", 20), color, width * 0.5f, height - 20);
 	}
@@ -110,6 +126,8 @@ public class Radar extends HUDObject{
 		sprite.end();
 		
 		frameBuffer.begin();
+		spriteBuffer.setProjectionMatrix(projMatrix);
+		shapeBuffer.setProjectionMatrix(projMatrix);
 
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
@@ -119,7 +137,7 @@ public class Radar extends HUDObject{
 			size = player.radar.item.radius;
 			spriteBuffer.begin();
 			spriteBuffer.setColor(color);
-			drawRegion(spriteBuffer, region, width * 0.5f, height * 0.5f, angle, 1, 1);
+			drawRegion(spriteBuffer, region, width * 0.5f, height * 0.5f, angle, scale.x, scale.y);
 			spriteBuffer.end();
 	
 			if (locController.getStar() != null){
@@ -168,15 +186,22 @@ public class Radar extends HUDObject{
 			size = player.radar.item.big_radius;
 			spriteBuffer.begin();
 			spriteBuffer.setColor(color);
-			drawRegion(spriteBuffer, region, width * 0.5f, height * 0.5f, angle, 1, 1);
-			spriteBuffer.end();
-			
-			spriteBuffer.begin();
+			drawRegion(spriteBuffer, region, width * 0.5f, height * 0.5f, angle, scale.x, scale.y);
+
 			if (objRegion != null) {
 				colorObject.set(1, 1, 1, 1);
 				for (Location location : locController.getLocations())
 				{
 					drawRadarObject(location.x, location.y, 0, 0.04f, 0.04f, size);
+					
+					posObject.set(location.x, location.y);
+					posObject.sub(player.position);
+					posObject.mul(width / size, height / size);
+					posObject.add(width * 0.5f, height * 0.5f);
+					textPlanet.content = location.starName;
+					textPlanet.draw(spriteBuffer, posObject.x, posObject.y + 25);
+					textPlanet.content = "(" + (location.x - player.domain.x) + ", " + (location.y - player.domain.y) + ")";
+					textPlanet.draw(spriteBuffer, posObject.x, posObject.y - 25);
 				}
 			}
 			spriteBuffer.end();
@@ -185,7 +210,7 @@ public class Radar extends HUDObject{
 		
 		sprite.begin();
 		colorObject.set(1, 1, 1, 1);
-		drawRegion(sprite, regionBuffer, position.x, position.y, 0, scale.x, scale.y);
+		drawRegion(sprite, regionBuffer, position.x, position.y, 0, 1, 1);
 		
 		return true;
 	}

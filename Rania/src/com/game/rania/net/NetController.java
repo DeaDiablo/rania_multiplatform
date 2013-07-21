@@ -193,7 +193,13 @@ public class NetController {
 	
 	public void loadComplite()
 	{
-		try {mClient.stream.sendCommand(Command.loadComplite);} catch (Exception ex) {}
+		try
+		{
+			mClient.stream.sendCommand(Command.loadComplite);
+		}
+		catch (Exception ex)
+		{
+		}
 	}
 	public ItemCollection getItems()
 	{

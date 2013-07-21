@@ -71,18 +71,18 @@ public class LocationScreen extends LoadableScreen{
 		};
 		addLoadObject(loadObject);
 
-		loadObject = new LoadObject(new String("Загрузка игроков...")) {
-			@Override
-			public void load() {
-				locController.loadUsers();
-			}
-		};
-		addLoadObject(loadObject);
-
 		loadObject = new LoadObject(new String("Загрузка радара...")) {
 			@Override
 			public void load() {
 				locController.loadRadar();
+			}
+		};
+		addLoadObject(loadObject);
+		
+		loadObject = new LoadObject(new String("Загрузка игроков...")) {
+			@Override
+			public void load() {
+				locController.loadComplete();
 				infoPanel.loadPart();
 			}
 		};

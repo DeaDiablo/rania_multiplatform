@@ -191,6 +191,10 @@ public class NetController {
 		//mClient.relogin
 	}
 	
+	public void loadComplite()
+	{
+		try {mClient.stream.sendCommand(Command.loadComplite);} catch (Exception ex) {}
+	}
 	public ItemCollection getItems()
 	{
 		ItemCollection iCollect = new ItemCollection();
@@ -383,39 +387,6 @@ public class NetController {
 			
 		}
 		return iCollect;
-	}
-
-	
-	public HashMap<Integer, User> getNearUsers()
-	{
-		HashMap<Integer, User> UsersMap = new HashMap<Integer, User>();
-		try
-		{
-			mClient.stream.sendCommand(Command.users);
-			Command command = waitCommand(Command.users);
-			AddressCommand ArrPtr = new AddressCommand();
-			int UsersCount = GetIntValue(command.data, ArrPtr);
-			for (int k=0; k<UsersCount; k++)
-			{
-				int UserId = GetIntValue(command.data, ArrPtr);
-				int ShipNameLen = GetIntValue(command.data, ArrPtr);
-				String ShipName = GetStringValue(command.data, ArrPtr, ShipNameLen);
-				int UserX = GetIntValue(command.data, ArrPtr);
-				int UserY = GetIntValue(command.data, ArrPtr);
-				int UserTargetX = GetIntValue(command.data, ArrPtr);
-				int UserTargetY = GetIntValue(command.data, ArrPtr);
-				int UserDomain = GetIntValue(command.data, ArrPtr);
-				User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
-				user.setEquips(getEquips(command.data, ArrPtr));
-				user.setPositionTarget(UserTargetX, UserTargetY);
-				UsersMap.put(user.id, user);
-			}
-		}
-		catch (Exception ex)
-		{
-
-		}
-		return UsersMap;
 	}
 
 	public HashMap<Integer, Planet> getPlanets(int idLocation, boolean wait)

@@ -14,7 +14,7 @@ public class Command
 	public static final int locations     = 8;
 	public static final int planets       = 9;
 	public static final int touchPlayer   = 10;
-	public static final int users         = 11;
+	public static final int loadComplite  = 11;
 	public static final int addUser       = 12;
 	public static final int touchUser     = 13;
 	public static final int removeUser    = 14;

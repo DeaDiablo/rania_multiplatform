@@ -58,7 +58,7 @@ public class LocationController {
 	private HashMap<Integer, Domain>   domains   = null;
 	private HashMap<Integer, Nebula>   nebulas   = null;
 	private HashMap<Integer, Planet>   planets   = new HashMap<Integer, Planet>();
-	private HashMap<Integer, User> 	   users     = null;
+	private HashMap<Integer, User> 	   users     = new HashMap<Integer, User>();
 	private ItemCollection		   	   items	 = null;
 	//objects
 	private Player   player 		   = null;
@@ -324,8 +324,8 @@ public class LocationController {
 	}
 	
 	//users
-	public void loadUsers(){
-		users = nController.getNearUsers();
+	public void loadComplete(){
+		nController.loadComplite();
 	}
 	
 	public void addUsers(){

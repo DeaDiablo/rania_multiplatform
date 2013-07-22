@@ -85,7 +85,7 @@ public class Radar extends HUDObject{
 		float widthRadar = getWidth();
 		if (deltaSensor > widthRadar)
 			deltaSensor -= widthRadar;
-		textCoord.content = String.format("%.0f %.0f", player.position.x - player.domain.x, player.position.y - player.domain.y);
+		textCoord.content = String.format("%.0f %.0f", (player.position.x - player.domain.x) / 1000, (player.position.y - player.domain.y) / 1000);
 		textUsers.content = String.valueOf(locController.getUsers().size());
 	}
 
@@ -200,7 +200,7 @@ public class Radar extends HUDObject{
 					posObject.add(width * 0.5f, height * 0.5f);
 					textPlanet.content = location.starName;
 					textPlanet.draw(spriteBuffer, posObject.x, posObject.y + 25);
-					textPlanet.content = "(" + (location.x - player.domain.x) + ", " + (location.y - player.domain.y) + ")";
+					textPlanet.content = "(" + (location.x - player.domain.x) / 1000 + ", " + (location.y - player.domain.y) / 1000 + ")";
 					textPlanet.draw(spriteBuffer, posObject.x, posObject.y - 25);
 				}
 			}

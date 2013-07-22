@@ -69,7 +69,7 @@ public class SpaceShip extends Object{
 	
 	@Override
 	public void update(float deltaTime){
-		if (!move)
+		if (!move || fuel == null)
 			return;
 
 		unFuel(deltaTime / engine.item.economic);
@@ -113,16 +113,16 @@ public class SpaceShip extends Object{
 	
 	//equips
 	public Equip<Engine>  engine  = null;
-	public Equip<Droid>   droid   = null;
 	public Equip<Fuelbag> fuelbag = null;
 	public Equip<Radar>	  radar   = null;
 	public Equip<Hyper>   hyper   = null;
 	public Equip<Shield>  shield  = null;
 	public Equip<Body> 	  body 	  = null;
-	public Equip<Weapon>  weapon  = null;
+	public List<Equip<Weapon>>  weapon  = new ArrayList<Equip<Weapon>>();
+	public List<Equip<Droid>>   droid   = new ArrayList<Equip<Droid>>();
 	
 	//characteristics
-    public Equip fuel = null;
+    public Equip<Consumable> fuel = null;
     public int maxFuel;
     public float maxSpeed;
 	
@@ -132,21 +132,20 @@ public class SpaceShip extends Object{
     {
         for (Equip<Item> equip : equips)
         {
-        	if (fuel == null)
-        	{
-        		if (equip.item.getClass() == Consumable.class) 
-            	{
-            		Consumable cons = (Consumable) equip.item;
-            		if (cons.id == 1)
-            		{
-            			fuel = equip;
-                		continue;
-            		}
-            	}
-        	}
             if (!equip.in_use)
             {
-            	inventory.add(equip);
+        		if (equip.item.getClass() == Consumable.class) 
+            	{
+            		if (equip.item.id == Consumable.Type.fuel)
+            		{
+                    	this.fuel = new Equip<Consumable>(equip, Consumable.class);
+                    	continue;
+            		}
+            	}
+        		else
+        		{
+        			inventory.add(equip);
+        		}
             }
             else
             {
@@ -185,13 +184,13 @@ public class SpaceShip extends Object{
 
                 if (equip.item.getClass() == Weapon.class) 
                 {
-                	this.weapon = new Equip<Weapon>(equip, Weapon.class);
+                	this.weapon.add(new Equip<Weapon>(equip, Weapon.class));
                 	continue;
                 }
 
                 if (equip.item.getClass() == Droid.class) 
                 {
-                	this.droid = new Equip<Droid>(equip, Droid.class);
+                	this.droid.add(new Equip<Droid>(equip, Droid.class));
                 	continue;
                 }
             }
@@ -203,7 +202,7 @@ public class SpaceShip extends Object{
         if (fuelbag != null)
         {
             maxFuel = (int)fuelbag.item.volume * fuelbag.item.compress / 100 * fuel.item.packing;
-            if (fuel.num>maxFuel) {fuel.num=maxFuel;}
+            fuel.num = fuel.num > maxFuel ? maxFuel : fuel.num;
         }
         
         if (engine != null)
@@ -224,6 +223,9 @@ public class SpaceShip extends Object{
 
     public void unFuel(float f)
     {
+    	if (fuel == null)
+    		return;
+    	
         fuel.num -= f;
         if (fuel.num < 0)
         {
@@ -239,6 +241,9 @@ public class SpaceShip extends Object{
 
     public void reFuel(float f)
     {
+    	if (fuel == null)
+    		return;
+	
         fuel.num += f;
         if (fuel.num > maxFuel)
         {

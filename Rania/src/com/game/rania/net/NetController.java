@@ -272,8 +272,8 @@ public class NetController {
 								engine.vendorStr 	= device_vendorStr;
 								engine.deviceType 	= device_deviceType;
 								engine.durability 	= device_durability;
-								engine.use_only 		= item_use_only;
-								engine.price 			= item_price;
+								engine.use_only 	= item_use_only;
+								engine.price 		= item_price;
 								engine.power 		= engine_power;
 								engine.economic 	= engine_economic;
 								iCollect.engines.put(engine.id, engine);
@@ -292,8 +292,8 @@ public class NetController {
 								fuelbag.vendorStr 	= device_vendorStr;
 								fuelbag.deviceType 	= device_deviceType;
 								fuelbag.durability 	= device_durability;
-								fuelbag.use_only 		= item_use_only;
-								fuelbag.price 			= item_price;
+								fuelbag.use_only 	= item_use_only;
+								fuelbag.price 		= item_price;
 								fuelbag.compress 	= fuelbag_compress;
 								iCollect.fuelbags.put(fuelbag.id, fuelbag);
 								break;
@@ -313,7 +313,7 @@ public class NetController {
 								droid.deviceType 	= device_deviceType;
 								droid.durability 	= device_durability;
 								droid.use_only 		= item_use_only;
-								droid.price 			= item_price;
+								droid.price 		= item_price;
 								droid.power 		= droid_power;
 								droid.time_reload 	= droid_time_reload;
 								iCollect.droids.put(droid.id, droid);
@@ -332,8 +332,8 @@ public class NetController {
 								shield.vendorStr 	= device_vendorStr;
 								shield.deviceType 	= device_deviceType;
 								shield.durability 	= device_durability;
-								shield.use_only 		= item_use_only;
-								shield.price 			= item_price;
+								shield.use_only 	= item_use_only;
+								shield.price 		= item_price;
 								shield.power 		= shield_power;
 								iCollect.shields.put(shield.id, shield);
 								break;
@@ -354,7 +354,7 @@ public class NetController {
 								hyper.deviceType 	= device_deviceType;
 								hyper.durability 	= device_durability;
 								hyper.use_only 		= item_use_only;
-								hyper.price 			= item_price;
+								hyper.price 		= item_price;
 								hyper.radius 		= hyper_radius;
 								hyper.time_start 	= hyper_time_start;
 								hyper.time_reload 	= hyper_time_reload;
@@ -377,7 +377,7 @@ public class NetController {
 								radar.deviceType 	= device_deviceType;
 								radar.durability 	= device_durability;
 								radar.use_only 		= item_use_only;
-								radar.price 			= item_price;
+								radar.price 		= item_price;
 								radar.radius 		= radar_radius;
 								radar.defense 		= radar_defense;
 								radar.big_radius	= big_radius;
@@ -401,8 +401,8 @@ public class NetController {
 								weapon.vendorStr 	= device_vendorStr;
 								weapon.deviceType 	= device_deviceType;
 								weapon.durability 	= device_durability;
-								weapon.use_only 		= item_use_only;
-								weapon.price 			= item_price;
+								weapon.use_only 	= item_use_only;
+								weapon.price 		= item_price;
 								weapon.weaponType 	= weapon_weaponType;
 								weapon.radius 		= weapon_radius;
 								weapon.power 		= weapon_power;
@@ -415,8 +415,8 @@ public class NetController {
 					}
 					if (item_itemType==2)
 					{
-						Consumable item = new Consumable();
-						item.id = item_id;
+						Consumable item 	= new Consumable();
+						item.id 			= item_id;
 						item.itemType 		= item_itemType;
 						item.description 	= item_description;
 						item.volume 		= item_volume;
@@ -429,7 +429,6 @@ public class NetController {
 		}
 		catch (Exception ex)
 		{
-			
 		}
 		return iCollect;
 	}
@@ -448,16 +447,16 @@ public class NetController {
 			int PlanetsCount = GetIntValue(command.data, ArrPtr);
 			for (int i=0; i<PlanetsCount; i++)
 			{
-				int PlanetId = GetIntValue(command.data, ArrPtr);
-				int PlanetNameLen = GetIntValue(command.data, ArrPtr);
-				String PlanetName = GetStringValue(command.data, ArrPtr, PlanetNameLen);
-				int PlanetType = GetIntValue(command.data, ArrPtr);
-				int PlanetSpeed = GetIntValue(command.data, ArrPtr);
-				int PlanetOrbit = GetIntValue(command.data, ArrPtr);
-				int PlanetRadius = GetIntValue(command.data, ArrPtr);
-				Color color = GetColorValue(command.data, ArrPtr);
-				Color atmColor = GetColorValue(command.data, ArrPtr);
-				int PlanetDomain = GetIntValue(command.data, ArrPtr);
+				int PlanetId 		= GetIntValue(command.data, ArrPtr);
+				int PlanetNameLen 	= GetIntValue(command.data, ArrPtr);
+				String PlanetName 	= GetStringValue(command.data, ArrPtr, PlanetNameLen);
+				int PlanetType 		= GetIntValue(command.data, ArrPtr);
+				int PlanetSpeed 	= GetIntValue(command.data, ArrPtr);
+				int PlanetOrbit 	= GetIntValue(command.data, ArrPtr);
+				int PlanetRadius 	= GetIntValue(command.data, ArrPtr);
+				Color color 		= GetColorValue(command.data, ArrPtr);
+				Color atmColor 		= GetColorValue(command.data, ArrPtr);
+				int PlanetDomain 	= GetIntValue(command.data, ArrPtr);
 				int PlanetAtmosphere_speedX = GetIntValue(command.data, ArrPtr);
 				int PlanetAtmosphere_speedY = GetIntValue(command.data, ArrPtr);
 				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, idLocation, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
@@ -775,7 +774,7 @@ public class NetController {
 			 eq.location = location;
 			 eq.num = num;
 			 eq.item = null;
-			 if (iType == 1)
+			 if (iType == Item.Type.device)
 			 {
 				 switch (dType)
 				 {
@@ -821,7 +820,7 @@ public class NetController {
 					}
 				}
 			 }
-			 if (iType == 2)
+			 else if (iType == Item.Type.consumable)
 			 {
 				 eq.item = items.consumables.get(item_id);
 			 }

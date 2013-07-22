@@ -25,6 +25,7 @@ public class Planet extends Object{
 	public float 	atmosphereSpeedY  = 0.0f;
 	public String 	name    	      = "";
 	public int  	idLocation   	  = -1;
+	public int  	price_coef   	  = 1;
 	public Star 	star 			  = null;
 	public Texture 	cloudTexture   	  = null;
 

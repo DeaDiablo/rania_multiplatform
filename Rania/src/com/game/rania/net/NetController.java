@@ -25,6 +25,7 @@ import com.game.rania.model.Target;
 import com.game.rania.model.User;
 import com.game.rania.model.Location;
 import com.game.rania.model.Planet;
+import com.game.rania.model.items.Consumable;
 import com.game.rania.model.items.Device;
 import com.game.rania.model.items.Droid;
 import com.game.rania.model.items.Engine;
@@ -48,7 +49,7 @@ public class NetController {
 	private Receiver receiver = null;
 	private CommandController cController = null;
 	private Client mClient = null;
-	private int ProtocolVersion = 6;
+	private int ProtocolVersion = 7;
 	
 	public NetController(CommandController commandController){
 		cController = commandController;
@@ -209,19 +210,22 @@ public class NetController {
 			mClient.stream.sendCommand(Command.items);
 			Command command = waitCommand(Command.items);
 			AddressCommand ArrPtr = new AddressCommand();
-			int ItemsCount = GetIntValue(command.data, ArrPtr);
-			for (int i=0; i<ItemsCount; i++)
+			int listItemsCount = GetIntValue(command.data, ArrPtr);
+			for (int i=0; i<listItemsCount; i++)
 			{
-				int item_id = GetIntValue(command.data, ArrPtr);
-				int item_itemType = GetIntValue(command.data, ArrPtr);
-				int Item_DescriptionLen = GetIntValue(command.data, ArrPtr);
-				String item_description = GetStringValue(command.data, ArrPtr, Item_DescriptionLen);
-				int item_volume = GetIntValue(command.data, ArrPtr);
-				int item_region_id = GetIntValue(command.data, ArrPtr);
-				int item_packing = GetIntValue(command.data, ArrPtr);
-				switch (item_itemType)
+				int itemsCount = GetIntValue(command.data, ArrPtr);
+				for (int j=0; j<itemsCount; j++)
 				{
-					case Item.Type.device:
+					int item_id = GetIntValue(command.data, ArrPtr);
+					int item_itemType = GetIntValue(command.data, ArrPtr);
+					int Item_DescriptionLen = GetIntValue(command.data, ArrPtr);
+					String item_description = GetStringValue(command.data, ArrPtr, Item_DescriptionLen);
+					int item_volume = GetIntValue(command.data, ArrPtr);
+					int item_region_id = GetIntValue(command.data, ArrPtr);
+					int item_packing = GetIntValue(command.data, ArrPtr);
+					int item_use_only = GetIntValue(command.data, ArrPtr);
+					int item_price = GetIntValue(command.data, ArrPtr);
+					if (item_itemType==1)
 					{
 						int DeviceVendorLen = GetIntValue(command.data, ArrPtr);
 						String device_vendorStr = GetStringValue(command.data, ArrPtr, DeviceVendorLen);
@@ -245,6 +249,8 @@ public class NetController {
 								body.vendorStr 		= device_vendorStr;
 								body.deviceType 	= device_deviceType;
 								body.durability 	= device_durability;
+								body.use_only 		= item_use_only;
+								body.price 			= item_price;
 								body.slot_weapons 	= body_slot_weapons;
 								body.slot_droids 	= body_slot_droids;
 								body.slot_shield 	= body_slot_shield;
@@ -266,6 +272,8 @@ public class NetController {
 								engine.vendorStr 	= device_vendorStr;
 								engine.deviceType 	= device_deviceType;
 								engine.durability 	= device_durability;
+								engine.use_only 		= item_use_only;
+								engine.price 			= item_price;
 								engine.power 		= engine_power;
 								engine.economic 	= engine_economic;
 								iCollect.engines.put(engine.id, engine);
@@ -280,10 +288,12 @@ public class NetController {
 								fuelbag.description = item_description;
 								fuelbag.volume 		= item_volume;
 								fuelbag.region_id 	= item_region_id;
-								fuelbag.packing 		= item_packing;
+								fuelbag.packing 	= item_packing;
 								fuelbag.vendorStr 	= device_vendorStr;
 								fuelbag.deviceType 	= device_deviceType;
 								fuelbag.durability 	= device_durability;
+								fuelbag.use_only 		= item_use_only;
+								fuelbag.price 			= item_price;
 								fuelbag.compress 	= fuelbag_compress;
 								iCollect.fuelbags.put(fuelbag.id, fuelbag);
 								break;
@@ -302,6 +312,8 @@ public class NetController {
 								droid.vendorStr 	= device_vendorStr;
 								droid.deviceType 	= device_deviceType;
 								droid.durability 	= device_durability;
+								droid.use_only 		= item_use_only;
+								droid.price 			= item_price;
 								droid.power 		= droid_power;
 								droid.time_reload 	= droid_time_reload;
 								iCollect.droids.put(droid.id, droid);
@@ -320,6 +332,8 @@ public class NetController {
 								shield.vendorStr 	= device_vendorStr;
 								shield.deviceType 	= device_deviceType;
 								shield.durability 	= device_durability;
+								shield.use_only 		= item_use_only;
+								shield.price 			= item_price;
 								shield.power 		= shield_power;
 								iCollect.shields.put(shield.id, shield);
 								break;
@@ -339,6 +353,8 @@ public class NetController {
 								hyper.vendorStr 	= device_vendorStr;
 								hyper.deviceType 	= device_deviceType;
 								hyper.durability 	= device_durability;
+								hyper.use_only 		= item_use_only;
+								hyper.price 			= item_price;
 								hyper.radius 		= hyper_radius;
 								hyper.time_start 	= hyper_time_start;
 								hyper.time_reload 	= hyper_time_reload;
@@ -360,6 +376,8 @@ public class NetController {
 								radar.vendorStr 	= device_vendorStr;
 								radar.deviceType 	= device_deviceType;
 								radar.durability 	= device_durability;
+								radar.use_only 		= item_use_only;
+								radar.price 			= item_price;
 								radar.radius 		= radar_radius;
 								radar.defense 		= radar_defense;
 								radar.big_radius	= big_radius;
@@ -383,6 +401,8 @@ public class NetController {
 								weapon.vendorStr 	= device_vendorStr;
 								weapon.deviceType 	= device_deviceType;
 								weapon.durability 	= device_durability;
+								weapon.use_only 		= item_use_only;
+								weapon.price 			= item_price;
 								weapon.weaponType 	= weapon_weaponType;
 								weapon.radius 		= weapon_radius;
 								weapon.power 		= weapon_power;
@@ -392,7 +412,17 @@ public class NetController {
 								break;
 							}
 						}
-						break;
+					}
+					if (item_itemType==2)
+					{
+						Consumable item = new Consumable();
+						item.id = item_id;
+						item.itemType 		= item_itemType;
+						item.description 	= item_description;
+						item.volume 		= item_volume;
+						item.region_id 		= item_region_id;
+						item.packing 		= item_packing;
+						iCollect.consumables.put(item.id, item);
 					}
 				}
 			}
@@ -669,9 +699,11 @@ public class NetController {
 					int PlanetDomain = GetIntValue(command.data, ArrPtr);
 					int PlanetAtmosphere_speedX = GetIntValue(command.data, ArrPtr);
 					int PlanetAtmosphere_speedY = GetIntValue(command.data, ArrPtr);
+					int PlanetPrice_coef = GetIntValue(command.data, ArrPtr);
 					Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, locID, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
 					planet.color = PlanetColor;
 					planet.atmophereColor = AtmColor;
+					planet.price_coef = PlanetPrice_coef;
 					cController.addCommand(new AddPlanetCommand(planet));
 				}
 				break;
@@ -736,10 +768,12 @@ public class NetController {
 			 int in_use 	= GetIntValue(data, ArrPtr);
 			 int wear 		= GetIntValue(data, ArrPtr);
 			 int location 	= GetIntValue(data, ArrPtr);
+			 int num	 	= GetIntValue(data, ArrPtr);
 			 Equip<Item> eq = new Equip<Item>();
 			 eq.in_use = in_use == 1 ? true : false;
 			 eq.wear = wear;
 			 eq.location = location;
+			 eq.num = num;
 			 eq.item = null;
 			 if (iType == 1)
 			 {
@@ -786,11 +820,15 @@ public class NetController {
 						break;
 					}
 				}
-			}
-			equip.add(eq);
-		}
-		return equip;
-	}
+			 }
+			 if (iType == 2)
+			 {
+				 eq.item = items.consumables.get(item_id);
+			 }
+			 equip.add(eq);
+		 }
+		 return equip;
+	 }
 	 
 	class AddressCommand {
 		public AddressCommand() {

@@ -11,4 +11,5 @@ public class ItemCollection{
 	public HashMap<Integer, Hyper>   hypers   = new HashMap<Integer, Hyper>();
 	public HashMap<Integer, Radar>   radars   = new HashMap<Integer, Radar>();
 	public HashMap<Integer, Shield>  shields  = new HashMap<Integer, Shield>();
+	public HashMap<Integer, Consumable>  consumables = new HashMap<Integer, Consumable>();
 }

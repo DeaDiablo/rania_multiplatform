@@ -16,4 +16,5 @@ public class Equip<T extends Item>{
     public boolean 	in_use   = false;
     public int 		wear     = -1;
     public int 		location = -1;
+    public int      num      = 0;
 }

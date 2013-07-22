@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
+import com.game.rania.model.items.Consumable;
 import com.game.rania.model.items.Device;
 import com.game.rania.model.items.Droid;
 import com.game.rania.model.items.Engine;
@@ -73,7 +74,7 @@ public class SpaceShip extends Object{
 
 		unFuel(deltaTime / engine.item.economic);
 		
-		if (fuel <= 0) {
+		if (fuel.num <= 0) {
 			stop();
 			return;
 		}
@@ -104,7 +105,7 @@ public class SpaceShip extends Object{
 		}
 		if (fuelbag != null) {
 			shape.setColor(new Color(0, 1, 0, 0.75f));
-			shape.filledRect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * (fuel / maxFuel), 5);
+			shape.filledRect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * (fuel.num / maxFuel), 5);
 		}
 		shape.end();
 		return true;
@@ -121,8 +122,8 @@ public class SpaceShip extends Object{
 	public Equip<Weapon>  weapon  = null;
 	
 	//characteristics
-    public float fuel;
-    public float maxFuel;
+    public Equip fuel = null;
+    public int maxFuel;
     public float maxSpeed;
 	
 	public List<Equip<Item>> inventory = new ArrayList<Equip<Item>>();
@@ -131,6 +132,18 @@ public class SpaceShip extends Object{
     {
         for (Equip<Item> equip : equips)
         {
+        	if (fuel == null)
+        	{
+        		if (equip.item.getClass() == Consumable.class) 
+            	{
+            		Consumable cons = (Consumable) equip.item;
+            		if (cons.id == 1)
+            		{
+            			fuel = equip;
+                		continue;
+            		}
+            	}
+        	}
             if (!equip.in_use)
             {
             	inventory.add(equip);
@@ -189,8 +202,8 @@ public class SpaceShip extends Object{
         
         if (fuelbag != null)
         {
-            maxFuel = fuelbag.item.volume * fuelbag.item.compress / 100;
-            fuel = maxFuel;
+            maxFuel = (int)fuelbag.item.volume * fuelbag.item.compress / 100 * fuel.item.packing;
+            if (fuel.num>maxFuel) {fuel.num=maxFuel;}
         }
         
         if (engine != null)
@@ -211,25 +224,25 @@ public class SpaceShip extends Object{
 
     public void unFuel(float f)
     {
-        fuel -= f;
-        if (fuel < 0)
+        fuel.num -= f;
+        if (fuel.num < 0)
         {
-            fuel = 0;
+            fuel.num = 0;
             maxSpeed = 0;
         }
         
-        if (fuel > maxFuel)
+        if (fuel.num > maxFuel)
         {
-            fuel = maxFuel;
+            fuel.num = maxFuel;
         }
     }
 
     public void reFuel(float f)
     {
-        fuel += f;
-        if (fuel > maxFuel)
+        fuel.num += f;
+        if (fuel.num > maxFuel)
         {
-            fuel = maxFuel;
+            fuel.num = maxFuel;
         }
         maxSpeed = (float)engine.item.power / 10;
     }

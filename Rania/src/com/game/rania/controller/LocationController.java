@@ -508,4 +508,12 @@ public class LocationController {
 			updateTime -= 1.0f;
 		}
 	}
+
+	public int getOutputX(float x) {
+		return (int) ((x - player.domain.x) * 0.001);
+	}
+	
+	public int getOutputY(float y) {
+		return (int) ((y - player.domain.y) * 0.001);
+	}
 }

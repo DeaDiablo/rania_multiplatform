@@ -459,7 +459,7 @@ public class NetController {
 				int PlanetDomain 	= GetIntValue(command.data, ArrPtr);
 				int PlanetAtmosphere_speedX = GetIntValue(command.data, ArrPtr);
 				int PlanetAtmosphere_speedY = GetIntValue(command.data, ArrPtr);
-				int PlanetPrice_coef= GetIntValue(command.data, ArrPtr);
+				int PlanetPrice_coef = GetIntValue(command.data, ArrPtr);
 				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, idLocation, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
 				planet.color = color;
 				planet.price_coef = PlanetPrice_coef;
@@ -625,14 +625,14 @@ public class NetController {
 			case Command.addUser:
 			{
 				AddressCommand ArrPtr = new AddressCommand();
-				int UserId = GetIntValue(command.data, ArrPtr);
-				int ShipNameLen = GetIntValue(command.data, ArrPtr);
-				String ShipName = GetStringValue(command.data, ArrPtr, ShipNameLen);
-				int UserX = GetIntValue(command.data, ArrPtr);
-				int UserY = GetIntValue(command.data, ArrPtr);
-				int TargetX = GetIntValue(command.data, ArrPtr);
-				int TargetY = GetIntValue(command.data, ArrPtr);
-				int UserDomain = GetIntValue(command.data, ArrPtr);
+				int UserId 			  = GetIntValue(command.data, ArrPtr);
+				int ShipNameLen 	  = GetIntValue(command.data, ArrPtr);
+				String ShipName 	  = GetStringValue(command.data, ArrPtr, ShipNameLen);
+				int UserX 			  = GetIntValue(command.data, ArrPtr);
+				int UserY 			  = GetIntValue(command.data, ArrPtr);
+				int TargetX 		  = GetIntValue(command.data, ArrPtr);
+				int TargetY 		  = GetIntValue(command.data, ArrPtr);
+				int UserDomain 	      = GetIntValue(command.data, ArrPtr);
 				User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
 				user.setPositionTarget(TargetX, TargetY);
 				user.setEquips(getEquips(command.data, ArrPtr));
@@ -642,9 +642,9 @@ public class NetController {
 			case Command.touchUser:
 			{
 				AddressCommand ArrPtr = new AddressCommand();
-				int UserId = GetIntValue(command.data, ArrPtr);
-				int UserTouchX = GetIntValue(command.data, ArrPtr);
-				int UserTouchY = GetIntValue(command.data, ArrPtr);
+				int UserId 			  = GetIntValue(command.data, ArrPtr);
+				int UserTouchX 		  = GetIntValue(command.data, ArrPtr);
+				int UserTouchY 	      = GetIntValue(command.data, ArrPtr);
 				cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY));
 				break;
 			}

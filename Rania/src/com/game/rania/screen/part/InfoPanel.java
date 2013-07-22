@@ -2,6 +2,7 @@ package com.game.rania.screen.part;
 
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.RaniaGame;
+import com.game.rania.controller.Controllers;
 import com.game.rania.model.MultilineText;
 import com.game.rania.model.Planet;
 import com.game.rania.model.Star;
@@ -65,7 +66,7 @@ public class InfoPanel extends Group implements Part{
 		info.clear();
 		info.addLine("Звезда: "   + star.name);
 		info.addLine("Радиус: "   + star.radius);
-		info.addLine("Позиция: [" + star.position.x + ", " + star.position.y + "]");
+		info.addLine("Позиция: [" + Controllers.locController.getOutputX(star.position.x) + ", " + Controllers.locController.getOutputY(star.position.y) + "]");
 	}
 
 	public void setPlanetInfo(Planet planet){

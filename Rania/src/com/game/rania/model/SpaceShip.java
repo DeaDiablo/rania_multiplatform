@@ -72,7 +72,7 @@ public class SpaceShip extends Object{
 		if (!move || fuel == null)
 			return;
 
-		unFuel(deltaTime / engine.item.economic);
+		//unFuel((int)((deltaTime*1000)/engine.item.economic));
 		
 		if (fuel.num <= 0) {
 			stop();
@@ -221,7 +221,7 @@ public class SpaceShip extends Object{
     	equip.wear = Math.min(equip.item.durability, equip.wear + value);
     }
 
-    public void unFuel(float f)
+    public void unFuel(int f)
     {
     	if (fuel == null)
     		return;
@@ -239,7 +239,7 @@ public class SpaceShip extends Object{
         }
     }
 
-    public void reFuel(float f)
+    public void reFuel(int f)
     {
     	if (fuel == null)
     		return;

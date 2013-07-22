@@ -459,8 +459,10 @@ public class NetController {
 				int PlanetDomain 	= GetIntValue(command.data, ArrPtr);
 				int PlanetAtmosphere_speedX = GetIntValue(command.data, ArrPtr);
 				int PlanetAtmosphere_speedY = GetIntValue(command.data, ArrPtr);
+				int PlanetPrice_coef= GetIntValue(command.data, ArrPtr);
 				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, idLocation, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
 				planet.color = color;
+				planet.price_coef = PlanetPrice_coef;
 				planet.atmophereColor = atmColor;
 				planets.put(PlanetId, planet);
 			}

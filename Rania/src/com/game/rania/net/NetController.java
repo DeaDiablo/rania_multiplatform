@@ -132,7 +132,7 @@ public class NetController {
 					mClient.serverTime = GetIntValue(ArrPtr);
 					receiver = new Receiver(mClient, this);
 					receiver.start();
-					if (ArrPtr.controlCRC!=ArrPtr.crc)
+					if (ArrPtr.controlCRC != ArrPtr.crc)
 					{
 						Gdx.app.debug("CRC error", "Login");
 					}
@@ -437,7 +437,7 @@ public class NetController {
 					}
 				}
 			}
-			if (ArrPtr.controlCRC!=ArrPtr.crc)
+			if (ArrPtr.controlCRC != ArrPtr.crc)
 			{
 				Gdx.app.debug("CRC error", "getItem");
 			}
@@ -482,7 +482,7 @@ public class NetController {
 				planet.atmophereColor = atmColor;
 				planets.put(PlanetId, planet);
 			}
-			if (ArrPtr.controlCRC!=ArrPtr.crc)
+			if (ArrPtr.controlCRC != ArrPtr.crc)
 			{
 				Gdx.app.debug("CRC error", "getPlanet");
 			}
@@ -516,7 +516,7 @@ public class NetController {
 				Loc.domain = GetIntValue(ArrPtr);
 				locations.put(Loc.id, Loc);
 			}
-			if (ArrPtr.controlCRC!=ArrPtr.crc)
+			if (ArrPtr.controlCRC != ArrPtr.crc)
 			{
 				Gdx.app.debug("CRC error", "getLocations");
 			}
@@ -548,7 +548,7 @@ public class NetController {
 				Nebula Neb = new Nebula(NebId, NebType, NebX, NebY, NebAngle, NebScale);
 				nebulas.put(Neb.id, Neb);
 			}
-			if (ArrPtr.controlCRC!=ArrPtr.crc)
+			if (ArrPtr.controlCRC != ArrPtr.crc)
 			{
 				Gdx.app.debug("CRC error", "getNebulas");
 			}
@@ -580,7 +580,7 @@ public class NetController {
 				domain.y = GetIntValue(ArrPtr);
 				domains.put(domain.id, domain);
 			}
-			if (ArrPtr.controlCRC!=ArrPtr.crc)
+			if (ArrPtr.controlCRC != ArrPtr.crc)
 			{
 				Gdx.app.debug("CRC error", "getDomains");
 			}
@@ -610,7 +610,7 @@ public class NetController {
 			String SName = GetStringValue(ArrPtr, SnameLen);			
 			Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain, UserInPlanet);
 			player.setEquips(getEquips(ArrPtr));
-			if (ArrPtr.controlCRC!=ArrPtr.crc)
+			if (ArrPtr.controlCRC != ArrPtr.crc)
 			{
 				Gdx.app.debug("CRC error", "getUserData");
 			}
@@ -673,7 +673,7 @@ public class NetController {
 				user.setPositionTarget(TargetX, TargetY);
 				user.setEquips(getEquips(ArrPtr));
 				cController.addCommand(new AddUserCommand(user));
-				if (ArrPtr.controlCRC!=ArrPtr.crc)
+				if (ArrPtr.controlCRC != ArrPtr.crc)
 				{
 					Gdx.app.debug("CRC error", "addUser");
 				}
@@ -686,7 +686,7 @@ public class NetController {
 				int UserTouchX 		  = GetIntValue(ArrPtr);
 				int UserTouchY 	      = GetIntValue(ArrPtr);
 				cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY));
-				if (ArrPtr.controlCRC!=ArrPtr.crc)
+				if (ArrPtr.controlCRC != ArrPtr.crc)
 				{
 					Gdx.app.debug("CRC error", "touchUser");
 				}
@@ -723,7 +723,7 @@ public class NetController {
 				int 	toPilotLen 	= GetIntValue(ArrPtr);
 				String 	toPilot 	= GetStringValue(ArrPtr, toPilotLen);
 				cController.addCommand(new ChatNewMessageCommand(userName, channel, message, toPilot));
-				if (ArrPtr.controlCRC!=ArrPtr.crc)
+				if (ArrPtr.controlCRC != ArrPtr.crc)
 				{
 					Gdx.app.debug("CRC error", "getMessage");
 				}
@@ -755,7 +755,7 @@ public class NetController {
 					planet.price_coef = PlanetPrice_coef;
 					cController.addCommand(new AddPlanetCommand(planet));
 				}
-				if (ArrPtr.controlCRC!=ArrPtr.crc)
+				if (ArrPtr.controlCRC != ArrPtr.crc)
 				{
 					Gdx.app.debug("CRC error", "getPlanets");
 				}

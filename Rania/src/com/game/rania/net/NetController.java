@@ -89,7 +89,17 @@ public class NetController {
 
 		}
 	}
+	public void sendUseEquip(int equip_id) {
+		byte[] data = new byte[4];
+		byte[] useEquipArr = intToByteArray(equip_id);
+		System.arraycopy(useEquipArr, 0, data, 0, 4);
+		try {
+			mClient.stream.sendCommand(Command.useEquips, data);
+		} catch (Exception ex) {
 
+		}
+	}
+	
 	public int getServerTime() {
 		return mClient.serverTime;
 	}
@@ -712,6 +722,7 @@ public class NetController {
 		List<Equip<Item>> equip = new ArrayList<Equip<Item>>();
 		int eqCount = GetIntValue(ArrPtr);
 		for (int j = 0; j < eqCount; j++) {
+			int equip_id = GetIntValue(ArrPtr);
 			int item_id = GetIntValue(ArrPtr);
 			int iType = GetIntValue(ArrPtr);
 			int dType = GetIntValue(ArrPtr);
@@ -720,6 +731,7 @@ public class NetController {
 			int location = GetIntValue(ArrPtr);
 			int num = GetIntValue(ArrPtr);
 			Equip<Item> eq = new Equip<Item>();
+			eq.id = equip_id;
 			eq.in_use = in_use == 1 ? true : false;
 			eq.wear = wear;
 			eq.location = location;

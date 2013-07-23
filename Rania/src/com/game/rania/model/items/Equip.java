@@ -13,9 +13,11 @@ public class Equip<T extends Item> {
 		num = equip.num;
 	}
 
+	public int id = 0;
 	public T item = null;
 	public boolean in_use = false;
 	public int wear = -1;
 	public int location = -1;
 	public int num = 0;
+	public float last_use;
 }

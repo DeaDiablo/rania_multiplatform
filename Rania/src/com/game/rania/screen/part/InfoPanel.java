@@ -20,9 +20,8 @@ public class InfoPanel extends Group implements Part {
 
 	private TextList info = null;
 	private MainView mView = RaniaGame.mView;
-
-	public InfoPanel() {
-		loadPart();
+	
+	public InfoPanel(){
 	}
 
 	public void setTargetInfo(Target target) {

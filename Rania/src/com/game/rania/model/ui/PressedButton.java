@@ -39,6 +39,7 @@ public class PressedButton extends Button {
 		if (FocusElement.getFocus() != this)
 			return false;
 
+		FocusElement.clearFocus();
 		if (action != null)
 			action.execute(true);
 		return true;

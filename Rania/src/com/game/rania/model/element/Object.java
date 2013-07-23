@@ -27,6 +27,10 @@ public class Object {
 	public RegionID regionID = RegionID.NONE;
 	public TextureRegion region = null;
 
+	public Object(){
+		this(0, 0, 0, 1, 1);
+	}
+	
 	public Object(float posX, float posY) {
 		this(posX, posY, 0, 1, 1);
 	}

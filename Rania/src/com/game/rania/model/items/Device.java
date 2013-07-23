@@ -17,21 +17,15 @@ public class Device extends Item {
 	public int deviceType;
 	public String vendorStr;
 	public int durability;
-
-	public Device(float posX, float posY) {
-		super(0, 0);
+	
+	public Device(){
+		super();
 	}
 
-	public Device() {
-		super(0, 0);
-	}
-
-	public Device(Item item) {
-		super(0, 0);
-		this.id = item.id;
-		this.description = item.description;
-		this.itemType = item.itemType;
-		this.volume = item.volume;
-		this.region = item.region;
+	public Device(Device device) {
+		super(device);
+		deviceType = device.deviceType;
+		vendorStr  = device.vendorStr;
+		durability = device.durability;
 	}
 }

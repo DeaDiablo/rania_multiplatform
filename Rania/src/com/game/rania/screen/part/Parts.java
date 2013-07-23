@@ -34,4 +34,15 @@ public class Parts {
 		}
 		return infoPanel;
 	}
+	
+	//info panel
+	protected static SkillsPanel skillsPanel = null;
+	
+	public static SkillsPanel getSkillsPanel(){
+		if (skillsPanel == null) {
+			skillsPanel = new SkillsPanel();
+			parts.add(skillsPanel);
+		}
+		return skillsPanel;
+	}
 }

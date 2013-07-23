@@ -5,14 +5,17 @@ import com.game.rania.controller.LocationController;
 import com.game.rania.screen.part.InfoPanel;
 import com.game.rania.screen.part.Parts;
 import com.game.rania.screen.part.SideBar;
+import com.game.rania.screen.part.SkillsPanel;
 
 public class LocationScreen extends LoadableScreen {
 
 	private LocationController locController = Controllers.locController;
-	private SideBar sideBar = Parts.getSideBar();
-	private InfoPanel infoPanel = Parts.getInfoPanel();
 
-	public LocationScreen() {
+	private SideBar            sideBar       = Parts.getSideBar();
+	private InfoPanel          infoPanel     = Parts.getInfoPanel();
+	private SkillsPanel        skillsPanel   = Parts.getSkillsPanel();
+	
+	public LocationScreen(){
 		super();
 
 		LoadObject loadObject = new LoadObject(
@@ -72,11 +75,12 @@ public class LocationScreen extends LoadableScreen {
 		};
 		addLoadObject(loadObject);
 
-		loadObject = new LoadObject(new String("Загрузка радара...")) {
+		loadObject = new LoadObject(new String("Загрузка систем корабля...")) {
 			@Override
 			public void load() {
 				locController.loadRadar();
 				infoPanel.loadPart();
+				skillsPanel.loadPart();
 			}
 		};
 		addLoadObject(loadObject);
@@ -104,6 +108,7 @@ public class LocationScreen extends LoadableScreen {
 		locController.addPlayer();
 		sideBar.addPart();
 		infoPanel.addPart();
+		skillsPanel.addPart();
 	}
 
 	@Override

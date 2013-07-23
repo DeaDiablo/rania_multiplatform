@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.rania.controller.Controllers;
 import com.game.rania.model.element.Font;
 
-public class User extends SpaceShip {
+public class User extends SpaceShip{
 
 	protected boolean isPlayer = false;
 	public int id;
@@ -13,8 +13,7 @@ public class User extends SpaceShip {
 	public Domain domain;
 	public int inPlanet;
 
-	public User(int Id, float posX, float posY, String ShipName,
-			String PilotName, int Domain) {
+	public User(int Id, float posX, float posY, String ShipName, String PilotName, int Domain) {
 		super(posX, posY, ShipName);
 		id = Id;
 		pilotName = PilotName;
@@ -24,8 +23,7 @@ public class User extends SpaceShip {
 		textShip.content = shipName;
 	}
 
-	public User(int Id, float posX, float posY, String ShipName,
-			String PilotName, int Domain, int InPlanet) {
+	public User(int Id, float posX, float posY, String ShipName, String PilotName, int Domain, int InPlanet) {
 		super(posX, posY, ShipName);
 		id = Id;
 		pilotName = PilotName;
@@ -34,17 +32,15 @@ public class User extends SpaceShip {
 		zIndex = Indexes.users;
 		textShip.content = shipName;
 	}
-
-	protected Text textShip = new Text("", Font.getFont("data/fonts/arial.ttf",
-			20), new Color(1, 1, 1, 1), 0, 0);
-
+	
+	protected Text textShip = new Text("", Font.getFont("data/fonts/arial.ttf", 20), new Color(1, 1, 1, 1), 0, 0);
+	
 	@Override
-	public boolean draw(SpriteBatch sprite) {
+	public boolean draw(SpriteBatch sprite){
 		if (!super.draw(sprite))
 			return false;
 		if (!isPlayer)
-			textShip.draw(sprite, position.x,
-					position.y + region.getRegionHeight() * 0.5f);
+			textShip.draw(sprite, position.x, position.y + region.getRegionHeight() * 0.5f);
 		return true;
 	}
 }

@@ -1,6 +1,6 @@
 package com.game.rania.model.items;
 
-public class Body extends Device {
+public class Body extends Device{
 
 	public int slot_weapons;
 	public int slot_droids;

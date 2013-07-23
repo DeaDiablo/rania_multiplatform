@@ -6,31 +6,32 @@ public class LoadableScreen extends RaniaScreen {
 
 	protected boolean loaded = true;
 
-	public LoadableScreen() {
+	public LoadableScreen(){
 		super();
 		loaded = false;
 	}
-
+	
 	@Override
-	public boolean isLoaded() {
+	public boolean isLoaded()
+	{
 		return loaded;
 	}
 
-	public abstract class LoadObject {
+	public abstract class LoadObject{
 		public String loadText = null;
-		public LoadObject(String text) {
+		public LoadObject(String text){
 			loadText = text;
 		}
 		public abstract void load();
 	}
 
 	protected Vector<LoadObject> loadObjects = new Vector<LoadObject>();
-
-	public void addLoadObject(LoadObject loadObject) {
+	
+	public void addLoadObject(LoadObject loadObject){
 		loadObjects.add(loadObject);
 	}
-
-	public String getCurrentResource() {
+	
+	public String getCurrentResource(){
 		if (loadObjects.isEmpty())
 			return null;
 		LoadObject loadObject = loadObjects.get(0);
@@ -38,8 +39,8 @@ public class LoadableScreen extends RaniaScreen {
 			return loadObject.loadText;
 		return null;
 	}
-
-	public void loadNextResource() {
+	
+	public void loadNextResource(){
 		LoadObject loadObject = loadObjects.get(0);
 		if (loadObject == null)
 			return;
@@ -51,7 +52,7 @@ public class LoadableScreen extends RaniaScreen {
 	}
 
 	@Override
-	public LoadableScreen asLoadableScreen() {
+	public LoadableScreen asLoadableScreen(){
 		return this;
 	}
 }

@@ -10,7 +10,7 @@ import com.game.rania.RaniaGame;
 import com.game.rania.model.Indexes;
 
 public class Object {
-
+	
 	public static Shader currentShader = null;
 
 	public boolean keysObject = false;
@@ -35,86 +35,85 @@ public class Object {
 		this(posX, posY, 0, 1, 1);
 	}
 
-	public Object(float posX, float posY, float rotAngle) {
+	public Object(float posX, float posY, float rotAngle){
 		this(posX, posY, rotAngle, 1, 1);
 	}
 
-	public Object(float posX, float posY, float rotAngle, float scaleX,
-			float scaleY) {
+	public Object(float posX, float posY, float rotAngle, float scaleX, float scaleY){
 		position.set(posX, posY);
 		angle = rotAngle;
 		scale.set(scaleX, scaleY);
 	}
 
-	public Object(RegionID id, float posX, float posY) {
+	public Object(RegionID id, float posX, float posY){
 		this(id, posX, posY, 0, 1, 1);
 	}
 
-	public Object(RegionID id, float posX, float posY, float rotAngle) {
+	public Object(RegionID id, float posX, float posY, float rotAngle){
 		this(id, posX, posY, rotAngle, 1, 1);
-	}
-
-	public Object(RegionID id, float posX, float posY, float rotAngle,
-			float scaleX, float scaleY) {
+	}	
+	
+	public Object(RegionID id, float posX, float posY, float rotAngle, float scaleX, float scaleY){
 		regionID = id;
 		region = RaniaGame.mView.getTextureRegion(id);
 		position.set(posX, posY);
 		angle = rotAngle;
 		scale.set(scaleX, scaleY);
 	}
-
-	public void reloadTexture() {
+	
+	public void reloadTexture(){
 		region = RaniaGame.mView.getTextureRegion(regionID);
 	}
-
-	public HUDObject asHUDObject() {
+	
+	public HUDObject asHUDObject(){
 		return null;
 	}
-
-	public float getMaxSize() {
-		return Math.max(region.getRegionWidth() * scale.x,
-				region.getRegionHeight() * scale.y);
+	
+	public float getMaxSize(){
+		return Math.max(region.getRegionWidth() * scale.x, region.getRegionHeight() * scale.y);
 	}
 
-	public float getWidth() {
+	public float getWidth(){
 		return region.getRegionWidth() * scale.x;
 	}
-
-	public float getHeight() {
+	
+	public float getHeight(){
 		return region.getRegionHeight() * scale.y;
 	}
-
-	public float getLeft() {
+	
+	public float getLeft(){
 		return -region.getRegionWidth() * scale.x * 0.5f;
 	}
-
-	public float getRight() {
+	
+	public float getRight(){
 		return region.getRegionWidth() * scale.x * 0.5f;
 	}
-
-	public float getBottom() {
+	
+	public float getBottom(){
 		return -region.getRegionHeight() * scale.y * 0.5f;
 	}
-
-	public float getTop() {
+	
+	public float getTop(){
 		return region.getRegionHeight() * scale.y * 0.5f;
 	}
 
-	public boolean intersectObject(float x, float y) {
+	public boolean intersectObject(float x, float y){
 		if (region == null)
 			return false;
 		float width = getWidth();
 		float height = getHeight();
-		Rectangle rect = new Rectangle(position.x - width * 0.5f, position.y
-				- height * 0.5f, width, height);
+		Rectangle rect = new Rectangle(position.x - width * 0.5f,
+								       position.y - height * 0.5f,
+								       width,
+								       height);
 		Vector2 point = new Vector2(x, y);
 		point.sub(position);
 		point.rotate(angle);
 		point.add(position);
 		return rect.contains(point.x, point.y);
 	}
-
-	// keyboard
+	
+	//keyboard
 	public boolean keyDown(int keycode) {
 		return false;
 	}
@@ -126,76 +125,73 @@ public class Object {
 	public boolean keyTyped(char character) {
 		return true;
 	}
-
-	// touch
+	
+	//touch
 	public boolean touchDown(float x, float y) {
 		return false;
 	}
-
+	
 	public boolean touchDragged(float x, float y) {
 		return false;
 	}
-
+	
 	public boolean touchUp(float x, float y) {
 		return false;
 	}
-
-	// update and draw
-	public void update(float deltaTime) {
+	
+	//update and draw
+	public void update(float deltaTime){
 	}
-
-	public boolean setShader(SpriteBatch sprite) {
+	
+	public boolean setShader(SpriteBatch sprite){
 		if (currentShader == shader)
 			return false;
 		sprite.setShader(shader);
 		currentShader = shader;
 		return true;
 	}
-
-	public boolean draw(SpriteBatch sprite) {
+	
+	public boolean draw(SpriteBatch sprite){
 		if (!visible)
 			return false;
 		sprite.setColor(color);
 		return drawRegion(sprite, region);
 	}
-
-	public boolean draw(SpriteBatch sprite, Vector2 position, float angle,
-			Vector2 scale, Color color) {
+	
+	public boolean draw(SpriteBatch sprite, Vector2 position, float angle, Vector2 scale, Color color){
 		if (!visible)
 			return false;
 		sprite.setColor(color);
 		return drawRegion(sprite, region, position, angle, scale);
 	}
-
-	public boolean draw(ShapeRenderer shape) {
+	
+	public boolean draw(ShapeRenderer shape){
 		return true;
 	}
 
-	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion) {
-		return drawRegion(sprite, textureRegion, position.x, position.y, angle,
-				scale.x, scale.y);
+	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion){	
+		return drawRegion(sprite, textureRegion, position.x, position.y, angle, scale.x, scale.y);
 	}
-
-	protected boolean drawRegion(SpriteBatch sprite,
-			TextureRegion textureRegion, Vector2 position, float angle,
-			Vector2 scale) {
-		return drawRegion(sprite, textureRegion, position.x, position.y, angle,
-				scale.x, scale.y);
+	
+	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, Vector2 position, float angle, Vector2 scale){		
+		return drawRegion(sprite, textureRegion, position.x, position.y, angle, scale.x, scale.y);
 	}
-
-	protected boolean drawRegion(SpriteBatch sprite,
-			TextureRegion textureRegion, float x, float y, float angle,
-			float scaleX, float scaleY) {
+	
+	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, float x, float y, float angle, float scaleX, float scaleY){
 		if (textureRegion == null)
 			return false;
 
-		sprite.draw(textureRegion, x - textureRegion.getRegionWidth() * 0.5f, y
-				- textureRegion.getRegionHeight() * 0.5f,
-				textureRegion.getRegionWidth() * 0.5f,
-				textureRegion.getRegionHeight() * 0.5f,
-				textureRegion.getRegionWidth(),
-				textureRegion.getRegionHeight(), scaleX, scaleY, angle);
-
+		sprite.draw(textureRegion, 
+					x - textureRegion.getRegionWidth() * 0.5f,
+					y - textureRegion.getRegionHeight() * 0.5f,
+					textureRegion.getRegionWidth() * 0.5f,
+					textureRegion.getRegionHeight() * 0.5f,
+					textureRegion.getRegionWidth(),
+					textureRegion.getRegionHeight(),
+					scaleX,
+					scaleY,
+					angle);
+		
 		return true;
 	}
 }

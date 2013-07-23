@@ -3,31 +3,31 @@ package com.game.rania.screen.part;
 import java.util.Vector;
 
 public class Parts {
-
+	
 	protected static Vector<Part> parts = new Vector<Part>();
-
-	public static void removAllParts() {
-		for (Part part : parts) {
+	
+	public static void removAllParts(){
+		for(Part part : parts){
 			part.unloadPart();
 		}
 		parts.clear();
 	}
 
-	// sidebar
+	//sidebar	
 	protected static SideBar sideBar = null;
-
-	public static SideBar getSideBar() {
+	
+	public static SideBar getSideBar(){
 		if (sideBar == null) {
 			sideBar = new SideBar();
 			parts.add(sideBar);
 		}
 		return sideBar;
 	}
-
-	// info panel
+	
+	//info panel
 	protected static InfoPanel infoPanel = null;
-
-	public static InfoPanel getInfoPanel() {
+	
+	public static InfoPanel getInfoPanel(){
 		if (infoPanel == null) {
 			infoPanel = new InfoPanel();
 			parts.add(infoPanel);

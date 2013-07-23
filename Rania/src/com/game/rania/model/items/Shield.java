@@ -1,6 +1,6 @@
 package com.game.rania.model.items;
 
-public class Shield extends Device {
+public class Shield extends Device{
 
 	public int power;
 	

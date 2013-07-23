@@ -27,8 +27,8 @@ public enum RegionID {
 	public static RegionID fromInt(int pos) {
 		return RegionID.values()[pos];
 	}
-
-	public static int toInt(RegionID id) {
+	
+	public static int toInt(RegionID id){
 		return id.ordinal();
 	}
 }

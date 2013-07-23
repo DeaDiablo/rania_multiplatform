@@ -1,6 +1,6 @@
 package com.game.rania.screen.part;
 
-public interface Part {
+public interface Part{
 	public void loadPart();
 	public void unloadPart();
 	public void addPart();

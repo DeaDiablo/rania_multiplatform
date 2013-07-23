@@ -1,6 +1,6 @@
 package com.game.rania.model.items;
 
-public class Fuelbag extends Device {
+public class Fuelbag extends Device{
 
 	public int compress;
 

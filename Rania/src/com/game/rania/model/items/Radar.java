@@ -1,6 +1,6 @@
 package com.game.rania.model.items;
 
-public class Radar extends Device {
+public class Radar extends Device{
 
 	public int radius;
 	public int defense;

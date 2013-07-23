@@ -1,11 +1,11 @@
 package com.game.rania.model.items;
 
-public class Weapon extends Device {
+public class Weapon extends Device{
 
 	public class Type {
-		public static final int Laser = 0;
-		public static final int Rocket = 1;
-		public static final int BFG = 2;
+		public static final int Laser	= 0;
+		public static final int Rocket	= 1;
+		public static final int BFG		= 2;
 	}
 
 	public int weaponType;

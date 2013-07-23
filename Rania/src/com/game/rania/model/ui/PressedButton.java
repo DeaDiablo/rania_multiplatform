@@ -3,24 +3,21 @@ package com.game.rania.model.ui;
 import com.game.rania.model.Text;
 import com.game.rania.model.element.RegionID;
 
-public class PressedButton extends Button {
+public class PressedButton extends Button{
 
 	public PressedButton(RegionID regionOff, RegionID regionOn, float x, float y) {
 		super(regionOff, regionOn, x, y, null, null);
 	}
 
-	public PressedButton(RegionID regionOff, RegionID regionOn, float x,
-			float y, TouchAction action) {
+	public PressedButton(RegionID regionOff, RegionID regionOn, float x, float y, TouchAction action) {
 		super(regionOff, regionOn, x, y, null, action);
 	}
 
-	public PressedButton(RegionID regionOff, RegionID regionOn, float x,
-			float y, Text text, TouchAction action) {
+	public PressedButton(RegionID regionOff, RegionID regionOn, float x, float y, Text text, TouchAction action) {
 		super(regionOff, regionOn, x, y, text, action);
 	}
-
-	public PressedButton(RegionID regionOff, RegionID regionOn, float x,
-			float y, Text text) {
+	
+	public PressedButton(RegionID regionOff, RegionID regionOn, float x, float y, Text text) {
 		super(regionOff, regionOn, x, y, text, null);
 	}
 

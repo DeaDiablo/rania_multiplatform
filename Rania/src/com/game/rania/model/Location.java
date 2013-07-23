@@ -2,7 +2,7 @@ package com.game.rania.model;
 
 import java.util.HashMap;
 
-public class Location {
+public class Location{
 	public int id;
 	public int x;
 	public int y;

@@ -21,21 +21,20 @@ import com.game.rania.model.element.RegionID;
 public class MainView {
 
 	// camera
-	private Camera camera = null;
-	private Camera cameraHUD = null;
+	private Camera														camera					= null;
+	private Camera														cameraHUD				= null;
 
 	// sprites
-	private SpriteBatch spriteBatch = null;
-	private ShapeRenderer shapeRenderer = null;
+	private SpriteBatch												spriteBatch			= null;
+	private ShapeRenderer											shapeRenderer		= null;
 
 	// fps
-	private Text fps = null;
+	private Text															fps							= null;
 
 	// textures
-	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
-	private Vector<String> notAutoTextures = new Vector<String>();
-	private EnumMap<RegionID, TextureRegion> textureRegions = new EnumMap<RegionID, TextureRegion>(
-			RegionID.class);
+	private HashMap<String, Texture>					textures				= new HashMap<String, Texture>();
+	private Vector<String>										notAutoTextures	= new Vector<String>();
+	private EnumMap<RegionID, TextureRegion>	textureRegions	= new EnumMap<RegionID, TextureRegion>(RegionID.class);
 
 	public MainView(float widthCamera, float heightCamera) {
 		// create camera
@@ -44,36 +43,31 @@ public class MainView {
 
 		spriteBatch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
-		fps = new Text("", Font.getFont("data/fonts/Postmodern One.ttf", 30),
-				new Color(1, 1, 1, 1), 0, 0);
+		fps = new Text("", Font.getFont("data/fonts/Postmodern One.ttf", 30), new Color(1, 1, 1, 1), 0, 0);
 	}
 
 	public TextureRegion loadTexture(String fileTexture, RegionID id) {
 		return loadTexture(fileTexture, id, true);
 	}
 
-	public TextureRegion loadTexture(String fileTexture, RegionID id,
-			boolean autoUnload) {
+	public TextureRegion loadTexture(String fileTexture, RegionID id, boolean autoUnload) {
 		Texture texture = textures.get(fileTexture);
 		if (texture == null) {
 			texture = new Texture(Gdx.files.internal(fileTexture));
 			texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			textures.put(fileTexture, texture);
 		}
-		if (!autoUnload && !notAutoTextures.contains(fileTexture))
-			notAutoTextures.add(fileTexture);
+		if (!autoUnload && !notAutoTextures.contains(fileTexture)) notAutoTextures.add(fileTexture);
 		TextureRegion region = new TextureRegion(texture);
 		textureRegions.put(id, region);
 		return region;
 	}
 
-	public TextureRegion loadTexture(String fileTexture, RegionID id, int x,
-			int y, int width, int height) {
+	public TextureRegion loadTexture(String fileTexture, RegionID id, int x, int y, int width, int height) {
 		return loadTexture(fileTexture, id, x, y, width, height, true);
 	}
 
-	public TextureRegion loadTexture(String fileTexture, RegionID id, int x,
-			int y, int width, int height, boolean autoUnload) {
+	public TextureRegion loadTexture(String fileTexture, RegionID id, int x, int y, int width, int height, boolean autoUnload) {
 		Texture texture = textures.get(fileTexture);
 		if (texture == null) {
 			texture = new Texture(Gdx.files.internal(fileTexture));
@@ -81,8 +75,7 @@ public class MainView {
 			textures.put(fileTexture, texture);
 		}
 
-		if (!autoUnload && !notAutoTextures.contains(fileTexture))
-			notAutoTextures.add(fileTexture);
+		if (!autoUnload && !notAutoTextures.contains(fileTexture)) notAutoTextures.add(fileTexture);
 
 		TextureRegion region = new TextureRegion(texture, x, y, width, height);
 		textureRegions.put(id, region);
@@ -91,13 +84,11 @@ public class MainView {
 
 	public void unloadTexture(String fileTexture) {
 		Texture texture = textures.get(fileTexture);
-		if (texture == null)
-			return;
+		if (texture == null) return;
 
 		Iterator<TextureRegion> region = textureRegions.values().iterator();
 		while (region.hasNext()) {
-			if (region.next().getTexture() == texture)
-				region.remove();
+			if (region.next().getTexture() == texture) region.remove();
 		}
 
 		texture.dispose();
@@ -115,14 +106,12 @@ public class MainView {
 
 	public Texture getTexture(RegionID id) {
 		TextureRegion regTexture = textureRegions.get(id);
-		if (regTexture == null)
-			return null;
+		if (regTexture == null) return null;
 		return regTexture.getTexture();
 	}
 
 	public void clear() {
-		HashMap<String, Texture> texturesBuffer = new HashMap<String, Texture>(
-				textures);
+		HashMap<String, Texture> texturesBuffer = new HashMap<String, Texture>(textures);
 
 		for (String textureFile : notAutoTextures) {
 			texturesBuffer.remove(textureFile);
@@ -167,8 +156,7 @@ public class MainView {
 	}
 
 	public void draw() {
-		if (camera == null)
-			return;
+		if (camera == null) return;
 
 		// for fps show
 		fps.content = String.valueOf(Gdx.graphics.getFramesPerSecond());
@@ -202,9 +190,7 @@ public class MainView {
 			object.setShader(spriteBatch);
 			object.draw(spriteBatch);
 		}
-		fps.draw(spriteBatch, cameraHUD.getLeft() + fps.getTextBound().width
-				* 0.5f, cameraHUD.getBottom() + fps.getTextBound().height
-				* 0.5f);
+		fps.draw(spriteBatch, cameraHUD.getLeft() + fps.getTextBound().width * 0.5f, cameraHUD.getBottom() + fps.getTextBound().height * 0.5f);
 		spriteBatch.end();
 
 		// HUD shape render

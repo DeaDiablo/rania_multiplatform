@@ -45,16 +45,12 @@ public class Camera extends OrthographicCamera {
 	}
 
 	public void toCameraCoord(Vector2 coord) {
-		coord.x = coord.x * zoom * viewportWidth / Gdx.graphics.getWidth()
-				+ getLeft();
-		coord.y = coord.y * zoom * viewportHeight / Gdx.graphics.getHeight()
-				+ getBottom();
+		coord.x = coord.x * zoom * viewportWidth / Gdx.graphics.getWidth() + getLeft();
+		coord.y = coord.y * zoom * viewportHeight / Gdx.graphics.getHeight() + getBottom();
 	}
 
 	public void toScreenCoord(Vector2 coord) {
-		coord.x = (coord.x - getLeft())
-				/ (zoom * viewportWidth / Gdx.graphics.getWidth());
-		coord.y = (coord.y - getBottom())
-				/ (zoom * viewportHeight / Gdx.graphics.getHeight());
+		coord.x = (coord.x - getLeft()) / (zoom * viewportWidth / Gdx.graphics.getWidth());
+		coord.y = (coord.y - getBottom()) / (zoom * viewportHeight / Gdx.graphics.getHeight());
 	}
 }

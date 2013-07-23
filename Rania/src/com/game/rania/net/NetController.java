@@ -46,18 +46,17 @@ import com.game.rania.utils.Condition;
 
 public class NetController {
 
-	private Receiver receiver = null;
-	private CommandController cController = null;
-	private Client mClient = null;
-	private int ProtocolVersion = 7;
+	private Receiver					receiver				= null;
+	private CommandController	cController			= null;
+	private Client						mClient					= null;
+	private int								ProtocolVersion	= 7;
 
 	public NetController(CommandController commandController) {
 		cController = commandController;
 	}
 
 	public void dispose() {
-		if (receiver != null)
-			receiver.stopThread();
+		if (receiver != null) receiver.stopThread();
 	}
 
 	public void sendTouchPoint(int x, int y, int currentX, int currentY) {
@@ -72,7 +71,8 @@ public class NetController {
 		System.arraycopy(useryArr, 0, data, 12, 4);
 		try {
 			mClient.stream.sendCommand(Command.touchPlayer, data);
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 
 		}
 	}
@@ -85,7 +85,8 @@ public class NetController {
 		System.arraycopy(targetArr, 0, data, 4, 4);
 		try {
 			mClient.stream.sendCommand(Command.setTarget, data);
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 
 		}
 	}
@@ -100,23 +101,18 @@ public class NetController {
 		mClient.socket = null;
 		mClient.isLogin = false;
 		try {
-			mClient.socket = new Socket(
-					InetAddress.getByName(Config.serverAddress),
-					Config.serverPort);
+			mClient.socket = new Socket(InetAddress.getByName(Config.serverAddress), Config.serverPort);
 			if (mClient.socket.isConnected()) {
-				mClient.stream = new IOStream(mClient.socket.getInputStream(),
-						mClient.socket.getOutputStream());
+				mClient.stream = new IOStream(mClient.socket.getInputStream(), mClient.socket.getOutputStream());
 				byte[] LoginArr = Login.getBytes("UTF-16LE");
 				byte[] LoginLenArr = intToByteArray(LoginArr.length);
 				byte[] ProtocolVersionArr = intToByteArray(ProtocolVersion);
-				byte[] data = new byte[LoginArr.length + LoginLenArr.length
-						+ ProtocolVersionArr.length];
+				byte[] data = new byte[LoginArr.length + LoginLenArr.length + ProtocolVersionArr.length];
 				System.arraycopy(ProtocolVersionArr, 0, data, 0, 4);
 				System.arraycopy(LoginLenArr, 0, data, 4, 4);
 				System.arraycopy(LoginArr, 0, data, 8, LoginArr.length);
 				mClient.stream.sendCommand(Command.login, data);
-				mClient.stream.sendCommand(Command.password,
-						Password.getBytes("UTF-16LE"));
+				mClient.stream.sendCommand(Command.password, Password.getBytes("UTF-16LE"));
 				// Command command = waitCommand();
 				Command command = mClient.stream.readCommand();
 				if (command.idCommand == Command.login) {
@@ -139,7 +135,8 @@ public class NetController {
 					mClient.isLogin = false;
 				}
 			}
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			return false;
 		}
 		return false;
@@ -147,23 +144,22 @@ public class NetController {
 
 	public void disconnect() {
 		try {
-			if (mClient != null && mClient.socket.isConnected()
-					&& mClient.isLogin) {
+			if (mClient != null && mClient.socket.isConnected() && mClient.isLogin) {
 				mClient.stream.sendCommand(Command.disconnect);
 				receiver.stopThread();
 				mClient.socket.shutdownInput();
 				mClient.socket.shutdownOutput();
 				mClient.socket.close();
 			}
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 
 		}
 	}
 
 	public void sendChatMessage(String Message, int channel) {
 		String toPilot = "";
-		if (Message.isEmpty())
-			return;
+		if (Message.isEmpty()) return;
 
 		try {
 			byte[] ChannelArr = intToByteArray(channel);
@@ -171,19 +167,16 @@ public class NetController {
 			byte[] MessageLenArr = intToByteArray(MessageArr.length);
 			byte[] toPilotArr = toPilot.getBytes("UTF-16LE");
 			byte[] toPilotLenArr = intToByteArray(toPilotArr.length);
-			byte[] data = new byte[ChannelArr.length + MessageArr.length
-					+ MessageLenArr.length + toPilotArr.length
-					+ toPilotLenArr.length];
+			byte[] data = new byte[ChannelArr.length + MessageArr.length + MessageLenArr.length + toPilotArr.length + toPilotLenArr.length];
 			System.arraycopy(ChannelArr, 0, data, 0, 4);
 			System.arraycopy(MessageLenArr, 0, data, 4, 4);
 			System.arraycopy(MessageArr, 0, data, 8, MessageArr.length);
 			System.arraycopy(toPilotLenArr, 0, data, 8 + MessageArr.length, 4);
-			System.arraycopy(toPilotArr, 0, data, 8 + MessageArr.length + 4,
-					toPilotArr.length);
+			System.arraycopy(toPilotArr, 0, data, 8 + MessageArr.length + 4, toPilotArr.length);
 			mClient.stream.sendCommand(Command.message, data);
 
-		} catch (Exception ex) {
 		}
+		catch (Exception ex) {}
 	}
 
 	public void clientRelogin() {
@@ -193,8 +186,8 @@ public class NetController {
 	public void loadComplite() {
 		try {
 			mClient.stream.sendCommand(Command.loadComplite);
-		} catch (Exception ex) {
 		}
+		catch (Exception ex) {}
 	}
 
 	public ItemCollection getItems() {
@@ -210,8 +203,7 @@ public class NetController {
 					int item_id = GetIntValue(ArrPtr);
 					int item_itemType = GetIntValue(ArrPtr);
 					int Item_DescriptionLen = GetIntValue(ArrPtr);
-					String item_description = GetStringValue(ArrPtr,
-							Item_DescriptionLen);
+					String item_description = GetStringValue(ArrPtr, Item_DescriptionLen);
 					int item_volume = GetIntValue(ArrPtr);
 					int item_region_id = GetIntValue(ArrPtr);
 					int item_packing = GetIntValue(ArrPtr);
@@ -219,8 +211,7 @@ public class NetController {
 					int item_price = GetIntValue(ArrPtr);
 					if (item_itemType == 1) {
 						int DeviceVendorLen = GetIntValue(ArrPtr);
-						String device_vendorStr = GetStringValue(ArrPtr,
-								DeviceVendorLen);
+						String device_vendorStr = GetStringValue(ArrPtr, DeviceVendorLen);
 						int device_deviceType = GetIntValue(ArrPtr);
 						int device_durability = GetIntValue(ArrPtr);
 						switch (device_deviceType) {
@@ -411,18 +402,16 @@ public class NetController {
 			if (ArrPtr.controlCRC != ArrPtr.crc) {
 				Gdx.app.debug("CRC error", "getItem");
 			}
-		} catch (Exception ex) {
 		}
+		catch (Exception ex) {}
 		return iCollect;
 	}
 
 	public HashMap<Integer, Planet> getPlanets(int idLocation, boolean wait) {
 		HashMap<Integer, Planet> planets = new HashMap<Integer, Planet>();
 		try {
-			mClient.stream.sendCommand(Command.planets,
-					intToByteArray(idLocation));
-			if (!wait)
-				return null;
+			mClient.stream.sendCommand(Command.planets, intToByteArray(idLocation));
+			if (!wait) return null;
 
 			Command command = waitCommand(Command.planets);
 			CommandReader ArrPtr = new CommandReader(command.data);
@@ -442,10 +431,9 @@ public class NetController {
 				int PlanetAtmosphere_speedX = GetIntValue(ArrPtr);
 				int PlanetAtmosphere_speedY = GetIntValue(ArrPtr);
 				int PlanetPrice_coef = GetIntValue(ArrPtr);
-				Planet planet = new Planet(PlanetId, PlanetName, PlanetType,
-						PlanetRadius, PlanetSpeed, PlanetOrbit, idLocation,
-						PlanetDomain, PlanetAtmosphere_speedX,
-						PlanetAtmosphere_speedY);
+				Planet planet =
+												new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, idLocation, PlanetDomain, PlanetAtmosphere_speedX,
+																		PlanetAtmosphere_speedY);
 				planet.color = color;
 				planet.price_coef = PlanetPrice_coef;
 				planet.atmophereColor = atmColor;
@@ -454,7 +442,8 @@ public class NetController {
 			if (ArrPtr.controlCRC != ArrPtr.crc) {
 				Gdx.app.debug("CRC error", "getPlanet");
 			}
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			clientRelogin();
 		}
 		return planets;
@@ -482,7 +471,8 @@ public class NetController {
 			if (ArrPtr.controlCRC != ArrPtr.crc) {
 				Gdx.app.debug("CRC error", "getLocations");
 			}
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			clientRelogin();
 		}
 		return locations;
@@ -502,14 +492,14 @@ public class NetController {
 				int NebY = GetIntValue(ArrPtr);
 				int NebScale = GetIntValue(ArrPtr);
 				int NebAngle = GetIntValue(ArrPtr);
-				Nebula Neb = new Nebula(NebId, NebType, NebX, NebY, NebAngle,
-						NebScale);
+				Nebula Neb = new Nebula(NebId, NebType, NebX, NebY, NebAngle, NebScale);
 				nebulas.put(Neb.id, Neb);
 			}
 			if (ArrPtr.controlCRC != ArrPtr.crc) {
 				Gdx.app.debug("CRC error", "getNebulas");
 			}
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			clientRelogin();
 		}
 		return nebulas;
@@ -535,7 +525,8 @@ public class NetController {
 			if (ArrPtr.controlCRC != ArrPtr.crc) {
 				Gdx.app.debug("CRC error", "getDomains");
 			}
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			clientRelogin();
 		}
 		return domains;
@@ -555,34 +546,31 @@ public class NetController {
 			String PName = GetStringValue(ArrPtr, PnameLen);
 			int SnameLen = GetIntValue(ArrPtr);
 			String SName = GetStringValue(ArrPtr, SnameLen);
-			Player player = new Player(UserId, UserX, UserY, PName, SName,
-					UserDomain, UserInPlanet);
+			Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain, UserInPlanet);
 			player.setEquips(getEquips(ArrPtr));
 			if (ArrPtr.controlCRC != ArrPtr.crc) {
 				Gdx.app.debug("CRC error", "getUserData");
 			}
 			return player;
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			clientRelogin();
 		}
 		return null;
 	}
 
 	public static int byteArrayToInt(byte[] b) {
-		return b[3] & 0xFF | (b[2] & 0xFF) << 8 | (b[1] & 0xFF) << 16
-				| (b[0] & 0xFF) << 24;
+		return b[3] & 0xFF | (b[2] & 0xFF) << 8 | (b[1] & 0xFF) << 16 | (b[0] & 0xFF) << 24;
 	}
 
 	public static byte[] intToByteArray(int a) {
-		return new byte[]{(byte) ((a >> 24) & 0xFF), (byte) ((a >> 16) & 0xFF),
-				(byte) ((a >> 8) & 0xFF), (byte) (a & 0xFF)};
+		return new byte[]{(byte) ((a >> 24) & 0xFF), (byte) ((a >> 16) & 0xFF), (byte) ((a >> 8) & 0xFF), (byte) (a & 0xFF)};
 	}
 
 	// commands
-	private Condition cWaitCommand = new Condition(),
-			cCopyCommand = new Condition();
-	private volatile int idWaitCommand = Command.none;
-	private volatile Command currentCommand = null;
+	private Condition					cWaitCommand		= new Condition(), cCopyCommand = new Condition();
+	private volatile int			idWaitCommand		= Command.none;
+	private volatile Command	currentCommand	= null;
 
 	public Command waitCommand(int idCommand) throws InterruptedException {
 		idWaitCommand = idCommand;
@@ -593,8 +581,7 @@ public class NetController {
 		return command;
 	}
 
-	public void processingCommand(Command command) throws InterruptedException,
-			UnsupportedEncodingException {
+	public void processingCommand(Command command) throws InterruptedException, UnsupportedEncodingException {
 		if (idWaitCommand != Command.none && idWaitCommand == command.idCommand) {
 			idWaitCommand = Command.none;
 			currentCommand = command;
@@ -614,8 +601,7 @@ public class NetController {
 				int TargetX = GetIntValue(ArrPtr);
 				int TargetY = GetIntValue(ArrPtr);
 				int UserDomain = GetIntValue(ArrPtr);
-				User user = new User(UserId, UserX, UserY, ShipName, "",
-						UserDomain);
+				User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
 				user.setPositionTarget(TargetX, TargetY);
 				user.setEquips(getEquips(ArrPtr));
 				cController.addCommand(new AddUserCommand(user));
@@ -629,8 +615,7 @@ public class NetController {
 				int UserId = GetIntValue(ArrPtr);
 				int UserTouchX = GetIntValue(ArrPtr);
 				int UserTouchY = GetIntValue(ArrPtr);
-				cController.addCommand(new SetTargetCommand(UserId, UserTouchX,
-						UserTouchY));
+				cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY));
 				if (ArrPtr.controlCRC != ArrPtr.crc) {
 					Gdx.app.debug("CRC error", "touchUser");
 				}
@@ -647,10 +632,9 @@ public class NetController {
 					mClient.socket.shutdownInput();
 					mClient.socket.shutdownOutput();
 					mClient.socket.close();
-					cController.addCommand(new SwitchScreenCommand(
-							new MainMenu()));
-				} catch (Exception ex) {
+					cController.addCommand(new SwitchScreenCommand(new MainMenu()));
 				}
+				catch (Exception ex) {}
 			}
 			case Command.message : {
 				CommandReader ArrPtr = new CommandReader(command.data);
@@ -661,8 +645,7 @@ public class NetController {
 				String userName = GetStringValue(ArrPtr, nameLen);
 				int toPilotLen = GetIntValue(ArrPtr);
 				String toPilot = GetStringValue(ArrPtr, toPilotLen);
-				cController.addCommand(new ChatNewMessageCommand(userName,
-						channel, message, toPilot));
+				cController.addCommand(new ChatNewMessageCommand(userName, channel, message, toPilot));
 				if (ArrPtr.controlCRC != ArrPtr.crc) {
 					Gdx.app.debug("CRC error", "getMessage");
 				}
@@ -686,10 +669,9 @@ public class NetController {
 					int PlanetAtmosphere_speedX = GetIntValue(ArrPtr);
 					int PlanetAtmosphere_speedY = GetIntValue(ArrPtr);
 					int PlanetPrice_coef = GetIntValue(ArrPtr);
-					Planet planet = new Planet(PlanetId, PlanetName,
-							PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit,
-							locID, PlanetDomain, PlanetAtmosphere_speedX,
-							PlanetAtmosphere_speedY);
+					Planet planet =
+													new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, locID, PlanetDomain, PlanetAtmosphere_speedX,
+																			PlanetAtmosphere_speedY);
 					planet.color = PlanetColor;
 					planet.atmophereColor = AtmColor;
 					planet.price_coef = PlanetPrice_coef;
@@ -707,8 +689,7 @@ public class NetController {
 
 	private List<Equip<Item>> getEquips(CommandReader ArrPtr) {
 		ItemCollection items = Controllers.locController.getItems();
-		if (items == null)
-			return null;
+		if (items == null) return null;
 		List<Equip<Item>> equip = new ArrayList<Equip<Item>>();
 		int eqCount = GetIntValue(ArrPtr);
 		for (int j = 0; j < eqCount; j++) {
@@ -760,9 +741,11 @@ public class NetController {
 						break;
 					}
 				}
-			} else if (iType == Item.Type.consumable) {
-				eq.item = items.consumables.get(item_id);
 			}
+			else
+				if (iType == Item.Type.consumable) {
+					eq.item = items.consumables.get(item_id);
+				}
 			equip.add(eq);
 		}
 		return equip;
@@ -775,7 +758,8 @@ public class NetController {
 			System.arraycopy(AC.data, AC.address, Arr, 0, 4);
 			AC.delta(4);
 			Res = byteArrayToInt(Arr);
-		} else {
+		}
+		else {
 			Gdx.app.debug("Read Data error", "getIntValue");
 		}
 		return Res;
@@ -789,10 +773,12 @@ public class NetController {
 			AC.delta(SL);
 			try {
 				Res = new String(Arr, "UTF-16LE");
-			} catch (UnsupportedEncodingException e) {
+			}
+			catch (UnsupportedEncodingException e) {
 				Gdx.app.log("Получение строки", "Ошибка: " + e.getMessage());
 			}
-		} else {
+		}
+		else {
 			Gdx.app.debug("Read Data error", "getStringValue");
 		}
 		return Res;
@@ -810,18 +796,19 @@ public class NetController {
 			char B = (char) (Arr[2] & 0xFF);
 			char A = (char) (Arr[3] & 0xFF);
 			Res = new Color(R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
-		} else {
+		}
+		else {
 			Gdx.app.debug("Read Data error", "getColorValue");
 		}
 		return Res;
 	}
 
 	class CommandReader {
-		public int address;
-		public byte[] data;
-		public int controlCRC;
-		public int crc;
-		public boolean endOfData;
+		public int			address;
+		public byte[]		data;
+		public int			controlCRC;
+		public int			crc;
+		public boolean	endOfData;
 
 		public CommandReader() {
 			this.data = null;
@@ -835,8 +822,7 @@ public class NetController {
 			this.data = data;
 			byte[] Arr = new byte[4];
 			System.arraycopy(data, 0, Arr, 0, 4);
-			this.controlCRC = Arr[3] & 0xFF | (Arr[2] & 0xFF) << 8
-					| (Arr[1] & 0xFF) << 16 | (Arr[0] & 0xFF) << 24;
+			this.controlCRC = Arr[3] & 0xFF | (Arr[2] & 0xFF) << 8 | (Arr[1] & 0xFF) << 16 | (Arr[0] & 0xFF) << 24;
 			this.address = 4;
 			this.crc = 0;
 			this.endOfData = false;

@@ -9,21 +9,21 @@ import com.game.rania.controller.MainController;
 import com.game.rania.controller.command.SwitchScreenCommand;
 import com.game.rania.view.MainView;
 
-public class RaniaScreen implements Screen{
-	
+public class RaniaScreen implements Screen {
+
 	protected MainView mView = null;
 	protected MainController mController = null;
-	
-	public RaniaScreen(){
+
+	public RaniaScreen() {
 		mView = RaniaGame.mView;
 		mController = RaniaGame.mController;
 	}
 
-	public boolean isLoaded(){
+	public boolean isLoaded() {
 		return true;
 	}
-	
-	public void update(float deltaTime){
+
+	public void update(float deltaTime) {
 		mController.update(deltaTime);
 	}
 
@@ -63,13 +63,13 @@ public class RaniaScreen implements Screen{
 		mController.clear();
 		mView.clear();
 	}
-	
-	public LoadableScreen asLoadableScreen(){
+
+	public LoadableScreen asLoadableScreen() {
 		return null;
 	}
 
 	public void set() {
 		Controllers.commandController.addCommand(new SwitchScreenCommand(this));
 	}
-	
+
 }

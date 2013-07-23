@@ -6,16 +6,17 @@ import com.game.rania.screen.part.InfoPanel;
 import com.game.rania.screen.part.Parts;
 import com.game.rania.screen.part.SideBar;
 
-public class LocationScreen extends LoadableScreen{
+public class LocationScreen extends LoadableScreen {
 
 	private LocationController locController = Controllers.locController;
-	private SideBar            sideBar       = Parts.getSideBar();
-	private InfoPanel          infoPanel     = Parts.getInfoPanel();
-	
-	public LocationScreen(){
+	private SideBar sideBar = Parts.getSideBar();
+	private InfoPanel infoPanel = Parts.getInfoPanel();
+
+	public LocationScreen() {
 		super();
 
-		LoadObject loadObject = new LoadObject(new String("Загрузка текстур...")) {
+		LoadObject loadObject = new LoadObject(
+				new String("Загрузка текстур...")) {
 			@Override
 			public void load() {
 				locController.loadTextures();
@@ -30,7 +31,7 @@ public class LocationScreen extends LoadableScreen{
 			}
 		};
 		addLoadObject(loadObject);
-		
+
 		loadObject = new LoadObject(new String("Загрузка предметов...")) {
 			@Override
 			public void load() {
@@ -38,7 +39,7 @@ public class LocationScreen extends LoadableScreen{
 			}
 		};
 		addLoadObject(loadObject);
-		
+
 		loadObject = new LoadObject(new String("Загрузка игрока...")) {
 			@Override
 			public void load() {
@@ -46,7 +47,7 @@ public class LocationScreen extends LoadableScreen{
 			}
 		};
 		addLoadObject(loadObject);
-		
+
 		loadObject = new LoadObject(new String("Загрузка фона...")) {
 			@Override
 			public void load() {
@@ -79,7 +80,7 @@ public class LocationScreen extends LoadableScreen{
 			}
 		};
 		addLoadObject(loadObject);
-		
+
 		loadObject = new LoadObject(new String("Загрузка завершена.")) {
 			@Override
 			public void load() {
@@ -91,7 +92,8 @@ public class LocationScreen extends LoadableScreen{
 
 	@Override
 	public void show() {
-		if (locController.getPlayer() == null || locController.getCurrentLocation() == null)
+		if (locController.getPlayer() == null
+				|| locController.getCurrentLocation() == null)
 			return;
 
 		locController.addBackground();
@@ -103,9 +105,9 @@ public class LocationScreen extends LoadableScreen{
 		sideBar.addPart();
 		infoPanel.addPart();
 	}
-	
+
 	@Override
-	public void dispose(){
+	public void dispose() {
 		locController.clearObjects();
 		super.dispose();
 	}

@@ -12,20 +12,20 @@ import com.game.rania.model.User;
 import com.game.rania.screen.part.Parts;
 import com.game.rania.view.Camera;
 
-public class PlayerController extends UpdateController{
+public class PlayerController extends UpdateController {
 
 	private Vector2 touchPoint = new Vector2(0, 0);
 
 	private Player player = null;
 	private Camera camera = null;
-	
-	public PlayerController(Player player){
+
+	public PlayerController(Player player) {
 		this.player = player;
 		camera = RaniaGame.mView.getCamera();
 	}
-	
+
 	@Override
-	public void stopContoller(){
+	public void stopContoller() {
 		player.stop();
 	}
 
@@ -35,52 +35,54 @@ public class PlayerController extends UpdateController{
 		RaniaGame.mView.getCamera().toCameraCoord(touchPoint);
 
 		Target currentTarget = getTarget(touchPoint.x, touchPoint.y);
-		if (currentTarget.type != Target.none && 
-			(currentTarget.id   != player.target.id ||
-			 currentTarget.type != player.target.type))
-		{
+		if (currentTarget.type != Target.none
+				&& (currentTarget.id != player.target.id || currentTarget.type != player.target.type)) {
 			player.target = currentTarget;
 			Parts.getInfoPanel().setTargetInfo(currentTarget);
 			Controllers.netController.sendTarget(currentTarget);
 			return true;
 		}
-				
-		Controllers.netController.sendTouchPoint((int)touchPoint.x, (int)touchPoint.y, (int)player.position.x, (int)player.position.y);
+
+		Controllers.netController.sendTouchPoint((int) touchPoint.x,
+				(int) touchPoint.y, (int) player.position.x,
+				(int) player.position.y);
 		player.setPositionTarget(touchPoint);
-		
+
 		return true;
 	}
 
 	protected Vector2 deltaPosition = new Vector2();
 	@Override
 	public void update(float deltaTime) {
-		if (player != null)	{
+		if (player != null) {
 			camera.position.set(player.position.x, player.position.y, 0);
-			
+
 			if (player.target.type != Target.none) {
 				deltaPosition.set(player.target.object.position);
 				deltaPosition.sub(player.position);
-				if (deltaPosition.len() > Config.nebulaRadius || !RaniaGame.mController.getObjects().contains(player.target.object)) {
+				if (deltaPosition.len() > Config.nebulaRadius
+						|| !RaniaGame.mController.getObjects().contains(
+								player.target.object)) {
 					player.target = new Target(0, Target.none, null);
 					Controllers.netController.sendTarget(player.target);
 				}
 			}
 		}
 	}
-	
-	protected Target getTarget(float x, float y){
-		for(User user : Controllers.locController.getUsers()) {
+
+	protected Target getTarget(float x, float y) {
+		for (User user : Controllers.locController.getUsers()) {
 			if (user.intersectObject(x, y)) {
 				return new Target(user.id, Target.user, user);
 			}
 		}
-		
-		for(Planet planet : Controllers.locController.getPlanets()) {
+
+		for (Planet planet : Controllers.locController.getPlanets()) {
 			if (planet.intersectObject(x, y)) {
 				return new Target(planet.id, Target.planet, planet);
 			}
 		}
-		
+
 		Star star = Controllers.locController.getStar();
 		if (star.intersectObject(x, y)) {
 			return new Target(star.id, Target.star, star);

@@ -8,28 +8,28 @@ public class CommandController {
 
 	private Vector<ControllerCommand> commands = new Vector<ControllerCommand>();
 	private MainController mController = null;
-	
-	public CommandController(MainController controller){
+
+	public CommandController(MainController controller) {
 		mController = controller;
 	}
-	
-	public synchronized void addCommand(ControllerCommand command){
+
+	public synchronized void addCommand(ControllerCommand command) {
 		commands.add(command);
 	}
-	
-	public synchronized void removeCommand(ControllerCommand command){
+
+	public synchronized void removeCommand(ControllerCommand command) {
 		commands.remove(command);
 	}
 
-	public synchronized void removeCommand(int num){
+	public synchronized void removeCommand(int num) {
 		commands.remove(num);
 	}
-	
-	public synchronized void clearCommands(){
+
+	public synchronized void clearCommands() {
 		commands.clear();
 	}
-	
-	public synchronized void updateCommands(float deltaTime){
+
+	public synchronized void updateCommands(float deltaTime) {
 		for (ControllerCommand command : commands) {
 			command.update(mController, deltaTime);
 		}

@@ -5,20 +5,20 @@ import java.util.HashMap;
 import com.game.rania.model.element.Shader;
 
 public class ShaderManager {
-	
+
 	public HashMap<String, Shader> shaders = new HashMap<String, Shader>();
-	
-	public ShaderManager(){
+
+	public ShaderManager() {
 	}
-	
-	public void clear(){
-		for(Shader shader : shaders.values()){
+
+	public void clear() {
+		for (Shader shader : shaders.values()) {
 			shader.dispose();
 		}
 		shaders.clear();
 	}
-	
-	public Shader getShader(String vertShader, String fragShader){
+
+	public Shader getShader(String vertShader, String fragShader) {
 		String key = vertShader + fragShader;
 		if (shaders.containsKey(key))
 			return shaders.get(key);

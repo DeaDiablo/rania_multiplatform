@@ -3,23 +3,26 @@ package com.game.rania.model.ui;
 import com.game.rania.model.Text;
 import com.game.rania.model.element.RegionID;
 
-public class CheckButton extends Button{
+public class CheckButton extends Button {
 
 	private boolean check = false;
-	
+
 	public CheckButton(RegionID regionOff, RegionID regionOn, float x, float y) {
 		super(regionOff, regionOn, x, y, null, null);
 	}
 
-	public CheckButton(RegionID regionOff, RegionID regionOn, float x, float y, TouchAction action) {
+	public CheckButton(RegionID regionOff, RegionID regionOn, float x, float y,
+			TouchAction action) {
 		super(regionOff, regionOn, x, y, null, action);
 	}
 
-	public CheckButton(RegionID regionOff, RegionID regionOn, float x, float y, Text text, TouchAction action) {
+	public CheckButton(RegionID regionOff, RegionID regionOn, float x, float y,
+			Text text, TouchAction action) {
 		super(regionOff, regionOn, x, y, text, action);
 	}
 
-	public CheckButton(RegionID regionOff, RegionID regionOn, float x, float y, Text text) {
+	public CheckButton(RegionID regionOff, RegionID regionOn, float x, float y,
+			Text text) {
 		super(regionOff, regionOn, x, y, text, null);
 	}
 
@@ -31,22 +34,22 @@ public class CheckButton extends Button{
 	@Override
 	public boolean touchUp(float x, float y) {
 		check = !check;
-		
+
 		if (action != null)
 			action.execute(check);
 
 		return true;
 	}
-	
-	public boolean getCheck(){
+
+	public boolean getCheck() {
 		return check;
 	}
-	
-	public void setCheck(boolean check){
+
+	public void setCheck(boolean check) {
 		this.check = check;
 	}
 	@Override
-	public boolean checkButton(){
+	public boolean checkButton() {
 		return check;
 	}
 }

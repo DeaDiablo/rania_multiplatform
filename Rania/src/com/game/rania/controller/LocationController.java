@@ -23,54 +23,63 @@ import com.game.rania.net.NetController;
 import com.game.rania.view.MainView;
 
 public class LocationController {
-	
+
 	private MainView mView = null;
 	private MainController mController = null;
 	private NetController nController = null;
-	
-	public LocationController(MainController mController, MainView mView, NetController cController) {
+
+	public LocationController(MainController mController, MainView mView,
+			NetController cController) {
 		this.mView = mView;
 		this.mController = mController;
 		this.nController = cController;
 	}
-	
-	public void loadTextures(){
-		for (int i = 0; i < 18; i++)
-			mView.loadTexture("data/location/planets.png", RegionID.fromInt(RegionID.PLANET_0.ordinal() + i), i % 5 * 204, i / 5 * 204, 204, 204);
-		
-		for (int i = 0; i < 8; i++)
-			mView.loadTexture("data/backgrounds/nebulas.png", RegionID.fromInt(RegionID.NEBULA_0.ordinal() + i), i % 4 * 512, i / 4 * 512, 512, 512);
 
-		mView.loadTexture("data/location/clouds.png",      RegionID.CLOUDS);
-		mView.getTexture(RegionID.CLOUDS).setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
-		mView.loadTexture("data/location/star.png",        RegionID.STAR);
-		mView.loadTexture("data/location/radar.png",       RegionID.RADAR);
-		mView.loadTexture("data/location/sensor.png",      RegionID.RADAR_SENSOR);
-		mView.loadTexture("data/location/radarObject.png", RegionID.RADAR_OBJECT);
-		mView.loadTexture("data/location/SpaceShip.png",   RegionID.SHIP);
-		mView.loadTexture("data/location/target.png",      RegionID.TARGET);
-		mView.loadTexture("data/backgrounds/space.png",    RegionID.BACKGROUND_SPACE);
-		mView.loadTexture("data/backgrounds/stars.png",    RegionID.BACKGROUND_STARS);
+	public void loadTextures() {
+		for (int i = 0; i < 18; i++)
+			mView.loadTexture("data/location/planets.png",
+					RegionID.fromInt(RegionID.PLANET_0.ordinal() + i),
+					i % 5 * 204, i / 5 * 204, 204, 204);
+
+		for (int i = 0; i < 8; i++)
+			mView.loadTexture("data/backgrounds/nebulas.png",
+					RegionID.fromInt(RegionID.NEBULA_0.ordinal() + i),
+					i % 4 * 512, i / 4 * 512, 512, 512);
+
+		mView.loadTexture("data/location/clouds.png", RegionID.CLOUDS);
+		mView.getTexture(RegionID.CLOUDS).setWrap(TextureWrap.Repeat,
+				TextureWrap.Repeat);
+		mView.loadTexture("data/location/star.png", RegionID.STAR);
+		mView.loadTexture("data/location/radar.png", RegionID.RADAR);
+		mView.loadTexture("data/location/sensor.png", RegionID.RADAR_SENSOR);
+		mView.loadTexture("data/location/radarObject.png",
+				RegionID.RADAR_OBJECT);
+		mView.loadTexture("data/location/SpaceShip.png", RegionID.SHIP);
+		mView.loadTexture("data/location/target.png", RegionID.TARGET);
+		mView.loadTexture("data/backgrounds/space.png",
+				RegionID.BACKGROUND_SPACE);
+		mView.loadTexture("data/backgrounds/stars.png",
+				RegionID.BACKGROUND_STARS);
 	}
 
-	//list objects
+	// list objects
 	private HashMap<Integer, Location> locations = null;
-	private HashMap<Integer, Domain>   domains   = null;
-	private HashMap<Integer, Nebula>   nebulas   = null;
-	private HashMap<Integer, Planet>   planets   = new HashMap<Integer, Planet>();
-	private HashMap<Integer, User> 	   users     = new HashMap<Integer, User>();
-	private ItemCollection		   	   items	 = null;
-	//objects
-	private Player   player 		   = null;
-	private Group	 background		   = null;
-	private Radar    radar  		   = null;
-	private Star	 star 			   = null;
-	private	Location currentLocation   = null;
+	private HashMap<Integer, Domain> domains = null;
+	private HashMap<Integer, Nebula> nebulas = null;
+	private HashMap<Integer, Planet> planets = new HashMap<Integer, Planet>();
+	private HashMap<Integer, User> users = new HashMap<Integer, User>();
+	private ItemCollection items = null;
+	// objects
+	private Player player = null;
+	private Group background = null;
+	private Radar radar = null;
+	private Star star = null;
+	private Location currentLocation = null;
 	private Vector<Nebula> showNebulas = new Vector<Nebula>();
-	//help objects
+	// help objects
 	private PlayerController pController = null;
-	
-	public void clearObjects(){
+
+	public void clearObjects() {
 		player.stop();
 		removePlayer();
 		removeBackground();
@@ -84,28 +93,28 @@ public class LocationController {
 			locations = nController.getAllLocations();
 			domains = nController.getAllDomains();
 		} else {
-			for(Location location : locations.values()) {
+			for (Location location : locations.values()) {
 				if (location.star != null) {
 					location.star.reloadTexture();
-					for(Planet planet : location.planets.values()){
+					for (Planet planet : location.planets.values()) {
 						planet.reloadTexture();
 					}
 				}
 			}
 		}
 	}
-	
+
 	public void loadItems() {
 		if (items == null) {
 			items = nController.getItems();
 		}
 	}
 
-	public ItemCollection getItems(){
+	public ItemCollection getItems() {
 		return items;
 	}
-	//player
-	public boolean loadPlayer(){
+	// player
+	public boolean loadPlayer() {
 		player = nController.getUserData();
 		if (player == null)
 			return false;
@@ -114,23 +123,22 @@ public class LocationController {
 			return false;
 		return true;
 	}
-	
-	public void setPlayer(Player newPlayer){
+
+	public void setPlayer(Player newPlayer) {
 		removePlayer();
 		player = newPlayer;
 		addPlayer();
 	}
-	
-	public void addPlayer(){
-		if (player != null)
-		{
+
+	public void addPlayer() {
+		if (player != null) {
 			mController.addObject(player);
 			pController = new PlayerController(player);
 			mController.addProcessor(pController);
 		}
 	}
-	
-	public void removePlayer(){
+
+	public void removePlayer() {
 		if (player != null) {
 			mController.removeObject(player);
 			if (pController != null)
@@ -138,152 +146,152 @@ public class LocationController {
 			player = null;
 		}
 	}
-	
-	public PlayerController getPlayerController(){
+
+	public PlayerController getPlayerController() {
 		return pController;
 	}
-	
-	//background
-	public void loadBackground(){
+
+	// background
+	public void loadBackground() {
 		background = new Group();
-		background.addElement(new ParallaxLayer(RegionID.BACKGROUND_SPACE, 250, 300, -0.35f));
-		background.addElement(new ParallaxLayer(RegionID.BACKGROUND_STARS, -150, 0, -0.25f));
+		background.addElement(new ParallaxLayer(RegionID.BACKGROUND_SPACE, 250,
+				300, -0.35f));
+		background.addElement(new ParallaxLayer(RegionID.BACKGROUND_STARS,
+				-150, 0, -0.25f));
 	}
-	
-	public void setBackground(Group newBackground){
+
+	public void setBackground(Group newBackground) {
 		removeBackground();
 		background = newBackground;
 		addBackground();
 	}
-	
-	public void addBackground(){
+
+	public void addBackground() {
 		if (background != null)
 			mController.addObject(background);
 	}
 
-	public void removeBackground(){
+	public void removeBackground() {
 		if (background != null) {
 			mController.removeObject(background);
 			background = null;
 		}
 	}
-	
-	//nebulas
-	public void loadNebulas(){
+
+	// nebulas
+	public void loadNebulas() {
 		if (nebulas == null)
 			nebulas = nController.getAllNebulas();
 	}
-	
-	public void addNebulas(){
+
+	public void addNebulas() {
 		updateNearNebulas();
 	}
-	
-	public void removeNebulas(){
+
+	public void removeNebulas() {
 		for (Nebula nebula : showNebulas) {
 			mController.removeObject(nebula);
 		}
 		showNebulas.clear();
 	}
 
-	public void updateNearNebulas(){
+	public void updateNearNebulas() {
 		for (Nebula nebula : nebulas.values()) {
-			distanceVec.set(nebula.parallaxPosition.x - player.position.x, nebula.parallaxPosition.y - player.position.y);
-			if (distanceVec.len() < nebula.getMaxSize() * 0.5f + Config.nebulaRadius) {
+			distanceVec.set(nebula.parallaxPosition.x - player.position.x,
+					nebula.parallaxPosition.y - player.position.y);
+			if (distanceVec.len() < nebula.getMaxSize() * 0.5f
+					+ Config.nebulaRadius) {
 				mController.addObject(nebula);
-				showNebulas.add(nebula);	
-			}
-			else if (showNebulas.contains(nebula)){
+				showNebulas.add(nebula);
+			} else if (showNebulas.contains(nebula)) {
 				mController.removeObject(nebula);
 				showNebulas.remove(nebula);
 			}
-				
+
 		}
 	}
-	
-	//radar
-	public void loadRadar(){
-		radar = new Radar(player,
-						 (mView.getHUDCamera().getWidth()  - mView.getTextureRegion(RegionID.RADAR).getRegionWidth())  * 0.5f,
-						 (mView.getHUDCamera().getHeight() - mView.getTextureRegion(RegionID.RADAR).getRegionHeight()) * 0.5f);
+
+	// radar
+	public void loadRadar() {
+		radar = new Radar(player, (mView.getHUDCamera().getWidth() - mView
+				.getTextureRegion(RegionID.RADAR).getRegionWidth()) * 0.5f,
+				(mView.getHUDCamera().getHeight() - mView.getTextureRegion(
+						RegionID.RADAR).getRegionHeight()) * 0.5f);
 	}
-	
-	public void setRadar(Radar newRadar){
+
+	public void setRadar(Radar newRadar) {
 		removeRadar();
 		radar = newRadar;
 		addRadar();
 	}
-	
-	public void addRadar(){
+
+	public void addRadar() {
 		if (radar != null)
 			mController.addHUDObject(radar);
 	}
 
-	public void removeRadar(){
+	public void removeRadar() {
 		if (radar != null) {
 			mController.removeObject(radar);
 			radar = null;
 		}
 	}
-	
-	//planets
-	public void loadPlanets(){
+
+	// planets
+	public void loadPlanets() {
 		if (currentLocation == null)
 			return;
 
 		if (currentLocation.star == null) {
 			currentLocation.star = new Star(currentLocation.id,
-					                        currentLocation.starName,
-											currentLocation.starType,
-											currentLocation.x,
-											currentLocation.y,
-											currentLocation.starRadius);
+					currentLocation.starName, currentLocation.starType,
+					currentLocation.x, currentLocation.y,
+					currentLocation.starRadius);
 		}
 
 		star = currentLocation.star;
-		
+
 		if (currentLocation.planets == null)
-			currentLocation.planets = nController.getPlanets(currentLocation.id, true);
+			currentLocation.planets = nController.getPlanets(
+					currentLocation.id, true);
 		planets = currentLocation.planets;
 	}
-	
-	public void switchLocation(Location newLocation){
+
+	public void switchLocation(Location newLocation) {
 		if (newLocation == currentLocation)
 			return;
-		
+
 		removePlanets();
 		currentLocation = newLocation;
 		if (currentLocation == null)
 			return;
-		
+
 		if (currentLocation.star == null) {
 			currentLocation.star = new Star(currentLocation.id,
-											currentLocation.starName,
-										    currentLocation.starType,
-										    currentLocation.x,
-										    currentLocation.y,
-										    currentLocation.starRadius);
+					currentLocation.starName, currentLocation.starType,
+					currentLocation.x, currentLocation.y,
+					currentLocation.starRadius);
 		}
 
 		star = currentLocation.star;
-		
+
 		if (currentLocation.planets != null) {
 			planets = currentLocation.planets;
-		}
-		else {
+		} else {
 			planets = currentLocation.planets = new HashMap<Integer, Planet>();
 			nController.getPlanets(currentLocation.id, false);
 		}
 		addPlanets();
 	}
 
-	public void addPlanets(){
+	public void addPlanets() {
 		mController.addObject(star);
 		for (Planet planet : planets.values()) {
 			mController.addObject(planet);
 		}
 	}
 
-	public void removePlanets(){
+	public void removePlanets() {
 		if (star != null) {
 			mController.removeObject(star);
 			star = null;
@@ -293,7 +301,7 @@ public class LocationController {
 		}
 	}
 
-	public void addPlanet(Planet planet){
+	public void addPlanet(Planet planet) {
 		Location location = locations.get(planet.idLocation);
 		if (location.planets == null)
 			location.planets = new HashMap<Integer, Planet>();
@@ -304,8 +312,8 @@ public class LocationController {
 			mController.addObject(planet);
 		}
 	}
-	
-	public void removePlanet(Planet planet){
+
+	public void removePlanet(Planet planet) {
 		Location location = locations.get(planet.idLocation);
 		if (!location.planets.containsKey(planet.id))
 			return;
@@ -315,26 +323,26 @@ public class LocationController {
 		}
 	}
 
-	public void removePlanet(int id){
+	public void removePlanet(int id) {
 		Planet planet = planets.get(id);
 		if (planet == null)
 			return;
 		planets.remove(id);
 		mController.removeObject(planet);
 	}
-	
-	//users
-	public void loadComplete(){
+
+	// users
+	public void loadComplete() {
 		nController.loadComplite();
 	}
-	
-	public void addUsers(){
+
+	public void addUsers() {
 		for (User user : users.values()) {
 			mController.addObject(user);
 		}
 	}
 
-	public void removeUsers(){
+	public void removeUsers() {
 		for (User user : users.values()) {
 			mController.removeObject(user);
 		}
@@ -347,14 +355,14 @@ public class LocationController {
 		users.put(user.id, user);
 		mController.addObject(user);
 	}
-	
+
 	public void removeUser(User user) {
 		if (!users.containsKey(user.id))
 			return;
 		users.remove(user.id);
 		mController.removeObject(user);
 	}
-	
+
 	public void removeUser(int id) {
 		User user = users.get(id);
 		if (user == null)
@@ -362,49 +370,49 @@ public class LocationController {
 		users.remove(id);
 		mController.removeObject(user);
 	}
-	
-	//get objects
-	public Player getPlayer(){
+
+	// get objects
+	public Player getPlayer() {
 		return player;
 	}
-	
-	public Radar getRadar(){
+
+	public Radar getRadar() {
 		return radar;
 	}
 
-	public Star getStar(){
+	public Star getStar() {
 		return star;
 	}
 
-	//get locations
-	public Collection<Location> getLocations(){
+	// get locations
+	public Collection<Location> getLocations() {
 		return locations.values();
 	}
 
-	public Location getLocation(int id){
+	public Location getLocation(int id) {
 		return locations.get(id);
 	}
-	
-	public Collection<Domain> getDomains(){
+
+	public Collection<Domain> getDomains() {
 		return domains.values();
 	}
 
-	public Domain getDomain(int id){
+	public Domain getDomain(int id) {
 		return domains.get(id);
 	}
 
 	private Vector2 distanceVec = new Vector2();
 	private float distanceBuffer = 0.0f;
-	
-	public Location getCurrentLocation(){
+
+	public Location getCurrentLocation() {
 		return currentLocation;
 	}
-	
-	public Location getNearLocation(){
+
+	public Location getNearLocation() {
 		return getNearLocation(player.position.x, player.position.y);
 	}
 
-	public Location getNearLocation(float x, float y){
+	public Location getNearLocation(float x, float y) {
 		Location nearLocation = null;
 		float distance = Float.MAX_VALUE;
 		for (Location location : locations.values()) {
@@ -417,20 +425,22 @@ public class LocationController {
 		}
 		return nearLocation;
 	}
-	
-	//get planets
-	public Collection<Planet> getPlanets(){
+
+	// get planets
+	public Collection<Planet> getPlanets() {
 		return planets.values();
 	}
 
-	public Star getStar(int idLocation){
+	public Star getStar(int idLocation) {
 		Location location = locations.get(idLocation);
 		if (location.star == null)
-			location.star = new Star(location.id, location.starName, location.starType, location.x, location.y, location.starRadius);
+			location.star = new Star(location.id, location.starName,
+					location.starType, location.x, location.y,
+					location.starRadius);
 		return location.star;
 	}
 
-	public Collection<Planet> getPlanets(int idLocation){
+	public Collection<Planet> getPlanets(int idLocation) {
 		Location location = locations.get(idLocation);
 		if (location == null)
 			return null;
@@ -438,20 +448,20 @@ public class LocationController {
 			location.planets = nController.getPlanets(idLocation, true);
 		return location.planets.values();
 	}
-	
-	public Planet getPlanet(int idPlanet){
+
+	public Planet getPlanet(int idPlanet) {
 		return planets.get(idPlanet);
 	}
 
-	public Planet getPlanet(String name){
+	public Planet getPlanet(String name) {
 		for (Planet planet : planets.values()) {
 			if (planet.name.compareTo(name) == 0)
 				return planet;
 		}
 		return null;
 	}
-	
-	public Planet getPlanet(int idLocation, int idPlanet){
+
+	public Planet getPlanet(int idLocation, int idPlanet) {
 		Location location = locations.get(idLocation);
 		if (location == null)
 			return null;
@@ -460,7 +470,7 @@ public class LocationController {
 		return location.planets.get(idPlanet);
 	}
 
-	public Planet getPlanet(int idLocation, String name){
+	public Planet getPlanet(int idLocation, String name) {
 		Location location = locations.get(idLocation);
 		if (location == null)
 			return null;
@@ -472,37 +482,37 @@ public class LocationController {
 		}
 		return null;
 	}
-	
-	//get users
-	public Collection<User> getUsers(){
+
+	// get users
+	public Collection<User> getUsers() {
 		return users.values();
 	}
-	
-	public User getUser(int id){
+
+	public User getUser(int id) {
 		return users.get(id);
 	}
-	
-	public User getPilot(String name){		
+
+	public User getPilot(String name) {
 		for (User user : users.values()) {
-		if (user.pilotName.compareTo(name) == 0)
-			return user;
+			if (user.pilotName.compareTo(name) == 0)
+				return user;
 		}
 		return null;
 	}
-	
-	public User getShip(String name){		
+
+	public User getShip(String name) {
 		for (User user : users.values()) {
-		if (user.shipName.compareTo(name) == 0)
-			return user;
+			if (user.shipName.compareTo(name) == 0)
+				return user;
 		}
 		return null;
 	}
-	
-	//update
+
+	// update
 	private float updateTime = 0.0f;
-	public void update(float deltaTime){
+	public void update(float deltaTime) {
 		updateTime += deltaTime;
-		if (updateTime > 1.0f){
+		if (updateTime > 1.0f) {
 			updateNearNebulas();
 			switchLocation(getNearLocation());
 			updateTime -= 1.0f;
@@ -512,7 +522,7 @@ public class LocationController {
 	public int getOutputX(float x) {
 		return (int) ((x - player.domain.x) * 0.001);
 	}
-	
+
 	public int getOutputY(float y) {
 		return (int) ((y - player.domain.y) * 0.001);
 	}

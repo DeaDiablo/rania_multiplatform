@@ -740,6 +740,26 @@ public class NetController {
 				}
 				break;
 			}
+			case Command.userAction:
+			{
+				CommandReader ArrPtr = new CommandReader(command.data);
+				int user_id_1 = GetIntValue(ArrPtr);
+				int user_id_2 = GetIntValue(ArrPtr);
+				int user_Action = GetIntValue(ArrPtr);
+				switch (user_Action)
+				{
+					case User.Action.attack:
+					{
+						int Damage = GetIntValue(ArrPtr);
+						break;
+					}
+					case User.Action.repair:
+					{
+						break;
+					}
+				}
+				break;
+			}
 			case Command.planets:
 			{
 				CommandReader ArrPtr = new CommandReader(command.data);

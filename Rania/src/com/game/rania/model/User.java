@@ -7,6 +7,12 @@ import com.game.rania.model.element.Font;
 
 public class User extends SpaceShip{
 
+	public class Action {
+		public static final int none          = 0;
+		public static final int attack        = 1;
+		public static final int repair    		= 2;
+	}
+	
 	protected boolean isPlayer = false;
 	public int id;
 	public String pilotName;

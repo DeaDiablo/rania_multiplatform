@@ -123,20 +123,31 @@ public class NetController {
 				System.arraycopy(LoginArr, 0, data, 8, LoginArr.length);
 				mClient.stream.sendCommand(Command.login, data);
 				mClient.stream.sendCommand(Command.password, Password.getBytes("UTF-16LE"));
-				Command answer = mClient.stream.readCommand();
-				if (answer.idCommand == Command.login)
+				//Command command = waitCommand();
+				Command command = mClient.stream.readCommand();
+				if (command.idCommand == Command.login)
 				{
+					CommandReader ArrPtr = new CommandReader(command.data);
 					mClient.isLogin = true;
-					mClient.serverTime = GetIntValue(answer.data, new AddressCommand());
+					mClient.serverTime = GetIntValue(ArrPtr);
 					receiver = new Receiver(mClient, this);
 					receiver.start();
+					if (ArrPtr.controlCRC!=ArrPtr.crc)
+					{
+						Gdx.app.debug("CRC error", "Login");
+					}
 					return true;
 				}
-				
-				if (answer.idCommand == Command.faillogin)
+				if (command.idCommand == Command.faillogin)
+				{
+					//CommandReader ArrPtr = new CommandReader(command.data);
 					mClient.isLogin = false;
-				if (answer.idCommand == Command.failversion)
+				}
+				if (command.idCommand == Command.failversion)
+				{
+					//CommandReader ArrPtr = new CommandReader(command.data);
 					mClient.isLogin = false;
+				}
 			}
 		}
 		catch (Exception ex)
@@ -209,36 +220,36 @@ public class NetController {
 		{
 			mClient.stream.sendCommand(Command.items);
 			Command command = waitCommand(Command.items);
-			AddressCommand ArrPtr = new AddressCommand();
-			int listItemsCount = GetIntValue(command.data, ArrPtr);
+			CommandReader ArrPtr = new CommandReader(command.data);
+			int listItemsCount = GetIntValue(ArrPtr);
 			for (int i=0; i<listItemsCount; i++)
 			{
-				int itemsCount = GetIntValue(command.data, ArrPtr);
+				int itemsCount = GetIntValue(ArrPtr);
 				for (int j=0; j<itemsCount; j++)
 				{
-					int item_id = GetIntValue(command.data, ArrPtr);
-					int item_itemType = GetIntValue(command.data, ArrPtr);
-					int Item_DescriptionLen = GetIntValue(command.data, ArrPtr);
-					String item_description = GetStringValue(command.data, ArrPtr, Item_DescriptionLen);
-					int item_volume = GetIntValue(command.data, ArrPtr);
-					int item_region_id = GetIntValue(command.data, ArrPtr);
-					int item_packing = GetIntValue(command.data, ArrPtr);
-					int item_use_only = GetIntValue(command.data, ArrPtr);
-					int item_price = GetIntValue(command.data, ArrPtr);
+					int item_id = GetIntValue(ArrPtr);
+					int item_itemType = GetIntValue(ArrPtr);
+					int Item_DescriptionLen = GetIntValue(ArrPtr);
+					String item_description = GetStringValue(ArrPtr, Item_DescriptionLen);
+					int item_volume = GetIntValue(ArrPtr);
+					int item_region_id = GetIntValue(ArrPtr);
+					int item_packing = GetIntValue(ArrPtr);
+					int item_use_only = GetIntValue(ArrPtr);
+					int item_price = GetIntValue(ArrPtr);
 					if (item_itemType==1)
 					{
-						int DeviceVendorLen = GetIntValue(command.data, ArrPtr);
-						String device_vendorStr = GetStringValue(command.data, ArrPtr, DeviceVendorLen);
-						int device_deviceType = GetIntValue(command.data, ArrPtr);
-						int device_durability = GetIntValue(command.data, ArrPtr);
+						int DeviceVendorLen = GetIntValue(ArrPtr);
+						String device_vendorStr = GetStringValue(ArrPtr, DeviceVendorLen);
+						int device_deviceType = GetIntValue(ArrPtr);
+						int device_durability = GetIntValue(ArrPtr);
 						switch (device_deviceType)
 						{
 							case Device.Type.body:
 							{
-								int body_slot_weapons = GetIntValue(command.data, ArrPtr);
-								int body_slot_droids  = GetIntValue(command.data, ArrPtr);
-								int body_slot_shield  = GetIntValue(command.data, ArrPtr);
-								int body_slot_hyper   = GetIntValue(command.data, ArrPtr);
+								int body_slot_weapons = GetIntValue(ArrPtr);
+								int body_slot_droids  = GetIntValue(ArrPtr);
+								int body_slot_shield  = GetIntValue(ArrPtr);
+								int body_slot_hyper   = GetIntValue(ArrPtr);
 								Body body 			= new Body();
 								body.id 			= item_id;
 								body.itemType 		= item_itemType;
@@ -260,8 +271,8 @@ public class NetController {
 							}
 							case Device.Type.engine:
 							{
-								int engine_power 	= GetIntValue(command.data, ArrPtr);
-								int engine_economic = GetIntValue(command.data, ArrPtr);
+								int engine_power 	= GetIntValue(ArrPtr);
+								int engine_economic = GetIntValue(ArrPtr);
 								Engine engine 		= new Engine();
 								engine.id 			= item_id;
 								engine.itemType 	= item_itemType;
@@ -281,7 +292,7 @@ public class NetController {
 							}
 							case Device.Type.fuelbag:
 							{
-								int fuelbag_compress = GetIntValue(command.data, ArrPtr);
+								int fuelbag_compress = GetIntValue(ArrPtr);
 								Fuelbag fuelbag 	= new Fuelbag();
 								fuelbag.id 			= item_id;
 								fuelbag.itemType 	= item_itemType;
@@ -300,8 +311,8 @@ public class NetController {
 							}
 							case Device.Type.droid:
 							{
-								int droid_power 	  = GetIntValue(command.data, ArrPtr);
-								int droid_time_reload = GetIntValue(command.data, ArrPtr);
+								int droid_power 	  = GetIntValue(ArrPtr);
+								int droid_time_reload = GetIntValue(ArrPtr);
 								Droid droid 		= new Droid();
 								droid.id 			= item_id;
 								droid.itemType 		= item_itemType;
@@ -321,7 +332,7 @@ public class NetController {
 							}
 							case Device.Type.shield:
 							{
-								int shield_power 	= GetIntValue(command.data, ArrPtr);
+								int shield_power 	= GetIntValue(ArrPtr);
 								Shield shield 		= new Shield();
 								shield.id 			= item_id;
 								shield.itemType 	= item_itemType;
@@ -340,9 +351,9 @@ public class NetController {
 							}
 							case Device.Type.hyper:
 							{
-								int hyper_radius 		= GetIntValue(command.data, ArrPtr);
-								int hyper_time_start 	= GetIntValue(command.data, ArrPtr);
-								int hyper_time_reload 	= GetIntValue(command.data, ArrPtr);
+								int hyper_radius 		= GetIntValue(ArrPtr);
+								int hyper_time_start 	= GetIntValue(ArrPtr);
+								int hyper_time_reload 	= GetIntValue(ArrPtr);
 								Hyper hyper 		= new Hyper();
 								hyper.id 			= item_id;
 								hyper.itemType 		= item_itemType;
@@ -363,9 +374,9 @@ public class NetController {
 							}
 							case Device.Type.radar:
 							{
-								int radar_radius 	= GetIntValue(command.data, ArrPtr);
-								int radar_defense 	= GetIntValue(command.data, ArrPtr);
-								int big_radius 		= GetIntValue(command.data, ArrPtr);
+								int radar_radius 	= GetIntValue(ArrPtr);
+								int radar_defense 	= GetIntValue(ArrPtr);
+								int big_radius 		= GetIntValue(ArrPtr);
 								Radar radar 		= new Radar();
 								radar.id 			= item_id;
 								radar.itemType 		= item_itemType;
@@ -386,11 +397,11 @@ public class NetController {
 							}
 							case Device.Type.weapon:
 							{
-								int weapon_weaponType 	= GetIntValue(command.data, ArrPtr);
-								int weapon_radius 		= GetIntValue(command.data, ArrPtr);
-								int weapon_power 		= GetIntValue(command.data, ArrPtr);
-								int weapon_time_start 	= GetIntValue(command.data, ArrPtr);
-								int weapon_time_reload 	= GetIntValue(command.data, ArrPtr);
+								int weapon_weaponType 	= GetIntValue(ArrPtr);
+								int weapon_radius 		= GetIntValue(ArrPtr);
+								int weapon_power 		= GetIntValue(ArrPtr);
+								int weapon_time_start 	= GetIntValue(ArrPtr);
+								int weapon_time_reload 	= GetIntValue(ArrPtr);
 								Weapon weapon 		= new Weapon();
 								weapon.id 			= item_id;
 								weapon.itemType 	= item_itemType;
@@ -426,6 +437,10 @@ public class NetController {
 					}
 				}
 			}
+			if (ArrPtr.controlCRC!=ArrPtr.crc)
+			{
+				Gdx.app.debug("CRC error", "getItem");
+			}
 		}
 		catch (Exception ex)
 		{
@@ -443,28 +458,33 @@ public class NetController {
 				return null;
 			
 			Command command = waitCommand(Command.planets);
-			AddressCommand ArrPtr = new AddressCommand(4);
-			int PlanetsCount = GetIntValue(command.data, ArrPtr);
+			CommandReader ArrPtr = new CommandReader(command.data);
+			ArrPtr.delta(4);
+			int PlanetsCount = GetIntValue(ArrPtr);
 			for (int i=0; i<PlanetsCount; i++)
 			{
-				int PlanetId 		= GetIntValue(command.data, ArrPtr);
-				int PlanetNameLen 	= GetIntValue(command.data, ArrPtr);
-				String PlanetName 	= GetStringValue(command.data, ArrPtr, PlanetNameLen);
-				int PlanetType 		= GetIntValue(command.data, ArrPtr);
-				int PlanetSpeed 	= GetIntValue(command.data, ArrPtr);
-				int PlanetOrbit 	= GetIntValue(command.data, ArrPtr);
-				int PlanetRadius 	= GetIntValue(command.data, ArrPtr);
-				Color color 		= GetColorValue(command.data, ArrPtr);
-				Color atmColor 		= GetColorValue(command.data, ArrPtr);
-				int PlanetDomain 	= GetIntValue(command.data, ArrPtr);
-				int PlanetAtmosphere_speedX = GetIntValue(command.data, ArrPtr);
-				int PlanetAtmosphere_speedY = GetIntValue(command.data, ArrPtr);
-				int PlanetPrice_coef = GetIntValue(command.data, ArrPtr);
+				int PlanetId 		= GetIntValue(ArrPtr);
+				int PlanetNameLen 	= GetIntValue(ArrPtr);
+				String PlanetName 	= GetStringValue(ArrPtr, PlanetNameLen);
+				int PlanetType 		= GetIntValue(ArrPtr);
+				int PlanetSpeed 	= GetIntValue(ArrPtr);
+				int PlanetOrbit 	= GetIntValue(ArrPtr);
+				int PlanetRadius 	= GetIntValue(ArrPtr);
+				Color color 		= GetColorValue(ArrPtr);
+				Color atmColor 		= GetColorValue(ArrPtr);
+				int PlanetDomain 	= GetIntValue(ArrPtr);
+				int PlanetAtmosphere_speedX = GetIntValue(ArrPtr);
+				int PlanetAtmosphere_speedY = GetIntValue(ArrPtr);
+				int PlanetPrice_coef = GetIntValue( ArrPtr);
 				Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, idLocation, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
 				planet.color = color;
 				planet.price_coef = PlanetPrice_coef;
 				planet.atmophereColor = atmColor;
 				planets.put(PlanetId, planet);
+			}
+			if (ArrPtr.controlCRC!=ArrPtr.crc)
+			{
+				Gdx.app.debug("CRC error", "getPlanet");
 			}
 		}
 		catch (Exception ex)
@@ -481,20 +501,24 @@ public class NetController {
 		{
 			mClient.stream.sendCommand(Command.locations);
 			Command command = waitCommand(Command.locations);
-			AddressCommand ArrPtr = new AddressCommand();
-			int LocationsCount = GetIntValue(command.data, ArrPtr);
+			CommandReader ArrPtr = new CommandReader(command.data);
+			int LocationsCount = GetIntValue(ArrPtr);
 			for (int i=0; i<LocationsCount; i++)
 			{
 				Location Loc   = new Location();
-				Loc.id = GetIntValue(command.data, ArrPtr);
-				int StarNameLen = GetIntValue(command.data, ArrPtr);
-				Loc.starName = GetStringValue(command.data, ArrPtr, StarNameLen);
-				Loc.starType = GetIntValue(command.data, ArrPtr);
-				Loc.x = GetIntValue(command.data, ArrPtr);
-				Loc.y = GetIntValue(command.data, ArrPtr);
-				Loc.starRadius = GetIntValue(command.data, ArrPtr);
-				Loc.domain = GetIntValue(command.data, ArrPtr);
+				Loc.id = GetIntValue(ArrPtr);
+				int StarNameLen = GetIntValue(ArrPtr);
+				Loc.starName = GetStringValue(ArrPtr, StarNameLen);
+				Loc.starType = GetIntValue(ArrPtr);
+				Loc.x = GetIntValue(ArrPtr);
+				Loc.y = GetIntValue(ArrPtr);
+				Loc.starRadius = GetIntValue(ArrPtr);
+				Loc.domain = GetIntValue(ArrPtr);
 				locations.put(Loc.id, Loc);
+			}
+			if (ArrPtr.controlCRC!=ArrPtr.crc)
+			{
+				Gdx.app.debug("CRC error", "getLocations");
 			}
 		}
 		catch (Exception ex)
@@ -511,18 +535,22 @@ public class NetController {
 		{
 			mClient.stream.sendCommand(Command.nebulas);
 			Command command = waitCommand(Command.nebulas);
-			AddressCommand ArrPtr = new AddressCommand();
-			int NebulasCount = GetIntValue(command.data, ArrPtr);
+			CommandReader ArrPtr = new CommandReader(command.data);
+			int NebulasCount = GetIntValue(ArrPtr);
 			for (int i=0;i<NebulasCount;i++)
 			{
-				int NebId = GetIntValue(command.data, ArrPtr);
-				int NebType = GetIntValue(command.data, ArrPtr);
-				int NebX = GetIntValue(command.data, ArrPtr);
-				int NebY = GetIntValue(command.data, ArrPtr);
-				int NebScale = GetIntValue(command.data, ArrPtr);
-				int NebAngle = GetIntValue(command.data, ArrPtr);
+				int NebId = GetIntValue(ArrPtr);
+				int NebType = GetIntValue(ArrPtr);
+				int NebX = GetIntValue(ArrPtr);
+				int NebY = GetIntValue(ArrPtr);
+				int NebScale = GetIntValue(ArrPtr);
+				int NebAngle = GetIntValue(ArrPtr);
 				Nebula Neb = new Nebula(NebId, NebType, NebX, NebY, NebAngle, NebScale);
 				nebulas.put(Neb.id, Neb);
+			}
+			if (ArrPtr.controlCRC!=ArrPtr.crc)
+			{
+				Gdx.app.debug("CRC error", "getNebulas");
 			}
 		}
 		catch (Exception ex)
@@ -539,18 +567,22 @@ public class NetController {
 		{
 			mClient.stream.sendCommand(Command.domains);
 			Command command = waitCommand(Command.domains);
-			AddressCommand ArrPtr = new AddressCommand();
-			int DomainsCount = GetIntValue(command.data, ArrPtr);
+			CommandReader ArrPtr = new CommandReader(command.data);
+			int DomainsCount = GetIntValue(ArrPtr);
 			for (int i=0;i<DomainsCount;i++)
 			{
 				Domain domain = new Domain();
-				domain.id = GetIntValue(command.data, ArrPtr);
-				domain.color = GetColorValue(command.data, ArrPtr);
-				int DomainNameLen = GetIntValue(command.data, ArrPtr);
-				domain.domainName = GetStringValue(command.data, ArrPtr, DomainNameLen);
-				domain.x = GetIntValue(command.data, ArrPtr);
-				domain.y = GetIntValue(command.data, ArrPtr);
+				domain.id = GetIntValue(ArrPtr);
+				domain.color = GetColorValue(ArrPtr);
+				int DomainNameLen = GetIntValue(ArrPtr);
+				domain.domainName = GetStringValue(ArrPtr, DomainNameLen);
+				domain.x = GetIntValue(ArrPtr);
+				domain.y = GetIntValue(ArrPtr);
 				domains.put(domain.id, domain);
+			}
+			if (ArrPtr.controlCRC!=ArrPtr.crc)
+			{
+				Gdx.app.debug("CRC error", "getDomains");
 			}
 		}
 		catch (Exception ex)
@@ -566,18 +598,22 @@ public class NetController {
 		{
 			mClient.stream.sendCommand(Command.player);
 			Command command = waitCommand(Command.player);
-			AddressCommand ArrPtr = new AddressCommand();
-			int UserId = GetIntValue(command.data, ArrPtr);			
-			int UserX = GetIntValue(command.data, ArrPtr);
-			int UserY = GetIntValue(command.data, ArrPtr);
-			int UserDomain = GetIntValue(command.data, ArrPtr);
-			int UserInPlanet = GetIntValue(command.data, ArrPtr);
-			int PnameLen = GetIntValue(command.data, ArrPtr);
-			String PName = GetStringValue(command.data, ArrPtr, PnameLen);			
-			int SnameLen = GetIntValue(command.data, ArrPtr);			
-			String SName = GetStringValue(command.data, ArrPtr, SnameLen);			
+			CommandReader ArrPtr = new CommandReader(command.data);
+			int UserId = GetIntValue( ArrPtr);			
+			int UserX = GetIntValue(ArrPtr);
+			int UserY = GetIntValue(ArrPtr);
+			int UserDomain = GetIntValue(ArrPtr);
+			int UserInPlanet = GetIntValue(ArrPtr);
+			int PnameLen = GetIntValue(ArrPtr);
+			String PName = GetStringValue(ArrPtr, PnameLen);			
+			int SnameLen = GetIntValue(ArrPtr);			
+			String SName = GetStringValue(ArrPtr, SnameLen);			
 			Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain, UserInPlanet);
-			player.setEquips(getEquips(command.data, ArrPtr));
+			player.setEquips(getEquips(ArrPtr));
+			if (ArrPtr.controlCRC!=ArrPtr.crc)
+			{
+				Gdx.app.debug("CRC error", "getUserData");
+			}
 			return player;
 		}
 		catch (Exception ex)
@@ -624,33 +660,41 @@ public class NetController {
 		switch (command.idCommand) {
 			case Command.addUser:
 			{
-				AddressCommand ArrPtr = new AddressCommand();
-				int UserId 			  = GetIntValue(command.data, ArrPtr);
-				int ShipNameLen 	  = GetIntValue(command.data, ArrPtr);
-				String ShipName 	  = GetStringValue(command.data, ArrPtr, ShipNameLen);
-				int UserX 			  = GetIntValue(command.data, ArrPtr);
-				int UserY 			  = GetIntValue(command.data, ArrPtr);
-				int TargetX 		  = GetIntValue(command.data, ArrPtr);
-				int TargetY 		  = GetIntValue(command.data, ArrPtr);
-				int UserDomain 	      = GetIntValue(command.data, ArrPtr);
+				CommandReader ArrPtr = new CommandReader(command.data);
+				int UserId 			  = GetIntValue(ArrPtr);
+				int ShipNameLen 	  = GetIntValue(ArrPtr);
+				String ShipName 	  = GetStringValue(ArrPtr, ShipNameLen);
+				int UserX 			  = GetIntValue(ArrPtr);
+				int UserY 			  = GetIntValue(ArrPtr);
+				int TargetX 		  = GetIntValue(ArrPtr);
+				int TargetY 		  = GetIntValue(ArrPtr);
+				int UserDomain 	      = GetIntValue(ArrPtr);
 				User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
 				user.setPositionTarget(TargetX, TargetY);
-				user.setEquips(getEquips(command.data, ArrPtr));
+				user.setEquips(getEquips(ArrPtr));
 				cController.addCommand(new AddUserCommand(user));
+				if (ArrPtr.controlCRC!=ArrPtr.crc)
+				{
+					Gdx.app.debug("CRC error", "addUser");
+				}
 				break;
 			}
 			case Command.touchUser:
 			{
-				AddressCommand ArrPtr = new AddressCommand();
-				int UserId 			  = GetIntValue(command.data, ArrPtr);
-				int UserTouchX 		  = GetIntValue(command.data, ArrPtr);
-				int UserTouchY 	      = GetIntValue(command.data, ArrPtr);
+				CommandReader ArrPtr = new CommandReader(command.data);
+				int UserId 			  = GetIntValue(ArrPtr);
+				int UserTouchX 		  = GetIntValue(ArrPtr);
+				int UserTouchY 	      = GetIntValue(ArrPtr);
 				cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY));
+				if (ArrPtr.controlCRC!=ArrPtr.crc)
+				{
+					Gdx.app.debug("CRC error", "touchUser");
+				}
 				break;
 			}
 			case Command.removeUser:
 			{
-				int UserId = GetIntValue(command.data, new AddressCommand());
+				int UserId = GetIntValue(new CommandReader(command.data));
 				cController.addCommand(new RemoveUserCommand(UserId));
 				break;
 			}
@@ -670,42 +714,50 @@ public class NetController {
 			}
 			case Command.message:
 			{
-				AddressCommand ArrPtr = new AddressCommand();
-				int 	channel 	= GetIntValue(command.data, ArrPtr);
-				int 	messageLen 	= GetIntValue(command.data, ArrPtr);
-				String 	message 	= GetStringValue(command.data, ArrPtr, messageLen);
-				int 	nameLen 	= GetIntValue(command.data, ArrPtr);
-				String 	userName 	= GetStringValue(command.data, ArrPtr, nameLen);
-				int 	toPilotLen 	= GetIntValue(command.data, ArrPtr);
-				String 	toPilot 	= GetStringValue(command.data, ArrPtr, toPilotLen);
+				CommandReader ArrPtr = new CommandReader(command.data);
+				int 	channel 	= GetIntValue(ArrPtr);
+				int 	messageLen 	= GetIntValue(ArrPtr);
+				String 	message 	= GetStringValue(ArrPtr, messageLen);
+				int 	nameLen 	= GetIntValue(ArrPtr);
+				String 	userName 	= GetStringValue(ArrPtr, nameLen);
+				int 	toPilotLen 	= GetIntValue(ArrPtr);
+				String 	toPilot 	= GetStringValue(ArrPtr, toPilotLen);
 				cController.addCommand(new ChatNewMessageCommand(userName, channel, message, toPilot));
+				if (ArrPtr.controlCRC!=ArrPtr.crc)
+				{
+					Gdx.app.debug("CRC error", "getMessage");
+				}
 				break;
 			}
 			case Command.planets:
 			{
-				AddressCommand ArrPtr = new AddressCommand(0);
-				int locID = GetIntValue(command.data, ArrPtr);
-				int PlanetsCount = GetIntValue(command.data, ArrPtr);
+				CommandReader ArrPtr = new CommandReader(command.data);
+				int locID = GetIntValue(ArrPtr);
+				int PlanetsCount = GetIntValue(ArrPtr);
 				for (int i=0; i<PlanetsCount; i++)
 				{
-					int PlanetId      = GetIntValue(command.data, ArrPtr);
-					int PlanetNameLen = GetIntValue(command.data, ArrPtr);
-					String PlanetName = GetStringValue(command.data, ArrPtr, PlanetNameLen);
-					int PlanetType 	  = GetIntValue(command.data, ArrPtr);
-					int PlanetSpeed   = GetIntValue(command.data, ArrPtr);
-					int PlanetOrbit   = GetIntValue(command.data, ArrPtr);
-					int PlanetRadius  = GetIntValue(command.data, ArrPtr);
-					Color PlanetColor = GetColorValue(command.data, ArrPtr);
-					Color AtmColor = GetColorValue(command.data, ArrPtr);
-					int PlanetDomain = GetIntValue(command.data, ArrPtr);
-					int PlanetAtmosphere_speedX = GetIntValue(command.data, ArrPtr);
-					int PlanetAtmosphere_speedY = GetIntValue(command.data, ArrPtr);
-					int PlanetPrice_coef = GetIntValue(command.data, ArrPtr);
+					int PlanetId      = GetIntValue(ArrPtr);
+					int PlanetNameLen = GetIntValue(ArrPtr);
+					String PlanetName = GetStringValue(ArrPtr, PlanetNameLen);
+					int PlanetType 	  = GetIntValue(ArrPtr);
+					int PlanetSpeed   = GetIntValue(ArrPtr);
+					int PlanetOrbit   = GetIntValue(ArrPtr);
+					int PlanetRadius  = GetIntValue(ArrPtr);
+					Color PlanetColor = GetColorValue(ArrPtr);
+					Color AtmColor = GetColorValue(ArrPtr);
+					int PlanetDomain = GetIntValue(ArrPtr);
+					int PlanetAtmosphere_speedX = GetIntValue(ArrPtr);
+					int PlanetAtmosphere_speedY = GetIntValue(ArrPtr);
+					int PlanetPrice_coef = GetIntValue(ArrPtr);
 					Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, locID, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
 					planet.color = PlanetColor;
 					planet.atmophereColor = AtmColor;
 					planet.price_coef = PlanetPrice_coef;
 					cController.addCommand(new AddPlanetCommand(planet));
+				}
+				if (ArrPtr.controlCRC!=ArrPtr.crc)
+				{
+					Gdx.app.debug("CRC error", "getPlanets");
 				}
 				break;
 			}
@@ -715,21 +767,21 @@ public class NetController {
 		}
 	}
 
-	private int GetIntValue(byte[] data, AddressCommand AC)
+	private int GetIntValue(CommandReader AC)
 	{
 		int Res=0;
 		byte[] Arr = new byte[4];
-		System.arraycopy(data, AC.address, Arr, 0, 4);
+		System.arraycopy(AC.data, AC.address, Arr, 0, 4);
 		AC.delta(4);
 		Res = byteArrayToInt(Arr);
 		return Res;
 	}
 
-	private String GetStringValue(byte[] data, AddressCommand AC, int SL)
+	private String GetStringValue(CommandReader AC, int SL)
 	{
 		String Res = "";
 		byte[] Arr = new byte[SL];
-		System.arraycopy(data, AC.address, Arr, 0, SL);
+		System.arraycopy(AC.data, AC.address, Arr, 0, SL);
 		AC.delta(SL);
 		try {
 			Res = new String(Arr, "UTF-16LE");
@@ -739,10 +791,10 @@ public class NetController {
 		return Res;
 	}
 	
-	 private Color GetColorValue(byte[] data, AddressCommand AC)
+	 private Color GetColorValue(CommandReader AC)
 	 {
 		 byte[] Arr = new byte[4];
-		 System.arraycopy(data, AC.address, Arr, 0, 4);
+		 System.arraycopy(AC.data, AC.address, Arr, 0, 4);
 		 AC.delta(4);
 		 char R = (char)(Arr[0]&0xFF);
 		 char G = (char)(Arr[1]&0xFF);
@@ -752,24 +804,24 @@ public class NetController {
 		 return Res;
 	 }
 	
-	 private List<Equip<Item>> getEquips(byte[] data, AddressCommand ArrPtr)
+	 private List<Equip<Item>> getEquips(CommandReader ArrPtr)
 	 {
 		 ItemCollection items = Controllers.locController.getItems();
 		 if (items == null)
 			 return null;
 
 		 List<Equip<Item>> equip = new ArrayList<Equip<Item>>();
-		 int eqCount = GetIntValue(data, ArrPtr);
+		 int eqCount = GetIntValue(ArrPtr);
 		 
 		 for (int j = 0; j < eqCount; j++)
 		 {
-			 int item_id 	= GetIntValue(data, ArrPtr);
-			 int iType 		= GetIntValue(data, ArrPtr);
-			 int dType 		= GetIntValue(data, ArrPtr);
-			 int in_use 	= GetIntValue(data, ArrPtr);
-			 int wear 		= GetIntValue(data, ArrPtr);
-			 int location 	= GetIntValue(data, ArrPtr);
-			 int num	 	= GetIntValue(data, ArrPtr);
+			 int item_id 	= GetIntValue(ArrPtr);
+			 int iType 		= GetIntValue(ArrPtr);
+			 int dType 		= GetIntValue(ArrPtr);
+			 int in_use 	= GetIntValue(ArrPtr);
+			 int wear 		= GetIntValue(ArrPtr);
+			 int location 	= GetIntValue(ArrPtr);
+			 int num	 	= GetIntValue(ArrPtr);
 			 Equip<Item> eq = new Equip<Item>();
 			 eq.in_use = in_use == 1 ? true : false;
 			 eq.wear = wear;
@@ -831,17 +883,32 @@ public class NetController {
 		 return equip;
 	 }
 	 
-	class AddressCommand {
-		public AddressCommand() {
-			this.address = 0;
-		}
-		public AddressCommand(int start){
-			this.address = start;
-		}
-		
+	class CommandReader {
 		public int address;
+		public byte[] data;
+		public int controlCRC;
+		public int crc;
+		public CommandReader() {
+			this.data = null;
+			this.address = 0;
+			this.controlCRC = 0;
+			this.crc = 0;
+		}
+		public CommandReader(byte[] data){
+			this.data = data;
+			byte[] Arr = new byte[4];
+			System.arraycopy(data, 0, Arr, 0, 4);
+			this.controlCRC  = Arr[3] & 0xFF | (Arr[2] & 0xFF) << 8 | (Arr[1] & 0xFF) << 16 | (Arr[0] & 0xFF) << 24;
+			this.address = 4;
+			this.crc = 0;
+		}
 		public void delta(int delta){
-			address += delta;
+			for (int i=0;i<delta;i++)
+			{
+				char b = (char)(this.data[this.address+i]&0xFF);
+				this.crc=this.crc + b * (this.address+i);
+			}
+			this.address += delta;
 		}
 	}
 }

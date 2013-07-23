@@ -766,72 +766,32 @@ public class NetController {
 				break;
 		}
 	}
-
-	private int GetIntValue(CommandReader AC)
+	private List<Equip<Item>> getEquips(CommandReader ArrPtr)
 	{
-		int Res=0;
-		byte[] Arr = new byte[4];
-		System.arraycopy(AC.data, AC.address, Arr, 0, 4);
-		AC.delta(4);
-		Res = byteArrayToInt(Arr);
-		return Res;
-	}
-
-	private String GetStringValue(CommandReader AC, int SL)
-	{
-		String Res = "";
-		byte[] Arr = new byte[SL];
-		System.arraycopy(AC.data, AC.address, Arr, 0, SL);
-		AC.delta(SL);
-		try {
-			Res = new String(Arr, "UTF-16LE");
-		} catch (UnsupportedEncodingException e) {
-			Gdx.app.log("Получение строки", "Ошибка: " + e.getMessage());
-		}
-		return Res;
-	}
-	
-	 private Color GetColorValue(CommandReader AC)
-	 {
-		 byte[] Arr = new byte[4];
-		 System.arraycopy(AC.data, AC.address, Arr, 0, 4);
-		 AC.delta(4);
-		 char R = (char)(Arr[0]&0xFF);
-		 char G = (char)(Arr[1]&0xFF);
-		 char B = (char)(Arr[2]&0xFF);
-		 char A = (char)(Arr[3]&0xFF);
-		 Color Res =	new Color( R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
-		 return Res;
-	 }
-	
-	 private List<Equip<Item>> getEquips(CommandReader ArrPtr)
-	 {
-		 ItemCollection items = Controllers.locController.getItems();
-		 if (items == null)
-			 return null;
-
-		 List<Equip<Item>> equip = new ArrayList<Equip<Item>>();
-		 int eqCount = GetIntValue(ArrPtr);
-		 
-		 for (int j = 0; j < eqCount; j++)
-		 {
-			 int item_id 	= GetIntValue(ArrPtr);
-			 int iType 		= GetIntValue(ArrPtr);
-			 int dType 		= GetIntValue(ArrPtr);
-			 int in_use 	= GetIntValue(ArrPtr);
-			 int wear 		= GetIntValue(ArrPtr);
-			 int location 	= GetIntValue(ArrPtr);
-			 int num	 	= GetIntValue(ArrPtr);
-			 Equip<Item> eq = new Equip<Item>();
-			 eq.in_use = in_use == 1 ? true : false;
-			 eq.wear = wear;
-			 eq.location = location;
-			 eq.num = num;
-			 eq.item = null;
-			 if (iType == Item.Type.device)
-			 {
-				 switch (dType)
-				 {
+		ItemCollection items = Controllers.locController.getItems();
+		if (items == null)
+			return null;
+		List<Equip<Item>> equip = new ArrayList<Equip<Item>>();
+		int eqCount = GetIntValue(ArrPtr);
+		for (int j = 0; j < eqCount; j++)
+		{
+			int item_id 	= GetIntValue(ArrPtr);
+			int iType 		= GetIntValue(ArrPtr);
+			int dType 		= GetIntValue(ArrPtr);
+			int in_use 	= GetIntValue(ArrPtr);
+			int wear 		= GetIntValue(ArrPtr);
+			int location 	= GetIntValue(ArrPtr);
+			int num	 	= GetIntValue(ArrPtr);
+			Equip<Item> eq = new Equip<Item>();
+			eq.in_use = in_use == 1 ? true : false;
+			eq.wear = wear;
+			eq.location = location;
+			eq.num = num;
+			eq.item = null;
+			if (iType == Item.Type.device)
+			{
+				switch (dType)
+				{
 					case Device.Type.droid:
 					{
 						eq.item = items.droids.get(item_id);
@@ -873,42 +833,116 @@ public class NetController {
 						break;
 					}
 				}
-			 }
-			 else if (iType == Item.Type.consumable)
-			 {
-				 eq.item = items.consumables.get(item_id);
-			 }
-			 equip.add(eq);
-		 }
-		 return equip;
-	 }
-	 
-	class CommandReader {
+			}
+			else if (iType == Item.Type.consumable)
+			{
+				eq.item = items.consumables.get(item_id);
+			}
+			equip.add(eq);
+		}
+		return equip;
+	}
+	
+	private int GetIntValue(CommandReader AC)
+	{
+		int Res=0;
+		if (!AC.endOfData)
+		{
+			byte[] Arr = new byte[4];
+			System.arraycopy(AC.data, AC.address, Arr, 0, 4);
+			AC.delta(4);
+			Res = byteArrayToInt(Arr);
+		}
+		else 
+		{
+			Gdx.app.debug("Read Data error", "getIntValue");
+		}
+		return Res;
+	}
+
+	private String GetStringValue(CommandReader AC, int SL)
+	{
+		String Res = "";
+		if (!AC.endOfData)
+		{
+			byte[] Arr = new byte[SL];
+			System.arraycopy(AC.data, AC.address, Arr, 0, SL);
+			AC.delta(SL);
+			try {
+				Res = new String(Arr, "UTF-16LE");
+			} catch (UnsupportedEncodingException e) {
+				Gdx.app.log("Получение строки", "Ошибка: " + e.getMessage());
+			}
+		}
+		else
+		{
+			Gdx.app.debug("Read Data error", "getStringValue");
+		}
+		return Res;
+	}
+	
+	private Color GetColorValue(CommandReader AC)
+	{
+		Color Res = null;
+		if (!AC.endOfData)
+		{
+			byte[] Arr = new byte[4];
+		
+			System.arraycopy(AC.data, AC.address, Arr, 0, 4);
+			AC.delta(4);
+			char R = (char)(Arr[0]&0xFF);
+			char G = (char)(Arr[1]&0xFF);
+			char B = (char)(Arr[2]&0xFF);
+			char A = (char)(Arr[3]&0xFF);
+			Res =	new Color( R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
+		}
+		else
+		{
+			Gdx.app.debug("Read Data error", "getColorValue");
+		}
+		return Res;
+	}
+
+	class CommandReader 
+	{
 		public int address;
 		public byte[] data;
 		public int controlCRC;
 		public int crc;
-		public CommandReader() {
+		public boolean endOfData;
+		
+		public CommandReader() 
+		{
 			this.data = null;
 			this.address = 0;
 			this.controlCRC = 0;
 			this.crc = 0;
+			this.endOfData= false; 
 		}
-		public CommandReader(byte[] data){
+		
+		public CommandReader(byte[] data)
+		{
 			this.data = data;
 			byte[] Arr = new byte[4];
 			System.arraycopy(data, 0, Arr, 0, 4);
 			this.controlCRC  = Arr[3] & 0xFF | (Arr[2] & 0xFF) << 8 | (Arr[1] & 0xFF) << 16 | (Arr[0] & 0xFF) << 24;
 			this.address = 4;
 			this.crc = 0;
+			this.endOfData= false;
 		}
-		public void delta(int delta){
+		
+		public void delta(int delta)
+		{
 			for (int i=0;i<delta;i++)
 			{
 				char b = (char)(this.data[this.address+i]&0xFF);
 				this.crc=this.crc + b * (this.address+i);
 			}
 			this.address += delta;
+			if (this.address == data.length)
+			{
+				this.endOfData = true;
+			}
 		}
 	}
 }

@@ -133,7 +133,12 @@ public class NetController {
 				System.arraycopy(LoginLenArr, 0, data, 4, 4);
 				System.arraycopy(LoginArr, 0, data, 8, LoginArr.length);
 				mClient.stream.sendCommand(Command.login, data);
-				mClient.stream.sendCommand(Command.password, Password.getBytes("UTF-16LE"));
+				byte[] PasswordArr = Password.getBytes("UTF-16LE");
+				byte[] PasswordLenArr = intToByteArray(PasswordArr.length);
+				data = new byte[PasswordArr.length+PasswordLenArr.length];
+				System.arraycopy(PasswordLenArr, 0, data, 0, 4);
+				System.arraycopy(PasswordArr, 0, data, 4, PasswordArr.length);
+				mClient.stream.sendCommand(Command.password, data);
 				//Command command = waitCommand();
 				Command command = mClient.stream.readCommand();
 				if (command.idCommand == Command.login)

@@ -14,6 +14,7 @@ import com.game.rania.controller.CommandController;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.command.AddPlanetCommand;
 import com.game.rania.controller.command.AddUserCommand;
+import com.game.rania.controller.command.AttackCommand;
 import com.game.rania.controller.command.ChatNewMessageCommand;
 import com.game.rania.controller.command.RemoveUserCommand;
 import com.game.rania.controller.command.SetTargetCommand;
@@ -748,14 +749,16 @@ public class NetController {
 			case Command.userAction:
 			{
 				CommandReader ArrPtr = new CommandReader(command.data);
-				int user_id_1 = GetIntValue(ArrPtr);
-				int user_id_2 = GetIntValue(ArrPtr);
-				int user_Action = GetIntValue(ArrPtr);
-				switch (user_Action)
+				int equipID  	= GetIntValue(ArrPtr);
+				int userID 		= GetIntValue(ArrPtr);
+				int targetID 	= GetIntValue(ArrPtr);
+				int action 		= GetIntValue(ArrPtr);
+				switch (action)
 				{
 					case User.Action.attack:
 					{
-						int Damage = GetIntValue(ArrPtr);
+						int dmg = GetIntValue(ArrPtr);
+						cController.addCommand(new AttackCommand(userID, targetID, equipID, dmg));
 						break;
 					}
 					case User.Action.repair:

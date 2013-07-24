@@ -1,6 +1,6 @@
 package com.game.rania.model;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
@@ -118,15 +118,15 @@ public class SpaceShip extends Object{
 	public Equip<Hyper>   hyper   = null;
 	public Equip<Shield>  shield  = null;
 	public Equip<Body> 	  body 	  = null;
-	public List<Equip<Weapon>>  weapon  = new ArrayList<Equip<Weapon>>();
-	public List<Equip<Droid>>   droid   = new ArrayList<Equip<Droid>>();
+	public HashMap<Integer, Equip<Weapon>>  weapon  = new HashMap<Integer, Equip<Weapon>>();
+	public HashMap<Integer, Equip<Droid>>   droid   = new HashMap<Integer, Equip<Droid>>();
+	
+	public HashMap<Integer, Equip<Item>> inventory = new HashMap<Integer, Equip<Item>>();
 	
 	//characteristics
     public Equip<Consumable> fuel = null;
     public int maxFuel;
     public float maxSpeed;
-	
-	public List<Equip<Item>> inventory = new ArrayList<Equip<Item>>();
 
 	public void setEquips(List<Equip<Item>> equips)
     {
@@ -144,7 +144,7 @@ public class SpaceShip extends Object{
             	}
         		else
         		{
-        			inventory.add(equip);
+        			inventory.put(equip.id, equip);
         		}
             }
             else
@@ -184,13 +184,13 @@ public class SpaceShip extends Object{
 
                 if (equip.item.getClass() == Weapon.class) 
                 {
-                	this.weapon.add(new Equip<Weapon>(equip, Weapon.class));
+                	this.weapon.put(equip.id, new Equip<Weapon>(equip, Weapon.class));
                 	continue;
                 }
 
                 if (equip.item.getClass() == Droid.class) 
                 {
-                	this.droid.add(new Equip<Droid>(equip, Droid.class));
+                	this.droid.put(equip.id, new Equip<Droid>(equip, Droid.class));
                 	continue;
                 }
             }

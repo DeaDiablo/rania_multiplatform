@@ -62,34 +62,6 @@ public class Text extends HUDObject{
 		font.getBounds(content, textBound);
 		return position.y + textBound.height * 0.5f;
 	}
-	
-	public enum Align{
-		LEFT,
-		RIGHT,
-		CENTER,
-		TOP,
-		BOTTOM
-	}
-	
-	protected Vector2 offset = new Vector2(0, 0);
-	protected Align hAlign = Align.CENTER, vAlign = Align.CENTER;
-
-	public void setAlign(Align horzAlign, Align vertAlign){
-		hAlign = horzAlign;
-		vAlign = vertAlign;
-	}
-	
-	public Align getHorzAlign(){
-		return hAlign;
-	}
-	
-	public Align getVertAlign(){
-		return vAlign;
-	}
-	
-	public Vector2 getOffset(){
-		return offset;
-	}
 
 	@Override
 	public boolean draw(SpriteBatch sprite){
@@ -143,37 +115,11 @@ public class Text extends HUDObject{
 		font.setScale(scale.x * scaleX, scale.y * scaleY);
 	}
 	
-	protected void calcOffset(TextBounds bound){
-		switch (hAlign) {
-		case LEFT:
-			offset.x = 0.0f;
-			break;
-		case RIGHT:
-			offset.x = -bound.width;
-			break;
-		default:
-			offset.x = -bound.width * 0.5f;
-			break;
-		}
-		
-		switch (vAlign) {
-		case TOP:
-			offset.y = 0.0f;
-			break;
-		case BOTTOM:
-			offset.y = bound.height;
-			break;
-		default:
-			offset.y = bound.height * 0.5f;
-			break;
-		}
-	}
-	
 	protected void draw(SpriteBatch sprite, String string){
 		font.getBounds(string, textBound);
-		calcOffset(textBound);
+		calcOffset(textBound.width, textBound.height);
 		sprite.setTransformMatrix(transformMatrix);
-		font.draw(sprite, string, offset.x, offset.y);
+		font.draw(sprite, string, offset.x, -offset.y);
 		sprite.setTransformMatrix(transformMatrix.idt());
 	}
 }

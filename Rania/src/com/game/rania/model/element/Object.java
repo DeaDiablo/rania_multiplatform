@@ -97,6 +97,60 @@ public class Object {
 		return region.getRegionHeight() * scale.y * 0.5f;
 	}
 
+	public enum Align{
+		LEFT,
+		RIGHT,
+		CENTER,
+		TOP,
+		BOTTOM
+	}
+	
+	protected Vector2 offset = new Vector2(0, 0);
+	protected Align hAlign = Align.CENTER, vAlign = Align.CENTER;
+
+	public void setAlign(Align horzAlign, Align vertAlign){
+		hAlign = horzAlign;
+		vAlign = vertAlign;
+	}
+	
+	public Align getHorzAlign(){
+		return hAlign;
+	}
+	
+	public Align getVertAlign(){
+		return vAlign;
+	}
+	
+	public Vector2 getOffset(){
+		return offset;
+	}
+	
+	protected void calcOffset(float width, float height){
+		switch (hAlign) {
+		case LEFT:
+			offset.x = 0.0f;
+			break;
+		case RIGHT:
+			offset.x = -width;
+			break;
+		default:
+			offset.x = -width * 0.5f;
+			break;
+		}
+		
+		switch (vAlign) {
+		case TOP:
+			offset.y = 0.0f;
+			break;
+		case BOTTOM:
+			offset.y = -height;
+			break;
+		default:
+			offset.y = -height * 0.5f;
+			break;
+		}
+	}
+
 	public boolean intersectObject(float x, float y){
 		if (region == null)
 			return false;
@@ -180,12 +234,13 @@ public class Object {
 	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, float x, float y, float angle, float scaleX, float scaleY){
 		if (textureRegion == null)
 			return false;
-
+		
+		calcOffset(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
 		sprite.draw(textureRegion, 
-					x - textureRegion.getRegionWidth() * 0.5f,
-					y - textureRegion.getRegionHeight() * 0.5f,
-					textureRegion.getRegionWidth() * 0.5f,
-					textureRegion.getRegionHeight() * 0.5f,
+					x + offset.x,
+					y + offset.y,
+					-offset.x,
+					-offset.y,
 					textureRegion.getRegionWidth(),
 					textureRegion.getRegionHeight(),
 					scaleX,

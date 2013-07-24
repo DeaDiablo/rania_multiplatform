@@ -170,7 +170,7 @@ public class Radar extends HUDObject{
 	
 				for (User user : locController.getUsers()) {
 					colorObject.set(user.domain.color);
-					drawRadarObject(user, 0.01f, size);
+					drawRadarObject(user, 0.035f, size);
 				}
 			}
 			

@@ -37,9 +37,9 @@ public class MultilineText extends Text{
 	@Override
 	protected void draw(SpriteBatch sprite, String string){
 		font.getMultiLineBounds(string, textBound);
-		calcOffset(textBound);
+		calcOffset(textBound.width, textBound.height);
 		sprite.setTransformMatrix(transformMatrix);
-		font.drawMultiLine(sprite, string, offset.x, offset.y);
+		font.drawMultiLine(sprite, string, offset.x, -offset.y);
 		sprite.setTransformMatrix(transformMatrix.idt());
 	}
 }

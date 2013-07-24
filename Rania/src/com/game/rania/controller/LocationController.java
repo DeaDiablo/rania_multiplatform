@@ -51,6 +51,8 @@ public class LocationController {
 		mView.loadTexture("data/location/target.png",      RegionID.TARGET);
 		mView.loadTexture("data/backgrounds/space.png",    RegionID.BACKGROUND_SPACE);
 		mView.loadTexture("data/backgrounds/stars.png",    RegionID.BACKGROUND_STARS);
+
+		mView.loadTexture("data/ammunition/laser.png",     RegionID.LASER);
 	}
 
 	//list objects

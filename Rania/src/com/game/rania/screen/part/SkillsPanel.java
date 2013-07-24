@@ -3,6 +3,8 @@ package com.game.rania.screen.part;
 import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.LocationController;
+import com.game.rania.model.Player;
+import com.game.rania.model.ammunition.Laser;
 import com.game.rania.model.element.Group;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.items.Equip;
@@ -38,8 +40,15 @@ public class SkillsPanel extends Group implements Part{
 								   new TouchAction() {
 								   		@Override
 								   		public void execute(boolean touch) {
-											if (lController.getPlayer().weapon.size() > 0) {
-									   			Equip<Weapon> weapon = lController.getPlayer().weapon.get(0);
+								   			Player player = lController.getPlayer();
+											if (player.weapon.size() > 0) {
+									   			Equip<Weapon> weapon = player.weapon.values().iterator().next();
+									   			RaniaGame.mController.addObject(
+									   					new Laser(player.position.x,
+									   							  player.position.y,
+									   							  player.target.position.x,
+									   							  player.target.position.y,
+									   							  player.domain.color));
 								   				nController.sendUseEquip(weapon.id);
 											}
 								   		}
@@ -97,11 +106,16 @@ public class SkillsPanel extends Group implements Part{
 										}
 								   });
 		
-		addElement(skill1);
-		addElement(skill2);
-		addElement(skill3);
-		addElement(skill4);
-		addElement(skill5);
+		if (lController.getPlayer().weapon.size() > 0)
+			addElement(skill1);
+		if (lController.getPlayer().weapon.size() > 1)
+			addElement(skill2);
+		if (lController.getPlayer().weapon.size() > 2)
+			addElement(skill3);
+		if (lController.getPlayer().weapon.size() > 3)
+			addElement(skill4);
+		if (lController.getPlayer().weapon.size() > 4)
+			addElement(skill5);
 	}
 
 	@Override

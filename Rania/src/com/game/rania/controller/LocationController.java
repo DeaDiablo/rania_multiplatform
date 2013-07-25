@@ -481,10 +481,14 @@ public class LocationController {
 	}
 	
 	public User getUser(int id){
+		if (player.id == id)
+			return player;
 		return users.get(id);
 	}
 	
-	public User getPilot(String name){		
+	public User getPilot(String name){
+		if (player.pilotName.compareTo(name) == 0)
+			return player;
 		for (User user : users.values()) {
 		if (user.pilotName.compareTo(name) == 0)
 			return user;
@@ -492,7 +496,9 @@ public class LocationController {
 		return null;
 	}
 	
-	public User getShip(String name){		
+	public User getShip(String name){
+		if (player.shipName.compareTo(name) == 0)
+			return player;	
 		for (User user : users.values()) {
 		if (user.shipName.compareTo(name) == 0)
 			return user;

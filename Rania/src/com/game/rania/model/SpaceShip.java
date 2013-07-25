@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
+import com.game.rania.RaniaGame;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.items.Consumable;
@@ -97,15 +98,15 @@ public class SpaceShip extends Object{
 		float maxSize = Math.max(region.getRegionWidth(), region.getRegionHeight());
 		if (body != null) {
 			shape.setColor(new Color(1, 0, 0, 0.75f));
-			shape.filledRect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f + 5, maxSize * (body.wear / body.item.durability), 5);
+			shape.filledRect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f + 5, maxSize * ((float)body.wear / body.item.durability), 5);
 		}
 		if (shield != null) {
 			shape.setColor(new Color(0, 0, 1, 0.75f));
-			shape.filledRect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * (shield.wear / shield.item.durability), 5);
+			shape.filledRect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * ((float)shield.wear / shield.item.durability), 5);
 		}
 		if (fuelbag != null) {
 			shape.setColor(new Color(0, 1, 0, 0.75f));
-			shape.filledRect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * (fuel.num / maxFuel), 5);
+			shape.filledRect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * ((float)fuel.num / maxFuel), 5);
 		}
 		shape.end();
 		return true;
@@ -125,7 +126,7 @@ public class SpaceShip extends Object{
 	
 	//characteristics
     public Equip<Consumable> fuel = null;
-    public int maxFuel;
+    public int 	 maxFuel;
     public float maxSpeed;
 
 	public void setEquips(List<Equip<Item>> equips)
@@ -304,5 +305,7 @@ public class SpaceShip extends Object{
     		if (weap.wear < 0) 
     			weap.wear = 0;
     	}
+    	
+    	RaniaGame.mController.removeObject(this);
     }
 }

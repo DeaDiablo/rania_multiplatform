@@ -1,6 +1,5 @@
 package com.game.rania.controller.command;
 
-import com.badlogic.gdx.Gdx;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.MainController;
 import com.game.rania.model.User;
@@ -33,10 +32,9 @@ public class AttackCommand extends ControllerCommand{
 		if (weapon == null || target == null)
 			return;
 
-		target.damage(target.body, damage * 100);
+		target.damage(target.body, damage);
 		if (user != Controllers.locController.getPlayer())
 			controller.addObject(new Laser(user, target, user.domain.color));
-		Gdx.app.log("Attack", "User " + user.pilotName + " to " + target.pilotName + ": " + damage);
 	}
 
 }

@@ -4,6 +4,7 @@ import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.LocationController;
 import com.game.rania.model.Player;
+import com.game.rania.model.Target;
 import com.game.rania.model.ammunition.Laser;
 import com.game.rania.model.element.Group;
 import com.game.rania.model.element.RegionID;
@@ -41,6 +42,8 @@ public class SkillsPanel extends Group implements Part{
 								   		@Override
 								   		public void execute(boolean touch) {
 								   			Player player = lController.getPlayer();
+								   			if (player.target.type != Target.user)
+								   				return;
 											if (player.weapon.size() > 0) {
 									   			Equip<Weapon> weapon = player.weapon.values().iterator().next();
 									   			RaniaGame.mController.addObject(

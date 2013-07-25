@@ -214,6 +214,8 @@ public class SpaceShip extends Object{
     public void damage(Equip<?> equip, int value)
     {
     	equip.wear = Math.max(0, equip.wear - value);
+    	if (equip == body && equip.wear <= 0)
+    		crashSpaceShip(10);
     }
     
     public void repair(Equip<Device> equip, int value)
@@ -251,48 +253,56 @@ public class SpaceShip extends Object{
         }
         maxSpeed = (float)engine.item.power / 10;
     }
-    public void crashUserShip(int percent)
+    
+    public void crashSpaceShip(int percent)
     {
         if (this.engine != null)
         {
             this.engine.wear = (int) (this.engine.wear - ((double)this.engine.item.durability * percent / 100));
-            if (this.engine.wear < 0) { this.engine.wear = 0; }
+            if (this.engine.wear < 0) 
+            	this.engine.wear = 0;
         }
+        
         if (this.fuelbag != null)
         {
         	this.fuelbag.wear = (int) (this.fuelbag.wear - ((double)this.fuelbag.item.durability * percent / 100));
-          if (this.fuelbag.wear < 0) { this.fuelbag.wear = 0; }
+        	if (this.fuelbag.wear < 0) 
+        		this.fuelbag.wear = 0;
         }
+        
         if (this.hyper != null)
         {
         	this.hyper.wear = (int) (this.hyper.wear - ((double)this.hyper.item.durability * percent / 100));
-          if (this.hyper.wear < 0) { this.hyper.wear = 0; }
+        	if (this.hyper.wear < 0) 
+        		this.hyper.wear = 0;
         }
+        
         if (this.radar != null)
         {
         	this.radar.wear = (int) (this.radar.wear - ((double)this.radar.item.durability * percent / 100));
-          if (this.radar.wear < 0) { this.radar.wear = 0; }
+        	if (this.radar.wear < 0) 
+        		this.radar.wear = 0;
         }
+        
         if (this.shield != null)
         {
         	this.shield.wear = (int) (this.shield.wear - ((double)this.shield.item.durability * percent / 100));
-          if (this.shield.wear < 0) { this.shield.wear = 0; }
+        	if (this.shield.wear < 0) 
+        		this.shield.wear = 0;
         }
-        for (int i = 0; i < this.droid.size(); i++)
-        {
-        	for (Equip<Droid> dr : this.droid.values())
-        	{
-        		dr.wear = dr.wear - (int)((double)dr.item.durability * percent / 100);
-            if (dr.wear < 0) { dr.wear = 0; }
-        	}
-        }
-        for (int i = 0; i < this.weapon.size(); i++)
-        {
-        	for (Equip<Weapon> weap : this.weapon.values())
-        	{
-        		weap.wear = weap.wear - (int)((double)weap.item.durability * percent / 100);
-            if (weap.wear < 0) { weap.wear = 0; }
-        	}
-        }
+    	
+        for (Equip<Droid> dr : this.droid.values())
+    	{
+    		dr.wear = dr.wear - (int)((double)dr.item.durability * percent / 100);
+    		if (dr.wear < 0) 
+    			dr.wear = 0;
+    	}
+
+    	for (Equip<Weapon> weap : this.weapon.values())
+    	{
+    		weap.wear = weap.wear - (int)((double)weap.item.durability * percent / 100);
+    		if (weap.wear < 0) 
+    			weap.wear = 0;
+    	}
     }
 }

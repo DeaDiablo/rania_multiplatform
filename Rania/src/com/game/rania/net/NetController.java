@@ -50,7 +50,7 @@ public class NetController {
 	private Receiver receiver = null;
 	private CommandController cController = null;
 	private Client mClient = null;
-	private int ProtocolVersion = 7;
+	private int ProtocolVersion = 8;
 	
 	public NetController(CommandController commandController){
 		cController = commandController;
@@ -965,10 +965,7 @@ public class NetController {
 		public CommandReader(Command cmd)
 		{
 			this.data = cmd.data;
-			byte[] Arr = new byte[4];
-			System.arraycopy(cmd.data, 0, Arr, 0, 4);
-			this.controlCRC  = Arr[3] & 0xFF | (Arr[2] & 0xFF) << 8 | (Arr[1] & 0xFF) << 16 | (Arr[0] & 0xFF) << 24;
-			this.address = 4;
+			this.address = 0;
 			this.crc = 0;
 			this.endOfData= false;
 		}

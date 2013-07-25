@@ -27,6 +27,7 @@ public class Command
 	
 	public int idCommand  = none;
 	public int length     = 0;
+	public int controlCRC = 0;
 	public byte[] data 	  = new byte[0];
 
 	public Command(int com)
@@ -34,11 +35,12 @@ public class Command
 		this.idCommand = com;
 	}
 	
-	public Command(int com, int len, byte[] data)
+	public Command(int com, int len, byte[] data, int crc)
 	{
 		this.idCommand = com;
 		this.length = len;
 		this.data = data;
+		this.controlCRC = crc;
 	}
 	
 	public Command(Command command){

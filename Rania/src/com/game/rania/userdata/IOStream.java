@@ -21,10 +21,11 @@ public class IOStream{
 	//read
 	public Command readCommand() throws IOException{
 		int idCommand = iStream.readInt();
+		int controlCRC = iStream.readInt();
 		int len = iStream.readInt();
 		byte[] data = new byte[len];
 		iStream.read(data);			
-		return new Command(idCommand, len, data);
+		return new Command(idCommand, len, data, controlCRC);
 	}
 	
 	public int readInt() throws IOException{

@@ -144,7 +144,7 @@ public class NetController {
 				Command command = mClient.stream.readCommand();
 				if (command.idCommand == Command.login)
 				{
-					CommandReader ArrPtr = new CommandReader(command.data);
+					CommandReader ArrPtr = new CommandReader(command);
 					mClient.isLogin = true;
 					mClient.serverTime = GetIntValue(ArrPtr);
 					receiver = new Receiver(mClient, this);
@@ -237,7 +237,7 @@ public class NetController {
 		{
 			mClient.stream.sendCommand(Command.items);
 			Command command = waitCommand(Command.items);
-			CommandReader ArrPtr = new CommandReader(command.data);
+			CommandReader ArrPtr = new CommandReader(command);
 			int listItemsCount = GetIntValue(ArrPtr);
 			for (int i=0; i<listItemsCount; i++)
 			{
@@ -475,7 +475,7 @@ public class NetController {
 				return null;
 			
 			Command command = waitCommand(Command.planets);
-			CommandReader ArrPtr = new CommandReader(command.data);
+			CommandReader ArrPtr = new CommandReader(command);
 			ArrPtr.delta(4);
 			int PlanetsCount = GetIntValue(ArrPtr);
 			for (int i=0; i<PlanetsCount; i++)
@@ -518,7 +518,7 @@ public class NetController {
 		{
 			mClient.stream.sendCommand(Command.locations);
 			Command command = waitCommand(Command.locations);
-			CommandReader ArrPtr = new CommandReader(command.data);
+			CommandReader ArrPtr = new CommandReader(command);
 			int LocationsCount = GetIntValue(ArrPtr);
 			for (int i=0; i<LocationsCount; i++)
 			{
@@ -552,7 +552,7 @@ public class NetController {
 		{
 			mClient.stream.sendCommand(Command.nebulas);
 			Command command = waitCommand(Command.nebulas);
-			CommandReader ArrPtr = new CommandReader(command.data);
+			CommandReader ArrPtr = new CommandReader(command);
 			int NebulasCount = GetIntValue(ArrPtr);
 			for (int i=0;i<NebulasCount;i++)
 			{
@@ -584,7 +584,7 @@ public class NetController {
 		{
 			mClient.stream.sendCommand(Command.domains);
 			Command command = waitCommand(Command.domains);
-			CommandReader ArrPtr = new CommandReader(command.data);
+			CommandReader ArrPtr = new CommandReader(command);
 			int DomainsCount = GetIntValue(ArrPtr);
 			for (int i=0;i<DomainsCount;i++)
 			{
@@ -615,7 +615,7 @@ public class NetController {
 		{
 			mClient.stream.sendCommand(Command.player);
 			Command command = waitCommand(Command.player);
-			CommandReader ArrPtr = new CommandReader(command.data);
+			CommandReader ArrPtr = new CommandReader(command);
 			int UserId 	 	 = GetIntValue( ArrPtr);			
 			int UserX 		 = GetIntValue(ArrPtr);
 			int UserY 		 = GetIntValue(ArrPtr);
@@ -677,7 +677,7 @@ public class NetController {
 		switch (command.idCommand) {
 			case Command.addUser:
 			{
-				CommandReader ArrPtr = new CommandReader(command.data);
+				CommandReader ArrPtr = new CommandReader(command);
 				int UserId 			  = GetIntValue(ArrPtr);
 				int ShipNameLen 	  = GetIntValue(ArrPtr);
 				String ShipName 	  = GetStringValue(ArrPtr, ShipNameLen);
@@ -698,7 +698,7 @@ public class NetController {
 			}
 			case Command.touchUser:
 			{
-				CommandReader ArrPtr  = new CommandReader(command.data);
+				CommandReader ArrPtr  = new CommandReader(command);
 				int UserId 			  = GetIntValue(ArrPtr);
 				int UserTouchX 		  = GetIntValue(ArrPtr);
 				int UserTouchY 	      = GetIntValue(ArrPtr);
@@ -711,7 +711,7 @@ public class NetController {
 			}
 			case Command.removeUser:
 			{
-				int UserId = GetIntValue(new CommandReader(command.data));
+				int UserId = GetIntValue(new CommandReader(command));
 				cController.addCommand(new RemoveUserCommand(UserId));
 				break;
 			}
@@ -731,7 +731,7 @@ public class NetController {
 			}
 			case Command.message:
 			{
-				CommandReader ArrPtr = new CommandReader(command.data);
+				CommandReader ArrPtr = new CommandReader(command);
 				int 	channel 	 = GetIntValue(ArrPtr);
 				int 	messageLen 	 = GetIntValue(ArrPtr);
 				String 	message 	 = GetStringValue(ArrPtr, messageLen);
@@ -748,7 +748,7 @@ public class NetController {
 			}
 			case Command.userAction:
 			{
-				CommandReader ArrPtr = new CommandReader(command.data);
+				CommandReader ArrPtr = new CommandReader(command);
 				int equipID  	= GetIntValue(ArrPtr);
 				int userID 		= GetIntValue(ArrPtr);
 				int targetID 	= GetIntValue(ArrPtr);
@@ -770,7 +770,7 @@ public class NetController {
 			}
 			case Command.planets:
 			{
-				CommandReader ArrPtr = new CommandReader(command.data);
+				CommandReader ArrPtr = new CommandReader(command);
 				int locID = GetIntValue(ArrPtr);
 				int PlanetsCount = GetIntValue(ArrPtr);
 				for (int i=0; i<PlanetsCount; i++)
@@ -962,11 +962,11 @@ public class NetController {
 			this.endOfData= false; 
 		}
 		
-		public CommandReader(byte[] data)
+		public CommandReader(Command cmd)
 		{
-			this.data = data;
+			this.data = cmd.data;
 			byte[] Arr = new byte[4];
-			System.arraycopy(data, 0, Arr, 0, 4);
+			System.arraycopy(cmd.data, 0, Arr, 0, 4);
 			this.controlCRC  = Arr[3] & 0xFF | (Arr[2] & 0xFF) << 8 | (Arr[1] & 0xFF) << 16 | (Arr[0] & 0xFF) << 24;
 			this.address = 4;
 			this.crc = 0;

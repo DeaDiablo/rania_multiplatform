@@ -44,10 +44,8 @@ public class SkillsPanel extends Group implements Part{
 											if (player.weapon.size() > 0) {
 									   			Equip<Weapon> weapon = player.weapon.values().iterator().next();
 									   			RaniaGame.mController.addObject(
-									   					new Laser(player.position.x,
-									   							  player.position.y,
-									   							  player.target.position.x,
-									   							  player.target.position.y,
+									   					new Laser(player,
+									   							  player.target,
 									   							  player.domain.color));
 								   				nController.sendUseEquip(weapon.id);
 											}

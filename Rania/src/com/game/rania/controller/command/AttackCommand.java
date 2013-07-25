@@ -10,27 +10,32 @@ import com.game.rania.model.items.Weapon;
 
 public class AttackCommand extends ControllerCommand{
 	
-	private User 		  user 	 = null;
-	private User 		  target = null;
-	private Equip<Weapon> weapon = null;
-	private int 		  damage = 0;
+	private int userID 	 = -1;
+	private int targetID = -1;
+	private int equipID  = -1;
+	private int damage   = 0;
 	
-	public AttackCommand(int userID, int targetID, int equipId, int dmg){
-		user   = Controllers.locController.getUser(userID);
-		target = Controllers.locController.getUser(targetID);
-		if (user != null)
-			weapon = user.weapon.get(equipId);
+	public AttackCommand(int userID, int targetID, int equipID, int dmg){
+		this.userID = userID;
+		this.targetID = targetID;
+		this.equipID = equipID;
 		damage = dmg;
 	}
 	
 	@Override
 	public void update(MainController controller, float deltaTime) {
+		User user   = Controllers.locController.getUser(userID);
+		User target = Controllers.locController.getUser(targetID);
+		Equip<Weapon> weapon = null;
+		if (user != null)
+			weapon = user.weapon.get(equipID);
+		
 		if (weapon == null || target == null)
 			return;
 
 		target.damage(target.body, damage * 100);
 		if (user != Controllers.locController.getPlayer())
-			controller.addObject(new Laser(user.position.x, user.position.y, target.position.x, target.position.y, user.domain.color));
+			controller.addObject(new Laser(user, target, user.domain.color));
 		Gdx.app.log("Attack", "User " + user.pilotName + " to " + target.pilotName + ": " + damage);
 	}
 

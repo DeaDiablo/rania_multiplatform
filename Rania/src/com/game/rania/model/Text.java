@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.game.rania.model.element.HUDObject;
+import com.game.rania.model.element.Object;
 
-public class Text extends HUDObject{
+public class Text extends Object{
 
 	public String 	  content = null;
 	public BitmapFont font = null;

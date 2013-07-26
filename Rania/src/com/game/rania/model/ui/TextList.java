@@ -5,10 +5,10 @@ import java.util.Vector;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.rania.model.MultilineText;
-import com.game.rania.model.element.HUDObject;
+import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 
-public class TextList extends HUDObject{
+public class TextList extends Object{
 	
 	protected class TextLine{
 		public TextLine(String text, Color color){

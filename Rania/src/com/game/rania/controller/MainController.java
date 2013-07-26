@@ -5,7 +5,6 @@ import java.util.Vector;
 
 import com.badlogic.gdx.InputMultiplexer;
 import com.game.rania.model.element.Group;
-import com.game.rania.model.element.HUDObject;
 import com.game.rania.model.element.Object;
 
 public class MainController extends InputMultiplexer{
@@ -13,10 +12,10 @@ public class MainController extends InputMultiplexer{
 	private Vector<UpdateController> updateControllers = new Vector<UpdateController>();
 	//objects
 	private Vector<Object> sceneObjects = new Vector<Object>();
-	private Vector<HUDObject> HUDObjects   = new Vector<HUDObject>();
+	private Vector<Object> HUDObjects   = new Vector<Object>();
 	//remove objects
 	private Vector<Object> removeSceneObjects = new Vector<Object>();
-	private Vector<HUDObject> removeHUDObjects   = new Vector<HUDObject>();
+	private Vector<Object> removeHUDObjects   = new Vector<Object>();
 
 	public MainController(){
 		super();
@@ -54,12 +53,7 @@ public class MainController extends InputMultiplexer{
 		return reverseVec;
 	}
 	
-	public void addObject(Object object){
-		if (object.asHUDObject() != null){
-			addHUDObject(object.asHUDObject());
-			return;
-		}
-		
+	public void addObject(Object object){		
 		if (sceneObjects.contains(object))
 			return;
 		
@@ -73,24 +67,21 @@ public class MainController extends InputMultiplexer{
 	}
 	
 	public void removeObject(Object object){
-		if (object.asHUDObject() != null)
-			removeHUDObject(object.asHUDObject());
-		else
-			removeSceneObjects.add(object);
+		removeSceneObjects.add(object);
 	}
 
 	//HUD objects
-	public Vector<HUDObject> getHUDObjects(){
+	public Vector<Object> getHUDObjects(){
 		return HUDObjects;
 	}
 
-	public Vector<HUDObject> getReverseHUDObjects(){
-		Vector<HUDObject> reverseVec = new Vector<HUDObject>(HUDObjects);
+	public Vector<Object> getReverseHUDObjects(){
+		Vector<Object> reverseVec = new Vector<Object>(HUDObjects);
 		Collections.reverse(reverseVec);
 		return reverseVec;
 	}
 	
-	public void addHUDObject(HUDObject object){
+	public void addHUDObject(Object object){
 		if (HUDObjects.contains(object))
 			return;
 		
@@ -103,30 +94,32 @@ public class MainController extends InputMultiplexer{
 		HUDObjects.add(object);
 	}
 	
-	public void removeHUDObject(HUDObject object){
+	public void removeHUDObject(Object object){
 		removeHUDObjects.add(object);
 	}
 	
-	//group object	
+	//group object
 	public void addObject(Group group){
 		for(Object object : group.getElements()){
-			if (object.asHUDObject() != null) {
-				addHUDObject(object.asHUDObject());
-			}
-			else {
-				addObject(object);
-			}
+			addObject(object);
 		}
 	}
 	
 	public void removeObject(Group group){
 		for(Object object : group.getElements()){
-			if (object.asHUDObject() != null)
-			{
-				removeHUDObjects.add(object.asHUDObject());
-				return;
-			}
 			removeSceneObjects.add(object);
+		}
+	}
+	
+	public void addHUDObject(Group group){
+		for(Object object : group.getElements()){
+			addHUDObject(object);
+		}
+	}
+	
+	public void removeHUDObject(Group group){
+		for(Object object : group.getElements()){
+			removeHUDObjects.add(object);
 		}
 	}
 	

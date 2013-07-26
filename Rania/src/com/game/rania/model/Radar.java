@@ -16,12 +16,11 @@ import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.LocationController;
 import com.game.rania.model.element.Font;
-import com.game.rania.model.element.HUDObject;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.utils.DrawUtils;
 
-public class Radar extends HUDObject{
+public class Radar extends Object{
 	
 	private static final int bigCoeff = 4;
 

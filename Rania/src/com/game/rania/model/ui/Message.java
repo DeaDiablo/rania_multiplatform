@@ -3,10 +3,10 @@ package com.game.rania.model.ui;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.Text;
-import com.game.rania.model.element.HUDObject;
+import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 
-public class Message extends HUDObject{
+public class Message extends Object{
 
 	private float time = 0.0f;
 	private float delay = 0.0f;

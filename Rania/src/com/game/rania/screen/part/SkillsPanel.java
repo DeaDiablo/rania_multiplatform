@@ -125,12 +125,12 @@ public class SkillsPanel extends Group implements Part{
 
 	@Override
 	public void addPart() {
-		RaniaGame.mController.addObject(this);
+		RaniaGame.mController.addHUDObject(this);
 	}
 
 	@Override
 	public void removePart() {
-		RaniaGame.mController.removeObject(this);
+		RaniaGame.mController.removeHUDObject(this);
 	}
 
 }

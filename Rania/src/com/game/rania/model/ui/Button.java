@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.Indexes;
 import com.game.rania.model.Text;
-import com.game.rania.model.element.HUDObject;
+import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 
-public abstract class Button extends HUDObject{
+public abstract class Button extends Object{
 
 	protected Text			text		  = null;
 	protected TextureRegion regionOn      = null;

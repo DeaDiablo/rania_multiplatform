@@ -11,10 +11,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.Indexes;
 import com.game.rania.model.Text;
-import com.game.rania.model.element.HUDObject;
+import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 
-public class Edit extends HUDObject{
+public class Edit extends Object{
 
 	protected Text 		    text      = null;
 	protected EditAction    action    = null;

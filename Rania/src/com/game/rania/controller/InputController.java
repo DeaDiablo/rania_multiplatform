@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.element.Object;
-import com.game.rania.model.element.HUDObject;
 import com.game.rania.model.ui.FocusElement;
 
 public class InputController extends InputAdapter{
@@ -81,7 +80,7 @@ public class InputController extends InputAdapter{
 		Vector2 touchPoint = new Vector2(screenX, screenY);
 		
 		RaniaGame.mView.getHUDCamera().toCameraCoord(touchPoint);
-		for(HUDObject object : mController.getReverseHUDObjects()){
+		for(Object object : mController.getReverseHUDObjects()){
 			if ((object.touchObject && object.visible && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
 				if (object.touchDown(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;
@@ -103,7 +102,7 @@ public class InputController extends InputAdapter{
 		Vector2 touchPoint = new Vector2(screenX, screenY);
 		
 		RaniaGame.mView.getHUDCamera().toCameraCoord(touchPoint);
-		for(HUDObject object : mController.getReverseHUDObjects()){
+		for(Object object : mController.getReverseHUDObjects()){
 			if ((object.touchObject && object.visible && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
 				if (object.touchDragged(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;
@@ -125,7 +124,7 @@ public class InputController extends InputAdapter{
 		Vector2 touchPoint = new Vector2(screenX, screenY);
 		
 		RaniaGame.mView.getHUDCamera().toCameraCoord(touchPoint);
-		for(HUDObject object : mController.getReverseHUDObjects()){
+		for(Object object : mController.getReverseHUDObjects()){
 			if ((object.touchObject && object.visible && object.intersectObject(touchPoint.x, touchPoint.y)) || object.allTouchObject)
 				if (object.touchUp(-object.position.x + touchPoint.x, -object.position.y + touchPoint.y))
 					return true;

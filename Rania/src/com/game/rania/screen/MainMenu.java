@@ -6,7 +6,7 @@ import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.model.Text;
 import com.game.rania.model.element.Font;
-import com.game.rania.model.element.HUDObject;
+import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.ui.Edit;
 import com.game.rania.model.ui.Message;
@@ -32,7 +32,7 @@ public class MainMenu extends RaniaScreen{
 		mView.loadTexture("data/gui/newreg.png", RegionID.BTNREG_ON, 0, 128, 512, 128);
 		mView.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_OFF, 0, 0, 512, 128);
 		mView.loadTexture("data/gui/exit.png", RegionID.BTNEXIT_ON, 0, 128, 512, 128);
-		mController.addHUDObject(new HUDObject(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
+		mController.addHUDObject(new Object(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
 
 		
 

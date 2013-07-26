@@ -13,16 +13,19 @@ public class Object {
 	
 	public static Shader currentShader = null;
 
-	public boolean keysObject = false;
-	public boolean touchObject = false;
-	public boolean allTouchObject = false;
-	public boolean visible = true;
-	public Vector2 position = new Vector2(0.0f, 0.0f);
-	public float angle = 0.0f;
-	public Vector2 scale = new Vector2(1.0f, 1.0f);
-	public Color color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-	public int zIndex = Indexes.object;
-	public Shader shader = null;
+	public boolean 	keysObject = false;
+	public boolean 	touchObject = false;
+	public boolean 	allTouchObject = false;
+	
+	public boolean 	visible  = true;
+	public float 	lifeTime = Float.MAX_VALUE;
+	public Vector2 	position = new Vector2(0.0f, 0.0f);
+	public float 	angle 	 = 0.0f;
+	public Vector2 	scale 	 = new Vector2(1.0f, 1.0f);
+	public Color 	color 	 = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+	public int 		zIndex 	 = Indexes.object;
+	
+	public Shader 	shader = null;
 
 	public RegionID regionID = RegionID.NONE;
 	public TextureRegion region = null;
@@ -189,8 +192,15 @@ public class Object {
 		return false;
 	}
 	
+	protected float dTime = 0.0f;
+	
 	//update and draw
 	public void update(float deltaTime){
+		dTime += deltaTime;
+		if (dTime > lifeTime) {
+			RaniaGame.mController.removeObject(this);
+			RaniaGame.mController.removeHUDObject(this);
+		}
 	}
 	
 	public boolean setShader(SpriteBatch sprite){

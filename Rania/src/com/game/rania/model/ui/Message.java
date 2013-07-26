@@ -8,26 +8,15 @@ import com.game.rania.model.element.RegionID;
 
 public class Message extends Object{
 
-	private float time = 0.0f;
-	private float delay = 0.0f;
 	private Text  text = null;
 	
-	public Message(RegionID id, float x, float y, Text text, float delay) {
+	public Message(RegionID id, float x, float y, Text text, float lifeTime) {
 		super(id, x, y);
 		this.text = text;
-		this.delay = delay;
+		this.lifeTime = lifeTime;
 		touchObject = true;
 	}
 
-	@Override
-	public void update(float deltaTime){
-		time += deltaTime;
-		
-		if (delay < time){
-			RaniaGame.mController.removeHUDObject(this);
-		}
-	}
-	
 	@Override
 	public boolean draw(SpriteBatch sprite){
 		if (!super.draw(sprite))

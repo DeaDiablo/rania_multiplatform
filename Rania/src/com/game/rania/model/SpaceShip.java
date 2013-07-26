@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
+import com.game.rania.model.element.Font;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.items.Consumable;
@@ -70,6 +71,7 @@ public class SpaceShip extends Object{
 	
 	@Override
 	public void update(float deltaTime){
+		super.update(deltaTime);
 		if (!move || fuel == null)
 			return;
 
@@ -215,13 +217,32 @@ public class SpaceShip extends Object{
     public void damage(Equip<?> equip, int value)
     {
     	equip.wear = Math.max(0, equip.wear - value);
+    	
     	if (equip == body && equip.wear <= 0)
     		crashSpaceShip(10);
+    	
+    	String text = String.valueOf(value);
+    	if (value == 0)
+    		text = "miss";
+    	Text infoText = new Text(text, Font.getFont("data/fonts/Arial.ttf", 35), new Color(1.0f, 0.2f, 0.1f, 1.0f), position.x, position.y);
+    	infoText.lifeTime = 0.5f;
+    	infoText.zIndex = Indexes.infoText;
+    	infoText.setAlign(Align.LEFT, Align.BOTTOM);
+    	RaniaGame.mController.addObject(infoText);
     }
     
     public void repair(Equip<Device> equip, int value)
     {
     	equip.wear = Math.min(equip.item.durability, equip.wear + value);
+    	
+    	String text = String.valueOf(value);
+    	if (value == 0)
+    		text = "miss";
+    	Text infoText = new Text(text, Font.getFont("data/fonts/Arial.ttf", 35), new Color(0.2f, 1.0f, 0.1f, 1.0f), position.x, position.y);
+    	infoText.lifeTime = 0.5f;
+    	infoText.zIndex = Indexes.infoText;
+    	infoText.setAlign(Align.LEFT, Align.BOTTOM);
+    	RaniaGame.mController.addObject(infoText);
     }
 
     public void unFuel(int f)
@@ -306,6 +327,6 @@ public class SpaceShip extends Object{
     			weap.wear = 0;
     	}
     	
-    	RaniaGame.mController.removeObject(this);
+    	lifeTime = 0.0f;
     }
 }

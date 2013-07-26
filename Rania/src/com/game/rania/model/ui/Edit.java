@@ -144,6 +144,8 @@ public class Edit extends Object{
 	
 	@Override
 	public void update(float deltaTime){
+		super.update(deltaTime);
+		
 		if (readOnly)
 			return;
 			

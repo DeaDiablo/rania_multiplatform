@@ -71,6 +71,7 @@ public class SpaceShip extends Object{
 	
 	@Override
 	public void update(float deltaTime){
+		super.update(deltaTime);
 		if (!move || fuel == null)
 			return;
 

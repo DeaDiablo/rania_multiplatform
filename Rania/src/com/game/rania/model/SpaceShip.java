@@ -231,9 +231,9 @@ public class SpaceShip extends Object{
     	RaniaGame.mController.addObject(infoText);
     }
     
-    public void repair(Equip<Device> equip, int value)
+    public void repair(Equip<?> equip, int value)
     {
-    	equip.wear = Math.min(equip.item.durability, equip.wear + value);
+    	equip.wear = equip.wear + value;
     	
     	String text = String.valueOf(value);
     	if (value == 0)
@@ -241,7 +241,7 @@ public class SpaceShip extends Object{
     	Text infoText = new Text(text, Font.getFont("data/fonts/Arial.ttf", 35), new Color(0.2f, 1.0f, 0.1f, 1.0f), position.x, position.y);
     	infoText.lifeTime = 0.5f;
     	infoText.zIndex = Indexes.infoText;
-    	infoText.setAlign(Align.LEFT, Align.BOTTOM);
+    	infoText.setAlign(Align.RIGHT, Align.BOTTOM);
     	RaniaGame.mController.addObject(infoText);
     }
 

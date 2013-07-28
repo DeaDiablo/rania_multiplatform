@@ -62,7 +62,7 @@ public class SkillsPanel extends Group implements Part{
 		   			int skillCount = skills.size();
 		   			int i=0;
 		   			for (Equip<Weapon> wpn :player.weapon.values()) {
-		   				if (i==skillCount) {  // тут надо чета делать что бы выбрать нужный итем. 
+		   				if (i==0) {  // тут надо чета делать что бы выбрать нужный итем. 
 		   					switch (wpn.item.weaponType) {
 		   						case Weapon.Type.Laser: {
 		   							RaniaGame.mController.addObject(new Laser(player, player.target, player.domain.color));
@@ -102,7 +102,7 @@ public class SkillsPanel extends Group implements Part{
 		   			int skillCount = skills.size();
 		   			int i=0;
 		   			for (Equip<Droid> drd :player.droid.values()) {
-		   				if (i==skillCount) {  // тут надо чета делать что бы выбрать нужный итем. 
+		   				if (i==0) {  // тут надо чета делать что бы выбрать нужный итем. 
 		   					RaniaGame.mController.addObject(new Repair(player, player.target, player.domain.color));
 		   					nController.sendUseEquip(drd.id);
 		   					break;

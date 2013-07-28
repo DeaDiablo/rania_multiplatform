@@ -28,14 +28,9 @@ public class Rocket extends Ammunition{
 		angle = (float)Math.toDegrees(Math.atan2(-(target.position.x - attacker.position.x), (target.position.y - attacker.position.y)));
 		if (region != null) {
 			if (dTime < flyingTime) {
-				float progress = dTime/flyingTime;
-				float lenX = target.position.x - attacker.position.x; 
-				float lenY = target.position.y - attacker.position.y;
-				float shiftX = lenX * progress;
-				float shiftY = lenY * progress;
-				pos.x = attacker.position.x + shiftX;
-				pos.y = attacker.position.y + shiftY;
-				position.set(pos);
+				float progress = dTime / flyingTime;
+				position.set(attacker.position.x + (target.position.x - attacker.position.x) * progress,
+							 attacker.position.y + (target.position.y - attacker.position.y) * progress);
 			}
 		}
 	}

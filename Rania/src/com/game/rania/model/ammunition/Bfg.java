@@ -25,12 +25,10 @@ public class Bfg extends Ammunition{
 		position.set(target.position);
 		if (region != null) {
 			if (dTime < rotateTime) {
-				float progress = dTime/rotateTime;
-				float rotate = 3.14159f*4.0f*progress;
-				color.a = (1.0f-progress);
-				scale.x = (1.0f-progress);
-				scale.y = (1.0f-progress);
-				angle = (float)Math.toDegrees(rotate);
+				float progress = dTime / rotateTime;
+				color.a = (1.0f - progress);
+				scale.set(1.0f - progress, 1.0f - progress);
+				angle = (float)Math.toDegrees(2.0f * Math.PI * progress);
 			}
 		}
 	}

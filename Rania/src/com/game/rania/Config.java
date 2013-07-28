@@ -6,7 +6,7 @@ public class Config {
 	public static String    logFile       = "rania.log";
 	public static String    serverAddress = "92.255.251.88";
 	public static int       serverPort    = 7777;
-  //public static String    serverAddress = "127.0.0.1";
+	//public static String    serverAddress = "127.0.0.1";
 	//public static int       serverPort    = 7776;
 	public static String  autoLogin     = "traider";
 	public static String  autoPassword  = "SNmLwpLn";

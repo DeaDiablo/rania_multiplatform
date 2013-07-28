@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
+import com.game.rania.model.ammunition.DeadShip;
 import com.game.rania.model.element.Font;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
@@ -218,9 +219,10 @@ public class SpaceShip extends Object{
     {
     	equip.wear = Math.max(0, equip.wear - value);
     	
-    	if (equip == body && equip.wear <= 0)
+    	if (equip == body && equip.wear <= 0) {
     		crashSpaceShip(10);
-    	
+    		RaniaGame.mController.addObject(new DeadShip(this));
+    	}
     	String text = String.valueOf(value);
     	if (value == 0)
     		text = "miss";

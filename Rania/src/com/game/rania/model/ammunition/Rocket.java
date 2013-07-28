@@ -7,32 +7,36 @@ import com.game.rania.model.element.RegionID;
 
 public class Rocket extends Ammunition{
 
-	protected static final float rocketTime = 0.5f;
+	protected static final float rocketTime = 2.0f;
 	
 	protected Object attacker, target;
 	
 	public Rocket(Object attacker, Object target, Color rocketColor){
-		super(rocketTime, RegionID.LASER, 0, 0);
+		super(rocketTime, RegionID.ROCKET, 0, 0);
 		this.attacker = attacker;
 		this.target = target;
 		color.set(rocketColor);
-		vAlign = Align.TOP;
+		vAlign = Align.CENTER;
 	}
 	
-	protected Vector2 scaleY = new Vector2();
-	protected static final float scaleTime = 0.15f;
+	protected Vector2 pos = new Vector2();
+	protected static final float flyingTime = 2.0f;
 	
 	@Override
 	public void update(float delta){
 		super.update(delta);
-		position.set(attacker.position);
 		angle = (float)Math.toDegrees(Math.atan2(-(target.position.x - attacker.position.x), (target.position.y - attacker.position.y)));
 		if (region != null) {
-			scaleY.set(target.position);
-			scaleY.sub(attacker.position);
-			if (dTime < scaleTime)
-				scaleY.mul(dTime / scaleTime);
-			scale.set(1.0f, scaleY.len() / region.getRegionHeight());
+			if (dTime < flyingTime) {
+				float progress = dTime/flyingTime;
+				float lenX = target.position.x - attacker.position.x; 
+				float lenY = target.position.y - attacker.position.y;
+				float shiftX = lenX * progress;
+				float shiftY = lenY * progress;
+				pos.x = attacker.position.x + shiftX;
+				pos.y = attacker.position.y + shiftY;
+				position.set(pos);
+			}
 		}
 	}
 }

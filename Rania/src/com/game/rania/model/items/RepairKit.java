@@ -1,5 +1,7 @@
 package com.game.rania.model.items;
 
+import com.game.rania.RaniaGame;
+import com.game.rania.model.ammunition.Repair;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 
@@ -24,6 +26,7 @@ public class RepairKit extends Device{
 	
 	@Override
 	public boolean use(Object user, Object target){
-		return false;
+		RaniaGame.mController.addObject(new Repair(user, target, color));
+		return true;
 	}
 }

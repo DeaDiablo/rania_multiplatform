@@ -28,6 +28,9 @@ public class Player extends User{
 	public void update(float deltaTime){
 		super.update(deltaTime);
 		target.update(deltaTime);
+		
+		//for(Equip<Weapon> equip : weapon.values())
+			//equip.updateCooldown();
 	}
 	
 	@Override

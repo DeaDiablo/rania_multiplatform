@@ -121,8 +121,8 @@ public class SpaceShip extends Object{
 	public Equip<Hyper>   hyper   = null;
 	public Equip<Shield>  shield  = null;
 	public Equip<Body> 	  body 	  = null;
-	public HashMap<Integer, Equip<Weapon>>  	weapon  = new HashMap<Integer, Equip<Weapon>>();
-	public HashMap<Integer, Equip<RepairKit>>   droid   = new HashMap<Integer, Equip<RepairKit>>();
+	public HashMap<Integer, Equip<Weapon>>  	weapon  	= new HashMap<Integer, Equip<Weapon>>();
+	public HashMap<Integer, Equip<RepairKit>>   repairKit   = new HashMap<Integer, Equip<RepairKit>>();
 	
 	public HashMap<Integer, Equip<Item>> inventory = new HashMap<Integer, Equip<Item>>();
 	
@@ -193,7 +193,7 @@ public class SpaceShip extends Object{
 
                 if (equip.item.getClass() == RepairKit.class) 
                 {
-                	this.droid.put(equip.id, new Equip<RepairKit>(equip, RepairKit.class));
+                	this.repairKit.put(equip.id, new Equip<RepairKit>(equip, RepairKit.class));
                 	continue;
                 }
             }
@@ -314,7 +314,7 @@ public class SpaceShip extends Object{
         		this.shield.wear = 0;
         }
     	
-        for (Equip<RepairKit> dr : this.droid.values())
+        for (Equip<RepairKit> dr : this.repairKit.values())
     	{
     		dr.wear = dr.wear - (int)((double)dr.item.durability * percent / 100);
     		if (dr.wear < 0) 

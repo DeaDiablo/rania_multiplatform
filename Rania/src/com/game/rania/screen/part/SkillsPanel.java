@@ -10,6 +10,7 @@ import com.game.rania.controller.LocationController;
 import com.game.rania.model.element.Group;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.items.Equip;
+import com.game.rania.model.items.RepairKit;
 import com.game.rania.model.items.Weapon;
 import com.game.rania.model.ui.SkillButton;
 import com.game.rania.view.MainView;
@@ -40,6 +41,11 @@ public class SkillsPanel extends Group implements Part{
 
 		int i = 0;
 		for(Equip<Weapon> equip : lController.getPlayer().weapon.values()) {
+			skills.add(new SkillButton(equip, -halfWidth * 0.9f, -halfHeight * 0.2f * i, Input.Keys.NUM_1 + i));
+			i++;
+		}
+		
+		for(Equip<RepairKit> equip : lController.getPlayer().repairKit.values()) {
 			skills.add(new SkillButton(equip, -halfWidth * 0.9f, -halfHeight * 0.2f * i, Input.Keys.NUM_1 + i));
 			i++;
 		}

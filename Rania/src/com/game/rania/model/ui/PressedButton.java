@@ -23,26 +23,22 @@ public class PressedButton extends Button{
 
 	@Override
 	public boolean touchDown(float x, float y) {
-		if (!visible)
+		if (!super.touchDown(x, y))
 			return false;
 		FocusElement.setFocus(this);
 		return true;
 	}
-
-	@Override
-	public boolean touchUp(float x, float y) {		
-		return use();
-	}
 	
 	@Override
-	public boolean keyUp(int keycode) {
-		return use();
+	public boolean keyDown(int keyCode) {
+		if (!super.keyDown(keyCode))
+			return false;
+		FocusElement.setFocus(this);
+		return true;
 	}
 	
 	@Override
 	public boolean use(){
-		if (!visible)
-			return false;
 		if (FocusElement.getFocus() != this)
 			return false;
 

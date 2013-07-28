@@ -23,27 +23,9 @@ public class RadioButton extends Button{
 	public RadioButton(RegionID regionOff, RegionID regionOn, float x, float y, Text text) {
 		super(regionOff, regionOn, x, y, text, null);
 	}
-
-	@Override
-	public boolean touchDown(float x, float y) {
-		return true;
-	}
-
-	@Override
-	public boolean touchUp(float x, float y) {		
-		return use();
-	}
-	
-	@Override
-	public boolean keyUp(int keycode) {
-		return use();
-	}
 	
 	@Override
 	public boolean use(){
-		if (!visible)
-			return false;
-
 		if (radio == true)
 			return true;
 

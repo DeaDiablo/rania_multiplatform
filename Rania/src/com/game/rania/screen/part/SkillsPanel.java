@@ -40,7 +40,8 @@ public class SkillsPanel extends Group implements Part{
 
 		int i = 0;
 		for(Equip<Weapon> equip : lController.getPlayer().weapon.values()) {
-			skills.add(new SkillButton(equip, -halfWidth * 0.9f, -halfHeight * 0.15f * i, Input.Keys.NUM_1 + i));
+			skills.add(new SkillButton(equip, -halfWidth * 0.9f, -halfHeight * 0.2f * i, Input.Keys.NUM_1 + i));
+			i++;
 		}
 		
 		for (SkillButton skill : skills) {

@@ -52,6 +52,41 @@ public abstract class Button extends Object{
 	public boolean checkButton(){
 		return (FocusElement.getFocus() == this);
 	}
+
+	@Override
+	public boolean touchDown(float x, float y) {
+		if (!visible)
+			return false;
+		return true;
+	}
+	
+	@Override
+	public boolean touchUp(float x, float y) {
+		if (!visible)
+			return false;
+		return use();
+	}
+	
+	@Override
+	public boolean keyDown(int keycode) {
+		if (!visible || keycode != keyCode)
+			return false;
+		return true;
+	}
+	
+	@Override
+	public boolean keyTyped(char character) {
+		if (!visible)
+			return false;
+		return true;
+	}
+	
+	@Override
+	public boolean keyUp(int keycode) {
+		if (!visible || keycode != keyCode)
+			return false;
+		return use();
+	}
 	
 	public abstract boolean use();
 }

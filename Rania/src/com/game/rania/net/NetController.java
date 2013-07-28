@@ -17,6 +17,7 @@ import com.game.rania.controller.command.AddUserCommand;
 import com.game.rania.controller.command.AttackCommand;
 import com.game.rania.controller.command.ChatNewMessageCommand;
 import com.game.rania.controller.command.RemoveUserCommand;
+import com.game.rania.controller.command.RepairCommand;
 import com.game.rania.controller.command.SetTargetCommand;
 import com.game.rania.controller.command.SwitchScreenCommand;
 import com.game.rania.model.Domain;
@@ -50,7 +51,7 @@ public class NetController {
 	private Receiver receiver = null;
 	private CommandController cController = null;
 	private Client mClient = null;
-	private int ProtocolVersion = 8;
+	private int ProtocolVersion = 9;
 	
 	public NetController(CommandController commandController){
 		cController = commandController;
@@ -330,6 +331,7 @@ public class NetController {
 							{
 								int droid_power 	  = GetIntValue(ArrPtr);
 								int droid_time_reload = GetIntValue(ArrPtr);
+								int radius = GetIntValue(ArrPtr);
 								Droid droid 		= new Droid();
 								droid.id 			= item_id;
 								droid.itemType 		= item_itemType;
@@ -343,7 +345,8 @@ public class NetController {
 								droid.use_only 		= item_use_only;
 								droid.price 		= item_price;
 								droid.power 		= droid_power;
-								droid.time_reload 	= droid_time_reload;
+								droid.time_reload 	= radius;
+								droid.radius 	= droid_time_reload;
 								iCollect.droids.put(droid.id, droid);
 								break;
 							}
@@ -763,6 +766,8 @@ public class NetController {
 					}
 					case User.Action.repair:
 					{
+						int rapair = GetIntValue(ArrPtr);
+						cController.addCommand(new RepairCommand(userID, targetID, equipID, rapair));
 						break;
 					}
 				}

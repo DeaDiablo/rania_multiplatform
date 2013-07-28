@@ -3,26 +3,25 @@ package com.game.rania.model.items;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 
-public class Body extends Device{
+public class RepairKit extends Device{
 
-	public int slot_weapons;
-	public int slot_droids;
-	public int slot_shield;
-	public int slot_hyper;
-	
-	public Body(){
+	public int power;
+	public int time_reload;
+	public int radius;
+
+	public RepairKit() {
 		super();
 	}
-
-	public Body(Device device) {
+	
+	public RepairKit(Device device) {
 		super(device);
-	}	
+	}
 	
 	@Override
 	public RegionID getIconID(){
-		return RegionID.NONE;
+		return RegionID.REPAIR_KIT_SKILL;
 	}
-
+	
 	@Override
 	public boolean use(Object user, Object target){
 		return false;

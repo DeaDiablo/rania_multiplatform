@@ -55,9 +55,9 @@ public class LocationController {
 		mView.loadTexture("data/backgrounds/stars.png",    RegionID.BACKGROUND_STARS);
 
 		mView.loadTexture("data/ammunition/laser.png",     RegionID.LASER);
-		mView.loadTexture("data/ammunition/rocket.png",     RegionID.ROCKET);
-		mView.loadTexture("data/ammunition/repair.png",     RegionID.REPAIR);
-		mView.loadTexture("data/ammunition/bfg.png",     RegionID.BFG);
+		mView.loadTexture("data/ammunition/rocket.png",    RegionID.ROCKET);
+		mView.loadTexture("data/ammunition/repair.png",    RegionID.REPAIR);
+		mView.loadTexture("data/ammunition/bfg.png",       RegionID.BFG);
 	}
 
 	//list objects

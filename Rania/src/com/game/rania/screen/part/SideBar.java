@@ -67,14 +67,6 @@ public class SideBar extends Group implements Part{
 		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHANNEL_DOMAIN_ON, 288, 96, 96,  96, false);
 		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHANNEL_PRIVATE_OFF,  0, 192, 96,  96, false);
 		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHANNEL_PRIVATE_ON, 0, 288, 96,  96, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_SKILL_LASER_OFF, 96, 192, 96,  96, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_SKILL_LASER_ON, 96, 288, 96,  96, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_SKILL_ROCKET_OFF, 384, 0, 96,  96, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_SKILL_ROCKET_ON, 384, 96, 96,  96, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_SKILL_BFG_OFF, 384, 192, 96,  96, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_SKILL_BFG_ON, 384, 288, 96,  96, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_SKILL_DROID_OFF, 0, 384, 96,  96, false);
-		mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_SKILL_DROID_ON, 0, 480, 96,  96, false);
 		mView.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_OFF, 0,   0, 450, 100, false);
 		mView.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_ON,  0, 100, 450, 100, false);
 		mView.loadTexture("data/gui/ui_exit.png", RegionID.BTN_UI_EXIT_OFF, 0,   0, 450, 100, false);

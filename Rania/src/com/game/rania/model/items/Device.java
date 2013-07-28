@@ -1,6 +1,6 @@
 package com.game.rania.model.items;
 
-public class Device extends Item {
+public abstract class Device extends Item {
 	
 	public class Type {
 		public static final int none          = 0;

@@ -3,7 +3,7 @@ package com.game.rania.controller.command;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.MainController;
 import com.game.rania.model.User;
-import com.game.rania.model.items.Droid;
+import com.game.rania.model.items.RepairKit;
 import com.game.rania.model.items.Equip;
 
 public class RepairCommand extends ControllerCommand{
@@ -24,7 +24,7 @@ public class RepairCommand extends ControllerCommand{
 	public void update(MainController controller, float deltaTime) {
 		User user   = Controllers.locController.getUser(userID);
 		User target = Controllers.locController.getUser(targetID);
-		Equip<Droid> droid = null;
+		Equip<RepairKit> droid = null;
 		if (user != null)
 			droid = user.droid.get(equipID);
 		

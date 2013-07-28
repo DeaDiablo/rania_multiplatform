@@ -30,7 +30,17 @@ public class PressedButton extends Button{
 	}
 
 	@Override
-	public boolean touchUp(float x, float y) {
+	public boolean touchUp(float x, float y) {		
+		return use();
+	}
+	
+	@Override
+	public boolean keyUp(int keycode) {
+		return use();
+	}
+	
+	@Override
+	public boolean use(){
 		if (!visible)
 			return false;
 		if (FocusElement.getFocus() != this)
@@ -39,6 +49,7 @@ public class PressedButton extends Button{
 		FocusElement.clearFocus();
 		if (action != null)
 			action.execute(true);
+
 		return true;
 	}
 }

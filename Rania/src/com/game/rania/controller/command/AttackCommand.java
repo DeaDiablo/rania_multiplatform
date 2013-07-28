@@ -3,7 +3,6 @@ package com.game.rania.controller.command;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.MainController;
 import com.game.rania.model.User;
-import com.game.rania.model.ammunition.Laser;
 import com.game.rania.model.items.Equip;
 import com.game.rania.model.items.Weapon;
 
@@ -12,7 +11,7 @@ public class AttackCommand extends ControllerCommand{
 	private int userID 	 = -1;
 	private int targetID = -1;
 	private int equipID  = -1;
-	private int damage   = 0;
+	private int damage   =  0;
 	
 	public AttackCommand(int userID, int targetID, int equipID, int dmg){
 		this.userID = userID;
@@ -31,10 +30,10 @@ public class AttackCommand extends ControllerCommand{
 		
 		if (weapon == null || target == null)
 			return;
-
+		
 		target.damage(target.body, damage);
 		if (user != Controllers.locController.getPlayer())
-			controller.addObject(new Laser(user, target, user.domain.color));
+			weapon.item.use(user, target);
 	}
 
 }

@@ -13,7 +13,7 @@ import com.game.rania.model.element.Font;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.items.Consumable;
-import com.game.rania.model.items.Droid;
+import com.game.rania.model.items.RepairKit;
 import com.game.rania.model.items.Engine;
 import com.game.rania.model.items.Equip;
 import com.game.rania.model.items.Fuelbag;
@@ -121,8 +121,8 @@ public class SpaceShip extends Object{
 	public Equip<Hyper>   hyper   = null;
 	public Equip<Shield>  shield  = null;
 	public Equip<Body> 	  body 	  = null;
-	public HashMap<Integer, Equip<Weapon>>  weapon  = new HashMap<Integer, Equip<Weapon>>();
-	public HashMap<Integer, Equip<Droid>>   droid   = new HashMap<Integer, Equip<Droid>>();
+	public HashMap<Integer, Equip<Weapon>>  	weapon  = new HashMap<Integer, Equip<Weapon>>();
+	public HashMap<Integer, Equip<RepairKit>>   droid   = new HashMap<Integer, Equip<RepairKit>>();
 	
 	public HashMap<Integer, Equip<Item>> inventory = new HashMap<Integer, Equip<Item>>();
 	
@@ -191,9 +191,9 @@ public class SpaceShip extends Object{
                 	continue;
                 }
 
-                if (equip.item.getClass() == Droid.class) 
+                if (equip.item.getClass() == RepairKit.class) 
                 {
-                	this.droid.put(equip.id, new Equip<Droid>(equip, Droid.class));
+                	this.droid.put(equip.id, new Equip<RepairKit>(equip, RepairKit.class));
                 	continue;
                 }
             }
@@ -314,7 +314,7 @@ public class SpaceShip extends Object{
         		this.shield.wear = 0;
         }
     	
-        for (Equip<Droid> dr : this.droid.values())
+        for (Equip<RepairKit> dr : this.droid.values())
     	{
     		dr.wear = dr.wear - (int)((double)dr.item.durability * percent / 100);
     		if (dr.wear < 0) 

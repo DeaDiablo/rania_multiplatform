@@ -1,6 +1,7 @@
 package com.game.rania.model.items;
 
 import com.game.rania.model.element.Object;
+import com.game.rania.model.element.RegionID;
 
 public abstract class Item extends Object{
 
@@ -24,6 +25,9 @@ public abstract class Item extends Object{
 		use_only 	= item.use_only;
 		price 		= item.price;
 	}
+	
+	public abstract RegionID getIconID();
+	public abstract boolean use(Object user, Object target);
 
 	public int id;
     public int itemType;

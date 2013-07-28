@@ -29,7 +29,7 @@ import com.game.rania.model.Location;
 import com.game.rania.model.Planet;
 import com.game.rania.model.items.Consumable;
 import com.game.rania.model.items.Device;
-import com.game.rania.model.items.Droid;
+import com.game.rania.model.items.RepairKit;
 import com.game.rania.model.items.Engine;
 import com.game.rania.model.items.Equip;
 import com.game.rania.model.items.Fuelbag;
@@ -332,7 +332,7 @@ public class NetController {
 								int droid_power 	  = GetIntValue(ArrPtr);
 								int droid_time_reload = GetIntValue(ArrPtr);
 								int radius = GetIntValue(ArrPtr);
-								Droid droid 		= new Droid();
+								RepairKit droid 		= new RepairKit();
 								droid.id 			= item_id;
 								droid.itemType 		= item_itemType;
 								droid.description 	= item_description;

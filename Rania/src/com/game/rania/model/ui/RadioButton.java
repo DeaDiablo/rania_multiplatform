@@ -30,15 +30,25 @@ public class RadioButton extends Button{
 	}
 
 	@Override
-	public boolean touchUp(float x, float y) {
+	public boolean touchUp(float x, float y) {		
+		return use();
+	}
+	
+	@Override
+	public boolean keyUp(int keycode) {
+		return use();
+	}
+	
+	@Override
+	public boolean use(){
+		if (!visible)
+			return false;
+
 		if (radio == true)
 			return true;
-		
+
 		radio = true;
-		
-		if (group != null)
-			group.updateChecks(this);
-		
+
 		if (action != null)
 			action.execute(radio);
 		

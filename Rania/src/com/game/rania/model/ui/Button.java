@@ -13,6 +13,7 @@ public abstract class Button extends Object{
 	protected Text			text		  = null;
 	protected TextureRegion regionOn      = null;
 	protected TouchAction	action        = null;
+	protected int			keyCode		  = 0;
 	
 	public Button(RegionID regionOff, RegionID regionOn, float x, float y, Text text, TouchAction action){
 		super(regionOff, x, y);
@@ -21,6 +22,15 @@ public abstract class Button extends Object{
 		this.action = action;
 		touchObject = true;
 		zIndex = Indexes.button;
+	}
+	
+	public void setKey(int keyCode){
+		this.keyCode = keyCode;
+		keysObject = true;
+	}
+	
+	public int getKey(){
+		return keyCode;
 	}
 	
 	@Override
@@ -42,4 +52,6 @@ public abstract class Button extends Object{
 	public boolean checkButton(){
 		return (FocusElement.getFocus() == this);
 	}
+	
+	public abstract boolean use();
 }

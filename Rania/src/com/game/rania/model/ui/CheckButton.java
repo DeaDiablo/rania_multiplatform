@@ -27,9 +27,22 @@ public class CheckButton extends Button{
 	public boolean touchDown(float x, float y) {
 		return true;
 	}
-
+	
 	@Override
-	public boolean touchUp(float x, float y) {
+	public boolean touchUp(float x, float y) {		
+		return use();
+	}
+	
+	@Override
+	public boolean keyUp(int keycode) {
+		return use();
+	}
+	
+	@Override
+	public boolean use(){
+		if (!visible)
+			return false;
+
 		check = !check;
 		
 		if (action != null)

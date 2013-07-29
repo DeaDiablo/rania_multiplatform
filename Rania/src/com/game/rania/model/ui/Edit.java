@@ -269,6 +269,8 @@ public class Edit extends Object{
 	public boolean keyTyped(char character) {
 		if (readOnly)
 			return true;
+		if (character == '\n' || character == '\r')
+			return true;
 		changeText(text.content.substring(0, cursorPos) + character + text.content.substring(cursorPos));
 		cursorPos++;
 		return true;

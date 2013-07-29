@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.badlogic.gdx.Gdx;
 import com.game.rania.net.NetController;
 
 public class IOStream{
@@ -57,13 +58,14 @@ public class IOStream{
 		oStream.write(data);
 		oStream.flush();
 	}
+	
 	private int CRC(byte[] data)
-  {
-      int res = 0;
-      for (int i = 0; i < data.length; i++)
-      {
-          res = res + (data[i] * (i));
-      }
-      return res;
-  }
+	{
+	    int res = 0;
+	    for (int i = 0; i < data.length; i++)
+	    {
+	        res = res + (data[i] * (i));
+	    }
+	    return res;
+	}
 }

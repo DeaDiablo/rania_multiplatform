@@ -619,7 +619,7 @@ public class NetController {
 			mClient.stream.sendCommand(Command.player);
 			Command command = waitCommand(Command.player);
 			CommandReader ArrPtr = new CommandReader(command);
-			int UserId 	 	 = GetIntValue( ArrPtr);			
+			int UserId 	 	 = GetIntValue(ArrPtr);
 			int UserX 		 = GetIntValue(ArrPtr);
 			int UserY 		 = GetIntValue(ArrPtr);
 			int UserDomain 	 = GetIntValue(ArrPtr);

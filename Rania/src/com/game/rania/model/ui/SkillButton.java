@@ -21,9 +21,9 @@ public class SkillButton extends PressedButton{
 			@Override
 			public void execute(boolean touch) {
 				Player player = Controllers.locController.getPlayer();
-				if (player.body.wear<=0||skillEquip.wear<=0)
+				if (player.body.wear <= 0 || skillEquip.wear <= 0)
 					return;
-				int itemType =  skillEquip.item.itemType;
+				int itemType = skillEquip.item.itemType;
 				switch (itemType) {
 					case Item.Type.device: {
 						Device dev = (Device)skillEquip.item;

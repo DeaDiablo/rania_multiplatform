@@ -150,7 +150,7 @@ public class NetController {
 					mClient.serverTime = GetIntValue(ArrPtr);
 					receiver = new Receiver(mClient, this);
 					receiver.start();
-					if (ArrPtr.controlCRC != ArrPtr.crc)
+					if (command.controlCRC != ArrPtr.crc)
 					{
 						Gdx.app.log("CRC error", "Login");
 					}
@@ -457,7 +457,7 @@ public class NetController {
 					}
 				}
 			}
-			if (ArrPtr.controlCRC != ArrPtr.crc)
+			if (command.controlCRC != ArrPtr.crc)
 			{
 				Gdx.app.log("CRC error", "getItem");
 			}
@@ -502,7 +502,7 @@ public class NetController {
 				planet.atmophereColor = atmColor;
 				planets.put(PlanetId, planet);
 			}
-			if (ArrPtr.controlCRC != ArrPtr.crc)
+			if (command.controlCRC != ArrPtr.crc)
 			{
 				Gdx.app.log("CRC error", "getPlanet");
 			}
@@ -536,7 +536,7 @@ public class NetController {
 				Loc.domain 	 	= GetIntValue(ArrPtr);
 				locations.put(Loc.id, Loc);
 			}
-			if (ArrPtr.controlCRC != ArrPtr.crc)
+			if (command.controlCRC != ArrPtr.crc)
 			{
 				Gdx.app.log("CRC error", "getLocations");
 			}
@@ -568,7 +568,7 @@ public class NetController {
 				Nebula Neb 	 = new Nebula(NebId, NebType, NebX, NebY, NebAngle, NebScale);
 				nebulas.put(Neb.id, Neb);
 			}
-			if (ArrPtr.controlCRC != ArrPtr.crc)
+			if (command.controlCRC != ArrPtr.crc)
 			{
 				Gdx.app.log("CRC error", "getNebulas");
 			}
@@ -600,7 +600,7 @@ public class NetController {
 				domain.y 		  = GetIntValue(ArrPtr);
 				domains.put(domain.id, domain);
 			}
-			if (ArrPtr.controlCRC != ArrPtr.crc)
+			if (command.controlCRC != ArrPtr.crc)
 			{
 				Gdx.app.log("CRC error", "getDomains");
 			}
@@ -630,7 +630,7 @@ public class NetController {
 			String SName 	 = GetStringValue(ArrPtr, SnameLen);			
 			Player player 	 = new Player(UserId, UserX, UserY, PName, SName, UserDomain, UserInPlanet);
 			player.setEquips(getEquips(ArrPtr));
-			if (ArrPtr.controlCRC != ArrPtr.crc)
+			if (command.controlCRC != ArrPtr.crc)
 			{
 				Gdx.app.log("CRC error", "getUserData");
 			}
@@ -693,7 +693,7 @@ public class NetController {
 				user.setPositionTarget(TargetX, TargetY);
 				user.setEquips(getEquips(ArrPtr));
 				cController.addCommand(new AddUserCommand(user));
-				if (ArrPtr.controlCRC != ArrPtr.crc)
+				if (command.controlCRC != ArrPtr.crc)
 				{
 					Gdx.app.log("CRC error", "addUser");
 				}
@@ -706,7 +706,7 @@ public class NetController {
 				int UserTouchX 		  = GetIntValue(ArrPtr);
 				int UserTouchY 	      = GetIntValue(ArrPtr);
 				cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY));
-				if (ArrPtr.controlCRC != ArrPtr.crc)
+				if (command.controlCRC != ArrPtr.crc)
 				{
 					Gdx.app.log("CRC error", "touchUser");
 				}
@@ -743,7 +743,7 @@ public class NetController {
 				int 	toPilotLen 	 = GetIntValue(ArrPtr);
 				String 	toPilot 	 = GetStringValue(ArrPtr, toPilotLen);
 				cController.addCommand(new ChatNewMessageCommand(userName, channel, message, toPilot));
-				if (ArrPtr.controlCRC != ArrPtr.crc)
+				if (command.controlCRC != ArrPtr.crc)
 				{
 					Gdx.app.log("CRC error", "getMessage");
 				}
@@ -799,7 +799,7 @@ public class NetController {
 					planet.price_coef = PlanetPrice_coef;
 					cController.addCommand(new AddPlanetCommand(planet));
 				}
-				if (ArrPtr.controlCRC != ArrPtr.crc)
+				if (command.controlCRC != ArrPtr.crc)
 				{
 					Gdx.app.log("CRC error", "getPlanets");
 				}
@@ -954,7 +954,6 @@ public class NetController {
 	{
 		public int address;
 		public byte[] data;
-		public int controlCRC;
 		public int crc;
 		public boolean endOfData;
 		
@@ -962,7 +961,6 @@ public class NetController {
 		{
 			this.data = null;
 			this.address = 0;
-			this.controlCRC = 0;
 			this.crc = 0;
 			this.endOfData= false; 
 		}
@@ -977,10 +975,10 @@ public class NetController {
 		
 		public void delta(int delta)
 		{
-			for (int i=0;i<delta;i++)
+			for (int i = 0; i < delta; i++)
 			{
 				char b = (char)(this.data[this.address+i]&0xFF);
-				this.crc=this.crc + b * (this.address+i);
+				this.crc = this.crc + b * (this.address+i);
 			}
 			this.address += delta;
 			if (this.address == data.length)

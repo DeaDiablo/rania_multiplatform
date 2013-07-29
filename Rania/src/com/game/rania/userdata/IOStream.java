@@ -24,8 +24,9 @@ public class IOStream{
 		int idCommand = iStream.readInt();
 		int controlCRC = iStream.readInt();
 		int len = iStream.readInt();
+		Gdx.app.log("len",String.valueOf(idCommand) + " " + String.valueOf(len) + " " + String.valueOf(controlCRC));
 		byte[] data = new byte[len];
-		iStream.read(data);			
+		iStream.read(data);
 		return new Command(idCommand, len, data, controlCRC);
 	}
 	
@@ -45,6 +46,7 @@ public class IOStream{
 	}
 	
 	public void sendCommand(int commandID) throws IOException{
+		Gdx.app.log("send",String.valueOf(commandID));
 		oStream.write(NetController.intToByteArray(commandID));
 		oStream.write(NetController.intToByteArray(0));
 		oStream.write(NetController.intToByteArray(0));

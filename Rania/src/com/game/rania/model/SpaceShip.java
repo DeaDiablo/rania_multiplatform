@@ -64,7 +64,7 @@ public class SpaceShip extends Object{
 		moveVec.set(targetPosition);
 		moveVec.sub(position);
 		moveVec.nor();
-		moveVec.mul(100);
+		moveVec.scl(100);
 
 		move = true;
 	}
@@ -83,7 +83,7 @@ public class SpaceShip extends Object{
 		}
 		
 		addVec.set(moveVec);
-		addVec.mul(deltaTime * maxSpeed);
+		addVec.scl(deltaTime * maxSpeed);
 
 		if (!targetPosition.epsilonEquals(position, addVec.len()))
 			position.add(addVec);
@@ -96,19 +96,19 @@ public class SpaceShip extends Object{
 	public boolean draw(ShapeRenderer shape){
 		if (!visible || region == null)
 			return false;
-		shape.begin(ShapeType.FilledRectangle);
+		shape.begin(ShapeType.Filled);
 		float maxSize = Math.max(region.getRegionWidth(), region.getRegionHeight());
 		if (body != null) {
 			shape.setColor(new Color(1, 0, 0, 0.75f));
-			shape.filledRect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f + 5, maxSize * ((float)body.wear / body.item.durability), 5);
+			shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f + 5, maxSize * ((float)body.wear / body.item.durability), 5);
 		}
 		if (shield != null) {
 			shape.setColor(new Color(0, 0, 1, 0.75f));
-			shape.filledRect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * ((float)shield.wear / shield.item.durability), 5);
+			shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * ((float)shield.wear / shield.item.durability), 5);
 		}
 		if (fuelbag != null) {
 			shape.setColor(new Color(0, 1, 0, 0.75f));
-			shape.filledRect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * ((float)fuel.num / maxFuel), 5);
+			shape.rect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * ((float)fuel.num / maxFuel), 5);
 		}
 		shape.end();
 		return true;

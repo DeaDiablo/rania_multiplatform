@@ -31,7 +31,7 @@ public class Laser extends Ammunition{
 			scaleY.set(target.position);
 			scaleY.sub(attacker.position);
 			if (dTime < scaleTime)
-				scaleY.mul(dTime / scaleTime);
+				scaleY.scl(dTime / scaleTime);
 			scale.set(1.0f, scaleY.len() / region.getRegionHeight());
 		}
 	}

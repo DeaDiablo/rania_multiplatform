@@ -242,7 +242,7 @@ public class Edit extends Object{
 		if (!focus || !visible || (!showCursor && !fillEdit))
 			return false;
 		
-		shape.begin(ShapeType.FilledRectangle);
+		shape.begin(ShapeType.Filled);
 		//if (fillEdit) {
 		//	shape.setColor(0, 0, 0, 1);
 		//	shape.filledRect(position.x + text.position.x - getWidth() * 0.5f,
@@ -255,10 +255,10 @@ public class Edit extends Object{
 			float widthCursor = text.font.getSpaceWidth() * 0.2f;
 			float heightCursor = text.font.getCapHeight();
 			shape.setColor(text.color);
-			shape.filledRect(position.x + text.position.x + text.getTextBound(beginVisible, cursorPos).width + text.getOffset().x - widthCursor * 0.5f,
-							 position.y + text.position.y - heightCursor * 0.5f,
-						     widthCursor,
-						     heightCursor);
+			shape.rect(position.x + text.position.x + text.getTextBound(beginVisible, cursorPos).width + text.getOffset().x - widthCursor * 0.5f,
+					   position.y + text.position.y - heightCursor * 0.5f,
+					   widthCursor,
+					   heightCursor);
 		}
 		shape.end();
 

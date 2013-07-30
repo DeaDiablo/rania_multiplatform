@@ -1,12 +1,14 @@
 package com.game.rania.controller;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import com.game.rania.controller.command.ControllerCommand;
 
 public class CommandController {
 
-	private Vector<ControllerCommand> commands = new Vector<ControllerCommand>();
+	private List<ControllerCommand> commands = Collections.synchronizedList(new ArrayList<ControllerCommand>());
 	private MainController mController = null;
 	
 	public CommandController(MainController controller){

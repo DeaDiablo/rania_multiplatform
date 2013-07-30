@@ -107,7 +107,7 @@ public class Planet extends Object{
 		float calcAngle = speed * currentTime;
 		position.set((float)Math.cos(calcAngle), 
 					 (float)Math.sin(calcAngle));
-		position.mul(orbit);
+		position.scl(orbit);
 		position.add(star.position);
 		angle = MathUtils.radiansToDegrees * calcAngle + 45.0f;
 	}

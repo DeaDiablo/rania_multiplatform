@@ -68,7 +68,7 @@ public class Radar extends Object{
 			player.stop();
 			savePosition.set(position);
 			position.set(0, 0);
-			scale.mul(bigCoeff);
+			scale.scl(bigCoeff);
 			width *= bigCoeff;
 			height *= bigCoeff;
 			projMatrix.setToOrtho2D(0, 0, width, height);
@@ -142,7 +142,7 @@ public class Radar extends Object{
 			if (locController.getStar() != null){
 				posObject.set(locController.getStar().position);
 				posObject.sub(player.position);
-				posObject.mul(width / size, height / size);
+				posObject.scl(width / size, height / size);
 				posObject.add(width * 0.5f, height * 0.5f);
 			
 				//orbits
@@ -195,7 +195,7 @@ public class Radar extends Object{
 					
 					posObject.set(location.x, location.y);
 					posObject.sub(player.position);
-					posObject.mul(width / size, height / size);
+					posObject.scl(width / size, height / size);
 					posObject.add(width * 0.5f, height * 0.5f);
 					textPlanet.content = location.starName;
 					textPlanet.draw(spriteBuffer, posObject.x, posObject.y + 25);
@@ -235,11 +235,11 @@ public class Radar extends Object{
 	protected void drawRadarObject(float posX, float posY, float angle, float w, float h, float gridSize){
 		posObject.set(posX, posY);
 		posObject.sub(player.position);
-		posObject.mul(width / gridSize, height / gridSize);
+		posObject.scl(width / gridSize, height / gridSize);
 		posObject.add(width * 0.5f, height * 0.5f);
 
 		scaleObject.set(w, h);
-		scaleObject.mul(width / objRegion.getRegionWidth(),
+		scaleObject.scl(width / objRegion.getRegionWidth(),
 						height / objRegion.getRegionHeight());
 			
 

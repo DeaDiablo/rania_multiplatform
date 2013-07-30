@@ -1,5 +1,6 @@
 package com.game.rania.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.LocationController;
 import com.game.rania.screen.part.InfoPanel;
@@ -45,7 +46,8 @@ public class LocationScreen extends LoadableScreen{
 		loadObject = new LoadObject(new String("Загрузка игрока...")) {
 			@Override
 			public void load() {
-				locController.loadPlayer();
+				if (!locController.loadPlayer())
+					Gdx.app.log("Loading...", "Error load player");
 			}
 		};
 		addLoadObject(loadObject);

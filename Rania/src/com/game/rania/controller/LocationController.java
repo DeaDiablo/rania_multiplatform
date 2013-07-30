@@ -111,6 +111,7 @@ public class LocationController {
 	public ItemCollection getItems(){
 		return items;
 	}
+
 	//player
 	public boolean loadPlayer(){
 		player = nController.getUserData();

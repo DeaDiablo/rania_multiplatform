@@ -39,13 +39,13 @@ public class User extends SpaceShip{
 		textShip.content = shipName;
 	}
 	
-	protected Text textShip = new Text("", Font.getFont("data/fonts/arial.ttf", 20), new Color(1, 1, 1, 1), 0, 0);
+	protected Text textShip = new Text("", Font.getFont("data/fonts/Arial.ttf", 20), new Color(1, 1, 1, 1), 0, 0);
 	
 	@Override
 	public boolean draw(SpriteBatch sprite){
 		if (!super.draw(sprite))
 			return false;
-		if (!isPlayer)
+		if (!isPlayer && textShip != null)
 			textShip.draw(sprite, position.x, position.y + region.getRegionHeight() * 0.5f);
 		return true;
 	}

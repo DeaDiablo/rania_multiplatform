@@ -30,7 +30,7 @@ public class SkillButton extends PressedButton{
 						int deviceType = dev.deviceType;
 						switch (deviceType) {
 							case Device.Type.weapon: {
-								if ((player == null || player.target.type != Target.user || player.target.user == player.id))
+								if ((player == null || player.target.type != Target.user || player.target.id == player.id))
 									return;
 								
 								skillEquip.item.use(player, player.target.object);

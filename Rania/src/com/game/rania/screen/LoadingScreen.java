@@ -56,9 +56,9 @@ public class LoadingScreen extends RaniaScreen{
 		Gdx.app.postRunnable(new Runnable() {
 	         @Override
 	         public void run() {
-	     		loadScreen.loadNextResource();
+	             loadScreen.loadNextResource();
 	         }
-	      });
+	    });
 	}
 	
 	@Override

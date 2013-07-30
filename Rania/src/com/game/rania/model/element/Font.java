@@ -13,23 +13,38 @@ public class Font {
 	static private HashMap<String, BitmapFont> fonts = new HashMap<String, BitmapFont>();
 	
 	static public void loadFont(String fontFile, int ... fontSizes){
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(fontFile));
-		for (int i = 0; i < fontSizes.length; i++){
-			int fontSize = fontSizes[i];
-			BitmapFont font = generator.generateFont(fontSize, charaters, false);
-			font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-			fonts.put(fontFile + String.valueOf(fontSize), font);
+		try
+		{
+			FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(fontFile));
+			for (int i = 0; i < fontSizes.length; i++){
+				int fontSize = fontSizes[i];
+				BitmapFont font = generator.generateFont(fontSize, charaters, false);
+				font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+				fonts.put(fontFile + String.valueOf(fontSize), font);
+			}
+			generator.dispose();
+		} 
+		catch(Exception ex)
+		{
+			Gdx.app.log("Error", "Font not found: " + fontFile);
 		}
-		generator.dispose();
 	}
 	
 	static public BitmapFont loadFont(String fontFile, int size){
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(fontFile));
-		BitmapFont font = generator.generateFont(size, charaters, false);
-		font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		fonts.put(fontFile + String.valueOf(size), font);
-		generator.dispose();
-		return font;
+		try
+		{
+			FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(fontFile));
+			BitmapFont font = generator.generateFont(size, charaters, false);
+			font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+			fonts.put(fontFile + String.valueOf(size), font);
+			generator.dispose();
+			return font;
+		} 
+		catch(Exception ex)
+		{
+			Gdx.app.log("Error", "Font not found: " + fontFile);
+			return null;
+		}
 	}
 	
 	static public BitmapFont getFont(String fontFile, int size){

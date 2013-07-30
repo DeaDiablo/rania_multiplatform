@@ -1,7 +1,7 @@
 package com.game.rania.model.items;
 
 import com.game.rania.RaniaGame;
-import com.game.rania.model.ammunition.BFG;
+import com.game.rania.model.ammunition.Bfg;
 import com.game.rania.model.ammunition.Laser;
 import com.game.rania.model.ammunition.Rocket;
 import com.game.rania.model.element.Object;
@@ -58,7 +58,7 @@ public class Weapon extends Device{
 				break;
 
 			case Type.BFG:
-				bullet = new BFG(user, target, color);
+				bullet = new Bfg(user, target, color);
 				break;
 		}
 		

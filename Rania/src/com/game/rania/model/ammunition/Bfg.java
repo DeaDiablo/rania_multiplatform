@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 
-public class BFG extends Ammunition{
+public class Bfg extends Ammunition{
 
 	protected static final float repairTime = 3.0f;
 	protected Object attacker, target;
 	
-	public BFG(Object attacker, Object target, Color repairColor){
+	public Bfg(Object attacker, Object target, Color repairColor){
 		super(repairTime, RegionID.BFG, 0, 0);
 		this.attacker = attacker;
 		this.target = target;

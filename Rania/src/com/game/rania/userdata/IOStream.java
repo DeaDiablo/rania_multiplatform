@@ -25,8 +25,29 @@ public class IOStream{
 		int controlCRC = iStream.readInt();
 		int len = iStream.readInt();
 		Gdx.app.log("len",String.valueOf(idCommand) + " " + String.valueOf(len) + " " + String.valueOf(controlCRC));
-		byte[] data = new byte[len];
-		iStream.read(data);
+		
+		int buffCount = (len / 1024)+1;
+    if (buffCount > 1024) {
+    	Gdx.app.log("BufferCount","Big size buffer");
+    	return null;
+    }
+    
+    byte[] data = new byte[len];
+    int offset = 0;
+    for (int i = 0; i < buffCount; i++) {
+      if ((buffCount-1) == i)
+      {
+      	iStream.read(data, offset, len-(buffCount-1)*1024);
+      	offset += (len-(buffCount-1)*1024);
+      }
+      else {
+      	iStream.read(data, offset, 1024);
+      	offset += 1024;
+      }
+    }
+    if (offset!=len) {
+   	 Gdx.app.log("Offset error","Offset="+String.valueOf(offset) + ", Len=" + String.valueOf(len));
+    }
 		return new Command(idCommand, len, data, controlCRC);
 	}
 	

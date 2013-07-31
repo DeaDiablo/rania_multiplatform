@@ -3,28 +3,33 @@ package com.game.rania.model.items;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 
-public class Body extends Device{
+public class Body extends Device
+{
 
-	public int slot_weapons;
-	public int slot_droids;
-	public int slot_shield;
-	public int slot_hyper;
-	
-	public Body(){
-		super();
-	}
+  public int slot_weapons;
+  public int slot_droids;
+  public int slot_shield;
+  public int slot_hyper;
 
-	public Body(Device device) {
-		super(device);
-	}	
-	
-	@Override
-	public RegionID getIconID(){
-		return RegionID.NONE;
-	}
+  public Body()
+  {
+    super();
+  }
 
-	@Override
-	public boolean use(Object user, Object target){
-		return false;
-	}
+  public Body(Device device)
+  {
+    super(device);
+  }
+
+  @Override
+  public RegionID getIconID()
+  {
+    return RegionID.NONE;
+  }
+
+  @Override
+  public boolean use(Object user, Object target)
+  {
+    return false;
+  }
 }

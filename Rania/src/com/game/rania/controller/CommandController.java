@@ -6,35 +6,43 @@ import java.util.List;
 
 import com.game.rania.controller.command.ControllerCommand;
 
-public class CommandController {
+public class CommandController
+{
 
-	private List<ControllerCommand> commands = Collections.synchronizedList(new ArrayList<ControllerCommand>());
-	private MainController mController = null;
-	
-	public CommandController(MainController controller){
-		mController = controller;
-	}
-	
-	public synchronized void addCommand(ControllerCommand command){
-		commands.add(command);
-	}
-	
-	public synchronized void removeCommand(ControllerCommand command){
-		commands.remove(command);
-	}
+  private List<ControllerCommand> commands    = Collections.synchronizedList(new ArrayList<ControllerCommand>());
+  private MainController          mController = null;
 
-	public synchronized void removeCommand(int num){
-		commands.remove(num);
-	}
-	
-	public synchronized void clearCommands(){
-		commands.clear();
-	}
-	
-	public synchronized void updateCommands(float deltaTime){
-		for (ControllerCommand command : commands) {
-			command.update(mController, deltaTime);
-		}
-		commands.clear();
-	}
+  public CommandController(MainController controller)
+  {
+    mController = controller;
+  }
+
+  public synchronized void addCommand(ControllerCommand command)
+  {
+    commands.add(command);
+  }
+
+  public synchronized void removeCommand(ControllerCommand command)
+  {
+    commands.remove(command);
+  }
+
+  public synchronized void removeCommand(int num)
+  {
+    commands.remove(num);
+  }
+
+  public synchronized void clearCommands()
+  {
+    commands.clear();
+  }
+
+  public synchronized void updateCommands(float deltaTime)
+  {
+    for (ControllerCommand command : commands)
+    {
+      command.update(mController, deltaTime);
+    }
+    commands.clear();
+  }
 }

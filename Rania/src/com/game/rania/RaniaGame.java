@@ -13,71 +13,72 @@ import com.game.rania.screen.MainMenu;
 import com.game.rania.screen.part.Parts;
 import com.game.rania.view.MainView;
 
-public class RaniaGame extends Game {
+public class RaniaGame extends Game
+{
 
-	//game
-	public static RaniaGame mGame = null;
-	private float widthCamera = 0.0f;
-	private float heightCamera = 0.0f;
-	
-	//mvc
-	public static MainView       mView       = null;
-	public static MainController mController = null;
-	
-	public RaniaGame(float widthCamera, float heightCamera){
-		this.widthCamera = widthCamera;
-		this.heightCamera = heightCamera;
-	}
+  // game
+  public static RaniaGame      mGame        = null;
+  private float                widthCamera  = 0.0f;
+  private float                heightCamera = 0.0f;
 
-	@Override
-	public void create() {
-		//logging java
-		if (Config.logInFile)
-		{
-			try {
-				System.setErr(new PrintStream(new FileOutputStream(Config.errorLogFile)));
-				System.setOut(new PrintStream(new FileOutputStream(Config.logFile)));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		//game
-		ShaderProgram.pedantic = false;
-		mGame = this;
-		mView = new MainView(widthCamera, heightCamera);
-		mController = new MainController();
-		Gdx.input.setInputProcessor(mController);
-		Controllers.initSystemControllers(mView, mController);
-		setScreen(new MainMenu());
-	}
+  // mvc
+  public static MainView       mView        = null;
+  public static MainController mController  = null;
 
-	/*
-	@Override
-	public void resize(int width, int height) {
-		
-	}
+  public RaniaGame(float widthCamera, float heightCamera)
+  {
+    this.widthCamera = widthCamera;
+    this.heightCamera = heightCamera;
+  }
 
-	@Override
-	public void render() {
-	}
+  @Override
+  public void create()
+  {
+    // logging java
+    if (Config.logInFile)
+    {
+      try
+      {
+        System.setErr(new PrintStream(new FileOutputStream(Config.errorLogFile)));
+        System.setOut(new PrintStream(new FileOutputStream(Config.logFile)));
+      } catch (FileNotFoundException e)
+      {
+        e.printStackTrace();
+      }
+    }
 
-	@Override
-	public void pause() {
-		
-	}
+    // game
+    ShaderProgram.pedantic = false;
+    mGame = this;
+    mView = new MainView(widthCamera, heightCamera);
+    mController = new MainController();
+    Gdx.input.setInputProcessor(mController);
+    Controllers.initSystemControllers(mView, mController);
+    setScreen(new MainMenu());
+  }
 
-	@Override
-	public void resume() {
-		
-	}
-	*/
+  /*
+   * @Override public void resize(int width, int height) {
+   * 
+   * }
+   * 
+   * @Override public void render() { }
+   * 
+   * @Override public void pause() {
+   * 
+   * }
+   * 
+   * @Override public void resume() {
+   * 
+   * }
+   */
 
-	@Override
-	public void dispose() {
-		Controllers.netController.disconnect();
-		Parts.removAllParts();
-		mView.clearAll();
-		Gdx.app.exit();
-	}
+  @Override
+  public void dispose()
+  {
+    Controllers.netController.disconnect();
+    Parts.removAllParts();
+    mView.clearAll();
+    Gdx.app.exit();
+  }
 }

@@ -9,246 +9,285 @@ import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.Indexes;
 
-public class Object {
-	
-	public static Shader currentShader = null;
+public class Object
+{
 
-	public boolean 	keysObject = false;
-	public boolean 	touchObject = false;
-	public boolean 	allTouchObject = false;
-	
-	public boolean 	visible  = true;
-	public float 	lifeTime = Float.MAX_VALUE;
-	public Vector2 	position = new Vector2(0.0f, 0.0f);
-	public float 	angle 	 = 0.0f;
-	public Vector2 	scale 	 = new Vector2(1.0f, 1.0f);
-	public Color 	color 	 = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-	public int 		zIndex 	 = Indexes.object;
-	
-	public Shader 	shader = null;
+  public static Shader currentShader  = null;
 
-	public RegionID regionID = RegionID.NONE;
-	public TextureRegion region = null;
+  public boolean       keysObject     = false;
+  public boolean       touchObject    = false;
+  public boolean       allTouchObject = false;
 
-	public Object(){
-		this(0, 0, 0, 1, 1);
-	}
-	
-	public Object(float posX, float posY) {
-		this(posX, posY, 0, 1, 1);
-	}
+  public boolean       visible        = true;
+  public float         lifeTime       = Float.MAX_VALUE;
+  public Vector2       position       = new Vector2(0.0f, 0.0f);
+  public float         angle          = 0.0f;
+  public Vector2       scale          = new Vector2(1.0f, 1.0f);
+  public Color         color          = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+  public int           zIndex         = Indexes.object;
 
-	public Object(float posX, float posY, float rotAngle){
-		this(posX, posY, rotAngle, 1, 1);
-	}
+  public Shader        shader         = null;
 
-	public Object(float posX, float posY, float rotAngle, float scaleX, float scaleY){
-		position.set(posX, posY);
-		angle = rotAngle;
-		scale.set(scaleX, scaleY);
-	}
+  public RegionID      regionID       = RegionID.NONE;
+  public TextureRegion region         = null;
 
-	public Object(RegionID id, float posX, float posY){
-		this(id, posX, posY, 0, 1, 1);
-	}
+  public Object()
+  {
+    this(0, 0, 0, 1, 1);
+  }
 
-	public Object(RegionID id, float posX, float posY, float rotAngle){
-		this(id, posX, posY, rotAngle, 1, 1);
-	}	
-	
-	public Object(RegionID id, float posX, float posY, float rotAngle, float scaleX, float scaleY){
-		regionID = id;
-		region = RaniaGame.mView.getTextureRegion(id);
-		position.set(posX, posY);
-		angle = rotAngle;
-		scale.set(scaleX, scaleY);
-	}
-	
-	public void reloadTexture(){
-		region = RaniaGame.mView.getTextureRegion(regionID);
-	}
-	
-	public float getMaxSize(){
-		return Math.max(region.getRegionWidth() * scale.x, region.getRegionHeight() * scale.y);
-	}
+  public Object(float posX, float posY)
+  {
+    this(posX, posY, 0, 1, 1);
+  }
 
-	public float getWidth(){
-		return region.getRegionWidth() * scale.x;
-	}
-	
-	public float getHeight(){
-		return region.getRegionHeight() * scale.y;
-	}
-	
-	public float getLeft(){
-		return -region.getRegionWidth() * scale.x * 0.5f;
-	}
-	
-	public float getRight(){
-		return region.getRegionWidth() * scale.x * 0.5f;
-	}
-	
-	public float getBottom(){
-		return -region.getRegionHeight() * scale.y * 0.5f;
-	}
-	
-	public float getTop(){
-		return region.getRegionHeight() * scale.y * 0.5f;
-	}
+  public Object(float posX, float posY, float rotAngle)
+  {
+    this(posX, posY, rotAngle, 1, 1);
+  }
 
-	public enum Align{
-		LEFT,
-		RIGHT,
-		CENTER,
-		TOP,
-		BOTTOM
-	}
-	
-	protected Vector2 offset = new Vector2(0, 0);
-	protected Align hAlign = Align.CENTER, vAlign = Align.CENTER;
+  public Object(float posX, float posY, float rotAngle, float scaleX, float scaleY)
+  {
+    position.set(posX, posY);
+    angle = rotAngle;
+    scale.set(scaleX, scaleY);
+  }
 
-	public void setAlign(Align horzAlign, Align vertAlign){
-		hAlign = horzAlign;
-		vAlign = vertAlign;
-	}
-	
-	public Align getHorzAlign(){
-		return hAlign;
-	}
-	
-	public Align getVertAlign(){
-		return vAlign;
-	}
-	
-	public Vector2 getOffset(){
-		return offset;
-	}
-	
-	protected void calcOffset(float width, float height){
-		switch (hAlign) {
-		case LEFT:
-			offset.x = 0.0f;
-			break;
-		case RIGHT:
-			offset.x = -width;
-			break;
-		default:
-			offset.x = -width * 0.5f;
-			break;
-		}
-		
-		switch (vAlign) {
-		case TOP:
-			offset.y = 0.0f;
-			break;
-		case BOTTOM:
-			offset.y = -height;
-			break;
-		default:
-			offset.y = -height * 0.5f;
-			break;
-		}
-	}
+  public Object(RegionID id, float posX, float posY)
+  {
+    this(id, posX, posY, 0, 1, 1);
+  }
 
-	public boolean intersectObject(float x, float y){
-		if (region == null)
-			return false;
-		float width = getWidth();
-		float height = getHeight();
-		Rectangle rect = new Rectangle(position.x - width * 0.5f,
-								       position.y - height * 0.5f,
-								       width,
-								       height);
-		Vector2 point = new Vector2(x, y);
-		point.sub(position);
-		point.rotate(angle);
-		point.add(position);
-		return rect.contains(point.x, point.y);
-	}
-	
-	//keyboard
-	public boolean keyDown(int keycode) {
-		return false;
-	}
+  public Object(RegionID id, float posX, float posY, float rotAngle)
+  {
+    this(id, posX, posY, rotAngle, 1, 1);
+  }
 
-	public boolean keyUp(int keycode) {
-		return false;
-	}
+  public Object(RegionID id, float posX, float posY, float rotAngle, float scaleX, float scaleY)
+  {
+    regionID = id;
+    region = RaniaGame.mView.getTextureRegion(id);
+    position.set(posX, posY);
+    angle = rotAngle;
+    scale.set(scaleX, scaleY);
+  }
 
-	public boolean keyTyped(char character) {
-		return true;
-	}
-	
-	//touch
-	public boolean touchDown(float x, float y) {
-		return false;
-	}
-	
-	public boolean touchDragged(float x, float y) {
-		return false;
-	}
-	
-	public boolean touchUp(float x, float y) {
-		return false;
-	}
-	
-	protected float dTime = 0.0f;
-	
-	//update and draw
-	public void update(float deltaTime){
-		dTime += deltaTime;
-		if (dTime > lifeTime) {
-			RaniaGame.mController.removeObject(this);
-			RaniaGame.mController.removeHUDObject(this);
-		}
-	}
-	
-	public boolean setShader(SpriteBatch sprite){
-		if (currentShader == shader)
-			return false;
-		sprite.setShader(shader);
-		currentShader = shader;
-		return true;
-	}
-	
-	public boolean draw(SpriteBatch sprite, ShapeRenderer shape){
-		if (!visible)
-			return false;
-		sprite.setColor(color);
-		return drawRegion(sprite, region);
-	}
-	
-	public boolean draw(SpriteBatch sprite, Vector2 position, float angle, Vector2 scale, Color color){
-		if (!visible)
-			return false;
-		sprite.setColor(color);
-		return drawRegion(sprite, region, position, angle, scale);
-	}
+  public void reloadTexture()
+  {
+    region = RaniaGame.mView.getTextureRegion(regionID);
+  }
 
-	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion){	
-		return drawRegion(sprite, textureRegion, position.x, position.y, angle, scale.x, scale.y);
-	}
-	
-	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, Vector2 position, float angle, Vector2 scale){		
-		return drawRegion(sprite, textureRegion, position.x, position.y, angle, scale.x, scale.y);
-	}
-	
-	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, float x, float y, float angle, float scaleX, float scaleY){
-		if (textureRegion == null)
-			return false;
-		
-		calcOffset(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
-		sprite.draw(textureRegion, 
-					x + offset.x,
-					y + offset.y,
-					-offset.x,
-					-offset.y,
-					textureRegion.getRegionWidth(),
-					textureRegion.getRegionHeight(),
-					scaleX,
-					scaleY,
-					angle);
-		
-		return true;
-	}
+  public float getMaxSize()
+  {
+    return Math.max(region.getRegionWidth() * scale.x, region.getRegionHeight() * scale.y);
+  }
+
+  public float getWidth()
+  {
+    return region.getRegionWidth() * scale.x;
+  }
+
+  public float getHeight()
+  {
+    return region.getRegionHeight() * scale.y;
+  }
+
+  public float getLeft()
+  {
+    return -region.getRegionWidth() * scale.x * 0.5f;
+  }
+
+  public float getRight()
+  {
+    return region.getRegionWidth() * scale.x * 0.5f;
+  }
+
+  public float getBottom()
+  {
+    return -region.getRegionHeight() * scale.y * 0.5f;
+  }
+
+  public float getTop()
+  {
+    return region.getRegionHeight() * scale.y * 0.5f;
+  }
+
+  public enum Align
+  {
+    LEFT,
+    RIGHT,
+    CENTER,
+    TOP,
+    BOTTOM
+  }
+
+  protected Vector2 offset = new Vector2(0, 0);
+  protected Align   hAlign = Align.CENTER, vAlign = Align.CENTER;
+
+  public void setAlign(Align horzAlign, Align vertAlign)
+  {
+    hAlign = horzAlign;
+    vAlign = vertAlign;
+  }
+
+  public Align getHorzAlign()
+  {
+    return hAlign;
+  }
+
+  public Align getVertAlign()
+  {
+    return vAlign;
+  }
+
+  public Vector2 getOffset()
+  {
+    return offset;
+  }
+
+  protected void calcOffset(float width, float height)
+  {
+    switch (hAlign)
+    {
+      case LEFT:
+        offset.x = 0.0f;
+        break;
+      case RIGHT:
+        offset.x = -width;
+        break;
+      default:
+        offset.x = -width * 0.5f;
+        break;
+    }
+
+    switch (vAlign)
+    {
+      case TOP:
+        offset.y = 0.0f;
+        break;
+      case BOTTOM:
+        offset.y = -height;
+        break;
+      default:
+        offset.y = -height * 0.5f;
+        break;
+    }
+  }
+
+  public boolean intersectObject(float x, float y)
+  {
+    if (region == null)
+      return false;
+    float width = getWidth();
+    float height = getHeight();
+    Rectangle rect = new Rectangle(position.x - width * 0.5f,
+        position.y - height * 0.5f,
+        width,
+        height);
+    Vector2 point = new Vector2(x, y);
+    point.sub(position);
+    point.rotate(angle);
+    point.add(position);
+    return rect.contains(point.x, point.y);
+  }
+
+  // keyboard
+  public boolean keyDown(int keycode)
+  {
+    return false;
+  }
+
+  public boolean keyUp(int keycode)
+  {
+    return false;
+  }
+
+  public boolean keyTyped(char character)
+  {
+    return true;
+  }
+
+  // touch
+  public boolean touchDown(float x, float y)
+  {
+    return false;
+  }
+
+  public boolean touchDragged(float x, float y)
+  {
+    return false;
+  }
+
+  public boolean touchUp(float x, float y)
+  {
+    return false;
+  }
+
+  protected float dTime = 0.0f;
+
+  // update and draw
+  public void update(float deltaTime)
+  {
+    dTime += deltaTime;
+    if (dTime > lifeTime)
+    {
+      RaniaGame.mController.removeObject(this);
+      RaniaGame.mController.removeHUDObject(this);
+    }
+  }
+
+  public boolean setShader(SpriteBatch sprite)
+  {
+    if (currentShader == shader)
+      return false;
+    sprite.setShader(shader);
+    currentShader = shader;
+    return true;
+  }
+
+  public boolean draw(SpriteBatch sprite, ShapeRenderer shape)
+  {
+    if (!visible)
+      return false;
+    sprite.setColor(color);
+    return drawRegion(sprite, region);
+  }
+
+  public boolean draw(SpriteBatch sprite, Vector2 position, float angle, Vector2 scale, Color color)
+  {
+    if (!visible)
+      return false;
+    sprite.setColor(color);
+    return drawRegion(sprite, region, position, angle, scale);
+  }
+
+  protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion)
+  {
+    return drawRegion(sprite, textureRegion, position.x, position.y, angle, scale.x, scale.y);
+  }
+
+  protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, Vector2 position, float angle, Vector2 scale)
+  {
+    return drawRegion(sprite, textureRegion, position.x, position.y, angle, scale.x, scale.y);
+  }
+
+  protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, float x, float y, float angle, float scaleX, float scaleY)
+  {
+    if (textureRegion == null)
+      return false;
+
+    calcOffset(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
+    sprite.draw(textureRegion,
+        x + offset.x,
+        y + offset.y,
+        -offset.x,
+        -offset.y,
+        textureRegion.getRegionWidth(),
+        textureRegion.getRegionHeight(),
+        scaleX,
+        scaleY,
+        angle);
+
+    return true;
+  }
 }

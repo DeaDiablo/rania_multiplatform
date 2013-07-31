@@ -142,7 +142,7 @@ public class SideBar extends Group implements Part{
 
 		fieldChat = new ChatList(RegionID.FIELD_CHAT,
 								 -halfWidth + mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.5f,
-								  halfHeight - mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.5f,
+								 -halfHeight + mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.5f,
 								 new MultilineText("", Font.getFont("data/fonts/Arial.ttf", 20), 
 										 		   new Color(1, 1, 1, 1),
 										 		   -mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.5f + 20.0f,
@@ -150,11 +150,12 @@ public class SideBar extends Group implements Part{
 										 		   Text.Align.LEFT, Text.Align.TOP),
 							     mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.95f,
 								 mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.95f);
+		fieldChat.inverseAdd = true;
 		
 		editUser = new Edit(RegionID.EDIT_CHAT,
 							RegionID.EDIT_CHAT,
 							-halfWidth + mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionWidth() * 0.5f,
-							-halfHeight	+ mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionHeight() * 0.5f,
+							 halfHeight - mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionHeight() * 0.5f,
 							new Text("", Font.getFont("data/fonts/Arial.ttf", 20),
 							         new Color(1, 1, 1, 1),
 							         -mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionWidth() * 0.5f + 20.0f,
@@ -169,6 +170,8 @@ public class SideBar extends Group implements Part{
 									edit.setFocus();
 								}
 							});
+		editUser.needUpFocus = false;
+		editUser.alwaysFill = true;
 		
 		btnSend = new PressedButton(RegionID.BTN_UI_SEND_OFF,
 									RegionID.BTN_UI_SEND_ON,

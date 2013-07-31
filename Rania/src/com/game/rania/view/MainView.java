@@ -172,38 +172,26 @@ public class MainView {
 		cameraHUD.update();
 		
 		//start render
+		shapeRenderer.setProjectionMatrix(camera.combined);
 		spriteBatch.setProjectionMatrix(camera.combined);
 		spriteBatch.begin();
 		//render sprite objects
 		for (Object object : RaniaGame.mController.getObjects()) {
 			object.setShader(spriteBatch);
-			object.draw(spriteBatch);
+			object.draw(spriteBatch, shapeRenderer);
 		}
 		spriteBatch.end();
 
-		shapeRenderer.setProjectionMatrix(camera.combined);
-		//render shape objects
-		for (Object object : RaniaGame.mController.getObjects()) {
-			object.setShader(spriteBatch);
-			object.draw(shapeRenderer);
-		}
-
 		//HUD sprite render
+		shapeRenderer.setProjectionMatrix(cameraHUD.combined);
 		spriteBatch.setProjectionMatrix(cameraHUD.combined);
 		spriteBatch.begin();
 		//render HUD objects
 		for (Object object : RaniaGame.mController.getHUDObjects()) {
 			object.setShader(spriteBatch);
-			object.draw(spriteBatch);
+			object.draw(spriteBatch, shapeRenderer);
 		}
 		fps.draw(spriteBatch, cameraHUD.getLeft() + fps.getTextBound().width * 0.5f, cameraHUD.getBottom() + fps.getTextBound().height * 0.5f);
 		spriteBatch.end();
-		
-		//HUD shape render
-		shapeRenderer.setProjectionMatrix(cameraHUD.combined);
-		for (Object object : RaniaGame.mController.getHUDObjects()) {
-			object.setShader(spriteBatch);
-			object.draw(shapeRenderer);
-		}
 	}
 }

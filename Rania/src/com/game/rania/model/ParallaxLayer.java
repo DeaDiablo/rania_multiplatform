@@ -3,6 +3,7 @@ package com.game.rania.model;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.element.Object;
@@ -24,7 +25,7 @@ public class ParallaxLayer extends Object{
     }
     
     @Override
-    public boolean draw(SpriteBatch sprite){
+    public boolean draw(SpriteBatch sprite, ShapeRenderer shape){
 		if (!visible)
 			return false;
 

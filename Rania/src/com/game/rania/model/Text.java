@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.model.element.Object;
@@ -64,7 +65,7 @@ public class Text extends Object{
 	}
 
 	@Override
-	public boolean draw(SpriteBatch sprite){
+	public boolean draw(SpriteBatch sprite, ShapeRenderer shape){
 		return draw(sprite, position, angle, scale, color);
 	}
 	

@@ -2,6 +2,7 @@ package com.game.rania.model.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.Indexes;
 import com.game.rania.model.Text;
@@ -34,7 +35,7 @@ public abstract class Button extends Object{
 	}
 	
 	@Override
-	public boolean draw(SpriteBatch sprite){
+	public boolean draw(SpriteBatch sprite, ShapeRenderer shape){
 		if (!visible)
 			return false;
 		

@@ -2,6 +2,7 @@ package com.game.rania.model;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.rania.controller.Controllers;
 import com.game.rania.model.element.Font;
 
@@ -42,8 +43,8 @@ public class User extends SpaceShip{
 	protected Text textShip = new Text("", Font.getFont("data/fonts/Arial.ttf", 20), new Color(1, 1, 1, 1), 0, 0);
 	
 	@Override
-	public boolean draw(SpriteBatch sprite){
-		if (!super.draw(sprite))
+	public boolean draw(SpriteBatch sprite, ShapeRenderer shape){
+		if (!super.draw(sprite, shape))
 			return false;
 		if (!isPlayer && textShip != null)
 			textShip.draw(sprite, position.x, position.y + region.getRegionHeight() * 0.5f);

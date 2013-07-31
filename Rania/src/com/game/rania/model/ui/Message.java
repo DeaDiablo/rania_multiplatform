@@ -1,6 +1,7 @@
 package com.game.rania.model.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.Text;
 import com.game.rania.model.element.Object;
@@ -18,8 +19,8 @@ public class Message extends Object{
 	}
 
 	@Override
-	public boolean draw(SpriteBatch sprite){
-		if (!super.draw(sprite))
+	public boolean draw(SpriteBatch sprite, ShapeRenderer shape){
+		if (!super.draw(sprite, shape))
 			return false;
 
 		if (text != null)

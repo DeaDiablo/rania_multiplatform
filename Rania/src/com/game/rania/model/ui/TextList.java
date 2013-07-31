@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.rania.model.MultilineText;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
@@ -27,6 +28,8 @@ public class TextList extends Object{
 	protected int countLine = 0;
 	protected int beginLine = 0;
 	protected int endLine = 0;
+	
+	public boolean inverseAdd = false;
 
 	public TextList(RegionID idTexture, float x, float y, MultilineText text, float widthList, float heightList){
 		super(idTexture, x, y);
@@ -34,7 +37,7 @@ public class TextList extends Object{
 		this.widthList = widthList;
 		this.heightList = heightList;
 		touchObject = true;
-		countLine = (int) (heightList / text.font.getLineHeight());
+		countLine = (int) (heightList / text.font.getLineHeight()) + 1;
 		parseText(lines, text.content, text.color);
 		goToEnd();
 	}
@@ -55,8 +58,15 @@ public class TextList extends Object{
 	protected String bufferText;
 	
 	protected void goToEnd(){
-		endLine = lines.size();
-		beginLine = Math.max(0, endLine - countLine);
+		if (!inverseAdd)
+		{
+			endLine = lines.size();
+			beginLine = Math.max(0, endLine - countLine);
+			return;
+		}
+		
+		beginLine = 0;
+		endLine = Math.min(lines.size(), beginLine + countLine);
 	}
 	
 	protected void parseText(Vector<TextLine> lines, String text, Color color){
@@ -64,9 +74,10 @@ public class TextList extends Object{
 			return;
 
 		float textWidth = this.text.getTextBound(text).width;
+		Vector<TextLine> newLines = new Vector<TextLine>();
 		do {
 			if (textWidth < widthList)	{
-				lines.add(new TextLine(text + "\n", color));
+				newLines.add(new TextLine(text + "\n", color));
 				break;
 			}
 
@@ -84,14 +95,19 @@ public class TextList extends Object{
 			if (indexSpace >= 0)
 				divIndex = indexSpace;
 				
-			lines.add(new TextLine(text.substring(0, divIndex) + "\n", color));
+			newLines.add(new TextLine(text.substring(0, divIndex) + "\n", color));
 			text = text.substring(divIndex + 1);
 			textWidth = this.text.getTextBound(text).width;
 		} while(textWidth > 0);
+		
+		if (!inverseAdd)
+			lines.addAll(newLines);
+		else
+			lines.addAll(0, newLines);
 	}
 	
 	@Override
-	public boolean draw(SpriteBatch sprite){		
+	public boolean draw(SpriteBatch sprite, ShapeRenderer shape){		
 		if (!visible)
 			return false;
 		

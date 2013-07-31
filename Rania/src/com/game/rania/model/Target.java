@@ -1,6 +1,7 @@
 package com.game.rania.model;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 
@@ -25,12 +26,12 @@ public class Target extends Object{
 	}
 
 	@Override
-	public boolean draw(SpriteBatch sprite){
+	public boolean draw(SpriteBatch sprite, ShapeRenderer shape){
 		if (object == null || region == null)
 			return false;
 		float maxSize = Math.max(object.getWidth(), object.getHeight());
 		scale.set(maxSize / region.getRegionWidth(), maxSize / region.getRegionHeight());
 		position.set(object.position);
-		return super.draw(sprite);
+		return super.draw(sprite, shape);
 	}
 }

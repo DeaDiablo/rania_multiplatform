@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.Indexes;
 import com.game.rania.model.Text;
@@ -65,8 +64,10 @@ public class Edit extends Object{
 		text.content = newText;
 	}
 
+	public boolean	  alwaysFill   = false;
+	public boolean    needUpFocus  = true;
 	public Object     nextControll = null;
-	protected Vector2 bufferPos  = new Vector2();
+	protected float   yBuffer  	 = 0.0f;
 	protected int     cursorPos  = 0;
 	protected boolean focus 	 = false;
 	protected boolean oldFocus   = false;
@@ -192,21 +193,22 @@ public class Edit extends Object{
 		if (focus != oldFocus) {
 			oldFocus = focus;
 			if (focus) {
-				if (Gdx.app.getType() != Application.ApplicationType.Desktop)	{
+				if (Gdx.app.getType() != Application.ApplicationType.Desktop)
+				{
 					Gdx.input.setOnscreenKeyboardVisible(true);
-					if (region != null)	{
-						bufferPos.set(position);
-						position.set(0, getHeight());
+					if (needUpFocus && region != null)	{
+						yBuffer = position.y;
+						position.y = getHeight();
 						fillEdit = true;
 					}
 				}
 				keysObject = true;
-			}
-			else {
-				if (Gdx.app.getType() != Application.ApplicationType.Desktop) {
+			} else {
+				if (Gdx.app.getType() != Application.ApplicationType.Desktop)
+				{
 					Gdx.input.setOnscreenKeyboardVisible(false);
-					if (region != null)	{
-						position.set(bufferPos);
+					if (needUpFocus && region != null)	{
+						position.y = yBuffer;
 						fillEdit = false;
 					}
 				}
@@ -219,9 +221,35 @@ public class Edit extends Object{
 	}
 
 	@Override
-	public boolean draw(SpriteBatch sprite){		
+	public boolean draw(SpriteBatch sprite, ShapeRenderer shape){		
 		if (!visible)
 			return false;
+		
+
+		if (focus && (showCursor || fillEdit) || alwaysFill)
+		{
+			sprite.end();
+			shape.begin(ShapeType.Filled);
+			if (fillEdit || alwaysFill) {
+				shape.setColor(0.0f, 0.0f, 0.0f, 1.0f);
+				shape.rect(position.x + getLeft(),
+						   position.y + getBottom(),
+						   getWidth(),
+						   getHeight());
+			}
+			
+			if (showCursor) {
+				float widthCursor = text.font.getSpaceWidth() * 0.2f;
+				float heightCursor = text.font.getCapHeight();
+				shape.setColor(text.color);
+				shape.rect(position.x + text.position.x + text.getTextBound(beginVisible, cursorPos).width + text.getOffset().x - widthCursor * 0.5f,
+						   position.y + text.position.y - heightCursor * 0.5f,
+						   widthCursor,
+						   heightCursor);
+			}
+			shape.end();
+			sprite.begin();
+		}
 		
 		sprite.setColor(color);
 		if (focus && regionOn != null)
@@ -234,34 +262,6 @@ public class Edit extends Object{
 			text.draw(sprite, beginVisible, endVisible, text.position.x + position.x, text.position.y + position.y, angle, scale.x, scale.y);
 		}			
 		
-		return true;
-	}
-
-	@Override
-	public boolean draw(ShapeRenderer shape){
-		if (!focus || !visible || (!showCursor && !fillEdit))
-			return false;
-		
-		shape.begin(ShapeType.Filled);
-		//if (fillEdit) {
-		//	shape.setColor(0, 0, 0, 1);
-		//	shape.filledRect(position.x + text.position.x - getWidth() * 0.5f,
-		//					 position.y + text.position.y - getHeight() * 0.5f,
-		//					 getWidth(),
-		//					 getHeight());
-		//}
-		
-		if (showCursor) {
-			float widthCursor = text.font.getSpaceWidth() * 0.2f;
-			float heightCursor = text.font.getCapHeight();
-			shape.setColor(text.color);
-			shape.rect(position.x + text.position.x + text.getTextBound(beginVisible, cursorPos).width + text.getOffset().x - widthCursor * 0.5f,
-					   position.y + text.position.y - heightCursor * 0.5f,
-					   widthCursor,
-					   heightCursor);
-		}
-		shape.end();
-
 		return true;
 	}
 	

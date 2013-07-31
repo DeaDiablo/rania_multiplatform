@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
@@ -75,7 +76,7 @@ public class Planet extends Object{
 	}
 	
 	@Override
-	public boolean draw(SpriteBatch sprite){
+	public boolean draw(SpriteBatch sprite, ShapeRenderer shape){
 		if (star == null)
 			return false;
 		if (currentShader == shader && shader != null){
@@ -83,7 +84,7 @@ public class Planet extends Object{
 			shader.setUniformf("uvMax", new Vector2(region.getU2(), region.getV2()));
 			shader.setUniformf("v_color2", atmophereColor);
 		}
-		boolean ret =  super.draw(sprite);
+		boolean ret =  super.draw(sprite, shape);
 		sprite.flush();
 		return ret;
 	}

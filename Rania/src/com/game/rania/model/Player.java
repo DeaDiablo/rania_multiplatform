@@ -1,6 +1,7 @@
 package com.game.rania.model;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.rania.controller.Controllers;
 
 public class Player extends User{
@@ -34,8 +35,8 @@ public class Player extends User{
 	}
 	
 	@Override
-	public boolean draw(SpriteBatch sprite){
-		target.draw(sprite);
-		return super.draw(sprite);
+	public boolean draw(SpriteBatch sprite, ShapeRenderer shape){
+		target.draw(sprite, shape);
+		return super.draw(sprite, shape);
 	}
 }

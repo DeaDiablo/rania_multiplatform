@@ -211,7 +211,7 @@ public class Object {
 		return true;
 	}
 	
-	public boolean draw(SpriteBatch sprite){
+	public boolean draw(SpriteBatch sprite, ShapeRenderer shape){
 		if (!visible)
 			return false;
 		sprite.setColor(color);
@@ -223,10 +223,6 @@ public class Object {
 			return false;
 		sprite.setColor(color);
 		return drawRegion(sprite, region, position, angle, scale);
-	}
-	
-	public boolean draw(ShapeRenderer shape){
-		return true;
 	}
 
 	protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion){	

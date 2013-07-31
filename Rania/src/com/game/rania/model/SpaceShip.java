@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -93,9 +94,10 @@ public class SpaceShip extends Object{
 	}
 	
 	@Override
-	public boolean draw(ShapeRenderer shape){
-		if (!visible || region == null)
+	public boolean draw(SpriteBatch sprite, ShapeRenderer shape){
+		if (!super.draw(sprite, shape) || region == null)
 			return false;
+		sprite.end();
 		shape.begin(ShapeType.Filled);
 		float maxSize = Math.max(region.getRegionWidth(), region.getRegionHeight());
 		if (body != null) {
@@ -111,6 +113,7 @@ public class SpaceShip extends Object{
 			shape.rect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * ((float)fuel.num / maxFuel), 5);
 		}
 		shape.end();
+		sprite.begin();
 		return true;
 	}
 	

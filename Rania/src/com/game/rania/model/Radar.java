@@ -118,7 +118,7 @@ public class Radar extends Object{
 	}
 	
 	@Override
-	public boolean draw(SpriteBatch sprite){
+	public boolean draw(SpriteBatch sprite, ShapeRenderer shape){
 		if (!visible || player == null || region == null)
 			return false;
 		
@@ -178,8 +178,8 @@ public class Radar extends Object{
 				drawRegion(spriteBuffer, sensorRegion, deltaSensor, height * 0.5f, angle, 1, height * 0.98f / sensorRegion.getRegionHeight());
 			}
 	
-			textCoord.draw(spriteBuffer);
-			textUsers.draw(spriteBuffer);
+			textCoord.draw(spriteBuffer, shape);
+			textUsers.draw(spriteBuffer, shape);
 			spriteBuffer.end();
 		} else {
 			size = player.radar.item.big_radius;

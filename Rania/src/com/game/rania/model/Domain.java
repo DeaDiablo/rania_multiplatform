@@ -8,4 +8,5 @@ public class Domain{
 	public Color color;
 	public int x;
 	public int y;
+	public int[] enemy = null;
 }

@@ -598,6 +598,11 @@ public class NetController {
 				domain.domainName = GetStringValue(ArrPtr, DomainNameLen);
 				domain.x 	 	  = GetIntValue(ArrPtr);
 				domain.y 		  = GetIntValue(ArrPtr);
+				int enemyCount = GetIntValue(ArrPtr);
+				domain.enemy = new int[enemyCount];
+				for (int j=0; j<enemyCount; j++) {
+					domain.enemy[j] = GetIntValue(ArrPtr);
+				}
 				domains.put(domain.id, domain);
 			}
 			if (command.controlCRC != ArrPtr.crc)

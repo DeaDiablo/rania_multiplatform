@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.game.rania.Config;
 import com.game.rania.controller.CommandController;
 import com.game.rania.controller.Controllers;
+import com.game.rania.controller.command.AddLocationCommand;
 import com.game.rania.controller.command.AddPlanetCommand;
 import com.game.rania.controller.command.AddUserCommand;
 import com.game.rania.controller.command.AttackCommand;
@@ -155,10 +156,7 @@ public class NetController
           mClient.serverTime = cr.getInt();
           receiver = new Receiver(mClient, this);
           receiver.start();
-          if (command.controlCRC != cr.crc)
-          {
-            Gdx.app.log("CRC error", "Login");
-          }
+          checkCRC(command, cr);
           return true;
         }
         if (command.idCommand == Command.faillogin)
@@ -177,6 +175,15 @@ public class NetController
       return false;
     }
     return false;
+  }
+  
+  public boolean checkCRC(Command command, CommandReader cr){
+    if (command.controlCRC != cr.crc)
+    {
+      Gdx.app.log("CRC error", "Login");
+      return false;
+    }
+    return true;
   }
 
   public void disconnect()
@@ -452,10 +459,7 @@ public class NetController
           }
         }
       }
-      if (command.controlCRC != cr.crc)
-      {
-        Gdx.app.log("CRC error", "getItem");
-      }
+      checkCRC(command, cr);
     } catch (Exception ex)
     {
     }
@@ -495,47 +499,12 @@ public class NetController
         planet.atmophereColor = atmColor;
         planets.put(PlanetId, planet);
       }
-      if (command.controlCRC != cr.crc)
-      {
-        Gdx.app.log("CRC error", "getPlanet");
-      }
+      checkCRC(command, cr);
     } catch (Exception ex)
     {
       clientRelogin();
     }
     return planets;
-  }
-
-  public HashMap<Integer, Location> getAllLocations()
-  {
-    HashMap<Integer, Location> locations = new HashMap<Integer, Location>();
-    try
-    {
-      mClient.stream.sendCommand(Command.locations);
-      Command command = waitCommand(Command.locations);
-      CommandReader cr = new CommandReader(command);
-      int LocationsCount = cr.getInt();
-      for (int i = 0; i < LocationsCount; i++)
-      {
-        Location Loc = new Location();
-        Loc.id = cr.getInt();
-        Loc.starName = cr.getString();
-        Loc.starType = cr.getInt();
-        Loc.x = cr.getInt();
-        Loc.y = cr.getInt();
-        Loc.starRadius = cr.getInt();
-        Loc.domain = cr.getInt();
-        locations.put(Loc.id, Loc);
-      }
-      if (command.controlCRC != cr.crc)
-      {
-        Gdx.app.log("CRC error", "getLocations");
-      }
-    } catch (Exception ex)
-    {
-      clientRelogin();
-    }
-    return locations;
   }
 
   public HashMap<Integer, Nebula> getAllNebulas()
@@ -558,10 +527,7 @@ public class NetController
         Nebula Neb = new Nebula(NebId, NebType, NebX, NebY, NebAngle, NebScale);
         nebulas.put(Neb.id, Neb);
       }
-      if (command.controlCRC != cr.crc)
-      {
-        Gdx.app.log("CRC error", "getNebulas");
-      }
+      checkCRC(command, cr);
     } catch (Exception ex)
     {
       clientRelogin();
@@ -594,10 +560,7 @@ public class NetController
         }
         domains.put(domain.id, domain);
       }
-      if (command.controlCRC != cr.crc)
-      {
-        Gdx.app.log("CRC error", "getDomains");
-      }
+      checkCRC(command, cr);
     } catch (Exception ex)
     {
       clientRelogin();
@@ -621,10 +584,7 @@ public class NetController
       String SName = cr.getString();
       Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain, UserInPlanet);
       player.setEquips(getEquips(cr));
-      if (command.controlCRC != cr.crc)
-      {
-        Gdx.app.log("CRC error", "getUserData");
-      }
+      checkCRC(command, cr);
       return player;
     } catch (Exception ex)
     {
@@ -669,11 +629,11 @@ public class NetController
       return;
     }
 
+    CommandReader cr = new CommandReader(command);
     switch (command.idCommand)
     {
       case Command.addUser:
       {
-        CommandReader cr = new CommandReader(command);
         int UserId = cr.getInt();
         String ShipName = cr.getString();
         int UserX = cr.getInt();
@@ -685,28 +645,18 @@ public class NetController
         user.setPositionTarget(TargetX, TargetY);
         user.setEquips(getEquips(cr));
         cController.addCommand(new AddUserCommand(user));
-        if (command.controlCRC != cr.crc)
-        {
-          Gdx.app.log("CRC error", "addUser");
-        }
         break;
       }
       case Command.touchUser:
       {
-        CommandReader cr = new CommandReader(command);
         int UserId = cr.getInt();
         int UserTouchX = cr.getInt();
         int UserTouchY = cr.getInt();
         cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY));
-        if (command.controlCRC != cr.crc)
-        {
-          Gdx.app.log("CRC error", "touchUser");
-        }
         break;
       }
       case Command.removeUser:
       {
-        CommandReader cr = new CommandReader(command);
         int UserId = cr.getInt();
         cController.addCommand(new RemoveUserCommand(UserId));
         break;
@@ -726,21 +676,15 @@ public class NetController
       }
       case Command.message:
       {
-        CommandReader cr = new CommandReader(command);
         int channel = cr.getInt();
         String message = cr.getString();
         String userName = cr.getString();
         String toPilot = cr.getString();
         cController.addCommand(new ChatNewMessageCommand(userName, channel, message, toPilot));
-        if (command.controlCRC != cr.crc)
-        {
-          Gdx.app.log("CRC error", "getMessage");
-        }
         break;
       }
       case Command.userAction:
       {
-        CommandReader cr = new CommandReader(command);
         int equipID = cr.getInt();
         int userID = cr.getInt();
         int targetID = cr.getInt();
@@ -760,15 +704,10 @@ public class NetController
             break;
           }
         }
-        if (command.controlCRC != cr.crc)
-        {
-          Gdx.app.log("CRC error", "userAction");
-        }
         break;
       }
       case Command.planets:
       {
-        CommandReader cr = new CommandReader(command);
         int locID = cr.getInt();
         int PlanetsCount = cr.getInt();
         for (int i = 0; i < PlanetsCount; i++)
@@ -791,9 +730,23 @@ public class NetController
           planet.price_coef = PlanetPrice_coef;
           cController.addCommand(new AddPlanetCommand(planet));
         }
-        if (command.controlCRC != cr.crc)
+        break;
+      }
+      
+      case Command.location:
+      {
+        int LocationsCount = cr.getInt();
+        for (int i = 0; i < LocationsCount; i++)
         {
-          Gdx.app.log("CRC error", "getPlanets");
+          Location location = new Location();
+          location.id = cr.getInt();
+          location.starName = cr.getString();
+          location.starType = cr.getInt();
+          location.x = cr.getInt();
+          location.y = cr.getInt();
+          location.starRadius = cr.getInt();
+          location.domain = cr.getInt();
+          cController.addCommand(new AddLocationCommand(location));
         }
         break;
       }
@@ -801,6 +754,8 @@ public class NetController
       default:
         break;
     }
+    
+    checkCRC(command, cr);
   }
 
   private List<Equip<Item>> getEquips(CommandReader cr)

@@ -31,12 +31,12 @@ public class LocationScreen extends LoadableScreen
     };
     addLoadObject(loadObject);
 
-    loadObject = new LoadObject(new String("Загрузка локаций..."))
+    loadObject = new LoadObject(new String("Загрузка мира..."))
     {
       @Override
       public void load()
       {
-        locController.loadLocationsAndNebulas();
+        locController.loadDomains();
       }
     };
     addLoadObject(loadObject);

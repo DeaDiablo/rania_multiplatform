@@ -11,7 +11,7 @@ public class Command
   public static final int disconnect   = 5;
   public static final int password     = 6;
   public static final int player       = 7;
-  public static final int locations    = 8;
+  public static final int location     = 8;
   public static final int planets      = 9;
   public static final int touchPlayer  = 10;
   public static final int loadComplite = 11;

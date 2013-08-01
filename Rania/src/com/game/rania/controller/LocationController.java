@@ -64,7 +64,7 @@ public class LocationController
   }
 
   // list objects
-  private HashMap<Integer, Location> locations       = null;
+  private HashMap<Integer, Location> locations       = new HashMap<Integer, Location>();
   private HashMap<Integer, Domain>   domains         = null;
   private HashMap<Integer, Nebula>   nebulas         = null;
   private HashMap<Integer, Planet>   planets         = new HashMap<Integer, Planet>();
@@ -89,12 +89,20 @@ public class LocationController
     removePlanets();
     removeUsers();
   }
-
-  public void loadLocationsAndNebulas()
+  
+  public void addLocation(Location location)
   {
-    if (locations == null)
+    if (locations.containsKey(location.id))
+      return;
+    locations.put(location.id, location);
+    if (player != null)
+      switchLocation(getNearLocation());
+  }
+
+  public void loadDomains()
+  {
+    if (domains == null)
     {
-      locations = nController.getAllLocations();
       domains = nController.getAllDomains();
     }
     else

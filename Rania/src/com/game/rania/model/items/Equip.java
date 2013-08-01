@@ -13,7 +13,7 @@ public class Equip<T extends Item>
     item = type.cast(equip.item);
     in_use = equip.in_use;
     wear = equip.wear;
-    location = equip.location;
+    in_planet = equip.in_planet;
     num = equip.num;
     last_use = equip.last_use;
   }
@@ -22,7 +22,7 @@ public class Equip<T extends Item>
   public T       item     = null;
   public boolean in_use   = false;
   public int     wear     = -1;
-  public int     location = -1;
+  public int     in_planet = -1;
   public int     num      = 0;
   public float   last_use = 0.0f;
 }

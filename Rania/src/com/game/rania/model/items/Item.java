@@ -25,7 +25,6 @@ public abstract class Item extends Object
     description = item.description;
     volume = item.volume;
     region_id = item.region_id;
-    packing = item.packing;
     use_only = item.use_only;
     price = item.price;
   }
@@ -39,7 +38,6 @@ public abstract class Item extends Object
   public String description;
   public int    volume;
   public int    region_id;
-  public int    packing;
   public int    use_only;
   public int    price;
 }

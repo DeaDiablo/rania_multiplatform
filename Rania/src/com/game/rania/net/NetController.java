@@ -150,12 +150,12 @@ public class NetController
         Command command = mClient.stream.readCommand();
         if (command.idCommand == Command.login)
         {
-          CommandReader ArrPtr = new CommandReader(command);
+          CommandReader cr = new CommandReader(command);
           mClient.isLogin = true;
-          mClient.serverTime = GetIntValue(ArrPtr);
+          mClient.serverTime = cr.getInt();
           receiver = new Receiver(mClient, this);
           receiver.start();
-          if (command.controlCRC != ArrPtr.crc)
+          if (command.controlCRC != cr.crc)
           {
             Gdx.app.log("CRC error", "Login");
           }
@@ -245,43 +245,39 @@ public class NetController
     {
       mClient.stream.sendCommand(Command.items);
       Command command = waitCommand(Command.items);
-      CommandReader ArrPtr = new CommandReader(command);
-      int listItemsCount = GetIntValue(ArrPtr);
+      CommandReader cr = new CommandReader(command);
+      int listItemsCount = cr.getInt();
       for (int i = 0; i < listItemsCount; i++)
       {
-        int itemsCount = GetIntValue(ArrPtr);
+        int itemsCount = cr.getInt();
         for (int j = 0; j < itemsCount; j++)
         {
-          int item_id = GetIntValue(ArrPtr);
-          int item_itemType = GetIntValue(ArrPtr);
-          int Item_DescriptionLen = GetIntValue(ArrPtr);
-          String item_description = GetStringValue(ArrPtr, Item_DescriptionLen);
-          int item_volume = GetIntValue(ArrPtr);
-          int item_region_id = GetIntValue(ArrPtr);
-          int item_packing = GetIntValue(ArrPtr);
-          int item_use_only = GetIntValue(ArrPtr);
-          int item_price = GetIntValue(ArrPtr);
+          int item_id = cr.getInt();
+          int item_itemType = cr.getInt();
+          String item_description = cr.getString();
+          int item_volume = cr.getInt();
+          int item_region_id = cr.getInt();
+          int item_use_only = cr.getInt();
+          int item_price = cr.getInt();
           if (item_itemType == 1)
           {
-            int DeviceVendorLen = GetIntValue(ArrPtr);
-            String device_vendorStr = GetStringValue(ArrPtr, DeviceVendorLen);
-            int device_deviceType = GetIntValue(ArrPtr);
-            int device_durability = GetIntValue(ArrPtr);
+            String device_vendorStr = cr.getString();
+            int device_deviceType = cr.getInt();
+            int device_durability = cr.getInt();
             switch (device_deviceType)
             {
               case Device.Type.body:
               {
-                int body_slot_weapons = GetIntValue(ArrPtr);
-                int body_slot_droids = GetIntValue(ArrPtr);
-                int body_slot_shield = GetIntValue(ArrPtr);
-                int body_slot_hyper = GetIntValue(ArrPtr);
+                int body_slot_weapons = cr.getInt();
+                int body_slot_droids = cr.getInt();
+                int body_slot_shield = cr.getInt();
+                int body_slot_hyper = cr.getInt();
                 Body body = new Body();
                 body.id = item_id;
                 body.itemType = item_itemType;
                 body.description = item_description;
                 body.volume = item_volume;
                 body.region_id = item_region_id;
-                body.packing = item_packing;
                 body.vendorStr = device_vendorStr;
                 body.deviceType = device_deviceType;
                 body.durability = device_durability;
@@ -296,15 +292,14 @@ public class NetController
               }
               case Device.Type.engine:
               {
-                int engine_power = GetIntValue(ArrPtr);
-                int engine_economic = GetIntValue(ArrPtr);
+                int engine_power = cr.getInt();
+                int engine_economic = cr.getInt();
                 Engine engine = new Engine();
                 engine.id = item_id;
                 engine.itemType = item_itemType;
                 engine.description = item_description;
                 engine.volume = item_volume;
                 engine.region_id = item_region_id;
-                engine.packing = item_packing;
                 engine.vendorStr = device_vendorStr;
                 engine.deviceType = device_deviceType;
                 engine.durability = device_durability;
@@ -317,14 +312,13 @@ public class NetController
               }
               case Device.Type.fuelbag:
               {
-                int fuelbag_compress = GetIntValue(ArrPtr);
+                int fuelbag_compress = cr.getInt();
                 Fuelbag fuelbag = new Fuelbag();
                 fuelbag.id = item_id;
                 fuelbag.itemType = item_itemType;
                 fuelbag.description = item_description;
                 fuelbag.volume = item_volume;
                 fuelbag.region_id = item_region_id;
-                fuelbag.packing = item_packing;
                 fuelbag.vendorStr = device_vendorStr;
                 fuelbag.deviceType = device_deviceType;
                 fuelbag.durability = device_durability;
@@ -336,16 +330,15 @@ public class NetController
               }
               case Device.Type.droid:
               {
-                int droid_power = GetIntValue(ArrPtr);
-                int droid_time_reload = GetIntValue(ArrPtr);
-                int radius = GetIntValue(ArrPtr);
+                int droid_power = cr.getInt();
+                int droid_time_reload = cr.getInt();
+                int radius = cr.getInt();
                 RepairKit droid = new RepairKit();
                 droid.id = item_id;
                 droid.itemType = item_itemType;
                 droid.description = item_description;
                 droid.volume = item_volume;
                 droid.region_id = item_region_id;
-                droid.packing = item_packing;
                 droid.vendorStr = device_vendorStr;
                 droid.deviceType = device_deviceType;
                 droid.durability = device_durability;
@@ -359,14 +352,13 @@ public class NetController
               }
               case Device.Type.shield:
               {
-                int shield_power = GetIntValue(ArrPtr);
+                int shield_power = cr.getInt();
                 Shield shield = new Shield();
                 shield.id = item_id;
                 shield.itemType = item_itemType;
                 shield.description = item_description;
                 shield.volume = item_volume;
                 shield.region_id = item_region_id;
-                shield.packing = item_packing;
                 shield.vendorStr = device_vendorStr;
                 shield.deviceType = device_deviceType;
                 shield.durability = device_durability;
@@ -378,16 +370,15 @@ public class NetController
               }
               case Device.Type.hyper:
               {
-                int hyper_radius = GetIntValue(ArrPtr);
-                int hyper_time_start = GetIntValue(ArrPtr);
-                int hyper_time_reload = GetIntValue(ArrPtr);
+                int hyper_radius = cr.getInt();
+                int hyper_time_start = cr.getInt();
+                int hyper_time_reload = cr.getInt();
                 Hyper hyper = new Hyper();
                 hyper.id = item_id;
                 hyper.itemType = item_itemType;
                 hyper.description = item_description;
                 hyper.volume = item_volume;
                 hyper.region_id = item_region_id;
-                hyper.packing = item_packing;
                 hyper.vendorStr = device_vendorStr;
                 hyper.deviceType = device_deviceType;
                 hyper.durability = device_durability;
@@ -401,16 +392,15 @@ public class NetController
               }
               case Device.Type.radar:
               {
-                int radar_radius = GetIntValue(ArrPtr);
-                int radar_defense = GetIntValue(ArrPtr);
-                int big_radius = GetIntValue(ArrPtr);
+                int radar_radius = cr.getInt();
+                int radar_defense = cr.getInt();
+                int big_radius = cr.getInt();
                 Radar radar = new Radar();
                 radar.id = item_id;
                 radar.itemType = item_itemType;
                 radar.description = item_description;
                 radar.volume = item_volume;
                 radar.region_id = item_region_id;
-                radar.packing = item_packing;
                 radar.vendorStr = device_vendorStr;
                 radar.deviceType = device_deviceType;
                 radar.durability = device_durability;
@@ -424,18 +414,17 @@ public class NetController
               }
               case Device.Type.weapon:
               {
-                int weapon_weaponType = GetIntValue(ArrPtr);
-                int weapon_radius = GetIntValue(ArrPtr);
-                int weapon_power = GetIntValue(ArrPtr);
-                int weapon_time_start = GetIntValue(ArrPtr);
-                int weapon_time_reload = GetIntValue(ArrPtr);
+                int weapon_weaponType = cr.getInt();
+                int weapon_radius = cr.getInt();
+                int weapon_power = cr.getInt();
+                int weapon_time_start = cr.getInt();
+                int weapon_time_reload = cr.getInt();
                 Weapon weapon = new Weapon();
                 weapon.id = item_id;
                 weapon.itemType = item_itemType;
                 weapon.description = item_description;
                 weapon.volume = item_volume;
                 weapon.region_id = item_region_id;
-                weapon.packing = item_packing;
                 weapon.vendorStr = device_vendorStr;
                 weapon.deviceType = device_deviceType;
                 weapon.durability = device_durability;
@@ -459,12 +448,11 @@ public class NetController
             item.description = item_description;
             item.volume = item_volume;
             item.region_id = item_region_id;
-            item.packing = item_packing;
             iCollect.consumables.put(item.id, item);
           }
         }
       }
-      if (command.controlCRC != ArrPtr.crc)
+      if (command.controlCRC != cr.crc)
       {
         Gdx.app.log("CRC error", "getItem");
       }
@@ -484,31 +472,30 @@ public class NetController
         return null;
 
       Command command = waitCommand(Command.planets);
-      CommandReader ArrPtr = new CommandReader(command);
-      ArrPtr.delta(4);
-      int PlanetsCount = GetIntValue(ArrPtr);
+      CommandReader cr = new CommandReader(command);
+      cr.delta(4);
+      int PlanetsCount = cr.getInt();
       for (int i = 0; i < PlanetsCount; i++)
       {
-        int PlanetId = GetIntValue(ArrPtr);
-        int PlanetNameLen = GetIntValue(ArrPtr);
-        String PlanetName = GetStringValue(ArrPtr, PlanetNameLen);
-        int PlanetType = GetIntValue(ArrPtr);
-        int PlanetSpeed = GetIntValue(ArrPtr);
-        int PlanetOrbit = GetIntValue(ArrPtr);
-        int PlanetRadius = GetIntValue(ArrPtr);
-        Color color = GetColorValue(ArrPtr);
-        Color atmColor = GetColorValue(ArrPtr);
-        int PlanetDomain = GetIntValue(ArrPtr);
-        int PlanetAtmosphere_speedX = GetIntValue(ArrPtr);
-        int PlanetAtmosphere_speedY = GetIntValue(ArrPtr);
-        int PlanetPrice_coef = GetIntValue(ArrPtr);
+        int PlanetId = cr.getInt();
+        String PlanetName = cr.getString();
+        int PlanetType = cr.getInt();
+        int PlanetSpeed = cr.getInt();
+        int PlanetOrbit = cr.getInt();
+        int PlanetRadius = cr.getInt();
+        Color color = cr.getColor();
+        Color atmColor = cr.getColor();
+        int PlanetDomain = cr.getInt();
+        int PlanetAtmosphere_speedX = cr.getInt();
+        int PlanetAtmosphere_speedY = cr.getInt();
+        int PlanetPrice_coef = cr.getInt();
         Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, idLocation, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
         planet.color = color;
         planet.price_coef = PlanetPrice_coef;
         planet.atmophereColor = atmColor;
         planets.put(PlanetId, planet);
       }
-      if (command.controlCRC != ArrPtr.crc)
+      if (command.controlCRC != cr.crc)
       {
         Gdx.app.log("CRC error", "getPlanet");
       }
@@ -526,22 +513,21 @@ public class NetController
     {
       mClient.stream.sendCommand(Command.locations);
       Command command = waitCommand(Command.locations);
-      CommandReader ArrPtr = new CommandReader(command);
-      int LocationsCount = GetIntValue(ArrPtr);
+      CommandReader cr = new CommandReader(command);
+      int LocationsCount = cr.getInt();
       for (int i = 0; i < LocationsCount; i++)
       {
         Location Loc = new Location();
-        Loc.id = GetIntValue(ArrPtr);
-        int StarNameLen = GetIntValue(ArrPtr);
-        Loc.starName = GetStringValue(ArrPtr, StarNameLen);
-        Loc.starType = GetIntValue(ArrPtr);
-        Loc.x = GetIntValue(ArrPtr);
-        Loc.y = GetIntValue(ArrPtr);
-        Loc.starRadius = GetIntValue(ArrPtr);
-        Loc.domain = GetIntValue(ArrPtr);
+        Loc.id = cr.getInt();
+        Loc.starName = cr.getString();
+        Loc.starType = cr.getInt();
+        Loc.x = cr.getInt();
+        Loc.y = cr.getInt();
+        Loc.starRadius = cr.getInt();
+        Loc.domain = cr.getInt();
         locations.put(Loc.id, Loc);
       }
-      if (command.controlCRC != ArrPtr.crc)
+      if (command.controlCRC != cr.crc)
       {
         Gdx.app.log("CRC error", "getLocations");
       }
@@ -559,20 +545,20 @@ public class NetController
     {
       mClient.stream.sendCommand(Command.nebulas);
       Command command = waitCommand(Command.nebulas);
-      CommandReader ArrPtr = new CommandReader(command);
-      int NebulasCount = GetIntValue(ArrPtr);
+      CommandReader cr = new CommandReader(command);
+      int NebulasCount = cr.getInt();
       for (int i = 0; i < NebulasCount; i++)
       {
-        int NebId = GetIntValue(ArrPtr);
-        int NebType = GetIntValue(ArrPtr);
-        int NebX = GetIntValue(ArrPtr);
-        int NebY = GetIntValue(ArrPtr);
-        int NebScale = GetIntValue(ArrPtr);
-        int NebAngle = GetIntValue(ArrPtr);
+        int NebId = cr.getInt();
+        int NebType = cr.getInt();
+        int NebX = cr.getInt();
+        int NebY = cr.getInt();
+        int NebScale = cr.getInt();
+        int NebAngle = cr.getInt();
         Nebula Neb = new Nebula(NebId, NebType, NebX, NebY, NebAngle, NebScale);
         nebulas.put(Neb.id, Neb);
       }
-      if (command.controlCRC != ArrPtr.crc)
+      if (command.controlCRC != cr.crc)
       {
         Gdx.app.log("CRC error", "getNebulas");
       }
@@ -590,26 +576,25 @@ public class NetController
     {
       mClient.stream.sendCommand(Command.domains);
       Command command = waitCommand(Command.domains);
-      CommandReader ArrPtr = new CommandReader(command);
-      int DomainsCount = GetIntValue(ArrPtr);
+      CommandReader cr = new CommandReader(command);
+      int DomainsCount = cr.getInt();
       for (int i = 0; i < DomainsCount; i++)
       {
         Domain domain = new Domain();
-        domain.id = GetIntValue(ArrPtr);
-        domain.color = GetColorValue(ArrPtr);
-        int DomainNameLen = GetIntValue(ArrPtr);
-        domain.domainName = GetStringValue(ArrPtr, DomainNameLen);
-        domain.x = GetIntValue(ArrPtr);
-        domain.y = GetIntValue(ArrPtr);
-        int enemyCount = GetIntValue(ArrPtr);
+        domain.id = cr.getInt();
+        domain.color = cr.getColor();
+        domain.domainName = cr.getString();
+        domain.x = cr.getInt();
+        domain.y = cr.getInt();
+        int enemyCount = cr.getInt();
         domain.enemy = new int[enemyCount];
         for (int j = 0; j < enemyCount; j++)
         {
-          domain.enemy[j] = GetIntValue(ArrPtr);
+          domain.enemy[j] = cr.getInt();
         }
         domains.put(domain.id, domain);
       }
-      if (command.controlCRC != ArrPtr.crc)
+      if (command.controlCRC != cr.crc)
       {
         Gdx.app.log("CRC error", "getDomains");
       }
@@ -626,19 +611,17 @@ public class NetController
     {
       mClient.stream.sendCommand(Command.player);
       Command command = waitCommand(Command.player);
-      CommandReader ArrPtr = new CommandReader(command);
-      int UserId = GetIntValue(ArrPtr);
-      int UserX = GetIntValue(ArrPtr);
-      int UserY = GetIntValue(ArrPtr);
-      int UserDomain = GetIntValue(ArrPtr);
-      int UserInPlanet = GetIntValue(ArrPtr);
-      int PnameLen = GetIntValue(ArrPtr);
-      String PName = GetStringValue(ArrPtr, PnameLen);
-      int SnameLen = GetIntValue(ArrPtr);
-      String SName = GetStringValue(ArrPtr, SnameLen);
+      CommandReader cr = new CommandReader(command);
+      int UserId = cr.getInt();
+      int UserX = cr.getInt();
+      int UserY = cr.getInt();
+      int UserDomain = cr.getInt();
+      int UserInPlanet = cr.getInt();
+      String PName = cr.getString();
+      String SName = cr.getString();
       Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain, UserInPlanet);
-      player.setEquips(getEquips(ArrPtr));
-      if (command.controlCRC != ArrPtr.crc)
+      player.setEquips(getEquips(cr));
+      if (command.controlCRC != cr.crc)
       {
         Gdx.app.log("CRC error", "getUserData");
       }
@@ -690,20 +673,19 @@ public class NetController
     {
       case Command.addUser:
       {
-        CommandReader ArrPtr = new CommandReader(command);
-        int UserId = GetIntValue(ArrPtr);
-        int ShipNameLen = GetIntValue(ArrPtr);
-        String ShipName = GetStringValue(ArrPtr, ShipNameLen);
-        int UserX = GetIntValue(ArrPtr);
-        int UserY = GetIntValue(ArrPtr);
-        int TargetX = GetIntValue(ArrPtr);
-        int TargetY = GetIntValue(ArrPtr);
-        int UserDomain = GetIntValue(ArrPtr);
+        CommandReader cr = new CommandReader(command);
+        int UserId = cr.getInt();
+        String ShipName = cr.getString();
+        int UserX = cr.getInt();
+        int UserY = cr.getInt();
+        int TargetX = cr.getInt();
+        int TargetY = cr.getInt();
+        int UserDomain = cr.getInt();
         User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
         user.setPositionTarget(TargetX, TargetY);
-        user.setEquips(getEquips(ArrPtr));
+        user.setEquips(getEquips(cr));
         cController.addCommand(new AddUserCommand(user));
-        if (command.controlCRC != ArrPtr.crc)
+        if (command.controlCRC != cr.crc)
         {
           Gdx.app.log("CRC error", "addUser");
         }
@@ -711,12 +693,12 @@ public class NetController
       }
       case Command.touchUser:
       {
-        CommandReader ArrPtr = new CommandReader(command);
-        int UserId = GetIntValue(ArrPtr);
-        int UserTouchX = GetIntValue(ArrPtr);
-        int UserTouchY = GetIntValue(ArrPtr);
+        CommandReader cr = new CommandReader(command);
+        int UserId = cr.getInt();
+        int UserTouchX = cr.getInt();
+        int UserTouchY = cr.getInt();
         cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY));
-        if (command.controlCRC != ArrPtr.crc)
+        if (command.controlCRC != cr.crc)
         {
           Gdx.app.log("CRC error", "touchUser");
         }
@@ -724,7 +706,8 @@ public class NetController
       }
       case Command.removeUser:
       {
-        int UserId = GetIntValue(new CommandReader(command));
+        CommandReader cr = new CommandReader(command);
+        int UserId = cr.getInt();
         cController.addCommand(new RemoveUserCommand(UserId));
         break;
       }
@@ -743,16 +726,13 @@ public class NetController
       }
       case Command.message:
       {
-        CommandReader ArrPtr = new CommandReader(command);
-        int channel = GetIntValue(ArrPtr);
-        int messageLen = GetIntValue(ArrPtr);
-        String message = GetStringValue(ArrPtr, messageLen);
-        int nameLen = GetIntValue(ArrPtr);
-        String userName = GetStringValue(ArrPtr, nameLen);
-        int toPilotLen = GetIntValue(ArrPtr);
-        String toPilot = GetStringValue(ArrPtr, toPilotLen);
+        CommandReader cr = new CommandReader(command);
+        int channel = cr.getInt();
+        String message = cr.getString();
+        String userName = cr.getString();
+        String toPilot = cr.getString();
         cController.addCommand(new ChatNewMessageCommand(userName, channel, message, toPilot));
-        if (command.controlCRC != ArrPtr.crc)
+        if (command.controlCRC != cr.crc)
         {
           Gdx.app.log("CRC error", "getMessage");
         }
@@ -760,55 +740,58 @@ public class NetController
       }
       case Command.userAction:
       {
-        CommandReader ArrPtr = new CommandReader(command);
-        int equipID = GetIntValue(ArrPtr);
-        int userID = GetIntValue(ArrPtr);
-        int targetID = GetIntValue(ArrPtr);
-        int action = GetIntValue(ArrPtr);
+        CommandReader cr = new CommandReader(command);
+        int equipID = cr.getInt();
+        int userID = cr.getInt();
+        int targetID = cr.getInt();
+        int action = cr.getInt();
         switch (action)
         {
           case User.Action.attack:
           {
-            int dmg = GetIntValue(ArrPtr);
+            int dmg = cr.getInt();
             cController.addCommand(new AttackCommand(userID, targetID, equipID, dmg));
             break;
           }
           case User.Action.repair:
           {
-            int rapair = GetIntValue(ArrPtr);
+            int rapair = cr.getInt();
             cController.addCommand(new RepairCommand(userID, targetID, equipID, rapair));
             break;
           }
+        }
+        if (command.controlCRC != cr.crc)
+        {
+          Gdx.app.log("CRC error", "userAction");
         }
         break;
       }
       case Command.planets:
       {
-        CommandReader ArrPtr = new CommandReader(command);
-        int locID = GetIntValue(ArrPtr);
-        int PlanetsCount = GetIntValue(ArrPtr);
+        CommandReader cr = new CommandReader(command);
+        int locID = cr.getInt();
+        int PlanetsCount = cr.getInt();
         for (int i = 0; i < PlanetsCount; i++)
         {
-          int PlanetId = GetIntValue(ArrPtr);
-          int PlanetNameLen = GetIntValue(ArrPtr);
-          String PlanetName = GetStringValue(ArrPtr, PlanetNameLen);
-          int PlanetType = GetIntValue(ArrPtr);
-          int PlanetSpeed = GetIntValue(ArrPtr);
-          int PlanetOrbit = GetIntValue(ArrPtr);
-          int PlanetRadius = GetIntValue(ArrPtr);
-          Color PlanetColor = GetColorValue(ArrPtr);
-          Color AtmColor = GetColorValue(ArrPtr);
-          int PlanetDomain = GetIntValue(ArrPtr);
-          int PlanetAtmosphere_speedX = GetIntValue(ArrPtr);
-          int PlanetAtmosphere_speedY = GetIntValue(ArrPtr);
-          int PlanetPrice_coef = GetIntValue(ArrPtr);
+          int PlanetId = cr.getInt();
+          String PlanetName = cr.getString();
+          int PlanetType = cr.getInt();
+          int PlanetSpeed = cr.getInt();
+          int PlanetOrbit = cr.getInt();
+          int PlanetRadius = cr.getInt();
+          Color PlanetColor = cr.getColor();
+          Color AtmColor = cr.getColor();
+          int PlanetDomain = cr.getInt();
+          int PlanetAtmosphere_speedX = cr.getInt();
+          int PlanetAtmosphere_speedY = cr.getInt();
+          int PlanetPrice_coef = cr.getInt();
           Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, locID, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
           planet.color = PlanetColor;
           planet.atmophereColor = AtmColor;
           planet.price_coef = PlanetPrice_coef;
           cController.addCommand(new AddPlanetCommand(planet));
         }
-        if (command.controlCRC != ArrPtr.crc)
+        if (command.controlCRC != cr.crc)
         {
           Gdx.app.log("CRC error", "getPlanets");
         }
@@ -820,29 +803,29 @@ public class NetController
     }
   }
 
-  private List<Equip<Item>> getEquips(CommandReader ArrPtr)
+  private List<Equip<Item>> getEquips(CommandReader cr)
   {
     ItemCollection items = Controllers.locController.getItems();
     if (items == null)
       return null;
     List<Equip<Item>> equip = new ArrayList<Equip<Item>>();
-    int eqCount = GetIntValue(ArrPtr);
+    int eqCount = cr.getInt();
 
     for (int j = 0; j < eqCount; j++)
     {
-      int equip_id = GetIntValue(ArrPtr);
-      int item_id = GetIntValue(ArrPtr);
-      int iType = GetIntValue(ArrPtr);
-      int dType = GetIntValue(ArrPtr);
-      int in_use = GetIntValue(ArrPtr);
-      int wear = GetIntValue(ArrPtr);
-      int location = GetIntValue(ArrPtr);
-      int num = GetIntValue(ArrPtr);
+      int equip_id = cr.getInt();
+      int item_id = cr.getInt();
+      int iType = cr.getInt();
+      int dType = cr.getInt();
+      int in_use = cr.getInt();
+      int wear = cr.getInt();
+      int in_planet = cr.getInt();
+      int num = cr.getInt();
       Equip<Item> eq = new Equip<Item>();
       eq.id = equip_id;
       eq.in_use = in_use == 1 ? true : false;
       eq.wear = wear;
-      eq.location = location;
+      eq.in_planet = in_planet;
       eq.num = num;
       eq.item = null;
       if (iType == Item.Type.device)
@@ -900,68 +883,6 @@ public class NetController
     return equip;
   }
 
-  private int GetIntValue(CommandReader AC)
-  {
-    int Res = 0;
-    if (!AC.endOfData)
-    {
-      byte[] Arr = new byte[4];
-      System.arraycopy(AC.data, AC.address, Arr, 0, 4);
-      AC.delta(4);
-      Res = byteArrayToInt(Arr);
-    }
-    else
-    {
-      Gdx.app.log("Read Data error", "getIntValue");
-    }
-    return Res;
-  }
-
-  private String GetStringValue(CommandReader AC, int SL)
-  {
-    String Res = "";
-    if (!AC.endOfData)
-    {
-      byte[] Arr = new byte[SL];
-      System.arraycopy(AC.data, AC.address, Arr, 0, SL);
-      AC.delta(SL);
-      try
-      {
-        Res = new String(Arr, "UTF-16LE");
-      } catch (UnsupportedEncodingException e)
-      {
-        Gdx.app.log("Получение строки", "Ошибка: " + e.getMessage());
-      }
-    }
-    else
-    {
-      Gdx.app.log("Read Data error", "getStringValue");
-    }
-    return Res;
-  }
-
-  private Color GetColorValue(CommandReader AC)
-  {
-    Color Res = null;
-    if (!AC.endOfData)
-    {
-      byte[] Arr = new byte[4];
-
-      System.arraycopy(AC.data, AC.address, Arr, 0, 4);
-      AC.delta(4);
-      char R = (char) (Arr[0] & 0xFF);
-      char G = (char) (Arr[1] & 0xFF);
-      char B = (char) (Arr[2] & 0xFF);
-      char A = (char) (Arr[3] & 0xFF);
-      Res = new Color(R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
-    }
-    else
-    {
-      Gdx.app.log("Read Data error", "getColorValue");
-    }
-    return Res;
-  }
-
   class CommandReader
   {
     public int     address;
@@ -997,6 +918,66 @@ public class NetController
       {
         this.endOfData = true;
       }
+    }
+    public int getInt()
+    {
+      int Res = 0;
+      if (!this.endOfData)
+      {
+        byte[] Arr = new byte[4];
+        System.arraycopy(this.data, this.address, Arr, 0, 4);
+        delta(4);
+        Res = byteArrayToInt(Arr);
+      }
+      else
+      {
+        Gdx.app.log("Read Data error", "getIntValue");
+      }
+      return Res;
+    }
+    public String getString()
+    {
+      String Res = "";
+      if (!this.endOfData)
+      {
+        int SL = this.getInt();
+        byte[] Arr = new byte[SL];
+        System.arraycopy(this.data, this.address, Arr, 0, SL);
+        delta(SL);
+        try
+        {
+          Res = new String(Arr, "UTF-16LE");
+        } catch (UnsupportedEncodingException e)
+        {
+          Gdx.app.log("Получение строки", "Ошибка: " + e.getMessage());
+        }
+      }
+      else
+      {
+        Gdx.app.log("Read Data error", "getStringValue");
+      }
+      return Res;
+    }
+    private Color getColor()
+    {
+      Color Res = null;
+      if (!this.endOfData)
+      {
+        byte[] Arr = new byte[4];
+
+        System.arraycopy(this.data, this.address, Arr, 0, 4);
+        delta(4);
+        char R = (char) (Arr[0] & 0xFF);
+        char G = (char) (Arr[1] & 0xFF);
+        char B = (char) (Arr[2] & 0xFF);
+        char A = (char) (Arr[3] & 0xFF);
+        Res = new Color(R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
+      }
+      else
+      {
+        Gdx.app.log("Read Data error", "getColorValue");
+      }
+      return Res;
     }
   }
 }

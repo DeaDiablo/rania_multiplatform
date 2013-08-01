@@ -223,7 +223,7 @@ public class SpaceShip extends Object
 
     if (fuelbag != null)
     {
-      maxFuel = (int) fuelbag.item.volume * fuelbag.item.compress / 100 * fuel.item.packing;
+      maxFuel = (int) fuelbag.item.volume * fuelbag.item.compress / 100;
       fuel.num = fuel.num > maxFuel ? maxFuel : fuel.num;
     }
 

@@ -919,6 +919,7 @@ public class NetController
         this.endOfData = true;
       }
     }
+
     public int getInt()
     {
       int Res = 0;
@@ -935,6 +936,7 @@ public class NetController
       }
       return Res;
     }
+
     public String getString()
     {
       String Res = "";
@@ -958,6 +960,7 @@ public class NetController
       }
       return Res;
     }
+
     private Color getColor()
     {
       Color Res = null;

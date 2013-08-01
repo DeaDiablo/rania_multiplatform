@@ -85,190 +85,190 @@ public class SideBar extends Group implements Part
     panelBlank = new PressedButton(RegionID.BLANK, RegionID.BLANK, 0.0f, 0.0f);
 
     btnDisconnect = new PressedButton(RegionID.BTN_UI_EXIT_OFF,
-        RegionID.BTN_UI_EXIT_ON,
-        halfWidth * 0.0f,
-        -halfHeight * 0.137f,
-        new TouchAction()
-        {
-          @Override
-          public void execute(boolean touch)
-          {
-            Controllers.netController.disconnect();
-          }
-        });
+                                      RegionID.BTN_UI_EXIT_ON,
+                                      halfWidth * 0.0f,
+                                      -halfHeight * 0.137f,
+                                      new TouchAction()
+                                      {
+                                        @Override
+                                        public void execute(boolean touch)
+                                        {
+                                          Controllers.netController.disconnect();
+                                        }
+                                      });
 
     btnCancel = new PressedButton(RegionID.BTN_UI_BACK_OFF,
-        RegionID.BTN_UI_BACK_ON,
-        halfWidth * 0.0f, halfHeight * 0.137f,
-        new TouchAction()
-        {
-          @Override
-          public void execute(boolean touch)
-          {
-            setVisible(panel);
-            lController.getRadar().visible = true;
-            Parts.getInfoPanel().setVisible(true);
-            Parts.getSkillsPanel().setVisible(true);
-            RaniaGame.mController.addProcessor(lController.getPlayerController());
-          }
-        });
+                                  RegionID.BTN_UI_BACK_ON,
+                                  halfWidth * 0.0f, halfHeight * 0.137f,
+                                  new TouchAction()
+                                  {
+                                    @Override
+                                    public void execute(boolean touch)
+                                    {
+                                      setVisible(panel);
+                                      lController.getRadar().visible = true;
+                                      Parts.getInfoPanel().setVisible(true);
+                                      Parts.getSkillsPanel().setVisible(true);
+                                      RaniaGame.mController.addProcessor(lController.getPlayerController());
+                                    }
+                                  });
 
     btnMenu = new PressedButton(RegionID.BTN_UI_MENU_OFF,
-        RegionID.BTN_UI_MENU_ON,
-        halfWidth * 0.9396f, -halfHeight * 0.8926f,
-        new TouchAction()
-        {
-          @Override
-          public void execute(boolean touch)
-          {
-            setVisible(menu);
-            lController.getRadar().visible = false;
-            Parts.getInfoPanel().setVisible(false);
-            Parts.getSkillsPanel().setVisible(false);
-            RaniaGame.mController.removeProcessor(lController.getPlayerController());
-          }
-        });
+                                RegionID.BTN_UI_MENU_ON,
+                                halfWidth * 0.9396f, -halfHeight * 0.8926f,
+                                new TouchAction()
+                                {
+                                  @Override
+                                  public void execute(boolean touch)
+                                  {
+                                    setVisible(menu);
+                                    lController.getRadar().visible = false;
+                                    Parts.getInfoPanel().setVisible(false);
+                                    Parts.getSkillsPanel().setVisible(false);
+                                    RaniaGame.mController.removeProcessor(lController.getPlayerController());
+                                  }
+                                });
 
     btnChat = new PressedButton(RegionID.BTN_UI_CHAT_OFF,
-        RegionID.BTN_UI_CHAT_ON,
-        halfWidth * 0.9396f, -halfHeight * 0.6963f,
-        new TouchAction()
-        {
-          @Override
-          public void execute(boolean touch)
-          {
-            chatVisible = !chatVisible;
-            chat.setVisible(chatVisible);
-            Parts.getInfoPanel().setVisible(!chatVisible);
-            Parts.getSkillsPanel().setVisible(!chatVisible);
-            lController.getRadar().visible = !chatVisible;
-            if (chatVisible)
-              RaniaGame.mController.removeProcessor(lController.getPlayerController());
-            else
-              RaniaGame.mController.addProcessor(lController.getPlayerController());
-            editUser.setFocus();
-          }
-        });
+                                RegionID.BTN_UI_CHAT_ON,
+                                halfWidth * 0.9396f, -halfHeight * 0.6963f,
+                                new TouchAction()
+                                {
+                                  @Override
+                                  public void execute(boolean touch)
+                                  {
+                                    chatVisible = !chatVisible;
+                                    chat.setVisible(chatVisible);
+                                    Parts.getInfoPanel().setVisible(!chatVisible);
+                                    Parts.getSkillsPanel().setVisible(!chatVisible);
+                                    lController.getRadar().visible = !chatVisible;
+                                    if (chatVisible)
+                                      RaniaGame.mController.removeProcessor(lController.getPlayerController());
+                                    else
+                                      RaniaGame.mController.addProcessor(lController.getPlayerController());
+                                    editUser.setFocus();
+                                  }
+                                });
 
     fieldChat = new ChatList(RegionID.FIELD_CHAT,
-        -halfWidth + mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.5f,
-        -halfHeight + mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.5f,
-        new MultilineText("", Font.getFont("data/fonts/Arial.ttf", 20),
-            new Color(1, 1, 1, 1),
-            -mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.5f + 20.0f,
-            mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.5f - 10.0f,
-            Text.Align.LEFT, Text.Align.TOP),
-        mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.95f,
-        mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.95f);
+                             -halfWidth + mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.5f,
+                             -halfHeight + mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.5f,
+                             new MultilineText("", Font.getFont("data/fonts/Arial.ttf", 20),
+                                               new Color(1, 1, 1, 1),
+                                               -mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.5f + 20.0f,
+                                               mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.5f - 10.0f,
+                                               Text.Align.LEFT, Text.Align.TOP),
+                             mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.95f,
+                             mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.95f);
     fieldChat.inverseAdd = true;
 
     editUser = new Edit(RegionID.EDIT_CHAT,
-        RegionID.EDIT_CHAT,
-        -halfWidth + mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionWidth() * 0.5f,
-        halfHeight - mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionHeight() * 0.5f,
-        new Text("", Font.getFont("data/fonts/Arial.ttf", 20),
-            new Color(1, 1, 1, 1),
-            -mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionWidth() * 0.5f + 20.0f,
-            0,
-            Text.Align.LEFT, Text.Align.CENTER),
-        255,
-        new EditAction()
-        {
-          @Override
-          public void execute(Edit edit)
-          {
-            Controllers.netController.sendChatMessage(edit.getText(), fieldChat.getCurrentChannel());
-            edit.setText("");
-            edit.setFocus();
-          }
-        });
+                        RegionID.EDIT_CHAT,
+                        -halfWidth + mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionWidth() * 0.5f,
+                        halfHeight - mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionHeight() * 0.5f,
+                        new Text("", Font.getFont("data/fonts/Arial.ttf", 20),
+                                 new Color(1, 1, 1, 1),
+                                 -mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionWidth() * 0.5f + 20.0f,
+                                 0,
+                                 Text.Align.LEFT, Text.Align.CENTER),
+                        255,
+                        new EditAction()
+                        {
+                          @Override
+                          public void execute(Edit edit)
+                          {
+                            Controllers.netController.sendChatMessage(edit.getText(), fieldChat.getCurrentChannel());
+                            edit.setText("");
+                            edit.setFocus();
+                          }
+                        });
     editUser.needUpFocus = false;
     editUser.alwaysFill = true;
 
     btnSend = new PressedButton(RegionID.BTN_UI_SEND_OFF,
-        RegionID.BTN_UI_SEND_ON,
-        -halfWidth + mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionWidth()
-            + mView.getTextureRegion(RegionID.BTN_UI_SEND_OFF).getRegionWidth() * 0.5f,
-        editUser.position.y,
-        new TouchAction()
-        {
-          @Override
-          public void execute(boolean touch)
-          {
-            editUser.keyUp(Input.Keys.ENTER);
-          }
-        });
+                                RegionID.BTN_UI_SEND_ON,
+                                -halfWidth + mView.getTextureRegion(RegionID.EDIT_CHAT).getRegionWidth()
+                                    + mView.getTextureRegion(RegionID.BTN_UI_SEND_OFF).getRegionWidth() * 0.5f,
+                                editUser.position.y,
+                                new TouchAction()
+                                {
+                                  @Override
+                                  public void execute(boolean touch)
+                                  {
+                                    editUser.keyUp(Input.Keys.ENTER);
+                                  }
+                                });
 
     grpButtons = new RadioGroup();
     btnMain = new RadioButton(RegionID.BTN_UI_CHANNEL_MAIN_OFF,
-        RegionID.BTN_UI_CHANNEL_MAIN_ON,
-        halfWidth * 0.9396f,
-        halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 0.75f,
-        new TouchAction()
-        {
-          @Override
-          public void execute(boolean touch)
-          {
-            fieldChat.setCurrentChannel(ChatList.mainChannel);
-          }
-        });
+                              RegionID.BTN_UI_CHANNEL_MAIN_ON,
+                              halfWidth * 0.9396f,
+                              halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 0.75f,
+                              new TouchAction()
+                              {
+                                @Override
+                                public void execute(boolean touch)
+                                {
+                                  fieldChat.setCurrentChannel(ChatList.mainChannel);
+                                }
+                              });
     btnMain.setCheck(true);
     grpButtons.addButton(btnMain);
 
     btnLocation = new RadioButton(RegionID.BTN_UI_CHANNEL_LOCATION_OFF,
-        RegionID.BTN_UI_CHANNEL_LOCATION_ON,
-        halfWidth * 0.9396f,
-        halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 2.0f,
-        new TouchAction()
-        {
-          @Override
-          public void execute(boolean touch)
-          {
-            fieldChat.setCurrentChannel(ChatList.locationChannel);
-          }
-        });
+                                  RegionID.BTN_UI_CHANNEL_LOCATION_ON,
+                                  halfWidth * 0.9396f,
+                                  halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 2.0f,
+                                  new TouchAction()
+                                  {
+                                    @Override
+                                    public void execute(boolean touch)
+                                    {
+                                      fieldChat.setCurrentChannel(ChatList.locationChannel);
+                                    }
+                                  });
     grpButtons.addButton(btnLocation);
 
     btnPlanet = new RadioButton(RegionID.BTN_UI_CHANNEL_PLANET_OFF,
-        RegionID.BTN_UI_CHANNEL_PLANET_ON,
-        halfWidth * 0.9396f,
-        halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 3.25f,
-        new TouchAction()
-        {
-          @Override
-          public void execute(boolean touch)
-          {
-            fieldChat.setCurrentChannel(ChatList.planetChannel);
-          }
-        });
+                                RegionID.BTN_UI_CHANNEL_PLANET_ON,
+                                halfWidth * 0.9396f,
+                                halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 3.25f,
+                                new TouchAction()
+                                {
+                                  @Override
+                                  public void execute(boolean touch)
+                                  {
+                                    fieldChat.setCurrentChannel(ChatList.planetChannel);
+                                  }
+                                });
     grpButtons.addButton(btnPlanet);
 
     btnDomain = new RadioButton(RegionID.BTN_UI_CHANNEL_DOMAIN_OFF,
-        RegionID.BTN_UI_CHANNEL_DOMAIN_ON,
-        halfWidth * 0.9396f,
-        halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 4.5f,
-        new TouchAction()
-        {
-          @Override
-          public void execute(boolean touch)
-          {
-            fieldChat.setCurrentChannel(ChatList.domainChannel);
-          }
-        });
+                                RegionID.BTN_UI_CHANNEL_DOMAIN_ON,
+                                halfWidth * 0.9396f,
+                                halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 4.5f,
+                                new TouchAction()
+                                {
+                                  @Override
+                                  public void execute(boolean touch)
+                                  {
+                                    fieldChat.setCurrentChannel(ChatList.domainChannel);
+                                  }
+                                });
     grpButtons.addButton(btnDomain);
 
     btnPrivate = new RadioButton(RegionID.BTN_UI_CHANNEL_PRIVATE_OFF,
-        RegionID.BTN_UI_CHANNEL_PRIVATE_ON,
-        halfWidth * 0.9396f,
-        halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 5.75f,
-        new TouchAction()
-        {
-          @Override
-          public void execute(boolean touch)
-          {
-            fieldChat.setCurrentChannel(ChatList.privateChannel);
-          }
-        });
+                                 RegionID.BTN_UI_CHANNEL_PRIVATE_ON,
+                                 halfWidth * 0.9396f,
+                                 halfHeight - mView.getTextureRegion(RegionID.BTN_UI_CHANNEL_MAIN_OFF).getRegionHeight() * 5.75f,
+                                 new TouchAction()
+                                 {
+                                   @Override
+                                   public void execute(boolean touch)
+                                   {
+                                     fieldChat.setCurrentChannel(ChatList.privateChannel);
+                                   }
+                                 });
     grpButtons.addButton(btnPrivate);
 
     menu.addElement(panelBlank);

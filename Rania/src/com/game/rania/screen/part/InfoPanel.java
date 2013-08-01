@@ -102,15 +102,15 @@ public class InfoPanel extends Group implements Part
     float halfHeight = mView.getHUDCamera().getHeight() * 0.5f;
 
     info = new TextList(RegionID.INFO,
-        -halfWidth + mView.getTexture(RegionID.INFO).getWidth() * 0.5f,
-        halfHeight - mView.getTexture(RegionID.INFO).getHeight() * 0.5f,
-        new MultilineText("", Font.getFont("data/fonts/Arial.ttf", 20),
-            new Color(1, 1, 1, 1),
-            -mView.getTextureRegion(RegionID.INFO).getRegionWidth() * 0.5f + 10.0f,
-            mView.getTextureRegion(RegionID.INFO).getRegionHeight() * 0.5f - 10.0f,
-            Text.Align.LEFT, Text.Align.TOP),
-        mView.getTextureRegion(RegionID.INFO).getRegionWidth() * 0.95f,
-        mView.getTextureRegion(RegionID.INFO).getRegionHeight() * 0.95f);
+                        -halfWidth + mView.getTexture(RegionID.INFO).getWidth() * 0.5f,
+                        halfHeight - mView.getTexture(RegionID.INFO).getHeight() * 0.5f,
+                        new MultilineText("", Font.getFont("data/fonts/Arial.ttf", 20),
+                                          new Color(1, 1, 1, 1),
+                                          -mView.getTextureRegion(RegionID.INFO).getRegionWidth() * 0.5f + 10.0f,
+                                          mView.getTextureRegion(RegionID.INFO).getRegionHeight() * 0.5f - 10.0f,
+                                          Text.Align.LEFT, Text.Align.TOP),
+                        mView.getTextureRegion(RegionID.INFO).getRegionWidth() * 0.95f,
+                        mView.getTextureRegion(RegionID.INFO).getRegionHeight() * 0.95f);
     addElement(info);
   }
 

@@ -18,11 +18,11 @@ public class Equip<T extends Item>
     last_use = equip.last_use;
   }
 
-  public int     id       = 0;
-  public T       item     = null;
-  public boolean in_use   = false;
-  public int     wear     = -1;
+  public int     id        = 0;
+  public T       item      = null;
+  public boolean in_use    = false;
+  public int     wear      = -1;
   public int     in_planet = -1;
-  public int     num      = 0;
-  public float   last_use = 0.0f;
+  public int     num       = 0;
+  public float   last_use  = 0.0f;
 }

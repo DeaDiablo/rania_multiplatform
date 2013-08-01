@@ -245,8 +245,8 @@ public class LocationController
   public void loadRadar()
   {
     radar = new Radar(player,
-        (mView.getHUDCamera().getWidth() - mView.getTextureRegion(RegionID.RADAR).getRegionWidth()) * 0.5f,
-        (mView.getHUDCamera().getHeight() - mView.getTextureRegion(RegionID.RADAR).getRegionHeight()) * 0.5f);
+                      (mView.getHUDCamera().getWidth() - mView.getTextureRegion(RegionID.RADAR).getRegionWidth()) * 0.5f,
+                      (mView.getHUDCamera().getHeight() - mView.getTextureRegion(RegionID.RADAR).getRegionHeight()) * 0.5f);
   }
 
   public void setRadar(Radar newRadar)
@@ -280,11 +280,11 @@ public class LocationController
     if (currentLocation.star == null)
     {
       currentLocation.star = new Star(currentLocation.id,
-          currentLocation.starName,
-          currentLocation.starType,
-          currentLocation.x,
-          currentLocation.y,
-          currentLocation.starRadius);
+                                      currentLocation.starName,
+                                      currentLocation.starType,
+                                      currentLocation.x,
+                                      currentLocation.y,
+                                      currentLocation.starRadius);
     }
 
     star = currentLocation.star;
@@ -307,11 +307,11 @@ public class LocationController
     if (currentLocation.star == null)
     {
       currentLocation.star = new Star(currentLocation.id,
-          currentLocation.starName,
-          currentLocation.starType,
-          currentLocation.x,
-          currentLocation.y,
-          currentLocation.starRadius);
+                                      currentLocation.starName,
+                                      currentLocation.starType,
+                                      currentLocation.x,
+                                      currentLocation.y,
+                                      currentLocation.starRadius);
     }
 
     star = currentLocation.star;

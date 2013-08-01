@@ -181,9 +181,9 @@ public class Object
     float width = getWidth();
     float height = getHeight();
     Rectangle rect = new Rectangle(position.x - width * 0.5f,
-        position.y - height * 0.5f,
-        width,
-        height);
+                                   position.y - height * 0.5f,
+                                   width,
+                                   height);
     Vector2 point = new Vector2(x, y);
     point.sub(position);
     point.rotate(angle);
@@ -278,15 +278,15 @@ public class Object
 
     calcOffset(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
     sprite.draw(textureRegion,
-        x + offset.x,
-        y + offset.y,
-        -offset.x,
-        -offset.y,
-        textureRegion.getRegionWidth(),
-        textureRegion.getRegionHeight(),
-        scaleX,
-        scaleY,
-        angle);
+                x + offset.x,
+                y + offset.y,
+                -offset.x,
+                -offset.y,
+                textureRegion.getRegionWidth(),
+                textureRegion.getRegionHeight(),
+                scaleX,
+                scaleY,
+                angle);
 
     return true;
   }

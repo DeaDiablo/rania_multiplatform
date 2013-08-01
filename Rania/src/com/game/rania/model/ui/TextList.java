@@ -95,7 +95,7 @@ public class TextList extends Object
 
       int divIndex = 0;
       while (divIndex < text.length() &&
-          this.text.getTextBound(text.substring(0, divIndex)).width < widthList)
+             this.text.getTextBound(text.substring(0, divIndex)).width < widthList)
       {
         divIndex++;
       }

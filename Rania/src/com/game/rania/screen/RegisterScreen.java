@@ -143,17 +143,17 @@ public class RegisterScreen extends RaniaScreen
     mView.loadTexture("data/gui/back.png", RegionID.BTNBACK_OFF, 0, 0, 512, 128);
     mView.loadTexture("data/gui/back.png", RegionID.BTNBACK_ON, 0, 128, 512, 128);
     mController.addHUDObject(
-        new PressedButton(RegionID.BTNBACK_OFF,
-            RegionID.BTNBACK_ON,
-            halfWidth * 0.7125f, -halfHeight * 0.8444f,
-            new TouchAction()
-            {
-              @Override
-              public void execute(boolean touch)
-              {
-                dispose();
-                RaniaGame.mGame.setScreen(new MainMenu());
-              }
-            }));
+               new PressedButton(RegionID.BTNBACK_OFF,
+                                 RegionID.BTNBACK_ON,
+                                 halfWidth * 0.7125f, -halfHeight * 0.8444f,
+                                 new TouchAction()
+                                 {
+                                   @Override
+                                   public void execute(boolean touch)
+                                   {
+                                     dispose();
+                                     RaniaGame.mGame.setScreen(new MainMenu());
+                                   }
+                                 }));
   }
 }

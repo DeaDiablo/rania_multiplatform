@@ -9,7 +9,7 @@ public class Shader extends ShaderProgram
   public Shader(String vertShader, String fragShader)
   {
     super(Gdx.files.internal(vertShader).readString(),
-        Gdx.files.internal(fragShader).readString());
+          Gdx.files.internal(fragShader).readString());
 
     if (!isCompiled())
     {

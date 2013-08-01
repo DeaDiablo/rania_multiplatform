@@ -27,13 +27,13 @@ public class LoadingScreen extends RaniaScreen
     mView.loadTexture("data/backgrounds/loading.jpg", RegionID.LOADING, false);
 
     textLoading = new TextList(RegionID.LOADING, 0.0f, 0.0f,
-        new MultilineText("Подождите...", Font.getFont("data/fonts/Arial.ttf", 30),
-            new Color(1, 1, 1, 1),
-            mView.getTextureRegion(RegionID.LOADING).getRegionWidth() * 0.5f,
-            mView.getTextureRegion(RegionID.LOADING).getRegionHeight() * 0.5f,
-            Text.Align.RIGHT, Text.Align.TOP),
-        mView.getTextureRegion(RegionID.LOADING).getRegionWidth() * 0.95f,
-        mView.getTextureRegion(RegionID.LOADING).getRegionHeight() * 0.95f);
+                               new MultilineText("Подождите...", Font.getFont("data/fonts/Arial.ttf", 30),
+                                                 new Color(1, 1, 1, 1),
+                                                 mView.getTextureRegion(RegionID.LOADING).getRegionWidth() * 0.5f,
+                                                 mView.getTextureRegion(RegionID.LOADING).getRegionHeight() * 0.5f,
+                                                 Text.Align.RIGHT, Text.Align.TOP),
+                               mView.getTextureRegion(RegionID.LOADING).getRegionWidth() * 0.95f,
+                               mView.getTextureRegion(RegionID.LOADING).getRegionHeight() * 0.95f);
     mController.addHUDObject(textLoading);
   }
 

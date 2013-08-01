@@ -41,20 +41,20 @@ public class MainMenu extends RaniaScreen
     mView.loadTexture("data/gui/edit.png", RegionID.EDIT_ON, 0, 128, 512, 128);
 
     final Edit loginEdit =
-        new Edit(RegionID.EDIT_OFF,
-            RegionID.EDIT_ON,
-            -halfWidth * 0.625f,
-            -halfHeight * 0.7f,
-            new Text(Config.autoLogin, Font.getFont("data/fonts/Arial.ttf", 30), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
-            16);
+                           new Edit(RegionID.EDIT_OFF,
+                                    RegionID.EDIT_ON,
+                                    -halfWidth * 0.625f,
+                                    -halfHeight * 0.7f,
+                                    new Text(Config.autoLogin, Font.getFont("data/fonts/Arial.ttf", 30), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
+                                    16);
 
     final Edit passwordEdit =
-        new Edit(RegionID.EDIT_OFF,
-            RegionID.EDIT_ON,
-            -halfWidth * 0.0916f,
-            -halfHeight * 0.7f,
-            new Text(Config.autoPassword, Font.getFont("data/fonts/Arial.ttf", 30), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
-            16);
+                              new Edit(RegionID.EDIT_OFF,
+                                       RegionID.EDIT_ON,
+                                       -halfWidth * 0.0916f,
+                                       -halfHeight * 0.7f,
+                                       new Text(Config.autoPassword, Font.getFont("data/fonts/Arial.ttf", 30), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
+                                       16);
 
     loginEdit.nextControll = passwordEdit;
     passwordEdit.nextControll = loginEdit;
@@ -63,58 +63,58 @@ public class MainMenu extends RaniaScreen
     mController.addHUDObject(passwordEdit);
 
     mController.addHUDObject(
-        new PressedButton(RegionID.BTNLOGIN_OFF,
-            RegionID.BTNLOGIN_ON,
-            halfWidth * 0.675f, halfHeight * 0.188f,
-            new TouchAction()
-            {
-              @Override
-              public void execute(boolean touch)
-              {
-                if ((loginEdit.getText() != "") && (passwordEdit.getText() != ""))
-                {
-                  if (Controllers.netController.login(loginEdit.getText(), passwordEdit.getText()))
-                  {
-                    dispose();
-                    new LocationScreen().set();
-                  }
-                  else
-                  {
-                    mController.addHUDObject(
-                        new Message(RegionID.EDIT_ON, 0, 0,
-                            new Text("Неверный логин или пароль", Font.getFont("data/fonts/Postmodern One.ttf", 25), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
-                            5));
-                  }
-                }
-              }
-            }));
+               new PressedButton(RegionID.BTNLOGIN_OFF,
+                                 RegionID.BTNLOGIN_ON,
+                                 halfWidth * 0.675f, halfHeight * 0.188f,
+                                 new TouchAction()
+                                 {
+                                   @Override
+                                   public void execute(boolean touch)
+                                   {
+                                     if ((loginEdit.getText() != "") && (passwordEdit.getText() != ""))
+                                     {
+                                       if (Controllers.netController.login(loginEdit.getText(), passwordEdit.getText()))
+                                       {
+                                         dispose();
+                                         new LocationScreen().set();
+                                       }
+                                       else
+                                       {
+                                         mController.addHUDObject(
+                                                    new Message(RegionID.EDIT_ON, 0, 0,
+                                                                new Text("Неверный логин или пароль", Font.getFont("data/fonts/Postmodern One.ttf", 25), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
+                                                                5));
+                                       }
+                                     }
+                                   }
+                                 }));
 
     mController.addHUDObject(
-        new PressedButton(RegionID.BTNREG_OFF,
-            RegionID.BTNREG_ON,
-            halfWidth * 0.675f, -halfHeight * 0.06f,
-            new TouchAction()
-            {
-              @Override
-              public void execute(boolean touch)
-              {
-                dispose();
-                new RegisterScreen().set();
-              }
-            }));
+               new PressedButton(RegionID.BTNREG_OFF,
+                                 RegionID.BTNREG_ON,
+                                 halfWidth * 0.675f, -halfHeight * 0.06f,
+                                 new TouchAction()
+                                 {
+                                   @Override
+                                   public void execute(boolean touch)
+                                   {
+                                     dispose();
+                                     new RegisterScreen().set();
+                                   }
+                                 }));
 
     mController.addHUDObject(
-        new PressedButton(RegionID.BTNEXIT_OFF,
-            RegionID.BTNEXIT_ON,
-            halfWidth * 0.675f, -halfHeight * 0.308f,
-            new TouchAction()
-            {
-              @Override
-              public void execute(boolean touch)
-              {
-                dispose();
-                RaniaGame.mGame.dispose();
-              }
-            }));
+               new PressedButton(RegionID.BTNEXIT_OFF,
+                                 RegionID.BTNEXIT_ON,
+                                 halfWidth * 0.675f, -halfHeight * 0.308f,
+                                 new TouchAction()
+                                 {
+                                   @Override
+                                   public void execute(boolean touch)
+                                   {
+                                     dispose();
+                                     RaniaGame.mGame.dispose();
+                                   }
+                                 }));
   }
 }

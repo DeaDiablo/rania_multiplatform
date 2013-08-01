@@ -1,5 +1,6 @@
 package com.game.rania.controller;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
@@ -158,6 +159,27 @@ public class InputController extends InputAdapter
           return true;
     }
     FocusElement.clearFocus();
+    return false;
+  }
+  
+  @Override
+  public boolean scrolled(int amount) {
+    if (Gdx.app.getType() != ApplicationType.Desktop)
+      return false;
+
+    for (Object object : mController.getReverseHUDObjects())
+    {
+      if (object.scrollObject && object.visible)
+        if (object.scrolled(amount))
+          return true;
+    }
+
+    for (Object object : mController.getReverseObjects())
+    {
+      if (object.scrollObject && object.visible)
+        if (object.scrolled(amount))
+          return true;
+    }
     return false;
   }
 }

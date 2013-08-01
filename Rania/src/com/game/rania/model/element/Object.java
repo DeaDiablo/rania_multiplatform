@@ -16,6 +16,7 @@ public class Object
 
   public boolean       keysObject     = false;
   public boolean       touchObject    = false;
+  public boolean       scrollObject   = false;
   public boolean       allTouchObject = false;
 
   public boolean       visible        = true;
@@ -219,6 +220,11 @@ public class Object
   }
 
   public boolean touchUp(float x, float y)
+  {
+    return false;
+  }
+
+  public boolean scrolled(int amount)
   {
     return false;
   }

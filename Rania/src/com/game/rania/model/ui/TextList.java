@@ -42,6 +42,7 @@ public class TextList extends Object
     this.widthList = widthList;
     this.heightList = heightList;
     touchObject = true;
+    scrollObject = true;
     countLine = (int) (heightList / text.font.getLineHeight()) + 1;
     parseText(lines, text.content, text.color);
     goToEnd();
@@ -199,5 +200,25 @@ public class TextList extends Object
   {
     FocusElement.setFocus(this);
   }
+  
+  @Override
+  public boolean scrolled(int amount)
+  {
+    int len = lines.size();
 
+    if (len <= countLine)
+      return false;
+
+    beginLine += amount;
+    if (beginLine < 0)
+      beginLine = 0;
+    if (beginLine > len - countLine)
+      beginLine = len - countLine;
+
+    if (len < beginLine + countLine)
+      endLine = len;
+    else
+      endLine = beginLine + countLine;
+    return true;
+  }
 }

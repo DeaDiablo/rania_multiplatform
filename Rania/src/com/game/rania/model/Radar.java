@@ -226,7 +226,7 @@ public class Radar extends Object
     frameBuffer.end();
 
     sprite.begin();
-    colorObject.set(1, 1, 1, 1);
+    sprite.setColor(1, 1, 1, 1);
     drawRegion(sprite, regionBuffer, position.x, position.y, 0, 1, 1);
 
     return true;

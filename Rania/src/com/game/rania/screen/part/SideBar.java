@@ -33,6 +33,7 @@ public class SideBar extends Group implements Part
   private Group              panel         = new Group();
   private PressedButton      btnMenu       = null;
   private PressedButton      btnChat       = null;
+  private PressedButton      btnEquip      = null;
 
   public Group               chat          = new Group();
   public boolean             chatVisible   = false;
@@ -70,6 +71,8 @@ public class SideBar extends Group implements Part
     mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHANNEL_DOMAIN_ON, 288, 96, 96, 96, false);
     mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHANNEL_PRIVATE_OFF, 0, 192, 96, 96, false);
     mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_CHANNEL_PRIVATE_ON, 0, 288, 96, 96, false);
+    mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_EQUIP_OFF, 480, 0, 96, 96, false);
+    mView.loadTexture("data/gui/icon_collect.png", RegionID.BTN_UI_EQUIP_ON, 480, 96, 96, 96, false);
     mView.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_OFF, 0, 0, 450, 100, false);
     mView.loadTexture("data/gui/ui_back.png", RegionID.BTN_UI_BACK_ON, 0, 100, 450, 100, false);
     mView.loadTexture("data/gui/ui_exit.png", RegionID.BTN_UI_EXIT_OFF, 0, 0, 450, 100, false);
@@ -149,7 +152,19 @@ public class SideBar extends Group implements Part
                                     editUser.setFocus();
                                   }
                                 });
-
+    btnEquip = new PressedButton(RegionID.BTN_UI_EQUIP_OFF,
+                                RegionID.BTN_UI_EQUIP_ON,
+                                halfWidth * 0.9396f, -halfHeight * 0.5000f,
+                                new TouchAction()
+                                {
+                                  @Override
+                                  public void execute(boolean touch)
+                                  {
+                                    
+                                    
+                                  }
+                                });
+    
     fieldChat = new ChatList(RegionID.FIELD_CHAT,
                              -halfWidth + mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.5f,
                              -halfHeight + mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.5f,
@@ -278,6 +293,7 @@ public class SideBar extends Group implements Part
 
     panel.addElement(btnMenu);
     panel.addElement(btnChat);
+    panel.addElement(btnEquip);
     addElement(panel);
 
     chat.addElement(fieldChat);

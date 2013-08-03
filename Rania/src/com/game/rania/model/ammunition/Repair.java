@@ -16,6 +16,7 @@ public class Repair extends Ammunition
     this.attacker = attacker;
     this.target = target;
     color.set(repairColor);
+    zIndex = 110;
     vAlign = Align.CENTER;
   }
 

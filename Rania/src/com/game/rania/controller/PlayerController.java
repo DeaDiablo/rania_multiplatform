@@ -61,7 +61,7 @@ public class PlayerController extends UpdateController
     moveVec.scl(Config.flightRadius);
     moveVec.add(player.position);
 
-    Controllers.netController.sendTouchPoint((int) moveVec.x, (int) moveVec.y, (int) player.position.x, (int) player.position.y);
+    Controllers.netController.sendTouchPoint((int) moveVec.x, (int) moveVec.y, (int) player.position.x, (int) player.position.y, true);
     player.setPositionTarget(moveVec);
 
     return true;

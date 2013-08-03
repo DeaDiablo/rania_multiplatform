@@ -66,17 +66,24 @@ public class NetController
       receiver.stopThread();
   }
 
-  public void sendTouchPoint(int x, int y, int currentX, int currentY)
+  public void sendTouchPoint(int x, int y, int currentX, int currentY, boolean fly)
   {
-    byte[] data = new byte[16];
+    byte[] data = new byte[20];
     byte[] xArr = intToByteArray(x);
     byte[] yArr = intToByteArray(y);
     byte[] userxArr = intToByteArray(currentX);
     byte[] useryArr = intToByteArray(currentY);
+    int action = 3;
+    if (!fly) 
+    {
+      action = 4;
+    }
+    byte[] actionArr = intToByteArray(action);
     System.arraycopy(xArr, 0, data, 0, 4);
     System.arraycopy(yArr, 0, data, 4, 4);
     System.arraycopy(userxArr, 0, data, 8, 4);
     System.arraycopy(useryArr, 0, data, 12, 4);
+    System.arraycopy(actionArr, 0, data, 16, 4);
     try
     {
       mClient.stream.sendCommand(Command.touchPlayer, data);

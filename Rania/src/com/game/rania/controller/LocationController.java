@@ -89,7 +89,7 @@ public class LocationController
     removePlanets();
     removeUsers();
   }
-  
+
   public void addLocation(Location location)
   {
     if (locations.containsKey(location.id))

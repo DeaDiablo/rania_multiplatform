@@ -119,6 +119,6 @@ public class Planet extends Object
                  (float) Math.sin(calcAngle));
     position.scl(orbit);
     position.add(star.position);
-    angle = MathUtils.radiansToDegrees * calcAngle + 45.0f;
+    angle.value = MathUtils.radiansToDegrees * calcAngle + 45.0f;
   }
 }

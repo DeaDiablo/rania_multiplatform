@@ -2,6 +2,7 @@ package com.game.rania.controller.command;
 
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.MainController;
+import com.game.rania.model.Target;
 import com.game.rania.model.User;
 import com.game.rania.model.items.Equip;
 import com.game.rania.model.items.Weapon;
@@ -36,7 +37,7 @@ public class AttackCommand extends ControllerCommand
 
     target.damage(target.body, damage);
     if (user != Controllers.locController.getPlayer())
-      weapon.item.use(user, target);
+      weapon.item.use(user,  new Target(targetID, Target.user, target));
   }
 
 }

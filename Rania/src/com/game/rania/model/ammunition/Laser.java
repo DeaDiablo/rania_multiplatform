@@ -29,13 +29,13 @@ public class Laser extends Ammunition
   {
     super.update(delta);
     position.set(attacker.position);
-    angle = (float) Math.toDegrees(Math.atan2(-(target.position.x - attacker.position.x), (target.position.y - attacker.position.y)));
+    angle.value = (float) Math.toDegrees(Math.atan2(-(target.position.x - attacker.position.x), (target.position.y - attacker.position.y)));
     if (region != null)
     {
       scaleY.set(target.position);
       scaleY.sub(attacker.position);
-      if (dTime < scaleTime)
-        scaleY.scl(dTime / scaleTime);
+      if (timeObject < scaleTime)
+        scaleY.scl(timeObject / scaleTime);
       scale.set(1.0f, scaleY.len() / region.getRegionHeight());
     }
   }

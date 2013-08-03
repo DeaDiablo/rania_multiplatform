@@ -176,8 +176,9 @@ public class NetController
     }
     return false;
   }
-  
-  public boolean checkCRC(Command command, CommandReader cr){
+
+  public boolean checkCRC(Command command, CommandReader cr)
+  {
     if (command.controlCRC != cr.crc)
     {
       Gdx.app.log("CRC error", "Login");
@@ -732,7 +733,7 @@ public class NetController
         }
         break;
       }
-      
+
       case Command.location:
       {
         int LocationsCount = cr.getInt();
@@ -754,7 +755,7 @@ public class NetController
       default:
         break;
     }
-    
+
     checkCRC(command, cr);
   }
 

@@ -27,7 +27,7 @@ public class Message extends Object
       return false;
 
     if (text != null)
-      text.draw(sprite, text.position.x + position.x, text.position.y + position.y, angle, scale.x, scale.y);
+      text.draw(sprite, text.position.x + position.x, text.position.y + position.y, angle.value, scale.x, scale.y);
 
     return true;
   }

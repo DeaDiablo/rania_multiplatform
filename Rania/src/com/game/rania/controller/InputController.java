@@ -161,9 +161,10 @@ public class InputController extends InputAdapter
     FocusElement.clearFocus();
     return false;
   }
-  
+
   @Override
-  public boolean scrolled(int amount) {
+  public boolean scrolled(int amount)
+  {
     if (Gdx.app.getType() != ApplicationType.Desktop)
       return false;
 

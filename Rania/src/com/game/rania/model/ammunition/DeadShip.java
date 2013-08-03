@@ -26,9 +26,9 @@ public class DeadShip extends Ammunition
     position.set(target.position);
     if (region != null)
     {
-      if (dTime < deadTime)
+      if (timeObject < deadTime)
       {
-        float progress = dTime / deadTime;
+        float progress = timeObject / deadTime;
         int stage = (int) (progress * 10);
         region = RaniaGame.mView.getTextureRegion(RegionID.fromInt(RegionID.DEAD_SHIP_0.ordinal() + stage));
       }

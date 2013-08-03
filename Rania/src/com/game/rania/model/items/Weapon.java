@@ -1,6 +1,7 @@
 package com.game.rania.model.items;
 
 import com.game.rania.RaniaGame;
+import com.game.rania.model.Target;
 import com.game.rania.model.ammunition.Bfg;
 import com.game.rania.model.ammunition.Laser;
 import com.game.rania.model.ammunition.Rocket;
@@ -51,8 +52,11 @@ public class Weapon extends Device
   }
 
   @Override
-  public boolean use(Object user, Object target)
+  public boolean use(Object user, Target target)
   {
+    if (user == null || target.type != Target.user)
+      return false;
+
     Object bullet = null;
 
     switch (weaponType)

@@ -17,8 +17,8 @@ public class PlayerController extends UpdateController
 
   private Vector2 moveVec = new Vector2(0, 0);
 
-  private Player  player     = null;
-  private Camera  camera     = null;
+  private Player  player  = null;
+  private Camera  camera  = null;
 
   public PlayerController(Player player)
   {
@@ -40,7 +40,7 @@ public class PlayerController extends UpdateController
 
     Target currentTarget = getTarget(moveVec.x, moveVec.y);
     if (currentTarget.type != Target.none &&
-       (currentTarget.id != player.target.id ||
+        (currentTarget.id != player.target.id ||
         currentTarget.type != player.target.type))
     {
       player.target = currentTarget;
@@ -51,7 +51,7 @@ public class PlayerController extends UpdateController
 
     moveVec.sub(player.position);
 
-    if(moveVec.len() < Config.stopRadius)
+    if (moveVec.len() < Config.stopRadius)
     {
       player.stop();
       return true;

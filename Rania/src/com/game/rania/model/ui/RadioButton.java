@@ -36,7 +36,7 @@ public class RadioButton extends Button
       return true;
 
     radio = true;
-    
+
     if (group != null)
       group.updateChecks(this);
 

@@ -145,7 +145,7 @@ public class Radar extends Object
       size = player.radar.item.radius;
       spriteBuffer.begin();
       spriteBuffer.setColor(color);
-      drawRegion(spriteBuffer, region, width * 0.5f, height * 0.5f, angle, scale.x, scale.y);
+      drawRegion(spriteBuffer, region, width * 0.5f, height * 0.5f, angle.value, scale.x, scale.y);
       spriteBuffer.end();
 
       if (locController.getStar() != null)
@@ -190,7 +190,7 @@ public class Radar extends Object
       if (Config.radarNoiseOn && sensorRegion != null)
       {
         spriteBuffer.setColor(color);
-        drawRegion(spriteBuffer, sensorRegion, deltaSensor, height * 0.5f, angle, 1, height * 0.98f / sensorRegion.getRegionHeight());
+        drawRegion(spriteBuffer, sensorRegion, deltaSensor, height * 0.5f, angle.value, 1, height * 0.98f / sensorRegion.getRegionHeight());
       }
 
       textCoord.draw(spriteBuffer, shape);
@@ -202,7 +202,7 @@ public class Radar extends Object
       size = player.radar.item.big_radius;
       spriteBuffer.begin();
       spriteBuffer.setColor(color);
-      drawRegion(spriteBuffer, region, width * 0.5f, height * 0.5f, angle, scale.x, scale.y);
+      drawRegion(spriteBuffer, region, width * 0.5f, height * 0.5f, angle.value, scale.x, scale.y);
 
       if (objRegion != null)
       {
@@ -238,7 +238,7 @@ public class Radar extends Object
     {
       drawRadarObject(object.position.x,
                       object.position.y,
-                      object.angle,
+                      object.angle.value,
                       object.region.getRegionWidth() * object.scale.x / gridSize,
                       object.region.getRegionHeight() * object.scale.y / gridSize,
                       gridSize);
@@ -247,7 +247,7 @@ public class Radar extends Object
     {
       drawRadarObject(object.position.x,
                       object.position.y,
-                      object.angle,
+                      object.angle.value,
                       fixedSize,
                       fixedSize,
                       gridSize);

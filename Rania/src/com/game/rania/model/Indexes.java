@@ -9,9 +9,8 @@ public class Indexes
   static public final int edit       = 12;
   static public final int star       = 14;
   static public final int planets    = 15;
-  static public final int ammunition = 18;
   static public final int users      = 20;
   static public final int infoText   = 30;
   static public final int player     = 100;
-  // static public final int infoText = 110;
+  static public final int ammunition = 110;
 }

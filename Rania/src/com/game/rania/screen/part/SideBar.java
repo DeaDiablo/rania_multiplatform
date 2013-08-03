@@ -153,18 +153,17 @@ public class SideBar extends Group implements Part
                                   }
                                 });
     btnEquip = new PressedButton(RegionID.BTN_UI_EQUIP_OFF,
-                                RegionID.BTN_UI_EQUIP_ON,
-                                halfWidth * 0.9396f, -halfHeight * 0.5000f,
-                                new TouchAction()
-                                {
-                                  @Override
-                                  public void execute(boolean touch)
-                                  {
-                                    
-                                    
-                                  }
-                                });
-    
+                                 RegionID.BTN_UI_EQUIP_ON,
+                                 halfWidth * 0.9396f, -halfHeight * 0.5000f,
+                                 new TouchAction()
+                                 {
+                                   @Override
+                                   public void execute(boolean touch)
+                                   {
+
+                                   }
+                                 });
+
     fieldChat = new ChatList(RegionID.FIELD_CHAT,
                              -halfWidth + mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.5f,
                              -halfHeight + mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionHeight() * 0.5f,

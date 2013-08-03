@@ -138,7 +138,7 @@ public class TextList extends Object
         {
           text.content = line.text;
           text.color = line.color;
-          text.draw(sprite, text.position.x + position.x, text.position.y + position.y - (i - beginLine) * text.font.getLineHeight(), angle, scale.x, scale.y);
+          text.draw(sprite, text.position.x + position.x, text.position.y + position.y - (i - beginLine) * text.font.getLineHeight(), angle.value, scale.x, scale.y);
         }
       }
     }
@@ -200,7 +200,7 @@ public class TextList extends Object
   {
     FocusElement.setFocus(this);
   }
-  
+
   @Override
   public boolean scrolled(int amount)
   {

@@ -99,7 +99,7 @@ public class SpaceShip extends Object
       position.add(addVec);
     else
       stop();
-    angle = (float) Math.toDegrees(Math.atan2(-addVec.x, addVec.y));
+    angle.value = (float) Math.toDegrees(Math.atan2(-addVec.x, addVec.y));
   }
 
   @Override

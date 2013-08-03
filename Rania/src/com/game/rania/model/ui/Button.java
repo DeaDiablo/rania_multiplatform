@@ -50,7 +50,7 @@ public abstract class Button extends Object
     else
       drawRegion(sprite, region);
     if (text != null)
-      text.draw(sprite, text.position.x + position.x, text.position.y + position.y, angle, scale.x, scale.y);
+      text.draw(sprite, text.position.x + position.x, text.position.y + position.y, angle.value, scale.x, scale.y);
 
     return true;
   }

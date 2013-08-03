@@ -1,5 +1,7 @@
 package com.game.rania.model.element;
 
+import java.util.Vector;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -8,10 +10,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.Indexes;
+import com.game.rania.model.animator.Animator;
 
 public class Object
 {
-
   public static Shader currentShader  = null;
 
   public boolean       keysObject     = false;
@@ -22,7 +24,7 @@ public class Object
   public boolean       visible        = true;
   public float         lifeTime       = Float.MAX_VALUE;
   public Vector2       position       = new Vector2(0.0f, 0.0f);
-  public float         angle          = 0.0f;
+  public FloatLink     angle          = new FloatLink(0.0f);
   public Vector2       scale          = new Vector2(1.0f, 1.0f);
   public Color         color          = new Color(1.0f, 1.0f, 1.0f, 1.0f);
   public int           zIndex         = Indexes.object;
@@ -50,7 +52,7 @@ public class Object
   public Object(float posX, float posY, float rotAngle, float scaleX, float scaleY)
   {
     position.set(posX, posY);
-    angle = rotAngle;
+    angle.value = rotAngle;
     scale.set(scaleX, scaleY);
   }
 
@@ -69,7 +71,7 @@ public class Object
     regionID = id;
     region = RaniaGame.mView.getTextureRegion(id);
     position.set(posX, posY);
-    angle = rotAngle;
+    angle.value = rotAngle;
     scale.set(scaleX, scaleY);
   }
 
@@ -187,7 +189,7 @@ public class Object
                                    height);
     Vector2 point = new Vector2(x, y);
     point.sub(position);
-    point.rotate(angle);
+    point.rotate(angle.value);
     point.add(position);
     return rect.contains(point.x, point.y);
   }
@@ -229,17 +231,38 @@ public class Object
     return false;
   }
 
-  protected float dTime = 0.0f;
+  protected float            timeObject      = 0.0f;
+  protected Vector<Animator> animators       = new Vector<Animator>();
+  protected Vector<Animator> removeAnimators = new Vector<Animator>();
+
+  public void addAnimator(Animator animator)
+  {
+    if (timeObject > animator.getEndTime() || animators.contains(animator))
+      return;
+
+    animators.add(animator);
+  }
 
   // update and draw
   public void update(float deltaTime)
   {
-    dTime += deltaTime;
-    if (dTime > lifeTime)
+    timeObject += deltaTime;
+    if (timeObject > lifeTime)
     {
       RaniaGame.mController.removeObject(this);
       RaniaGame.mController.removeHUDObject(this);
     }
+
+    if (animators.isEmpty())
+      return;
+
+    for (Animator animator : animators)
+    {
+      if (animator.update(timeObject))
+        removeAnimators.add(animator);
+    }
+    animators.removeAll(removeAnimators);
+    removeAnimators.clear();
   }
 
   public boolean setShader(SpriteBatch sprite)
@@ -269,7 +292,7 @@ public class Object
 
   protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion)
   {
-    return drawRegion(sprite, textureRegion, position.x, position.y, angle, scale.x, scale.y);
+    return drawRegion(sprite, textureRegion, position.x, position.y, angle.value, scale.x, scale.y);
   }
 
   protected boolean drawRegion(SpriteBatch sprite, TextureRegion textureRegion, Vector2 position, float angle, Vector2 scale)

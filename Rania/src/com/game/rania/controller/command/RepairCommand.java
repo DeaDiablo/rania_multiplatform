@@ -2,8 +2,8 @@ package com.game.rania.controller.command;
 
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.MainController;
+import com.game.rania.model.Target;
 import com.game.rania.model.User;
-import com.game.rania.model.ammunition.Repair;
 import com.game.rania.model.items.RepairKit;
 import com.game.rania.model.items.Equip;
 
@@ -28,15 +28,15 @@ public class RepairCommand extends ControllerCommand
   {
     User user = Controllers.locController.getUser(userID);
     User target = Controllers.locController.getUser(targetID);
-    Equip<RepairKit> droid = null;
+    Equip<RepairKit> repairKit = null;
     if (user != null)
-      droid = user.repairKit.get(equipID);
+      repairKit = user.repairKit.get(equipID);
 
-    if (droid == null || target == null)
+    if (repairKit == null || target == null)
       return;
 
     target.repair(target.body, repair);
     if (user != Controllers.locController.getPlayer())
-      controller.addObject(new Repair(user, target, user.domain.color));
+      repairKit.item.use(user, new Target(targetID, Target.user, target));
   }
 }

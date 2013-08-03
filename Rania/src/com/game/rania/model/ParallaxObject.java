@@ -27,7 +27,7 @@ public class ParallaxObject extends Object
   {
     super(id, x, y);
     ratio = delta;
-    this.angle = angle;
+    this.angle.value = angle;
     scale.set(scaleX, scaleY);
     camera = RaniaGame.mView.getCamera();
     parallaxPosition.set(position.x - camera.position.x * ratio, position.y - camera.position.y * ratio);
@@ -40,6 +40,6 @@ public class ParallaxObject extends Object
       return false;
 
     parallaxPosition.set(position.x - camera.position.x * ratio, position.y - camera.position.y * ratio);
-    return draw(sprite, parallaxPosition, angle, scale, color);
+    return draw(sprite, parallaxPosition, angle.value, scale, color);
   }
 }

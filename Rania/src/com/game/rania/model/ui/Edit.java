@@ -286,7 +286,7 @@ public class Edit extends Object
     if (text != null)
     {
       updateTextLength();
-      text.draw(sprite, beginVisible, endVisible, text.position.x + position.x, text.position.y + position.y, angle, scale.x, scale.y);
+      text.draw(sprite, beginVisible, endVisible, text.position.x + position.x, text.position.y + position.y, angle.value, scale.x, scale.y);
     }
 
     return true;

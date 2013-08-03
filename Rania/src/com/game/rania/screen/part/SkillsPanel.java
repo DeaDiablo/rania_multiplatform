@@ -12,7 +12,7 @@ import com.game.rania.model.element.RegionID;
 import com.game.rania.model.items.Equip;
 import com.game.rania.model.items.RepairKit;
 import com.game.rania.model.items.Weapon;
-import com.game.rania.model.ui.SkillButton;
+import com.game.rania.model.ui.EquipButton;
 import com.game.rania.view.MainView;
 
 public class SkillsPanel extends Group implements Part
@@ -21,7 +21,7 @@ public class SkillsPanel extends Group implements Part
   private MainView           mView       = RaniaGame.mView;
   private LocationController lController = Controllers.locController;
 
-  public List<SkillButton>   skills      = new ArrayList<SkillButton>();
+  public List<EquipButton>   skills      = new ArrayList<EquipButton>();
 
   public SkillsPanel()
   {
@@ -49,17 +49,17 @@ public class SkillsPanel extends Group implements Part
     int i = 0;
     for (Equip<Weapon> equip : lController.getPlayer().weapon.values())
     {
-      skills.add(new SkillButton(equip, -halfWidth * 0.9f, -halfHeight * 0.2f * i, Input.Keys.NUM_1 + i));
+      skills.add(new EquipButton(equip, -halfWidth * 0.9f, -halfHeight * 0.2f * i, Input.Keys.NUM_1 + i));
       i++;
     }
 
     for (Equip<RepairKit> equip : lController.getPlayer().repairKit.values())
     {
-      skills.add(new SkillButton(equip, -halfWidth * 0.9f, -halfHeight * 0.2f * i, Input.Keys.NUM_1 + i));
+      skills.add(new EquipButton(equip, -halfWidth * 0.9f, -halfHeight * 0.2f * i, Input.Keys.NUM_1 + i));
       i++;
     }
 
-    for (SkillButton skill : skills)
+    for (EquipButton skill : skills)
     {
       addElement(skill);
     }

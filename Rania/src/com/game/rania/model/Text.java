@@ -75,7 +75,7 @@ public class Text extends Object
   @Override
   public boolean draw(SpriteBatch sprite, ShapeRenderer shape)
   {
-    return draw(sprite, position, angle, scale, color);
+    return draw(sprite, position, angle.value, scale, color);
   }
 
   @Override
@@ -126,7 +126,7 @@ public class Text extends Object
   {
     transformMatrix.setToRotation(0, 0, 1, angle);
     transformMatrix.mul(bufferMatrix.setToTranslation(x, y, 0));
-    transformMatrix.mul(bufferMatrix.setToRotation(0, 0, 1, this.angle));
+    transformMatrix.mul(bufferMatrix.setToRotation(0, 0, 1, this.angle.value));
     font.setColor(color);
     font.setScale(scale.x * scaleX, scale.y * scaleY);
   }

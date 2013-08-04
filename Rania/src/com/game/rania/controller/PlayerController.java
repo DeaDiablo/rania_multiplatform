@@ -49,7 +49,7 @@ public class PlayerController extends UpdateController
       return true;
     }
 
-    Controllers.netController.sendTouchPoint((int) touchPoint.x, (int) touchPoint.y, (int) player.position.x, (int) player.position.y);
+    Controllers.netController.sendTouchPoint((int) touchPoint.x, (int) touchPoint.y, (int) player.position.x, (int) player.position.y, false);
     player.setPositionTarget(touchPoint);
 
     return true;

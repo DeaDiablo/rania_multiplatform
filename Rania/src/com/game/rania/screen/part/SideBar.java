@@ -79,6 +79,7 @@ public class SideBar extends Group implements Part
     mView.loadTexture("data/gui/ui_exit.png", RegionID.BTN_UI_EXIT_ON, 0, 100, 450, 100, false);
     mView.loadTexture("data/gui/chat_field.png", RegionID.FIELD_CHAT, false);
     mView.loadTexture("data/gui/chat_edit.png", RegionID.EDIT_CHAT, false);
+    mView.loadTexture("data/gui/ship_equips.png", RegionID.EQUIP_SCREEN, false);
     mView.loadTexture("data/gui/btn_send.png", RegionID.BTN_UI_SEND_OFF, 0, 0, 128, 64, false);
     mView.loadTexture("data/gui/btn_send.png", RegionID.BTN_UI_SEND_ON, 0, 64, 128, 64, false);
 

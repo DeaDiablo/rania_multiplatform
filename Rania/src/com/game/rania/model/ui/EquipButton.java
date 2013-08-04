@@ -24,7 +24,7 @@ public class EquipButton extends PressedButton
         if (player.body.wear <= 0 || skillEquip.wear <= 0)
           return;
 
-        skillEquip.item.use(player, player.target);
+        skillEquip.use(player, player.target);
       }
     };
   }

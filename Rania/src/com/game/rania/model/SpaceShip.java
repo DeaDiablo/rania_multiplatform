@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
 import com.game.rania.model.ammunition.DeadShip;
+import com.game.rania.model.animator.AnimatorVector2;
 import com.game.rania.model.element.Font;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
@@ -246,6 +247,7 @@ public class SpaceShip extends Object
     if (value == 0)
       text = "miss";
     Text infoText = new Text(text, Font.getFont("data/fonts/Arial.ttf", 35), new Color(1.0f, 0.2f, 0.1f, 1.0f), position.x, position.y);
+    infoText.addAnimator(new AnimatorVector2(infoText.position, infoText.position.x, infoText.position.y + 100, 0, 0.5f));
     infoText.lifeTime = 0.5f;
     infoText.zIndex = Indexes.infoText;
     infoText.setAlign(Align.LEFT, Align.BOTTOM);
@@ -260,6 +262,7 @@ public class SpaceShip extends Object
     if (value == 0)
       text = "miss";
     Text infoText = new Text(text, Font.getFont("data/fonts/Arial.ttf", 35), new Color(0.2f, 1.0f, 0.1f, 1.0f), position.x, position.y);
+    infoText.addAnimator(new AnimatorVector2(infoText.position, infoText.position.x, infoText.position.y + 100, 0, 0.5f));
     infoText.lifeTime = 0.5f;
     infoText.zIndex = Indexes.infoText;
     infoText.setAlign(Align.RIGHT, Align.BOTTOM);

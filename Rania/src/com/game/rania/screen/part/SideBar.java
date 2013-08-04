@@ -9,7 +9,6 @@ import com.game.rania.model.MultilineText;
 import com.game.rania.model.Text;
 import com.game.rania.model.element.Font;
 import com.game.rania.model.element.Group;
-import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.ui.ChatList;
 import com.game.rania.model.ui.Edit;
@@ -147,6 +146,11 @@ public class SideBar extends Group implements Part
                                    {
                                      equipVisible = !equipVisible;
                                      equip.setVisible(equipVisible);
+                                     Parts.getSkillsPanel().setVisible(!equipVisible);
+                                     if (equipVisible)
+                                       RaniaGame.mController.removeProcessor(lController.getPlayerController());
+                                     else
+                                       RaniaGame.mController.addProcessor(lController.getPlayerController());
                                    }
                                  });
 
@@ -302,7 +306,7 @@ public class SideBar extends Group implements Part
     panel.addElement(btnEquip);
     addElement(panel);
     
-    equip.addElement(new EquipPanel(halfWidth * 0.2f, 0));
+    equip.addElement(new EquipPanel(0, 0));
     addElement(equip);
 
     chat.addElement(fieldChat);

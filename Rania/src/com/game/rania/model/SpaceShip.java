@@ -9,9 +9,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
-import com.game.rania.model.ammunition.DeadShip;
+import com.game.rania.model.animator.AnimatorColor;
 import com.game.rania.model.animator.AnimatorVector2;
 import com.game.rania.model.element.Font;
+import com.game.rania.model.element.FrameSequence;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.items.Consumable;
@@ -28,7 +29,6 @@ import com.game.rania.model.items.Weapon;
 
 public class SpaceShip extends Object
 {
-
   public String shipName;
 
   public SpaceShip(float posX, float posY, String ShipName)
@@ -241,14 +241,18 @@ public class SpaceShip extends Object
     if (equip == body && equip.wear <= 0)
     {
       crashSpaceShip(10);
-      RaniaGame.mController.addObject(new DeadShip(this));
+      FrameSequence boom = new FrameSequence("data/location/boom.png", 10, 1.0f);
+      boom.scale.set(2, 2);
+      boom.position = position;
+      RaniaGame.mController.addObject(boom);
     }
     String text = String.valueOf(value);
     if (value == 0)
       text = "miss";
     Text infoText = new Text(text, Font.getFont("data/fonts/Arial.ttf", 35), new Color(1.0f, 0.2f, 0.1f, 1.0f), position.x, position.y);
-    infoText.addAnimator(new AnimatorVector2(infoText.position, infoText.position.x, infoText.position.y + 100, 0, 0.5f));
-    infoText.lifeTime = 0.5f;
+    infoText.addAnimator(new AnimatorVector2(infoText.position, infoText.position.x, infoText.position.y + 70, 0, 1.0f));
+    infoText.addAnimator(new AnimatorColor(infoText.color, 0, 0, 1.0f));
+    infoText.lifeTime = 1.0f;
     infoText.zIndex = Indexes.infoText;
     infoText.setAlign(Align.LEFT, Align.BOTTOM);
     RaniaGame.mController.addObject(infoText);
@@ -262,8 +266,9 @@ public class SpaceShip extends Object
     if (value == 0)
       text = "miss";
     Text infoText = new Text(text, Font.getFont("data/fonts/Arial.ttf", 35), new Color(0.2f, 1.0f, 0.1f, 1.0f), position.x, position.y);
-    infoText.addAnimator(new AnimatorVector2(infoText.position, infoText.position.x, infoText.position.y + 100, 0, 0.5f));
-    infoText.lifeTime = 0.5f;
+    infoText.addAnimator(new AnimatorVector2(infoText.position, infoText.position.x, infoText.position.y + 70, 0, 1.0f));
+    infoText.addAnimator(new AnimatorColor(infoText.color, 0, 0, 1.0f));
+    infoText.lifeTime = 1.0f;
     infoText.zIndex = Indexes.infoText;
     infoText.setAlign(Align.RIGHT, Align.BOTTOM);
     RaniaGame.mController.addObject(infoText);

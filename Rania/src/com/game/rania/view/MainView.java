@@ -48,12 +48,13 @@ public class MainView
     fps = new Text("", Font.getFont("data/fonts/Postmodern One.ttf", 30), new Color(1, 1, 1, 1), 0, 0);
   }
 
-  public TextureRegion loadTexture(String fileTexture, RegionID id)
-  {
-    return loadTexture(fileTexture, id, true);
-  }
 
-  public TextureRegion loadTexture(String fileTexture, RegionID id, boolean autoUnload)
+  public Texture loadTexture(String fileTexture)
+  {
+    return loadTexture(fileTexture, true);
+  }
+  
+  public Texture loadTexture(String fileTexture, boolean autoUnload)
   {
     Texture texture = textures.get(fileTexture);
     if (texture == null)
@@ -64,6 +65,19 @@ public class MainView
     }
     if (!autoUnload && !notAutoTextures.contains(fileTexture))
       notAutoTextures.add(fileTexture);
+    return texture;
+  }
+
+  public TextureRegion loadTexture(String fileTexture, RegionID id)
+  {
+    return loadTexture(fileTexture, id, true);
+  }
+
+  public TextureRegion loadTexture(String fileTexture, RegionID id, boolean autoUnload)
+  {
+    Texture texture = loadTexture(fileTexture, autoUnload);
+    if (texture == null)
+      return null;
     TextureRegion region = new TextureRegion(texture);
     textureRegions.put(id, region);
     return region;
@@ -76,17 +90,9 @@ public class MainView
 
   public TextureRegion loadTexture(String fileTexture, RegionID id, int x, int y, int width, int height, boolean autoUnload)
   {
-    Texture texture = textures.get(fileTexture);
+    Texture texture = loadTexture(fileTexture, autoUnload);
     if (texture == null)
-    {
-      texture = new Texture(Gdx.files.internal(fileTexture));
-      texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-      textures.put(fileTexture, texture);
-    }
-
-    if (!autoUnload && !notAutoTextures.contains(fileTexture))
-      notAutoTextures.add(fileTexture);
-
+      return null;
     TextureRegion region = new TextureRegion(texture, x, y, width, height);
     textureRegions.put(id, region);
     return region;

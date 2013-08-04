@@ -247,11 +247,8 @@ public class Object
   public void update(float deltaTime)
   {
     timeObject += deltaTime;
-    if (timeObject > lifeTime)
-    {
-      RaniaGame.mController.removeObject(this);
-      RaniaGame.mController.removeHUDObject(this);
-    }
+    if (!checkLife())
+      return;
 
     if (animators.isEmpty())
       return;
@@ -263,6 +260,17 @@ public class Object
     }
     animators.removeAll(removeAnimators);
     removeAnimators.clear();
+  }
+  
+  protected boolean checkLife()
+  {
+    if (timeObject > lifeTime)
+    {
+      RaniaGame.mController.removeObject(this);
+      RaniaGame.mController.removeHUDObject(this);
+      return false;
+    }
+    return true;
   }
 
   public boolean setShader(SpriteBatch sprite)

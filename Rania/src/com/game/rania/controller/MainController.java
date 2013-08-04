@@ -161,13 +161,6 @@ public class MainController extends InputMultiplexer
       removeHUDObjects.clear();
     }
 
-    Controllers.commandController.updateCommands(deltaTime);
-
-    for (UpdateController controller : updateControllers)
-    {
-      controller.update(deltaTime);
-    }
-
     for (Object object : sceneObjects)
     {
       object.update(deltaTime);
@@ -176,6 +169,13 @@ public class MainController extends InputMultiplexer
     for (Object object : HUDObjects)
     {
       object.update(deltaTime);
+    }
+
+    Controllers.commandController.updateCommands(deltaTime);
+
+    for (UpdateController controller : updateControllers)
+    {
+      controller.update(deltaTime);
     }
   }
 

@@ -49,7 +49,6 @@ import com.game.rania.utils.Condition;
 
 public class NetController
 {
-
   private Receiver          receiver        = null;
   private CommandController cController     = null;
   private Client            mClient         = null;
@@ -66,18 +65,16 @@ public class NetController
       receiver.stopThread();
   }
 
-  public void sendTouchPoint(int x, int y, int currentX, int currentY, boolean fly)
+  public void sendTouchPoint(int x, int y, int currentX, int currentY, boolean stop)
   {
     byte[] data = new byte[20];
     byte[] xArr = intToByteArray(x);
     byte[] yArr = intToByteArray(y);
     byte[] userxArr = intToByteArray(currentX);
     byte[] useryArr = intToByteArray(currentY);
-    int action = 3;
-    if (!fly) 
-    {
-      action = 4;
-    }
+    int action = 3; //fly
+    if (stop)
+      action = 4; //stop
     byte[] actionArr = intToByteArray(action);
     System.arraycopy(xArr, 0, data, 0, 4);
     System.arraycopy(yArr, 0, data, 4, 4);

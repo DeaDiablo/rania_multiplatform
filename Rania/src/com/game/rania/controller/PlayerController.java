@@ -15,7 +15,7 @@ import com.game.rania.view.Camera;
 public class PlayerController extends UpdateController
 {
 
-  private Vector2 moveVec = new Vector2(0, 0);
+  private Vector2 touchPoint = new Vector2(0, 0);
 
   private Player  player  = null;
   private Camera  camera  = null;
@@ -35,10 +35,10 @@ public class PlayerController extends UpdateController
   @Override
   public boolean touchUp(int x, int y, int pointer, int button)
   {
-    moveVec.set(x, Gdx.graphics.getHeight() - y);
-    RaniaGame.mView.getCamera().toCameraCoord(moveVec);
+    touchPoint.set(x, Gdx.graphics.getHeight() - y);
+    RaniaGame.mView.getCamera().toCameraCoord(touchPoint);
 
-    Target currentTarget = getTarget(moveVec.x, moveVec.y);
+    Target currentTarget = getTarget(touchPoint.x, touchPoint.y);
     if (currentTarget.type != Target.none &&
         (currentTarget.id != player.target.id ||
         currentTarget.type != player.target.type))
@@ -49,20 +49,8 @@ public class PlayerController extends UpdateController
       return true;
     }
 
-    moveVec.sub(player.position);
-
-    if (moveVec.len() < Config.stopRadius)
-    {
-      player.stop();
-      return true;
-    }
-
-    moveVec.nor();
-    moveVec.scl(Config.flightRadius);
-    moveVec.add(player.position);
-
-    Controllers.netController.sendTouchPoint((int) moveVec.x, (int) moveVec.y, (int) player.position.x, (int) player.position.y, true);
-    player.setPositionTarget(moveVec);
+    Controllers.netController.sendTouchPoint((int) touchPoint.x, (int) touchPoint.y, (int) player.position.x, (int) player.position.y);
+    player.setPositionTarget(touchPoint);
 
     return true;
   }

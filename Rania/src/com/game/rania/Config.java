@@ -15,6 +15,4 @@ public class Config
   public static String  autoPassword  = "deadiablo123";
   public static boolean radarNoiseOn  = false;
   public static float   nebulaRadius  = 5000.0f;
-  public static float   stopRadius    = 200.0f;
-  public static float   flightRadius  = 10000000.0f;
 }

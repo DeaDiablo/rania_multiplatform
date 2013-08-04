@@ -9,6 +9,7 @@ import com.game.rania.model.MultilineText;
 import com.game.rania.model.Text;
 import com.game.rania.model.element.Font;
 import com.game.rania.model.element.Group;
+import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.ui.ChatList;
 import com.game.rania.model.ui.Edit;
@@ -34,6 +35,9 @@ public class SideBar extends Group implements Part
   private PressedButton      btnMenu       = null;
   private PressedButton      btnChat       = null;
   private PressedButton      btnEquip      = null;
+  
+  public Group               equip         = new Group();
+  public boolean             equipVisible  = false;
 
   public Group               chat          = new Group();
   public boolean             chatVisible   = false;
@@ -132,6 +136,19 @@ public class SideBar extends Group implements Part
                                     RaniaGame.mController.removeProcessor(lController.getPlayerController());
                                   }
                                 });
+    
+    btnEquip = new PressedButton(RegionID.BTN_UI_EQUIP_OFF,
+                                 RegionID.BTN_UI_EQUIP_ON,
+                                 halfWidth * 0.9396f, -halfHeight * 0.5000f,
+                                 new TouchAction()
+                                 {
+                                   @Override
+                                   public void execute(boolean touch)
+                                   {
+                                     equipVisible = !equipVisible;
+                                     equip.setVisible(equipVisible);
+                                   }
+                                 });
 
     btnChat = new PressedButton(RegionID.BTN_UI_CHAT_OFF,
                                 RegionID.BTN_UI_CHAT_ON,
@@ -153,17 +170,6 @@ public class SideBar extends Group implements Part
                                     editUser.setFocus();
                                   }
                                 });
-    btnEquip = new PressedButton(RegionID.BTN_UI_EQUIP_OFF,
-                                 RegionID.BTN_UI_EQUIP_ON,
-                                 halfWidth * 0.9396f, -halfHeight * 0.5000f,
-                                 new TouchAction()
-                                 {
-                                   @Override
-                                   public void execute(boolean touch)
-                                   {
-
-                                   }
-                                 });
 
     fieldChat = new ChatList(RegionID.FIELD_CHAT,
                              -halfWidth + mView.getTextureRegion(RegionID.FIELD_CHAT).getRegionWidth() * 0.5f,
@@ -295,6 +301,9 @@ public class SideBar extends Group implements Part
     panel.addElement(btnChat);
     panel.addElement(btnEquip);
     addElement(panel);
+    
+    equip.addElement(new EquipPanel(halfWidth * 0.2f, 0));
+    addElement(equip);
 
     chat.addElement(fieldChat);
     chat.addElement(editUser);

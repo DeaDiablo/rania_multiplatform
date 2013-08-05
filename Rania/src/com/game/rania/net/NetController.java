@@ -662,6 +662,7 @@ public class NetController
         int UserTouchX = cr.getInt();
         int UserTouchY = cr.getInt();
         double flyTime = cr.getDbl();
+        int fuel = cr.getInt();
         cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY, flyTime));
         break;
       }

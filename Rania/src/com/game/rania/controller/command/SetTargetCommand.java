@@ -9,12 +9,14 @@ public class SetTargetCommand extends ControllerCommand
 
   private int id;
   private float x, y;
+  private double flyTime;
 
-  public SetTargetCommand(int idUser, float targetX, float targetY)
+  public SetTargetCommand(int idUser, float targetX, float targetY, double fT)
   {
     id = idUser;
     x = targetX;
     y = targetY;
+    flyTime = fT;
   }
 
   @Override

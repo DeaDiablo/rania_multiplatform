@@ -27,7 +27,6 @@ public class Player extends User
   public void stop()
   {
     super.stop();
-    Controllers.netController.sendTouchPoint((int) position.x, (int) position.y, (int) position.x, (int) position.y, true);
   }
 
   @Override

@@ -52,7 +52,7 @@ public class NetController
   private Receiver          receiver        = null;
   private CommandController cController     = null;
   private Client            mClient         = null;
-  private int               ProtocolVersion = 9;
+  private int               ProtocolVersion = 10;
 
   public NetController(CommandController commandController)
   {
@@ -67,20 +67,11 @@ public class NetController
 
   public void sendTouchPoint(int x, int y, int currentX, int currentY, boolean stop)
   {
-    byte[] data = new byte[20];
-    byte[] xArr = intToByteArray(x);
-    byte[] yArr = intToByteArray(y);
+    byte[] data = new byte[8];
     byte[] userxArr = intToByteArray(currentX);
     byte[] useryArr = intToByteArray(currentY);
-    int action = 3; //fly
-    if (stop)
-      action = 4; //stop
-    byte[] actionArr = intToByteArray(action);
-    System.arraycopy(xArr, 0, data, 0, 4);
-    System.arraycopy(yArr, 0, data, 4, 4);
-    System.arraycopy(userxArr, 0, data, 8, 4);
-    System.arraycopy(useryArr, 0, data, 12, 4);
-    System.arraycopy(actionArr, 0, data, 16, 4);
+    System.arraycopy(userxArr, 0, data, 0, 4);
+    System.arraycopy(useryArr, 0, data, 4, 4);
     try
     {
       mClient.stream.sendCommand(Command.touchPlayer, data);
@@ -603,6 +594,19 @@ public class NetController
     return b[3] & 0xFF | (b[2] & 0xFF) << 8 | (b[1] & 0xFF) << 16 | (b[0] & 0xFF) << 24;
   }
 
+  public static double byteArrayToDouble(byte[] b)
+  {
+    long longBits = ((b[7] & 0xFFL) << 56) |
+                    ((b[6] & 0xFFL) << 48) |
+                    ((b[5] & 0xFFL) << 40) |
+                    ((b[4] & 0xFFL) << 32) |
+                    ((b[3] & 0xFFL) << 24) |
+                    ((b[2] & 0xFFL) << 16) |
+                    ((b[1] & 0xFFL) << 8) |
+                    ((b[0] & 0xFFL) << 0);
+    return Double.longBitsToDouble(longBits);
+  }
+
   public static byte[] intToByteArray(int a)
   {
     return new byte[] { (byte) ((a >> 24) & 0xFF), (byte) ((a >> 16) & 0xFF), (byte) ((a >> 8) & 0xFF), (byte) (a & 0xFF) };
@@ -657,7 +661,8 @@ public class NetController
         int UserId = cr.getInt();
         int UserTouchX = cr.getInt();
         int UserTouchY = cr.getInt();
-        cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY));
+        double flyTime = cr.getDbl();
+        cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY, flyTime));
         break;
       }
       case Command.removeUser:
@@ -893,6 +898,23 @@ public class NetController
       else
       {
         Gdx.app.log("Read Data error", "getIntValue");
+      }
+      return Res;
+    }
+
+    public double getDbl()
+    {
+      double Res = 0.0f;
+      if (!this.endOfData)
+      {
+        byte[] Arr = new byte[8];
+        System.arraycopy(this.data, this.address, Arr, 0, 8);
+        delta(8);
+        Res = byteArrayToDouble(Arr);
+      }
+      else
+      {
+        Gdx.app.log("Read Data error", "getDoubleValue");
       }
       return Res;
     }

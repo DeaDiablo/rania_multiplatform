@@ -108,11 +108,11 @@ public class Radar extends Object
     width = region.getRegionWidth();
     height = region.getRegionHeight();
 
-    frameBuffer = smallFrameBuffer = new FrameBuffer(Format.RGBA4444, region.getRegionWidth(), region.getRegionHeight(), false);
+    frameBuffer = smallFrameBuffer = new FrameBuffer(Format.RGBA8888, region.getRegionWidth(), region.getRegionHeight(), false);
     regionBuffer = smallRegionBuffer = new TextureRegion(smallFrameBuffer.getColorBufferTexture());
     smallRegionBuffer.flip(false, true);
 
-    bigFrameBuffer = new FrameBuffer(Format.RGBA4444, region.getRegionWidth() * bigCoeff, region.getRegionHeight() * bigCoeff, false);
+    bigFrameBuffer = new FrameBuffer(Format.RGBA8888, region.getRegionWidth() * bigCoeff, region.getRegionHeight() * bigCoeff, false);
     bigRegionBuffer = new TextureRegion(bigFrameBuffer.getColorBufferTexture());
     bigRegionBuffer.flip(false, true);
 

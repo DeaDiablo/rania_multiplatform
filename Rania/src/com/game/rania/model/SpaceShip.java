@@ -52,11 +52,13 @@ public class SpaceShip extends Object
   private Vector2 targetPosition = new Vector2(0, 0);
   private Vector2 moveVec        = new Vector2(0, 0);
   private Vector2 addVec         = new Vector2(0, 0);
+  private float   timeMove       = 0.0f;
+  private float   startMove      = 0.0f;
   private boolean move           = false;
 
-  public void setPositionTarget(Vector2 target)
+  public void setPositionTarget(Vector2 target, float time)
   {
-    setPositionTarget(target.x, target.y);
+    setPositionTarget(target.x, target.y, time);
   }
 
   public void stop()
@@ -66,14 +68,15 @@ public class SpaceShip extends Object
     targetPosition.set(position);
   }
 
-  public void setPositionTarget(float x, float y)
+  public void setPositionTarget(float x, float y, float time)
   {
     targetPosition.set(x, y);
+    timeMove = time;
+    startMove = timeObject;
 
     moveVec.set(targetPosition);
     moveVec.sub(position);
-    moveVec.nor();
-    moveVec.scl(100);
+    moveVec.div(timeMove);
 
     move = true;
   }
@@ -94,7 +97,7 @@ public class SpaceShip extends Object
     }
 
     addVec.set(moveVec);
-    addVec.scl(deltaTime * maxSpeed);
+    addVec.scl(deltaTime);
 
     if (!targetPosition.epsilonEquals(position, addVec.len()))
       position.add(addVec);

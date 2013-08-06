@@ -36,7 +36,7 @@ public class RepairCommand extends ControllerCommand
       return;
 
     target.repair(target.body, repair);
-    if (user != Controllers.locController.getPlayer())
+    //if (user != Controllers.locController.getPlayer())
       repairKit.item.use(user, new Target(targetID, Target.user, target));
   }
 }

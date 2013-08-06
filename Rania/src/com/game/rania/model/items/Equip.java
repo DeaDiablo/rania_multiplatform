@@ -30,7 +30,7 @@ public class Equip<T extends Item>
   }
   
   public void use(User user, Target target){
-    if (item.use(user, target))
+    //if (item.use(user, target))
       Controllers.netController.sendUseEquip(id);
   }
 }

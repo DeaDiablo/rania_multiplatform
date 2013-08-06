@@ -68,8 +68,8 @@ public class NetController
   public void sendTouchPoint(int x, int y, int currentX, int currentY, boolean stop)
   {
     byte[] data = new byte[8];
-    byte[] userxArr = intToByteArray(currentX);
-    byte[] useryArr = intToByteArray(currentY);
+    byte[] userxArr = intToByteArray(x);
+    byte[] useryArr = intToByteArray(y);
     System.arraycopy(userxArr, 0, data, 0, 4);
     System.arraycopy(useryArr, 0, data, 4, 4);
     try
@@ -651,7 +651,7 @@ public class NetController
         int TargetY = cr.getInt();
         int UserDomain = cr.getInt();
         User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
-        user.setPositionTarget(TargetX, TargetY);
+        //user.setPositionTarget(TargetX, TargetY);
         user.setEquips(getEquips(cr));
         cController.addCommand(new AddUserCommand(user));
         break;
@@ -661,9 +661,9 @@ public class NetController
         int UserId = cr.getInt();
         int UserTouchX = cr.getInt();
         int UserTouchY = cr.getInt();
-        double flyTime = cr.getDbl();
+        int flyTime = cr.getInt();
         int fuel = cr.getInt();
-        cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY, flyTime, fuel));
+        cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY, flyTime * 0.001f, fuel));
         break;
       }
       case Command.removeUser:

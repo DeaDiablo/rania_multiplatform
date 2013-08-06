@@ -65,7 +65,7 @@ public class NetController
       receiver.stopThread();
   }
 
-  public void sendTouchPoint(int x, int y, boolean stop)
+  public void sendTouchPoint(int x, int y)
   {
     byte[] data = new byte[8];
     byte[] userxArr = intToByteArray(x);

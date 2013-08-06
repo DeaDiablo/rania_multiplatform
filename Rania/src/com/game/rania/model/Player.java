@@ -2,7 +2,6 @@ package com.game.rania.model;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.game.rania.controller.Controllers;
 
 public class Player extends User
 {
@@ -21,13 +20,6 @@ public class Player extends User
     super(id, posX, posY, ShipName, PilotName, domain, inPlanet);
     zIndex = Indexes.player;
     isPlayer = true;
-  }
-
-  @Override
-  public void stop()
-  {
-    super.stop();
-    Controllers.netController.sendTouchPoint((int)position.x, (int)position.y);
   }
 
   @Override

@@ -663,7 +663,7 @@ public class NetController
         int UserTouchY = cr.getInt();
         double flyTime = cr.getDbl();
         int fuel = cr.getInt();
-        cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY, flyTime));
+        cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY, flyTime, fuel));
         break;
       }
       case Command.removeUser:

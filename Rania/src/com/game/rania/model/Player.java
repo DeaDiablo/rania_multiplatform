@@ -2,7 +2,6 @@ package com.game.rania.model;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.game.rania.controller.Controllers;
 
 public class Player extends User
 {

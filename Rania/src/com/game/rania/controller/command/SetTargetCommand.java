@@ -10,13 +10,15 @@ public class SetTargetCommand extends ControllerCommand
   private int id;
   private float x, y;
   private double flyTime;
+  private int fuel;
 
-  public SetTargetCommand(int idUser, float targetX, float targetY, double fT)
+  public SetTargetCommand(int idUser, float targetX, float targetY, double fT, int ff)
   {
     id = idUser;
     x = targetX;
     y = targetY;
     flyTime = fT;
+    fuel = ff;
   }
 
   @Override
@@ -24,6 +26,9 @@ public class SetTargetCommand extends ControllerCommand
   {
     User user = Controllers.locController.getUser(id);
     if (user != null)
+    {
+      user.fuel.num -= fuel;
       user.setPositionTarget(x, y);
+    }
   }
 }

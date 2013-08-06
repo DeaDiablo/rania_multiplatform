@@ -52,8 +52,6 @@ public class SpaceShip extends Object
   private Vector2 targetPosition = new Vector2(0, 0);
   private Vector2 moveVec        = new Vector2(0, 0);
   private Vector2 addVec         = new Vector2(0, 0);
-  private float   timeMove       = 0.0f;
-  private float   startMove      = 0.0f;
   private boolean move           = false;
 
   public void setPositionTarget(Vector2 target, float time)
@@ -71,12 +69,10 @@ public class SpaceShip extends Object
   public void setPositionTarget(float x, float y, float time)
   {
     targetPosition.set(x, y);
-    timeMove = time;
-    startMove = timeObject;
 
     moveVec.set(targetPosition);
     moveVec.sub(position);
-    moveVec.div(timeMove);
+    moveVec.div(time);
 
     move = true;
   }

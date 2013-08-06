@@ -65,7 +65,7 @@ public class NetController
       receiver.stopThread();
   }
 
-  public void sendTouchPoint(int x, int y, int currentX, int currentY, boolean stop)
+  public void sendTouchPoint(int x, int y, boolean stop)
   {
     byte[] data = new byte[8];
     byte[] userxArr = intToByteArray(x);
@@ -647,11 +647,8 @@ public class NetController
         String ShipName = cr.getString();
         int UserX = cr.getInt();
         int UserY = cr.getInt();
-        int TargetX = cr.getInt();
-        int TargetY = cr.getInt();
         int UserDomain = cr.getInt();
         User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
-        //user.setPositionTarget(TargetX, TargetY);
         user.setEquips(getEquips(cr));
         cController.addCommand(new AddUserCommand(user));
         break;

@@ -23,6 +23,13 @@ public class AnimatorVector2 extends Animator
     this.end.set(endX, endY);
   }
 
+  public AnimatorVector2(Vector2 parametr, Vector2 end, float startTime, float lifeTime)
+  {
+    super(startTime, lifeTime);
+    this.param = parametr;
+    this.end = end;
+  }
+
   @Override
   protected void updateAnimation(float currentTime)
   {

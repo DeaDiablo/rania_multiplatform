@@ -85,7 +85,7 @@ public class Radar extends Object
   }
 
   @Override
-  public void update(float deltaTime)
+  public boolean update(float deltaTime)
   {
     deltaSensor += deltaTime * speedSensor;
     float widthRadar = getWidth();
@@ -93,6 +93,7 @@ public class Radar extends Object
       deltaSensor -= widthRadar;
     textCoord.content = String.format("%d %d", locController.getOutputX(player.position.x), locController.getOutputY(player.position.y));
     textUsers.content = String.valueOf(locController.getUsers().size());
+    return true;
   }
 
   private FrameBuffer smallFrameBuffer = null, bigFrameBuffer = null, frameBuffer = null;

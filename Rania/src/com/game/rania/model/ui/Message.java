@@ -2,7 +2,6 @@ package com.game.rania.model.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.game.rania.RaniaGame;
 import com.game.rania.model.Text;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
@@ -35,7 +34,7 @@ public class Message extends Object
   @Override
   public boolean touchUp(float x, float y)
   {
-    RaniaGame.mController.removeHUDObject(this);
+    lifeTime = 0.0f;
     return true;
   }
 }

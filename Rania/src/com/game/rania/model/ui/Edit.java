@@ -158,12 +158,13 @@ public class Edit extends Object
   }
 
   @Override
-  public void update(float deltaTime)
+  public boolean update(float deltaTime)
   {
-    super.update(deltaTime);
+    if (!super.update(deltaTime))
+      return false;
 
     if (readOnly)
-      return;
+      return true;
 
     updateTime += deltaTime;
 
@@ -242,6 +243,7 @@ public class Edit extends Object
           action.execute(this);
       }
     }
+    return true;
   }
 
   @Override

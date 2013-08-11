@@ -48,12 +48,11 @@ public class MainView
     fps = new Text("", Font.getFont("data/fonts/Postmodern One.ttf", 30), new Color(1, 1, 1, 1), 0, 0);
   }
 
-
   public Texture loadTexture(String fileTexture)
   {
     return loadTexture(fileTexture, true);
   }
-  
+
   public Texture loadTexture(String fileTexture, boolean autoUnload)
   {
     Texture texture = textures.get(fileTexture);

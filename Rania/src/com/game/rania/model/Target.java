@@ -18,9 +18,21 @@ public class Target extends Object
   public int              id     = 0;
   public int              type   = 0;
 
+  public Target()
+  {
+    super(RegionID.TARGET, 0, 0);
+  }
+
   public Target(int id, int type, Object objectTarget)
   {
     super(RegionID.TARGET, 0, 0);
+    this.object = objectTarget;
+    this.id = id;
+    this.type = type;
+  }
+
+  public void changeTarget(int id, int type, Object objectTarget)
+  {
     this.object = objectTarget;
     this.id = id;
     this.type = type;

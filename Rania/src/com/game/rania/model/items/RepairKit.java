@@ -1,9 +1,8 @@
 package com.game.rania.model.items;
 
-import com.game.rania.RaniaGame;
-import com.game.rania.model.Target;
+import com.game.rania.model.Player;
+import com.game.rania.model.SpaceShip;
 import com.game.rania.model.ammunition.Repair;
-import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 
 public class RepairKit extends Device
@@ -29,13 +28,18 @@ public class RepairKit extends Device
     return RegionID.REPAIR_KIT_SKILL;
   }
 
+  public int repair = 0;
+
   @Override
-  public boolean use(Object user, Target target)
+  public boolean use(Player player)
   {
-    if (target.type != Target.user)
-      RaniaGame.mController.addObject(new Repair(user, user, color));
-    else
-      RaniaGame.mController.addObject(new Repair(user, target, color));
+    if (!super.use(player))
+      return false;
     return true;
+  }
+
+  public Repair getAmmunition(SpaceShip user, SpaceShip target, int repair)
+  {
+    return new Repair(user, target, repair, color);
   }
 }

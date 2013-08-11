@@ -1,5 +1,7 @@
 package com.game.rania.model.items;
 
+import com.game.rania.model.Player;
+
 public abstract class Device extends Item
 {
 
@@ -31,5 +33,13 @@ public abstract class Device extends Item
     deviceType = device.deviceType;
     vendorStr = device.vendorStr;
     durability = device.durability;
+  }
+
+  @Override
+  public boolean use(Player player)
+  {
+    if (player == null || player.target == null)
+      return false;
+    return true;
   }
 }

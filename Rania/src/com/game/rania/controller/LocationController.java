@@ -43,7 +43,7 @@ public class LocationController
 
     for (int i = 0; i < 8; i++)
       mView.loadTexture("data/backgrounds/nebulas.png", RegionID.fromInt(RegionID.NEBULA_0.ordinal() + i), i % 4 * 512, i / 4 * 512, 512, 512);
-      
+
     mView.loadTexture("data/location/boom.png");
 
     mView.loadTexture("data/location/clouds.png", RegionID.CLOUDS);

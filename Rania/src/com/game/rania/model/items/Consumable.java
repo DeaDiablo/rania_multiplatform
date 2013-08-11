@@ -1,7 +1,6 @@
 package com.game.rania.model.items;
 
-import com.game.rania.model.Target;
-import com.game.rania.model.element.Object;
+import com.game.rania.model.Player;
 import com.game.rania.model.element.RegionID;
 
 public class Consumable extends Item
@@ -29,7 +28,7 @@ public class Consumable extends Item
   }
 
   @Override
-  public boolean use(Object user, Target target)
+  public boolean use(Player player)
   {
     return false;
   }

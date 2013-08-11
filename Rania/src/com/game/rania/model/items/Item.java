@@ -1,12 +1,11 @@
 package com.game.rania.model.items;
 
-import com.game.rania.model.Target;
+import com.game.rania.model.Player;
 import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 
 public abstract class Item extends Object
 {
-
   public class Type
   {
     public static final int none       = 0;
@@ -32,7 +31,7 @@ public abstract class Item extends Object
 
   public abstract RegionID getIconID();
 
-  public abstract boolean use(Object user, Target target);
+  public abstract boolean use(Player player);
 
   public int    id;
   public int    itemType;

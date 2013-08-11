@@ -73,11 +73,14 @@ public class Planet extends Object
   }
 
   @Override
-  public void update(float deltaTime)
+  public boolean update(float deltaTime)
   {
+    if (!super.update(deltaTime))
+      return false;
     dt += deltaTime;
     cloudSpeed.set(atmosphereSpeedX * dt, atmosphereSpeedY * dt);
     calcPosition(time + dt);
+    return true;
   }
 
   @Override

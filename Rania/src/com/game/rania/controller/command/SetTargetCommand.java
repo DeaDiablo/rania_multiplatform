@@ -7,10 +7,10 @@ import com.game.rania.model.User;
 public class SetTargetCommand extends ControllerCommand
 {
 
-  private int id;
+  private int   id;
   private float x, y;
   private float flyTime;
-  private int fuel;
+  private int   fuel;
 
   public SetTargetCommand(int idUser, float targetX, float targetY, float flyTime, int fuel)
   {

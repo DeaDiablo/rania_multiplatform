@@ -1,11 +1,12 @@
 package com.game.rania.model.items;
 
-import com.game.rania.RaniaGame;
+import com.game.rania.model.Player;
+import com.game.rania.model.SpaceShip;
 import com.game.rania.model.Target;
+import com.game.rania.model.ammunition.Ammunition;
 import com.game.rania.model.ammunition.Bfg;
 import com.game.rania.model.ammunition.Laser;
 import com.game.rania.model.ammunition.Rocket;
-import com.game.rania.model.element.Object;
 import com.game.rania.model.element.RegionID;
 
 public class Weapon extends Device
@@ -50,34 +51,34 @@ public class Weapon extends Device
     }
     return RegionID.NONE;
   }
-
+  
   @Override
-  public boolean use(Object user, Target target)
+  public boolean use(Player player)
   {
-    if (user == null || target.type != Target.user)
+    if (!super.use(player) || player.target.type != Target.user)
       return false;
+    return true;
+  }
 
-    Object bullet = null;
+  public Ammunition getAmmunition(SpaceShip user, SpaceShip target, int damage)
+  {
+    Ammunition bullet = null;
 
     switch (weaponType)
     {
       case Type.Laser:
-        bullet = new Laser(user, target, color);
+        bullet = new Laser(user, target, damage, color);
         break;
 
       case Type.Rocket:
-        bullet = new Rocket(user, target, color);
+        bullet = new Rocket(user, target, damage, color);
         break;
 
       case Type.BFG:
-        bullet = new Bfg(user, target, color);
+        bullet = new Bfg(user, target, damage, color);
         break;
     }
 
-    if (bullet == null)
-      return false;
-
-    RaniaGame.mController.addObject(bullet);
-    return true;
+    return bullet;
   }
 }

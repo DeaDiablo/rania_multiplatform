@@ -8,7 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
-import com.game.rania.RaniaGame;
+import com.game.rania.controller.Controllers;
+import com.game.rania.controller.command.AddObjectCommand;
 import com.game.rania.model.animator.AnimatorColor;
 import com.game.rania.model.animator.AnimatorVector2;
 import com.game.rania.model.element.Font;
@@ -78,18 +79,19 @@ public class SpaceShip extends Object
   }
 
   @Override
-  public void update(float deltaTime)
+  public boolean update(float deltaTime)
   {
-    super.update(deltaTime);
+    if (!super.update(deltaTime))
+      return false;
     if (!move || fuel == null)
-      return;
+      return true;
 
     // unFuel((int)((deltaTime*1000)/engine.item.economic));
 
     if (fuel.num <= 0)
     {
       stop();
-      return;
+      return true;
     }
 
     addVec.set(moveVec);
@@ -100,6 +102,7 @@ public class SpaceShip extends Object
     else
       stop();
     angle.value = (float) Math.toDegrees(Math.atan2(-addVec.x, addVec.y));
+    return true;
   }
 
   @Override
@@ -243,7 +246,8 @@ public class SpaceShip extends Object
       FrameSequence boom = new FrameSequence("data/location/boom.png", 10, 1.0f);
       boom.scale.set(2, 2);
       boom.position = position;
-      RaniaGame.mController.addObject(boom);
+
+      Controllers.commandController.addCommand(new AddObjectCommand(boom));
     }
     String text = String.valueOf(value);
     if (value == 0)
@@ -254,11 +258,12 @@ public class SpaceShip extends Object
     infoText.lifeTime = 1.0f;
     infoText.zIndex = Indexes.infoText;
     infoText.setAlign(Align.LEFT, Align.BOTTOM);
-    RaniaGame.mController.addObject(infoText);
+    Controllers.commandController.addCommand(new AddObjectCommand(infoText));
   }
 
   public void repair(Equip<?> equip, int value)
   {
+    equip.wear = Math.min(body.item.durability, equip.wear + value);
     equip.wear = equip.wear + value;
 
     String text = String.valueOf(value);
@@ -270,7 +275,7 @@ public class SpaceShip extends Object
     infoText.lifeTime = 1.0f;
     infoText.zIndex = Indexes.infoText;
     infoText.setAlign(Align.RIGHT, Align.BOTTOM);
-    RaniaGame.mController.addObject(infoText);
+    Controllers.commandController.addCommand(new AddObjectCommand(infoText));
   }
 
   public void unFuel(int f)

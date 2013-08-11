@@ -1,28 +1,26 @@
 package com.game.rania.model.ammunition;
 
 import com.badlogic.gdx.graphics.Color;
-import com.game.rania.model.element.Object;
+import com.game.rania.model.SpaceShip;
 import com.game.rania.model.element.RegionID;
 
 public class Rocket extends Ammunition
 {
 
-  protected static final float rocketTime = 1.0f;
-  protected Object             attacker, target;
+  protected static final float rocketTime  = 1.0f;
+  protected static final float contactTime = 1.0f;
 
-  public Rocket(Object attacker, Object target, Color rocketColor)
+  public Rocket(SpaceShip attacker, SpaceShip target, int damage, Color rocketColor)
   {
-    super(rocketTime, RegionID.ROCKET, 0, 0);
-    this.attacker = attacker;
-    this.target = target;
+    super(attacker, target, damage, RegionID.ROCKET, rocketTime, contactTime);
     color.set(rocketColor);
-    vAlign = Align.CENTER;
   }
 
   @Override
-  public void update(float delta)
+  public boolean update(float delta)
   {
-    super.update(delta);
+    if (!super.update(delta))
+      return false;
     angle.value = (float) Math.toDegrees(Math.atan2(-(target.position.x - attacker.position.x), (target.position.y - attacker.position.y)));
     if (region != null)
     {
@@ -33,5 +31,12 @@ public class Rocket extends Ammunition
                      attacker.position.y + (target.position.y - attacker.position.y) * progress);
       }
     }
+    return true;
+  }
+
+  @Override
+  protected void contact()
+  {
+    target.damage(target.body, value);
   }
 }

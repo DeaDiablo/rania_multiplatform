@@ -1,8 +1,6 @@
 package com.game.rania.model.items;
 
 import com.game.rania.controller.Controllers;
-import com.game.rania.model.Target;
-import com.game.rania.model.User;
 
 public class Equip<T extends Item>
 {
@@ -28,9 +26,10 @@ public class Equip<T extends Item>
     num = equip.num;
     last_use = equip.last_use;
   }
-  
-  public void use(User user, Target target){
-    //if (item.use(user, target))
+
+  public void startUse()
+  {
+    if (item.use(Controllers.locController.getPlayer()))
       Controllers.netController.sendUseEquip(id);
   }
 }

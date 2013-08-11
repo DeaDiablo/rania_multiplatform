@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
+import com.game.rania.controller.Controllers;
+import com.game.rania.controller.command.RemoveObjectCommand;
 import com.game.rania.model.Indexes;
 import com.game.rania.model.animator.Animator;
 
@@ -244,14 +246,14 @@ public class Object
   }
 
   // update and draw
-  public void update(float deltaTime)
+  public boolean update(float deltaTime)
   {
     timeObject += deltaTime;
     if (!checkLife())
-      return;
+      return false;
 
     if (animators.isEmpty())
-      return;
+      return true;
 
     for (Animator animator : animators)
     {
@@ -260,17 +262,22 @@ public class Object
     }
     animators.removeAll(removeAnimators);
     removeAnimators.clear();
+    return true;
   }
-  
+
   protected boolean checkLife()
   {
     if (timeObject > lifeTime)
     {
-      RaniaGame.mController.removeObject(this);
-      RaniaGame.mController.removeHUDObject(this);
+      removeObject();
       return false;
     }
     return true;
+  }
+
+  public void removeObject()
+  {
+    Controllers.commandController.addCommand(new RemoveObjectCommand(this));
   }
 
   public boolean setShader(SpriteBatch sprite)

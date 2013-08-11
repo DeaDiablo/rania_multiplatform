@@ -1,17 +1,41 @@
 package com.game.rania.model.ammunition;
 
 import com.game.rania.model.Indexes;
+import com.game.rania.model.SpaceShip;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.element.Object;
 
-public class Ammunition extends Object
+public abstract class Ammunition extends Object
 {
+  protected SpaceShip attacker, target;
+  protected int       value;
+  protected float     contactTime;
 
-  public Ammunition(float time, RegionID id, float posX, float posY)
+  public Ammunition(SpaceShip attacker, SpaceShip target, int value, RegionID id, float lifeTime, float contactTime)
   {
-    super(id, posX, posY);
-    lifeTime = time;
+    super(id, attacker.position.x, attacker.position.y);
+    this.attacker = attacker;
+    this.target = target;
+    this.value = value;
+    if (attacker == null || target == null)
+      this.lifeTime = 0.0f;
+    else
+      this.lifeTime = lifeTime;
+    this.contactTime = contactTime;
     zIndex = Indexes.ammunition;
   }
 
+  @Override
+  public boolean update(float deltaTime)
+  {
+    boolean result = super.update(deltaTime);
+    if (timeObject > contactTime)
+    {
+      contact();
+      contactTime = Float.MAX_VALUE;
+    }
+    return result;
+  }
+
+  protected abstract void contact();
 }

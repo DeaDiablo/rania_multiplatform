@@ -17,8 +17,8 @@ public class PlayerController extends UpdateController
 
   private Vector2 touchPoint = new Vector2(0, 0);
 
-  private Player  player  = null;
-  private Camera  camera  = null;
+  private Player  player     = null;
+  private Camera  camera     = null;
 
   public PlayerController(Player player)
   {
@@ -49,8 +49,7 @@ public class PlayerController extends UpdateController
       return true;
     }
 
-    Controllers.netController.sendTouchPoint((int)touchPoint.x, (int)touchPoint.y);
-    //player.setPositionTarget(touchPoint, 100);
+    Controllers.netController.sendTouchPoint((int) touchPoint.x, (int) touchPoint.y);
 
     return true;
   }

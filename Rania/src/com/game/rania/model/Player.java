@@ -23,13 +23,12 @@ public class Player extends User
   }
 
   @Override
-  public void update(float deltaTime)
+  public boolean update(float deltaTime)
   {
-    super.update(deltaTime);
+    if (!super.update(deltaTime))
+      return false;
     target.update(deltaTime);
-
-    // for(Equip<Weapon> equip : weapon.values())
-    // equip.updateCooldown();
+    return true;
   }
 
   @Override

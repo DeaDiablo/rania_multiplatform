@@ -1,8 +1,9 @@
 package com.game.rania.controller.command;
 
+import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.MainController;
-import com.game.rania.model.Target;
+import com.game.rania.controller.TimeController;
 import com.game.rania.model.User;
 import com.game.rania.model.items.RepairKit;
 import com.game.rania.model.items.Equip;
@@ -35,8 +36,7 @@ public class RepairCommand extends ControllerCommand
     if (repairKit == null || target == null)
       return;
 
-    target.repair(target.body, repair);
-    //if (user != Controllers.locController.getPlayer())
-      repairKit.item.use(user, new Target(targetID, Target.user, target));
+    TimeController.startGlobalCooldown();
+    RaniaGame.mController.addObject(repairKit.item.getAmmunition(user, target, repair));
   }
 }

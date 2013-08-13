@@ -10,13 +10,10 @@ import com.game.rania.model.element.Object;
 public class MainController extends InputMultiplexer
 {
 
-  private Vector<UpdateController> updateControllers  = new Vector<UpdateController>();
+  private Vector<UpdateController> updateControllers = new Vector<UpdateController>();
   // objects
-  private Vector<Object>           sceneObjects       = new Vector<Object>();
-  private Vector<Object>           HUDObjects         = new Vector<Object>();
-  // remove objects
-  private Vector<Object>           removeSceneObjects = new Vector<Object>();
-  private Vector<Object>           removeHUDObjects   = new Vector<Object>();
+  private Vector<Object>           sceneObjects      = new Vector<Object>();
+  private Vector<Object>           HUDObjects        = new Vector<Object>();
 
   public MainController()
   {
@@ -78,7 +75,7 @@ public class MainController extends InputMultiplexer
 
   public void removeObject(Object object)
   {
-    removeSceneObjects.add(object);
+    sceneObjects.remove(object);
   }
 
   // HUD objects
@@ -112,7 +109,7 @@ public class MainController extends InputMultiplexer
 
   public void removeHUDObject(Object object)
   {
-    removeHUDObjects.add(object);
+    HUDObjects.remove(object);
   }
 
   // group object
@@ -127,9 +124,7 @@ public class MainController extends InputMultiplexer
   public void removeObject(Group group)
   {
     for (Object object : group.getElements())
-    {
-      removeSceneObjects.add(object);
-    }
+      sceneObjects.remove(object);
   }
 
   public void addHUDObject(Group group)
@@ -144,34 +139,20 @@ public class MainController extends InputMultiplexer
   {
     for (Object object : group.getElements())
     {
-      removeHUDObjects.add(object);
+      HUDObjects.remove(object);
     }
   }
 
   public void update(float deltaTime)
   {
-    if (!removeSceneObjects.isEmpty())
-    {
-      sceneObjects.removeAll(removeSceneObjects);
-      removeSceneObjects.clear();
-    }
-    if (!removeHUDObjects.isEmpty())
-    {
-      HUDObjects.removeAll(removeHUDObjects);
-      removeHUDObjects.clear();
-    }
-
-    for (Object object : sceneObjects)
-    {
-      object.update(deltaTime);
-    }
-
-    for (Object object : HUDObjects)
-    {
-      object.update(deltaTime);
-    }
-
+    TimeController.update(deltaTime);
     Controllers.commandController.updateCommands(deltaTime);
+
+    // update elements
+    for (Object object : sceneObjects)
+      object.update(deltaTime);
+    for (Object object : HUDObjects)
+      object.update(deltaTime);
 
     for (UpdateController controller : updateControllers)
     {

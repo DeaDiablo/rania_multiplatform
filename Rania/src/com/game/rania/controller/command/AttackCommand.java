@@ -36,7 +36,7 @@ public class AttackCommand extends ControllerCommand
     if (weapon == null || target == null)
       return;
 
-    TimeController.startGlobalCooldown();
+    TimeController.globalCooldown.start();
     RaniaGame.mController.addObject(weapon.item.getAmmunition(user, target, damage));
   }
 

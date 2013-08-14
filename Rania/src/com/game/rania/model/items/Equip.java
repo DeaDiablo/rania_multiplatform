@@ -1,6 +1,7 @@
 package com.game.rania.model.items;
 
 import com.game.rania.controller.Controllers;
+import com.game.rania.controller.TimeController;
 
 public class Equip<T extends Item>
 {
@@ -30,6 +31,9 @@ public class Equip<T extends Item>
   public void startUse()
   {
     if (item.use(Controllers.locController.getPlayer()))
+    {
+      TimeController.globalCooldown.lock();
       Controllers.netController.sendUseEquip(id);
+    }
   }
 }

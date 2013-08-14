@@ -36,7 +36,7 @@ public class RepairCommand extends ControllerCommand
     if (repairKit == null || target == null)
       return;
 
-    TimeController.startGlobalCooldown();
+    TimeController.globalCooldown.start();
     RaniaGame.mController.addObject(repairKit.item.getAmmunition(user, target, repair));
   }
 }

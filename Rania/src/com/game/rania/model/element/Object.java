@@ -185,8 +185,9 @@ public class Object
       return false;
     float width = getWidth();
     float height = getHeight();
-    Rectangle rect = new Rectangle(position.x - width * 0.5f,
-                                   position.y - height * 0.5f,
+    calcOffset(region.getRegionWidth(), region.getRegionHeight());
+    Rectangle rect = new Rectangle(position.x + offset.x,
+                                   position.y + offset.y,
                                    width,
                                    height);
     Vector2 point = new Vector2(x, y);

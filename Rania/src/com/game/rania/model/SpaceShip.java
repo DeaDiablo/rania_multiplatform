@@ -264,7 +264,6 @@ public class SpaceShip extends Object
   public void repair(Equip<?> equip, int value)
   {
     equip.wear = Math.min(body.item.durability, equip.wear + value);
-    equip.wear = equip.wear + value;
 
     String text = String.valueOf(value);
     if (value == 0)

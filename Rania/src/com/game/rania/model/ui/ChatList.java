@@ -3,8 +3,8 @@ package com.game.rania.model.ui;
 import java.util.Vector;
 
 import com.badlogic.gdx.graphics.Color;
-import com.game.rania.model.MultilineText;
-import com.game.rania.model.element.RegionID;
+import com.game.rania.model.RegionID;
+import com.game.rania.model.element.MultilineText;
 
 public class ChatList extends TextList
 {

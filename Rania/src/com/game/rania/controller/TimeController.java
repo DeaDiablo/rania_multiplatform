@@ -2,7 +2,7 @@ package com.game.rania.controller;
 
 import java.util.HashMap;
 
-import com.game.rania.model.element.Cooldown;
+import com.game.rania.model.Cooldown;
 import com.game.rania.model.items.Item;
 
 public class TimeController

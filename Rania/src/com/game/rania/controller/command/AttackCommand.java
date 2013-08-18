@@ -4,7 +4,7 @@ import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.MainController;
 import com.game.rania.controller.TimeController;
-import com.game.rania.model.User;
+import com.game.rania.model.element.User;
 import com.game.rania.model.items.Equip;
 import com.game.rania.model.items.weapons.Weapon;
 

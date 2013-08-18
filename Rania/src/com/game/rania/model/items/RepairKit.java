@@ -1,11 +1,11 @@
 package com.game.rania.model.items;
 
 import com.badlogic.gdx.math.Vector2;
-import com.game.rania.model.Player;
-import com.game.rania.model.SpaceShip;
-import com.game.rania.model.Target;
+import com.game.rania.model.RegionID;
 import com.game.rania.model.ammunition.Repair;
-import com.game.rania.model.element.RegionID;
+import com.game.rania.model.element.Player;
+import com.game.rania.model.element.SpaceShip;
+import com.game.rania.model.element.Target;
 
 public class RepairKit extends Device
 {

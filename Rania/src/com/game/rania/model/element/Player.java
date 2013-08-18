@@ -1,4 +1,4 @@
-package com.game.rania.model;
+package com.game.rania.model.element;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;

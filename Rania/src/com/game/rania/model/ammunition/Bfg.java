@@ -1,11 +1,11 @@
 package com.game.rania.model.ammunition;
 
 import com.badlogic.gdx.graphics.Color;
-import com.game.rania.model.SpaceShip;
+import com.game.rania.model.RegionID;
 import com.game.rania.model.animator.AnimatorColor;
 import com.game.rania.model.animator.AnimatorFloat;
 import com.game.rania.model.animator.AnimatorVector2;
-import com.game.rania.model.element.RegionID;
+import com.game.rania.model.element.SpaceShip;
 
 public class Bfg extends Ammunition
 {

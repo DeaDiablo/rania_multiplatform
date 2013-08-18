@@ -1,4 +1,4 @@
-package com.game.rania.model.element;
+package com.game.rania.model;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;

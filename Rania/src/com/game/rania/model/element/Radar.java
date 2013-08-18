@@ -1,4 +1,4 @@
-package com.game.rania.model;
+package com.game.rania.model.element;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -15,9 +15,9 @@ import com.game.rania.Config;
 import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.LocationController;
-import com.game.rania.model.element.Font;
-import com.game.rania.model.element.Object;
-import com.game.rania.model.element.RegionID;
+import com.game.rania.model.Font;
+import com.game.rania.model.Object;
+import com.game.rania.model.RegionID;
 import com.game.rania.utils.DrawUtils;
 
 public class Radar extends Object

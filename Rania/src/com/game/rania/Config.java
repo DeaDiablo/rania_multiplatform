@@ -2,7 +2,7 @@ package com.game.rania;
 
 public class Config
 {
-  public static boolean logInFile          = true;
+  public static boolean logInFile          = false;
   public static String  errorLogFile       = "raniaError.log";
   public static String  logFile            = "rania.log";
   public static String  serverAddress      = "92.255.251.88";

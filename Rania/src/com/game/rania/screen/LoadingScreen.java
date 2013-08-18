@@ -3,10 +3,10 @@ package com.game.rania.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.RaniaGame;
-import com.game.rania.model.MultilineText;
-import com.game.rania.model.Text;
-import com.game.rania.model.element.Font;
-import com.game.rania.model.element.RegionID;
+import com.game.rania.model.Font;
+import com.game.rania.model.RegionID;
+import com.game.rania.model.element.MultilineText;
+import com.game.rania.model.element.Text;
 import com.game.rania.model.ui.TextList;
 
 public class LoadingScreen extends RaniaScreen

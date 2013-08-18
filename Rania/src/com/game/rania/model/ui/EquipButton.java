@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.TimeController;
-import com.game.rania.model.Player;
+import com.game.rania.model.element.Player;
 import com.game.rania.model.items.Equip;
 
 public class EquipButton extends PressedButton

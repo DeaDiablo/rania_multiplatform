@@ -1,10 +1,10 @@
-package com.game.rania.model;
+package com.game.rania.model.element;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.rania.controller.Controllers;
-import com.game.rania.model.element.Font;
+import com.game.rania.model.Font;
 
 public class User extends SpaceShip
 {

@@ -1,4 +1,4 @@
-package com.game.rania.model.element;
+package com.game.rania.model;
 
 import java.util.HashMap;
 

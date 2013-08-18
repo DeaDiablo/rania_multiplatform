@@ -1,4 +1,4 @@
-package com.game.rania.model;
+package com.game.rania.model.element;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -10,8 +10,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
-import com.game.rania.model.element.Object;
-import com.game.rania.model.element.RegionID;
+import com.game.rania.model.Object;
+import com.game.rania.model.RegionID;
 
 public class Planet extends Object
 {

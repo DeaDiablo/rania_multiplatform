@@ -1,6 +1,6 @@
-package com.game.rania.model;
+package com.game.rania.model.element;
 
-import com.game.rania.model.element.RegionID;
+import com.game.rania.model.RegionID;
 
 public class Nebula extends ParallaxObject
 {

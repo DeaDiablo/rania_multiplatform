@@ -2,8 +2,8 @@ package com.game.rania.model.ammunition;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.game.rania.model.SpaceShip;
-import com.game.rania.model.element.RegionID;
+import com.game.rania.model.RegionID;
+import com.game.rania.model.element.SpaceShip;
 
 public class Laser extends Ammunition
 {

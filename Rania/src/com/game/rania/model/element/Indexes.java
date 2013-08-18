@@ -1,4 +1,4 @@
-package com.game.rania.model;
+package com.game.rania.model.element;
 
 public class Indexes
 {

@@ -13,10 +13,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.rania.RaniaGame;
-import com.game.rania.model.Text;
-import com.game.rania.model.element.Font;
-import com.game.rania.model.element.Object;
-import com.game.rania.model.element.RegionID;
+import com.game.rania.model.Font;
+import com.game.rania.model.Object;
+import com.game.rania.model.RegionID;
+import com.game.rania.model.element.Text;
 
 public class MainView
 {

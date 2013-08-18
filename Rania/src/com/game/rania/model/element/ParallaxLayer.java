@@ -1,12 +1,12 @@
-package com.game.rania.model;
+package com.game.rania.model.element;
 
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.rania.RaniaGame;
-import com.game.rania.model.element.RegionID;
-import com.game.rania.model.element.Object;
+import com.game.rania.model.Object;
+import com.game.rania.model.RegionID;
 import com.game.rania.view.Camera;
 
 public class ParallaxLayer extends Object

@@ -2,7 +2,7 @@ package com.game.rania.controller;
 
 import java.util.HashMap;
 
-import com.game.rania.model.element.Shader;
+import com.game.rania.model.Shader;
 
 public class ShaderManager
 {

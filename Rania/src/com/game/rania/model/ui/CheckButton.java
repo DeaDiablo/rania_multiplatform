@@ -1,7 +1,7 @@
 package com.game.rania.model.ui;
 
-import com.game.rania.model.Text;
-import com.game.rania.model.element.RegionID;
+import com.game.rania.model.RegionID;
+import com.game.rania.model.element.Text;
 
 public class CheckButton extends Button
 {

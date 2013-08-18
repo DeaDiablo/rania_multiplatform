@@ -1,6 +1,6 @@
 package com.game.rania.model.items;
 
-import com.game.rania.model.Player;
+import com.game.rania.model.element.Player;
 
 public abstract class Device extends Item
 {

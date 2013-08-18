@@ -1,6 +1,6 @@
 package com.game.rania.model.animator;
 
-import com.game.rania.model.element.FloatLink;
+import com.game.rania.model.FloatLink;
 
 public class AnimatorFloat extends Animator
 {

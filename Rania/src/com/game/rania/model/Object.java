@@ -1,4 +1,4 @@
-package com.game.rania.model.element;
+package com.game.rania.model;
 
 import java.util.Vector;
 
@@ -11,8 +11,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.command.RemoveObjectCommand;
-import com.game.rania.model.Indexes;
 import com.game.rania.model.animator.Animator;
+import com.game.rania.model.element.Indexes;
 
 public class Object
 {

@@ -1,10 +1,10 @@
 package com.game.rania.model.items.weapons;
 
 import com.badlogic.gdx.math.Vector2;
-import com.game.rania.model.Player;
-import com.game.rania.model.SpaceShip;
-import com.game.rania.model.Target;
 import com.game.rania.model.ammunition.Ammunition;
+import com.game.rania.model.element.Player;
+import com.game.rania.model.element.SpaceShip;
+import com.game.rania.model.element.Target;
 import com.game.rania.model.items.Device;
 
 public abstract class Weapon extends Device

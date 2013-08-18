@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
-import com.game.rania.model.element.Object;
+import com.game.rania.model.Object;
 import com.game.rania.model.ui.FocusElement;
 
 public class InputController extends InputAdapter

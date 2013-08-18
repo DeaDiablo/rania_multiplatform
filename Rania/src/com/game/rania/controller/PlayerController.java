@@ -4,11 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.Config;
 import com.game.rania.RaniaGame;
-import com.game.rania.model.Planet;
-import com.game.rania.model.Player;
-import com.game.rania.model.Star;
-import com.game.rania.model.Target;
-import com.game.rania.model.User;
+import com.game.rania.model.element.Planet;
+import com.game.rania.model.element.Player;
+import com.game.rania.model.element.Star;
+import com.game.rania.model.element.Target;
+import com.game.rania.model.element.User;
 import com.game.rania.screen.part.Parts;
 import com.game.rania.view.Camera;
 

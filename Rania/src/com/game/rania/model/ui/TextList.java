@@ -5,9 +5,9 @@ import java.util.Vector;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.game.rania.model.MultilineText;
-import com.game.rania.model.element.Object;
-import com.game.rania.model.element.RegionID;
+import com.game.rania.model.Object;
+import com.game.rania.model.RegionID;
+import com.game.rania.model.element.MultilineText;
 
 public class TextList extends Object
 {

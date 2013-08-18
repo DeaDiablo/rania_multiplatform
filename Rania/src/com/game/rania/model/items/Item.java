@@ -1,8 +1,8 @@
 package com.game.rania.model.items;
 
-import com.game.rania.model.Player;
-import com.game.rania.model.element.Object;
-import com.game.rania.model.element.RegionID;
+import com.game.rania.model.Object;
+import com.game.rania.model.RegionID;
+import com.game.rania.model.element.Player;
 
 public abstract class Item extends Object
 {

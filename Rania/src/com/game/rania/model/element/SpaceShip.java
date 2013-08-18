@@ -1,4 +1,4 @@
-package com.game.rania.model;
+package com.game.rania.model.element;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,12 +10,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.command.AddObjectCommand;
+import com.game.rania.model.Font;
+import com.game.rania.model.FrameSequence;
+import com.game.rania.model.Object;
+import com.game.rania.model.RegionID;
 import com.game.rania.model.animator.AnimatorColor;
 import com.game.rania.model.animator.AnimatorVector2;
-import com.game.rania.model.element.Font;
-import com.game.rania.model.element.FrameSequence;
-import com.game.rania.model.element.Object;
-import com.game.rania.model.element.RegionID;
 import com.game.rania.model.items.Consumable;
 import com.game.rania.model.items.RepairKit;
 import com.game.rania.model.items.Engine;

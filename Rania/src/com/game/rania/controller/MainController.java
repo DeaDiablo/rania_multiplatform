@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.Vector;
 
 import com.badlogic.gdx.InputMultiplexer;
-import com.game.rania.model.element.Group;
-import com.game.rania.model.element.Object;
+import com.game.rania.model.Group;
+import com.game.rania.model.Object;
 
 public class MainController extends InputMultiplexer
 {

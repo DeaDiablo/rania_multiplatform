@@ -1,9 +1,9 @@
 package com.game.rania.model.ammunition;
 
-import com.game.rania.model.Indexes;
-import com.game.rania.model.SpaceShip;
-import com.game.rania.model.element.RegionID;
-import com.game.rania.model.element.Object;
+import com.game.rania.model.Object;
+import com.game.rania.model.RegionID;
+import com.game.rania.model.element.Indexes;
+import com.game.rania.model.element.SpaceShip;
 
 public abstract class Ammunition extends Object
 {

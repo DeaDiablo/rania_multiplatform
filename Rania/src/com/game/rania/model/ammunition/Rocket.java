@@ -1,8 +1,8 @@
 package com.game.rania.model.ammunition;
 
 import com.badlogic.gdx.graphics.Color;
-import com.game.rania.model.SpaceShip;
-import com.game.rania.model.element.RegionID;
+import com.game.rania.model.RegionID;
+import com.game.rania.model.element.SpaceShip;
 
 public class Rocket extends Ammunition
 {

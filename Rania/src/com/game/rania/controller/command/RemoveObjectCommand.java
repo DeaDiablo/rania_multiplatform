@@ -1,8 +1,8 @@
 package com.game.rania.controller.command;
 
 import com.game.rania.controller.MainController;
-import com.game.rania.model.element.Group;
-import com.game.rania.model.element.Object;
+import com.game.rania.model.Group;
+import com.game.rania.model.Object;
 
 public class RemoveObjectCommand extends ControllerCommand
 {

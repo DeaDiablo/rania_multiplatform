@@ -2,7 +2,7 @@ package com.game.rania.controller.command;
 
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.MainController;
-import com.game.rania.model.Location;
+import com.game.rania.model.element.Location;
 
 public class AddLocationCommand extends ControllerCommand
 {

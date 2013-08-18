@@ -6,7 +6,7 @@ import com.game.rania.controller.MainController;
 import com.game.rania.controller.TimeController;
 import com.game.rania.model.User;
 import com.game.rania.model.items.Equip;
-import com.game.rania.model.items.Weapon;
+import com.game.rania.model.items.weapons.Weapon;
 
 public class AttackCommand extends ControllerCommand
 {
@@ -36,7 +36,11 @@ public class AttackCommand extends ControllerCommand
     if (weapon == null || target == null)
       return;
 
-    TimeController.globalCooldown.start();
+    if (user.isPlayer)
+    {
+      TimeController.globalCooldown.start();
+      TimeController.getCooldown(weapon.item).start(weapon.item.time_reload);
+    }
     RaniaGame.mController.addObject(weapon.item.getAmmunition(user, target, damage));
   }
 

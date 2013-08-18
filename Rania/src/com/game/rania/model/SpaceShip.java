@@ -26,7 +26,7 @@ import com.game.rania.model.items.Radar;
 import com.game.rania.model.items.Hyper;
 import com.game.rania.model.items.Shield;
 import com.game.rania.model.items.Body;
-import com.game.rania.model.items.Weapon;
+import com.game.rania.model.items.weapons.Weapon;
 
 public class SpaceShip extends Object
 {
@@ -207,7 +207,7 @@ public class SpaceShip extends Object
           continue;
         }
 
-        if (equip.item.getClass() == Weapon.class)
+        if (equip.item.getClass().getGenericSuperclass() == Weapon.class)
         {
           this.weapon.put(equip.id, new Equip<Weapon>(equip, Weapon.class));
           continue;

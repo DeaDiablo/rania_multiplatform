@@ -16,7 +16,7 @@ public class User extends SpaceShip
     public static final int repair = 2;
   }
 
-  protected boolean isPlayer = false;
+  public boolean isPlayer = false;
   public int        id;
   public String     pilotName;
   public Domain     domain;

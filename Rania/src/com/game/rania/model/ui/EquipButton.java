@@ -23,7 +23,7 @@ public class EquipButton extends PressedButton
       @Override
       public void execute(boolean touch)
       {
-        if (TimeController.globalCooldown.check())
+        if (TimeController.globalCooldown.check() || TimeController.getCooldown(skillEquip.item).check())
           return;
         
         Player player = Controllers.locController.getPlayer();
@@ -57,7 +57,7 @@ public class EquipButton extends PressedButton
       return false;
     
     color.a = 1.0f;
-    region.setV(v2 - (v2 - v) * TimeController.globalCooldown.progress());
+    region.setV(v2 - (v2 - v) * Math.min(TimeController.getCooldown(skillEquip.item).progress(), TimeController.globalCooldown.progress()));
     super.draw(sprite, shape);
     region.setV(v);
 

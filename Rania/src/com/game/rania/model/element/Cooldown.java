@@ -2,9 +2,13 @@ package com.game.rania.model.element;
 
 public class Cooldown
 {
-  protected float   reload;
+  protected float   reload = 1.0f;
   protected float   time = 0.0f;
   protected boolean lock = false;
+  
+  public Cooldown()
+  {
+  }
   
   public Cooldown(float reloadTime)
   {
@@ -18,6 +22,13 @@ public class Cooldown
   
   public void start()
   {
+    time = reload;
+    lock = false;
+  }
+  
+  public void start(float reloadTime)
+  {
+    reload = reloadTime;
     time = reload;
     lock = false;
   }

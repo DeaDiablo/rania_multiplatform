@@ -11,7 +11,7 @@ import com.game.rania.model.element.Group;
 import com.game.rania.model.element.RegionID;
 import com.game.rania.model.items.Equip;
 import com.game.rania.model.items.RepairKit;
-import com.game.rania.model.items.Weapon;
+import com.game.rania.model.items.weapons.Weapon;
 import com.game.rania.model.ui.EquipButton;
 import com.game.rania.view.MainView;
 

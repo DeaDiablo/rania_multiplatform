@@ -7,7 +7,6 @@ import com.game.rania.model.element.RegionID;
 
 public class RepairKit extends Device
 {
-
   public int power;
   public int time_reload;
   public int radius;

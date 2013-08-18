@@ -33,6 +33,7 @@ public class Equip<T extends Item>
     if (item.use(Controllers.locController.getPlayer()))
     {
       TimeController.globalCooldown.lock();
+      TimeController.getCooldown(item).lock();
       Controllers.netController.sendUseEquip(id);
     }
   }

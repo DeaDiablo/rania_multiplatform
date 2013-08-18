@@ -2,6 +2,8 @@ package com.game.rania.model.items;
 
 import java.util.HashMap;
 
+import com.game.rania.model.items.weapons.Weapon;
+
 public class ItemCollection
 {
   public HashMap<Integer, Body>       bodies      = new HashMap<Integer, Body>();

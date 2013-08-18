@@ -11,10 +11,11 @@ public class Config
   // public static int serverPort = 7776;
   // public static String autoLogin = "traider";
   // public static String autoPassword = "SNmLwpLn";
-  //public static String  autoLogin     = "deadiablo";
-  //public static String  autoPassword  = "deadiablo123";
-  public static String  autoLogin     = "test";
-  public static String  autoPassword  = "test";
+  public static String  autoLogin     = "deadiablo";
+  public static String  autoPassword  = "deadiablo123";
+  //public static String  autoLogin     = "test";
+  //public static String  autoPassword  = "test";
   public static boolean radarNoiseOn  = false;
   public static float   nebulaRadius  = 5000.0f;
+  public static float   globalCooldownTime = 1.0f;
 }

@@ -40,7 +40,10 @@ import com.game.rania.model.items.ItemCollection;
 import com.game.rania.model.items.Radar;
 import com.game.rania.model.items.Shield;
 import com.game.rania.model.items.Body;
-import com.game.rania.model.items.Weapon;
+import com.game.rania.model.items.weapons.BfgGun;
+import com.game.rania.model.items.weapons.LaserGun;
+import com.game.rania.model.items.weapons.RocketGun;
+import com.game.rania.model.items.weapons.Weapon;
 import com.game.rania.screen.MainMenu;
 import com.game.rania.userdata.Command;
 import com.game.rania.userdata.Client;
@@ -336,21 +339,21 @@ public class NetController
                 int droid_power = cr.getInt();
                 int droid_time_reload = cr.getInt();
                 int radius = cr.getInt();
-                RepairKit droid = new RepairKit();
-                droid.id = item_id;
-                droid.itemType = item_itemType;
-                droid.description = item_description;
-                droid.volume = item_volume;
-                droid.region_id = item_region_id;
-                droid.vendorStr = device_vendorStr;
-                droid.deviceType = device_deviceType;
-                droid.durability = device_durability;
-                droid.use_only = item_use_only;
-                droid.price = item_price;
-                droid.power = droid_power;
-                droid.time_reload = radius;
-                droid.radius = droid_time_reload;
-                iCollect.droids.put(droid.id, droid);
+                RepairKit repairKit = new RepairKit();
+                repairKit.id = item_id;
+                repairKit.itemType = item_itemType;
+                repairKit.description = item_description;
+                repairKit.volume = item_volume;
+                repairKit.region_id = item_region_id;
+                repairKit.vendorStr = device_vendorStr;
+                repairKit.deviceType = device_deviceType;
+                repairKit.durability = device_durability;
+                repairKit.use_only = item_use_only;
+                repairKit.price = item_price;
+                repairKit.power = droid_power;
+                repairKit.time_reload = droid_time_reload;
+                repairKit.radius = radius;
+                iCollect.droids.put(repairKit.id, repairKit);
                 break;
               }
               case Device.Type.shield:
@@ -422,7 +425,23 @@ public class NetController
                 int weapon_power = cr.getInt();
                 int weapon_time_start = cr.getInt();
                 int weapon_time_reload = cr.getInt();
-                Weapon weapon = new Weapon();
+                Weapon weapon = null;
+                
+                switch(weapon_weaponType)
+                {
+                  case Weapon.Type.Laser:
+                    weapon = new LaserGun();
+                    break;
+                  case Weapon.Type.Rocket:
+                    weapon = new RocketGun();
+                    break;
+                  case Weapon.Type.BFG:
+                    weapon = new BfgGun();
+                    break;
+                }
+                if (weapon == null)
+                  break;
+                
                 weapon.id = item_id;
                 weapon.itemType = item_itemType;
                 weapon.description = item_description;

@@ -15,7 +15,7 @@ public class AddObjectCommand extends ControllerCommand
     this.object = object;
     this.asHUD = false;
   }
-  
+
   public AddObjectCommand(Group group)
   {
     this.group = group;

@@ -15,7 +15,7 @@ public abstract class Weapon extends Device
     public static final int Rocket = 1;
     public static final int BFG    = 2;
   }
-  
+
   public int weaponType;
   public int radius;
   public int power;
@@ -31,7 +31,7 @@ public abstract class Weapon extends Device
   {
     super(device);
   }
-  
+
   @Override
   public boolean use(Player player)
   {

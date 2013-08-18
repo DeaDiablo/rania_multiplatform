@@ -16,13 +16,13 @@ public class LaserGun extends Weapon
   {
     super(weapon);
   }
-  
+
   @Override
   public RegionID getIconID()
   {
     return RegionID.LASER_SKILL;
   }
-  
+
   @Override
   public Ammunition getAmmunition(SpaceShip user, SpaceShip target, int damage)
   {

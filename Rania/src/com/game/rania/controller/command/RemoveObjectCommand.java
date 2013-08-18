@@ -6,8 +6,8 @@ import com.game.rania.model.element.Object;
 
 public class RemoveObjectCommand extends ControllerCommand
 {
-  protected Group   group  = null;
-  protected Object  object = null;
+  protected Group  group  = null;
+  protected Object object = null;
 
   public RemoveObjectCommand(Object object)
   {

@@ -16,13 +16,13 @@ public class RocketGun extends Weapon
   {
     super(weapon);
   }
-  
+
   @Override
   public RegionID getIconID()
   {
     return RegionID.ROCKET_SKILL;
   }
-  
+
   @Override
   public Ammunition getAmmunition(SpaceShip user, SpaceShip target, int damage)
   {

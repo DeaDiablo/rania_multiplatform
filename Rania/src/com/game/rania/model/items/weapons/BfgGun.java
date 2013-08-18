@@ -16,13 +16,13 @@ public class BfgGun extends Weapon
   {
     super(weapon);
   }
-  
+
   @Override
   public RegionID getIconID()
   {
     return RegionID.BFG_SKILL;
   }
-  
+
   @Override
   public Ammunition getAmmunition(SpaceShip user, SpaceShip target, int damage)
   {

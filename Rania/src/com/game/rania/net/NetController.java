@@ -426,8 +426,8 @@ public class NetController
                 int weapon_time_start = cr.getInt();
                 int weapon_time_reload = cr.getInt();
                 Weapon weapon = null;
-                
-                switch(weapon_weaponType)
+
+                switch (weapon_weaponType)
                 {
                   case Weapon.Type.Laser:
                     weapon = new LaserGun();
@@ -441,7 +441,7 @@ public class NetController
                 }
                 if (weapon == null)
                   break;
-                
+
                 weapon.id = item_id;
                 weapon.itemType = item_itemType;
                 weapon.description = item_description;

@@ -34,7 +34,7 @@ public class SideBar extends Group implements Part
   private PressedButton      btnMenu       = null;
   private PressedButton      btnChat       = null;
   private PressedButton      btnEquip      = null;
-  
+
   public Group               equip         = new Group();
   public boolean             equipVisible  = false;
 
@@ -135,7 +135,7 @@ public class SideBar extends Group implements Part
                                     RaniaGame.mController.removeProcessor(lController.getPlayerController());
                                   }
                                 });
-    
+
     btnEquip = new PressedButton(RegionID.BTN_UI_EQUIP_OFF,
                                  RegionID.BTN_UI_EQUIP_ON,
                                  halfWidth * 0.9396f, -halfHeight * 0.5000f,
@@ -305,7 +305,7 @@ public class SideBar extends Group implements Part
     panel.addElement(btnChat);
     panel.addElement(btnEquip);
     addElement(panel);
-    
+
     equip.addElement(new EquipPanel(0, 0));
     addElement(equip);
 

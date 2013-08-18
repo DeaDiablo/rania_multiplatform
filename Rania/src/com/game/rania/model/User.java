@@ -17,10 +17,10 @@ public class User extends SpaceShip
   }
 
   public boolean isPlayer = false;
-  public int        id;
-  public String     pilotName;
-  public Domain     domain;
-  public int        inPlanet;
+  public int     id;
+  public String  pilotName;
+  public Domain  domain;
+  public int     inPlanet;
 
   public User(int Id, float posX, float posY, String ShipName, String PilotName, int Domain)
   {

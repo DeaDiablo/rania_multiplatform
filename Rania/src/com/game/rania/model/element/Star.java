@@ -18,7 +18,6 @@ public class Star extends Object
     this.radius = radius;
     this.name = name;
     zIndex = Indexes.star;
-    if (region != null)
-      scale.set(2.0f * radius / region.getRegionWidth(), 2.0f * radius / region.getRegionHeight());
+    setSize(2.0f * radius);
   }
 }

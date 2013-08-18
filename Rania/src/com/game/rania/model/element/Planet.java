@@ -61,8 +61,7 @@ public class Planet extends Object
     int serverTime = Controllers.netController.getServerTime();
     time = serverTime % (2.0f * MathUtils.PI / speed);
     calcPosition(time);
-    if (region != null)
-      scale.set(2.0f * radius / region.getRegionWidth(), 2.0f * radius / region.getRegionHeight());
+    setSize(2.0f * radius);
   }
 
   @Override

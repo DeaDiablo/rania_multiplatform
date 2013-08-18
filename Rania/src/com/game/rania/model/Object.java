@@ -81,6 +81,33 @@ public class Object
   {
     region = RaniaGame.mView.getTextureRegion(regionID);
   }
+  
+  public void setSize(float size)
+  {
+    if (region == null)
+      return;
+    float max = Math.max(region.getRegionWidth(), region.getRegionHeight());
+    size /= max;
+    scale.set(size, size);
+  }
+  
+  public void setWidth(float width)
+  {
+    if (region == null)
+      return;
+    float max = region.getRegionWidth();
+    width /= max;
+    scale.y = width;
+  }
+  
+  public void setHeight(float height)
+  {
+    if (region == null)
+      return;
+    float max = region.getRegionHeight();
+    height /= max;
+    scale.x = height;
+  }
 
   public float getMaxSize()
   {
@@ -185,7 +212,7 @@ public class Object
       return false;
     float width = getWidth();
     float height = getHeight();
-    calcOffset(region.getRegionWidth(), region.getRegionHeight());
+    calcOffset(width, height);
     Rectangle rect = new Rectangle(position.x + offset.x,
                                    position.y + offset.y,
                                    width,

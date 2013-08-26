@@ -2,13 +2,14 @@ package com.game.rania.controller;
 
 import java.util.HashMap;
 
+import com.game.rania.Config;
 import com.game.rania.model.Cooldown;
 import com.game.rania.model.items.Item;
 
 public class TimeController
 {
   public static float                     globalTime     = 0.0f;
-  public static Cooldown                  globalCooldown = new Cooldown(1.0f);
+  public static Cooldown                  globalCooldown = new Cooldown(Config.globalCooldownTime);
   public static HashMap<String, Cooldown> cooldowns      = new HashMap<String, Cooldown>();
 
   public static void update(float deltaTime)

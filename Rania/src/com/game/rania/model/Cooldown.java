@@ -20,6 +20,11 @@ public class Cooldown
     lock = true;
   }
 
+  public void unlock()
+  {
+    lock = false;
+  }
+
   public void start()
   {
     time = reload;

@@ -81,7 +81,7 @@ public class Object
   {
     region = RaniaGame.mView.getTextureRegion(regionID);
   }
-  
+
   public void setSize(float size)
   {
     if (region == null)
@@ -90,7 +90,7 @@ public class Object
     size /= max;
     scale.set(size, size);
   }
-  
+
   public void setWidth(float width)
   {
     if (region == null)
@@ -99,7 +99,7 @@ public class Object
     width /= max;
     scale.y = width;
   }
-  
+
   public void setHeight(float height)
   {
     if (region == null)

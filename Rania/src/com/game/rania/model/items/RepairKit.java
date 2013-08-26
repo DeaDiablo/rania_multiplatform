@@ -35,9 +35,9 @@ public class RepairKit extends Device
   public boolean use(Player player)
   {
     if (!super.use(player) ||
-        player.target.type != Target.user ||
+        (player.target.type == Target.user &&
         new Vector2(player.target.object.position.x - player.position.x,
-                    player.target.object.position.y - player.position.y).len() > radius)
+                    player.target.object.position.y - player.position.y).len() > radius))
       return false;
     return true;
   }

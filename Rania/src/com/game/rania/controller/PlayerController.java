@@ -40,8 +40,7 @@ public class PlayerController extends UpdateController
 
     Target currentTarget = getTarget(touchPoint.x, touchPoint.y);
     if (currentTarget.type != Target.none &&
-        (currentTarget.id != player.target.id ||
-        currentTarget.type != player.target.type))
+        currentTarget.type != player.target.type)
     {
       player.target = currentTarget;
       Parts.getInfoPanel().setTargetInfo(currentTarget);
@@ -78,6 +77,9 @@ public class PlayerController extends UpdateController
 
   protected Target getTarget(float x, float y)
   {
+    if (player.intersectObject(x, y))
+      return new Target(player.id, Target.user, player);
+
     for (User user : Controllers.locController.getUsers())
     {
       if (user.intersectObject(x, y))

@@ -21,6 +21,7 @@ import com.game.rania.controller.command.RemoveUserCommand;
 import com.game.rania.controller.command.RepairCommand;
 import com.game.rania.controller.command.SetTargetCommand;
 import com.game.rania.controller.command.SwitchScreenCommand;
+import com.game.rania.controller.command.UnlockCommand;
 import com.game.rania.model.element.Domain;
 import com.game.rania.model.element.Location;
 import com.game.rania.model.element.Nebula;
@@ -718,6 +719,11 @@ public class NetController
         int action = cr.getInt();
         switch (action)
         {
+          case User.Action.none:
+          {
+            cController.addCommand(new UnlockCommand(userID, equipID));
+            break;
+          }
           case User.Action.attack:
           {
             int dmg = cr.getInt();

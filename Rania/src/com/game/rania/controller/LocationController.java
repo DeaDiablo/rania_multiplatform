@@ -24,7 +24,7 @@ import com.game.rania.view.MainView;
 
 public class LocationController
 {
-
+  public boolean         active      = false;
   private MainView       mView       = null;
   private MainController mController = null;
   private NetController  nController = null;
@@ -82,6 +82,7 @@ public class LocationController
 
   public void clearObjects()
   {
+    active = false;
     player.stop();
     removePlayer();
     removeBackground();
@@ -138,8 +139,6 @@ public class LocationController
   public boolean loadPlayer()
   {
     player = nController.getUserData();
-    if (player == null)
-      return false;
     currentLocation = getNearLocation();
     if (currentLocation == null)
       return false;
@@ -232,6 +231,9 @@ public class LocationController
 
   public void updateNearNebulas()
   {
+    if (player == null)
+      return;
+
     for (Nebula nebula : nebulas.values())
     {
       distanceVec.set(nebula.parallaxPosition.x - player.position.x, nebula.parallaxPosition.y - player.position.y);
@@ -397,6 +399,7 @@ public class LocationController
   public void loadComplete()
   {
     nController.loadComplite();
+    active = true;
   }
 
   public void addUsers()
@@ -614,6 +617,8 @@ public class LocationController
 
   public void update(float deltaTime)
   {
+    if (!active || player == null)
+      return;
     updateTime += deltaTime;
     if (updateTime > 1.0f)
     {

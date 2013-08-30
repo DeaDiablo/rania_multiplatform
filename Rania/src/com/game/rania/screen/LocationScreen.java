@@ -135,8 +135,10 @@ public class LocationScreen extends LoadableScreen
   @Override
   public void dispose()
   {
-    locController.clearObjects();
     super.dispose();
+    locController.clearObjects();
+    infoPanel.unloadPart();
+    skillsPanel.unloadPart();
   }
 
   @Override

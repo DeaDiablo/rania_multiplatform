@@ -12,6 +12,11 @@ public class TimeController
   public static Cooldown                  globalCooldown = new Cooldown(Config.globalCooldownTime);
   public static HashMap<String, Cooldown> cooldowns      = new HashMap<String, Cooldown>();
 
+  public static void setTime(float time)
+  {
+    globalTime = time;
+  }
+
   public static void update(float deltaTime)
   {
     globalTime += deltaTime;

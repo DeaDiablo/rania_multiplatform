@@ -38,6 +38,11 @@ public class Target extends Object
     this.type = type;
   }
 
+  public <T extends Object> T getObject(Class<T> type)
+  {
+    return type.cast(object);
+  }
+
   @Override
   public boolean draw(SpriteBatch sprite, ShapeRenderer shape)
   {

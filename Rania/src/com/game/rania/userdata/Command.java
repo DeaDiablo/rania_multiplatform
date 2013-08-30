@@ -24,6 +24,8 @@ public class Command
   public static final int failversion  = 18;
   public static final int setTarget    = 19;
   public static final int userAction   = 20;
+  public static final int inPlanet     = 21;
+  public static final int outPlanet    = 22;
 
   public int              idCommand    = none;
   public int              length       = 0;

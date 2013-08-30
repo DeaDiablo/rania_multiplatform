@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.game.rania.Config;
 import com.game.rania.controller.CommandController;
 import com.game.rania.controller.Controllers;
+import com.game.rania.controller.TimeController;
 import com.game.rania.controller.command.AddLocationCommand;
 import com.game.rania.controller.command.AddPlanetCommand;
 import com.game.rania.controller.command.AddUserCommand;
@@ -46,6 +47,7 @@ import com.game.rania.model.items.weapons.LaserGun;
 import com.game.rania.model.items.weapons.RocketGun;
 import com.game.rania.model.items.weapons.Weapon;
 import com.game.rania.screen.MainMenu;
+import com.game.rania.screen.PlanetScreen;
 import com.game.rania.userdata.Command;
 import com.game.rania.userdata.Client;
 import com.game.rania.userdata.IOStream;
@@ -115,6 +117,32 @@ public class NetController
     }
   }
 
+  public void sendInPlanet(int idPlanet)
+  {
+    byte[] data = new byte[4];
+    byte[] planet = intToByteArray(idPlanet);
+    System.arraycopy(planet, 0, data, 0, 4);
+    try
+    {
+      mClient.stream.sendCommand(Command.inPlanet, data);
+    } catch (Exception ex)
+    {
+
+    }
+  }
+  
+  public void sendOutPlanet()
+  {
+    try
+    {
+      mClient.stream.sendCommand(Command.outPlanet);
+    } catch (Exception ex)
+    {
+
+    }
+  }
+
+
   public int getServerTime()
   {
     return mClient.serverTime;
@@ -153,6 +181,7 @@ public class NetController
           CommandReader cr = new CommandReader(command);
           mClient.isLogin = true;
           mClient.serverTime = cr.getInt();
+          TimeController.setTime(mClient.serverTime);
           receiver = new Receiver(mClient, this);
           receiver.start();
           checkCRC(command, cr);
@@ -781,6 +810,13 @@ public class NetController
           location.domain = cr.getInt();
           cController.addCommand(new AddLocationCommand(location));
         }
+        break;
+      }
+
+      case Command.inPlanet:
+      {
+        int idPlanet = cr.getInt();
+        cController.addCommand(new SwitchScreenCommand(new PlanetScreen(Controllers.locController.getPlanet(idPlanet))));
         break;
       }
 

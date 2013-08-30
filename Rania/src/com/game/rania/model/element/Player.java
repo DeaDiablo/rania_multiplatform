@@ -37,4 +37,9 @@ public class Player extends User
     target.draw(sprite, shape);
     return super.draw(sprite, shape);
   }
+
+  public float getTargetDistance()
+  {
+    return (float) Math.sqrt(Math.pow(position.x - target.object.position.x, 2) + Math.pow(position.y - target.object.position.y, 2));
+  }
 }

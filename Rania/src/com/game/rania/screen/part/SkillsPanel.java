@@ -68,6 +68,9 @@ public class SkillsPanel extends Group implements Part
   @Override
   public void unloadPart()
   {
+    skills.clear();
+    clear();
+    removePart();
   }
 
   @Override

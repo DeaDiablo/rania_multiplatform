@@ -113,9 +113,11 @@ public class SideBar extends Group implements Part
                                     public void execute(boolean touch)
                                     {
                                       setVisible(panel);
-                                      lController.getRadar().visible = true;
                                       Parts.getInfoPanel().setVisible(true);
                                       Parts.getSkillsPanel().setVisible(true);
+                                      if (!lController.active)
+                                        return;
+                                      lController.getRadar().visible = true;
                                       RaniaGame.mController.addProcessor(lController.getPlayerController());
                                     }
                                   });
@@ -129,9 +131,11 @@ public class SideBar extends Group implements Part
                                   public void execute(boolean touch)
                                   {
                                     setVisible(menu);
-                                    lController.getRadar().visible = false;
                                     Parts.getInfoPanel().setVisible(false);
                                     Parts.getSkillsPanel().setVisible(false);
+                                    if (!lController.active)
+                                      return;
+                                    lController.getRadar().visible = false;
                                     RaniaGame.mController.removeProcessor(lController.getPlayerController());
                                   }
                                 });
@@ -147,6 +151,8 @@ public class SideBar extends Group implements Part
                                      equipVisible = !equipVisible;
                                      equip.setVisible(equipVisible);
                                      Parts.getSkillsPanel().setVisible(!equipVisible);
+                                     if (!lController.active)
+                                       return;
                                      if (equipVisible)
                                        RaniaGame.mController.removeProcessor(lController.getPlayerController());
                                      else
@@ -166,12 +172,14 @@ public class SideBar extends Group implements Part
                                     chat.setVisible(chatVisible);
                                     Parts.getInfoPanel().setVisible(!chatVisible);
                                     Parts.getSkillsPanel().setVisible(!chatVisible);
+                                    editUser.setFocus();
+                                    if (!lController.active)
+                                      return;
                                     lController.getRadar().visible = !chatVisible;
                                     if (chatVisible)
                                       RaniaGame.mController.removeProcessor(lController.getPlayerController());
                                     else
                                       RaniaGame.mController.addProcessor(lController.getPlayerController());
-                                    editUser.setFocus();
                                   }
                                 });
 

@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
+import com.game.rania.controller.TimeController;
 import com.game.rania.model.Object;
 import com.game.rania.model.RegionID;
 
@@ -32,8 +33,6 @@ public class Planet extends Object
   public Texture             cloudTexture     = null;
 
   private static final float radianSec        = MathUtils.degreesToRadians / 3600.0f;
-  private float              time             = 0.0f;
-  private float              dt               = 0.0f;
   private Vector2            cloudSpeed       = new Vector2();
 
   public Planet(int id, String name, int type, int radius, int speed, int orbit, int idLocation, int Domain, int ASX, int ASY)
@@ -52,16 +51,9 @@ public class Planet extends Object
     this.atmosphereSpeedY = ASY * 0.0001f;
     this.star = Controllers.locController.getLocation(idLocation).star;
     zIndex = Indexes.planets;
-    updatePosition();
-    shader = Controllers.shaderManager.getShader("data/shaders/main.vert", "data/shaders/planet.frag");
-  }
-
-  public void updatePosition()
-  {
-    int serverTime = Controllers.netController.getServerTime();
-    time = serverTime % (2.0f * MathUtils.PI / speed);
-    calcPosition(time);
+    calcPosition(TimeController.globalTime);
     setSize(2.0f * radius);
+    shader = Controllers.shaderManager.getShader("data/shaders/main.vert", "data/shaders/planet.frag");
   }
 
   @Override
@@ -71,6 +63,8 @@ public class Planet extends Object
     cloudTexture = RaniaGame.mView.getTexture(RegionID.CLOUDS);
   }
 
+  protected float dt = 0.0f;
+
   @Override
   public boolean update(float deltaTime)
   {
@@ -78,7 +72,7 @@ public class Planet extends Object
       return false;
     dt += deltaTime;
     cloudSpeed.set(atmosphereSpeedX * dt, atmosphereSpeedY * dt);
-    calcPosition(time + dt);
+    calcPosition(TimeController.globalTime);
     return true;
   }
 

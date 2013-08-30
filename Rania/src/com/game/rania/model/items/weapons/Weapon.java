@@ -1,6 +1,5 @@
 package com.game.rania.model.items.weapons;
 
-import com.badlogic.gdx.math.Vector2;
 import com.game.rania.model.ammunition.Ammunition;
 import com.game.rania.model.element.Player;
 import com.game.rania.model.element.SpaceShip;
@@ -37,8 +36,7 @@ public abstract class Weapon extends Device
   {
     if (!super.use(player) ||
         player.target.type != Target.user ||
-        new Vector2(player.target.object.position.x - player.position.x,
-                    player.target.object.position.y - player.position.y).len() > radius)
+        player.getTargetDistance() > radius)
       return false;
     return true;
   }

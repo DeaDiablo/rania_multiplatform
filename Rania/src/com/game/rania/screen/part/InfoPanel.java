@@ -91,6 +91,8 @@ public class InfoPanel extends Group implements Part
   @Override
   public void unloadPart()
   {
+    removePart();
+    clear();
   }
 
   @Override

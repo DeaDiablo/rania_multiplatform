@@ -48,6 +48,11 @@ public class Group
   {
     elements.remove(num);
   }
+  
+  public void clear()
+  {
+    elements.clear();
+  }
 
   public void setVisible(boolean visible)
   {

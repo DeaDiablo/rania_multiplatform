@@ -1,5 +1,7 @@
 package com.game.rania.model.element;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -23,6 +25,7 @@ public class Planet extends Object
   public int                 orbit            = 0;
   public int                 radius           = 0;
   public Color               atmophereColor   = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+  public int[]               services         = null;
   public Domain              domain           = null;
   public float               atmosphereSpeedX = 0.0f;
   public float               atmosphereSpeedY = 0.0f;

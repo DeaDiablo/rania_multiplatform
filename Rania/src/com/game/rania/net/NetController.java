@@ -58,7 +58,7 @@ public class NetController
   private Receiver          receiver        = null;
   private CommandController cController     = null;
   private Client            mClient         = null;
-  private int               ProtocolVersion = 10;
+  private int               ProtocolVersion = 11;
 
   public NetController(CommandController commandController)
   {
@@ -538,7 +538,13 @@ public class NetController
         int PlanetAtmosphere_speedX = cr.getInt();
         int PlanetAtmosphere_speedY = cr.getInt();
         int PlanetPrice_coef = cr.getInt();
+        int ServiceCount = cr.getInt();
         Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, idLocation, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
+        planet.services = new int[ServiceCount];
+        for (int j=0;j<ServiceCount;j++)
+        {
+          planet.services[j] = cr.getInt();
+        }
         planet.color = color;
         planet.price_coef = PlanetPrice_coef;
         planet.atmophereColor = atmColor;

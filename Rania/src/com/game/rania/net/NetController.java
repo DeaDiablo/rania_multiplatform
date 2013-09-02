@@ -10,6 +10,7 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.game.rania.Config;
+import com.game.rania.RaniaGame;
 import com.game.rania.controller.CommandController;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.TimeController;
@@ -23,12 +24,15 @@ import com.game.rania.controller.command.RepairCommand;
 import com.game.rania.controller.command.SetTargetCommand;
 import com.game.rania.controller.command.SwitchScreenCommand;
 import com.game.rania.controller.command.UnlockCommand;
+import com.game.rania.model.Font;
+import com.game.rania.model.RegionID;
 import com.game.rania.model.element.Domain;
 import com.game.rania.model.element.Location;
 import com.game.rania.model.element.Nebula;
 import com.game.rania.model.element.Planet;
 import com.game.rania.model.element.Player;
 import com.game.rania.model.element.Target;
+import com.game.rania.model.element.Text;
 import com.game.rania.model.element.User;
 import com.game.rania.model.items.Consumable;
 import com.game.rania.model.items.Device;
@@ -46,6 +50,7 @@ import com.game.rania.model.items.weapons.BfgGun;
 import com.game.rania.model.items.weapons.LaserGun;
 import com.game.rania.model.items.weapons.RocketGun;
 import com.game.rania.model.items.weapons.Weapon;
+import com.game.rania.model.ui.Message;
 import com.game.rania.screen.MainMenu;
 import com.game.rania.screen.PlanetScreen;
 import com.game.rania.userdata.Command;
@@ -130,7 +135,7 @@ public class NetController
 
     }
   }
-  
+
   public void sendOutPlanet()
   {
     try
@@ -141,7 +146,6 @@ public class NetController
 
     }
   }
-
 
   public int getServerTime()
   {
@@ -189,12 +193,18 @@ public class NetController
         }
         if (command.idCommand == Command.faillogin)
         {
-          // CommandReader ArrPtr = new CommandReader(command.data);
+          RaniaGame.mController.addHUDObject(
+                               new Message(RegionID.EDIT_ON, 0, 0,
+                                           new Text("Неверный логин или пароль", Font.getFont("data/fonts/Postmodern One.ttf", 25), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
+                                           5));
           mClient.isLogin = false;
         }
         if (command.idCommand == Command.failversion)
         {
-          // CommandReader ArrPtr = new CommandReader(command.data);
+          RaniaGame.mController.addHUDObject(
+                               new Message(RegionID.EDIT_ON, 0, 0,
+                                           new Text("Неверный версия протокола", Font.getFont("data/fonts/Postmodern One.ttf", 25), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
+                                           5));
           mClient.isLogin = false;
         }
       }
@@ -541,7 +551,7 @@ public class NetController
         int ServiceCount = cr.getInt();
         Planet planet = new Planet(PlanetId, PlanetName, PlanetType, PlanetRadius, PlanetSpeed, PlanetOrbit, idLocation, PlanetDomain, PlanetAtmosphere_speedX, PlanetAtmosphere_speedY);
         planet.services = new int[ServiceCount];
-        for (int j=0;j<ServiceCount;j++)
+        for (int j = 0; j < ServiceCount; j++)
         {
           planet.services[j] = cr.getInt();
         }

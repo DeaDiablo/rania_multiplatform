@@ -9,7 +9,6 @@ import com.game.rania.model.Object;
 import com.game.rania.model.RegionID;
 import com.game.rania.model.element.Text;
 import com.game.rania.model.ui.Edit;
-import com.game.rania.model.ui.Message;
 import com.game.rania.model.ui.PressedButton;
 import com.game.rania.model.ui.TouchAction;
 
@@ -77,13 +76,6 @@ public class MainMenu extends RaniaScreen
                                        {
                                          dispose();
                                          new LocationScreen().set();
-                                       }
-                                       else
-                                       {
-                                         mController.addHUDObject(
-                                                    new Message(RegionID.EDIT_ON, 0, 0,
-                                                                new Text("Неверный логин или пароль", Font.getFont("data/fonts/Postmodern One.ttf", 25), new Color(1.0f, 0.667f, 0.0f, 1.0f), 0, 0),
-                                                                5));
                                        }
                                      }
                                    }

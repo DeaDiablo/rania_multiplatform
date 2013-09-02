@@ -12,8 +12,8 @@ import com.game.rania.screen.part.SideBar;
 public class PlanetScreen extends RaniaScreen
 {
   private PressedButton outButton = null;
-  private SideBar sideBar = Parts.getSideBar();
-  public Planet  planet;
+  private SideBar       sideBar   = Parts.getSideBar();
+  public Planet         planet;
 
   public PlanetScreen(Planet planet)
   {
@@ -29,7 +29,7 @@ public class PlanetScreen extends RaniaScreen
 
     mView.loadTexture("data/backgrounds/planet.jpg", RegionID.BACKGROUND_PLANET);
     mController.addHUDObject(new Object(RegionID.BACKGROUND_PLANET, 0, 0));
-    
+
     outButton = new PressedButton(RegionID.BTN_UI_CHAT_OFF,
                                   RegionID.BTN_UI_CHAT_ON,
                                   -halfWidth * 0.9f, halfHeight * 0.9f,

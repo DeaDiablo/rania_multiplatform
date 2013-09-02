@@ -88,6 +88,7 @@ public class LocationController
     removeBackground();
     removeRadar();
     removePlanets();
+    removeNebulas();
     removeUsers();
   }
 
@@ -213,6 +214,13 @@ public class LocationController
   {
     if (nebulas == null)
       nebulas = nController.getAllNebulas();
+    else
+    {
+      for(Nebula nebula : nebulas.values())
+      {
+        nebula.reloadTexture();
+      }
+    }
   }
 
   public void addNebulas()
@@ -239,8 +247,11 @@ public class LocationController
       distanceVec.set(nebula.parallaxPosition.x - player.position.x, nebula.parallaxPosition.y - player.position.y);
       if (distanceVec.len() < nebula.getMaxSize() * 0.5f + Config.nebulaRadius)
       {
-        mController.addObject(nebula);
-        showNebulas.add(nebula);
+        if (!showNebulas.contains(nebula))
+        {
+          mController.addObject(nebula);
+          showNebulas.add(nebula);
+        }
       }
       else if (showNebulas.contains(nebula))
       {
@@ -400,14 +411,6 @@ public class LocationController
   {
     nController.loadComplite();
     active = true;
-  }
-
-  public void addUsers()
-  {
-    for (User user : users.values())
-    {
-      mController.addObject(user);
-    }
   }
 
   public void removeUsers()

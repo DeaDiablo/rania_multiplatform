@@ -124,7 +124,6 @@ public class LocationScreen extends LoadableScreen
     locController.addBackground();
     locController.addNebulas();
     locController.addPlanets();
-    locController.addUsers();
     locController.addRadar();
     locController.addPlayer();
     sideBar.addPart();

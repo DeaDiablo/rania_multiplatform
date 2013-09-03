@@ -20,6 +20,7 @@ import com.game.rania.model.element.Star;
 import com.game.rania.model.element.User;
 import com.game.rania.model.items.ItemCollection;
 import com.game.rania.net.NetController;
+import com.game.rania.screen.part.Parts;
 import com.game.rania.view.MainView;
 
 public class LocationController
@@ -405,6 +406,15 @@ public class LocationController
     planets.remove(id);
     mController.removeObject(planet);
   }
+  
+  public void inPlanet(Planet planet)
+  {
+    removeUsers();
+    Parts.getInfoPanel().setVisible(false);
+    Parts.getSkillsPanel().setVisible(false);
+    Parts.getPlanetPanel().setPlanet(planet);
+    Parts.getPlanetPanel().addPart();
+  }
 
   // users
   public void loadComplete()
@@ -586,7 +596,7 @@ public class LocationController
 
   public User getUser(int id)
   {
-    if (player.id == id)
+    if (player != null && player.id == id)
       return player;
     return users.get(id);
   }

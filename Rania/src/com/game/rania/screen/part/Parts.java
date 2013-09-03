@@ -54,4 +54,17 @@ public class Parts
     }
     return skillsPanel;
   }
+  
+  // planet panel
+  protected static PlanetPanel planetPanel = null;
+
+  public static PlanetPanel getPlanetPanel()
+  {
+    if (planetPanel == null)
+    {
+      planetPanel = new PlanetPanel();
+      parts.add(planetPanel);
+    }
+    return planetPanel;
+  }
 }

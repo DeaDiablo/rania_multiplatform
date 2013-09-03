@@ -45,7 +45,7 @@ public class User extends SpaceShip
   }
 
   protected Text textShip = new Text("", Font.getFont("data/fonts/Arial.ttf", 20), new Color(1, 1, 1, 1), 0, 0);
-
+  
   @Override
   public boolean draw(SpriteBatch sprite, ShapeRenderer shape)
   {

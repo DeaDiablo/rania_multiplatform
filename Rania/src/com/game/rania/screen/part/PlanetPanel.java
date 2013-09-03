@@ -1,34 +1,43 @@
-package com.game.rania.screen;
+package com.game.rania.screen.part;
 
+import com.game.rania.RaniaGame;
 import com.game.rania.controller.Controllers;
-import com.game.rania.model.Object;
+import com.game.rania.model.Group;
 import com.game.rania.model.RegionID;
 import com.game.rania.model.element.Planet;
 import com.game.rania.model.ui.PressedButton;
 import com.game.rania.model.ui.TouchAction;
-import com.game.rania.screen.part.Parts;
-import com.game.rania.screen.part.SideBar;
+import com.game.rania.view.MainView;
 
-public class PlanetScreen extends RaniaScreen
+public class PlanetPanel extends Group implements Part
 {
+  private MainView mView = RaniaGame.mView;
   private PressedButton outButton = null;
-  private SideBar       sideBar   = Parts.getSideBar();
-  public Planet         planet;
+  private Planet planet = null;
 
-  public PlanetScreen(Planet planet)
+  public PlanetPanel()
   {
-    super();
+  }
+  
+  @Override
+  public void unloadPart()
+  {
+    removePart();
+    clear();
+  }
+  
+  public void setPlanet(Planet planet)
+  {
     this.planet = planet;
   }
 
   @Override
-  public void show()
+  public void loadPart()
   {
     float halfWidth = mView.getHUDCamera().getWidth() * 0.5f;
     float halfHeight = mView.getHUDCamera().getHeight() * 0.5f;
 
     mView.loadTexture("data/backgrounds/planet.jpg", RegionID.BACKGROUND_PLANET);
-    mController.addHUDObject(new Object(RegionID.BACKGROUND_PLANET, 0, 0));
 
     outButton = new PressedButton(RegionID.BTN_UI_CHAT_OFF,
                                   RegionID.BTN_UI_CHAT_ON,
@@ -39,23 +48,25 @@ public class PlanetScreen extends RaniaScreen
                                     public void execute(boolean touch)
                                     {
                                       Controllers.netController.sendOutPlanet();
-                                      new LocationScreen().set();
+                                      Controllers.locController.getPlayer().position.set(planet.position);
+                                      Parts.getInfoPanel().setVisible(true);
+                                      Parts.getSkillsPanel().setVisible(true);
+                                      Parts.getPlanetPanel().removePart();
                                     }
                                   });
 
-    mController.addHUDObject(outButton);
-    sideBar.addPart();
+    addElement(outButton);
   }
 
   @Override
-  public void dispose()
+  public void addPart()
   {
-    super.dispose();
+    RaniaGame.mController.addHUDObject(this);
   }
 
   @Override
-  public void update(float deltaTime)
+  public void removePart()
   {
-    super.update(deltaTime);
+    RaniaGame.mController.removeHUDObject(this);
   }
 }

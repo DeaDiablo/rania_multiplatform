@@ -19,6 +19,7 @@ import com.game.rania.controller.command.AddPlanetCommand;
 import com.game.rania.controller.command.AddUserCommand;
 import com.game.rania.controller.command.AttackCommand;
 import com.game.rania.controller.command.ChatNewMessageCommand;
+import com.game.rania.controller.command.InPlanetCommand;
 import com.game.rania.controller.command.RemoveUserCommand;
 import com.game.rania.controller.command.RepairCommand;
 import com.game.rania.controller.command.SetTargetCommand;
@@ -52,7 +53,6 @@ import com.game.rania.model.items.weapons.RocketGun;
 import com.game.rania.model.items.weapons.Weapon;
 import com.game.rania.model.ui.Message;
 import com.game.rania.screen.MainMenu;
-import com.game.rania.screen.PlanetScreen;
 import com.game.rania.userdata.Command;
 import com.game.rania.userdata.Client;
 import com.game.rania.userdata.IOStream;
@@ -832,7 +832,7 @@ public class NetController
       case Command.inPlanet:
       {
         int idPlanet = cr.getInt();
-        cController.addCommand(new SwitchScreenCommand(new PlanetScreen(Controllers.locController.getPlanet(idPlanet))));
+        cController.addCommand(new InPlanetCommand(idPlanet));
         break;
       }
 

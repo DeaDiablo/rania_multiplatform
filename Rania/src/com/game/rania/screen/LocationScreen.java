@@ -5,6 +5,7 @@ import com.game.rania.controller.Controllers;
 import com.game.rania.controller.LocationController;
 import com.game.rania.screen.part.InfoPanel;
 import com.game.rania.screen.part.Parts;
+import com.game.rania.screen.part.PlanetPanel;
 import com.game.rania.screen.part.SideBar;
 import com.game.rania.screen.part.SkillsPanel;
 
@@ -16,6 +17,7 @@ public class LocationScreen extends LoadableScreen
   private SideBar            sideBar       = Parts.getSideBar();
   private InfoPanel          infoPanel     = Parts.getInfoPanel();
   private SkillsPanel        skillsPanel   = Parts.getSkillsPanel();
+  private PlanetPanel        planetPanel   = Parts.getPlanetPanel();
 
   public LocationScreen()
   {
@@ -100,6 +102,7 @@ public class LocationScreen extends LoadableScreen
         locController.loadRadar();
         infoPanel.loadPart();
         skillsPanel.loadPart();
+        planetPanel.loadPart();
       }
     };
     addLoadObject(loadObject);
@@ -138,6 +141,7 @@ public class LocationScreen extends LoadableScreen
     locController.clearObjects();
     infoPanel.unloadPart();
     skillsPanel.unloadPart();
+    planetPanel.unloadPart();
   }
 
   @Override

@@ -37,16 +37,16 @@ public class PlayerController extends UpdateController
   {
     touchPoint.set(x, Gdx.graphics.getHeight() - y);
     RaniaGame.mView.getCamera().toCameraCoord(touchPoint);
-
-    Target currentTarget = getTarget(touchPoint.x, touchPoint.y);
-    if (currentTarget.type == Target.planet &&
-        currentTarget.object == player.target.object &&
+    
+    if (player.target.type == Target.planet &&
+        player.target.object.intersectObject(touchPoint.x, touchPoint.y) &&
         player.getTargetDistance() < player.target.getObject(Planet.class).radius)
     {
       Controllers.netController.sendInPlanet(player.target.id);
       return true;
     }
 
+    Target currentTarget = getTarget(touchPoint.x, touchPoint.y);
     if (currentTarget.type != Target.none &&
         currentTarget.object != player.target.object)
     {

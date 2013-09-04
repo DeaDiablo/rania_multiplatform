@@ -11,7 +11,7 @@ public class Equip<T extends Item>
   public int     wear      = -1;
   public int     in_planet = -1;
   public int     num       = 0;
-  public float   last_use  = 0.0f;
+  public double  last_use  = 0.0f;
 
   public Equip()
   {

@@ -861,12 +861,14 @@ public class NetController
       int wear = cr.getInt();
       int in_planet = cr.getInt();
       int num = cr.getInt();
+      double last_use = cr.getDbl();
       Equip<Item> eq = new Equip<Item>();
       eq.id = equip_id;
       eq.in_use = in_use == 1 ? true : false;
       eq.wear = wear;
       eq.in_planet = in_planet;
       eq.num = num;
+      eq.last_use = last_use;
       eq.item = null;
       if (iType == Item.Type.device)
       {

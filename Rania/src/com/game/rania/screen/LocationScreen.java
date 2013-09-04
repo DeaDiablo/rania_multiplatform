@@ -132,6 +132,8 @@ public class LocationScreen extends LoadableScreen
     sideBar.addPart();
     infoPanel.addPart();
     skillsPanel.addPart();
+    planetPanel.addPart();
+    Parts.showDefaultPanels();
   }
 
   @Override

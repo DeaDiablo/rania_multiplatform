@@ -127,4 +127,12 @@ public class InfoPanel extends Group implements Part
   {
     RaniaGame.mController.removeHUDObject(this);
   }
+  
+  @Override
+  public void setVisible(boolean visible)
+  {
+    super.setVisible(visible);
+    if (Controllers.locController.active)
+      Controllers.locController.getRadar().visible = visible;
+  }
 }

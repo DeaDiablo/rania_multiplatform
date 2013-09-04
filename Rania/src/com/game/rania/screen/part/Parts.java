@@ -67,4 +67,70 @@ public class Parts
     }
     return planetPanel;
   }
+  
+  public static final int space  = 0;
+  public static final int planet = 1;
+  
+  public static int status = space;
+
+  public static void showDefaultPanels()
+  {
+    sideBar.setVisiblePanel();
+    infoPanel.setVisible(status == space);
+    skillsPanel.setVisible(status == space);
+    planetPanel.setVisible(status == planet);
+  }
+  
+  public static void showMenu(boolean show)
+  {
+    if (show)
+    {
+      sideBar.setVisibleMenu();
+      infoPanel.setVisible(false);
+      skillsPanel.setVisible(false);
+      planetPanel.setVisible(false);
+    }
+    else
+      showDefaultPanels();
+  }
+  
+  public static void showEquip(boolean show)
+  {
+    if (show)
+    {
+      sideBar.setVisibleEquip();
+      skillsPanel.setVisible(false);
+      planetPanel.setVisible(false);
+    }
+    else
+      showDefaultPanels();
+  }
+  
+  public static void showChat(boolean show)
+  {
+    if (show)
+    {
+      sideBar.setVisibleChat();
+      infoPanel.setVisible(false);
+      skillsPanel.setVisible(false);
+      planetPanel.setVisible(false);
+    }
+    else
+      showDefaultPanels();
+  }
+
+  public static void showPlanetPanel(boolean show)
+  {
+    infoPanel.setVisible(!show);
+    skillsPanel.setVisible(!show);
+    sideBar.setVisiblePanel();
+    planetPanel.setVisible(show);
+    if (show)
+    {
+      status = planet;
+      return;
+    }
+
+    status = space;
+  }
 }

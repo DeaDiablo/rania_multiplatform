@@ -20,7 +20,7 @@ public class User extends SpaceShip
   public int     id;
   public String  pilotName;
   public Domain  domain;
-  public int     inPlanet;
+  public int     planet;
 
   public User(int Id, float posX, float posY, String ShipName, String PilotName, int Domain)
   {
@@ -28,7 +28,7 @@ public class User extends SpaceShip
     id = Id;
     pilotName = PilotName;
     domain = Controllers.locController.getDomain(Domain);
-    inPlanet = 0;
+    planet = 0;
     zIndex = Indexes.users;
     textShip.content = shipName;
   }
@@ -39,7 +39,7 @@ public class User extends SpaceShip
     id = Id;
     pilotName = PilotName;
     domain = Controllers.locController.getDomain(Domain);
-    inPlanet = InPlanet;
+    planet = InPlanet;
     zIndex = Indexes.users;
     textShip.content = shipName;
   }

@@ -34,6 +34,11 @@ public class Player extends User
   @Override
   public boolean draw(SpriteBatch sprite, ShapeRenderer shape)
   {
+    if (planet > 0)
+    {
+      position.set(target.object.position);
+      return true;
+    }
     target.draw(sprite, shape);
     return super.draw(sprite, shape);
   }

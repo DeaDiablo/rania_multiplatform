@@ -20,7 +20,6 @@ import com.game.rania.model.element.Star;
 import com.game.rania.model.element.User;
 import com.game.rania.model.items.ItemCollection;
 import com.game.rania.net.NetController;
-import com.game.rania.screen.part.Parts;
 import com.game.rania.view.MainView;
 
 public class LocationController
@@ -175,10 +174,18 @@ public class LocationController
     }
   }
 
-  public PlayerController getPlayerController()
+  public void enablePlayerController(boolean enable)
   {
-    return pController;
-  }
+    if (!active || pController == null)
+      return;
+    if (enable)
+    {
+      mController.addProcessor(pController);
+      return;
+    }
+    mController.removeProcessor(pController);
+    Controllers.netController.sendTouchPoint((int) player.position.x, (int)  player.position.y);
+  } 
 
   // background
   public void loadBackground()
@@ -407,15 +414,6 @@ public class LocationController
     mController.removeObject(planet);
   }
   
-  public void inPlanet(Planet planet)
-  {
-    removeUsers();
-    Parts.getInfoPanel().setVisible(false);
-    Parts.getSkillsPanel().setVisible(false);
-    Parts.getPlanetPanel().setPlanet(planet);
-    Parts.getPlanetPanel().addPart();
-  }
-
   // users
   public void loadComplete()
   {

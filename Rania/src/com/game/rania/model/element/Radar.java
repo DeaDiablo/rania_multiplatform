@@ -59,7 +59,7 @@ public class Radar extends Object
     smallMode = !smallMode;
     if (smallMode)
     {
-      RaniaGame.mController.addProcessor(Controllers.locController.getPlayerController());
+      Controllers.locController.enablePlayerController(true);
       position.set(savePosition);
       scale.div(bigCoeff);
       width /= bigCoeff;
@@ -70,7 +70,7 @@ public class Radar extends Object
     }
     else
     {
-      RaniaGame.mController.removeProcessor(Controllers.locController.getPlayerController());
+      Controllers.locController.enablePlayerController(false);
       player.stop();
       savePosition.set(position);
       position.set(0, 0);

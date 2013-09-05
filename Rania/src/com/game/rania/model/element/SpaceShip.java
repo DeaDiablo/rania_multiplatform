@@ -116,17 +116,17 @@ public class SpaceShip extends Object
     if (body != null)
     {
       shape.setColor(new Color(1, 0, 0, 0.75f));
-      shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f + 5, maxSize * ((float) body.wear / body.item.durability), 5);
+      shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f + 5, maxSize * ((float)Math.max(0, body.wear) / body.item.durability), 5);
     }
     if (shield != null)
     {
       shape.setColor(new Color(0, 0, 1, 0.75f));
-      shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * ((float) shield.wear / shield.item.durability), 5);
+      shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * ((float)Math.max(0, shield.wear) / shield.item.durability), 5);
     }
     if (fuelbag != null)
     {
       shape.setColor(new Color(0, 1, 0, 0.75f));
-      shape.rect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * ((float) fuel.num / maxFuel), 5);
+      shape.rect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * ((float)Math.max(0, fuel.num) / maxFuel), 5);
     }
     shape.end();
     sprite.begin();
@@ -289,10 +289,7 @@ public class SpaceShip extends Object
       maxSpeed = 0;
     }
 
-    if (fuel.num > maxFuel)
-    {
-      fuel.num = maxFuel;
-    }
+    fuel.num = Math.min(fuel.num, maxFuel);
   }
 
   public void reFuel(int f)

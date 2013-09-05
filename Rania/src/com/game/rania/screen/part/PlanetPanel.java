@@ -50,6 +50,7 @@ public class PlanetPanel extends Group implements Part
                                       Parts.showPlanetPanel(false);
                                       Controllers.locController.getRadar().visible = true;
                                       Controllers.locController.getPlayer().planet = 0;
+                                      Controllers.locController.enablePlayerController(true);
                                     }
                                   });
 

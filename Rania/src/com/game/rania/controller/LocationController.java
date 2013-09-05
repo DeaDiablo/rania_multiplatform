@@ -184,7 +184,6 @@ public class LocationController
       return;
     }
     mController.removeProcessor(pController);
-    Controllers.netController.sendTouchPoint((int) player.position.x, (int)  player.position.y);
   } 
 
   // background

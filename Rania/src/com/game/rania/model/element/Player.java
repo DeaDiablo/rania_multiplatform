@@ -36,6 +36,7 @@ public class Player extends User
   {
     if (planet > 0)
     {
+      angle.value = 0.0f;
       position.set(target.object.position);
       return true;
     }

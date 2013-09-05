@@ -26,6 +26,7 @@ public class InPlanetCommand extends ControllerCommand
     Parts.showPlanetPanel(true);
     Controllers.locController.removeUsers();
     Controllers.locController.getRadar().visible = false;
+    Controllers.locController.enablePlayerController(false);
     Controllers.locController.getPlayer().target.changeTarget(planet.id, Target.planet, planet);
     Controllers.locController.getPlayer().planet = planet.id;
   }

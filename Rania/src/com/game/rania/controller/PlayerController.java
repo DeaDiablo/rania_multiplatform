@@ -29,7 +29,6 @@ public class PlayerController extends UpdateController
   @Override
   public void stopContoller()
   {
-    player.stop();
   }
 
   @Override

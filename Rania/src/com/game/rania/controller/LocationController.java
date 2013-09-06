@@ -636,6 +636,7 @@ public class LocationController
       switchLocation(getNearLocation());
       updateTime -= 1.0f;
     }
+    mView.getCamera().position.set(player.position.x, player.position.y, 0);
   }
 
   public int getOutputX(float x)

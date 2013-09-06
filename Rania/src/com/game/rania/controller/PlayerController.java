@@ -36,7 +36,7 @@ public class PlayerController extends UpdateController
   public boolean touchUp(int x, int y, int pointer, int button)
   {
     touchPoint.set(x, Gdx.graphics.getHeight() - y);
-    RaniaGame.mView.getCamera().toCameraCoord(touchPoint);
+    camera.toCameraCoord(touchPoint);
     
     if (player.target.type == Target.planet &&
         player.target.object.intersectObject(touchPoint.x, touchPoint.y) &&
@@ -68,8 +68,6 @@ public class PlayerController extends UpdateController
   {
     if (player != null)
     {
-      camera.position.set(player.position.x, player.position.y, 0);
-
       if (player.target.type != Target.none)
       {
         deltaPosition.set(player.target.object.position);

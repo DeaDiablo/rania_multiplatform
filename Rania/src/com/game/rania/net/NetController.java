@@ -643,7 +643,9 @@ public class NetController
       int UserInPlanet = cr.getInt();
       String PName = cr.getString();
       String SName = cr.getString();
+      double UserEnergy = cr.getDbl();
       Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain, UserInPlanet);
+      player.energy = UserEnergy;
       player.setEquips(getEquips(cr));
       checkCRC(command, cr);
       return player;
@@ -724,8 +726,8 @@ public class NetController
         int UserTouchX = cr.getInt();
         int UserTouchY = cr.getInt();
         int flyTime = cr.getInt();
-        int fuel = cr.getInt();
-        cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY, flyTime * 0.001f, fuel));
+        double energy = cr.getDbl();
+        cController.addCommand(new SetTargetCommand(UserId, UserTouchX, UserTouchY, flyTime, energy));
         break;
       }
       case Command.removeUser:

@@ -73,7 +73,7 @@ public class SpaceShip extends Object
 
     moveVec.set(targetPosition);
     moveVec.sub(position);
-    moveVec.div(time);
+    moveVec.div(time*0.001f);
 
     move = true;
   }
@@ -83,20 +83,20 @@ public class SpaceShip extends Object
   {
     if (!super.update(deltaTime))
       return false;
-    if (!move || fuel == null)
+    if (!move || energy <= 0)
       return true;
 
-    // unFuel((int)((deltaTime*1000)/engine.item.economic));
+    unFuel(deltaTime*1000.0f);
 
-    if (fuel.num <= 0)
+    if (energy <= 0)
     {
       stop();
+      energy = 0.0f;
       return true;
     }
 
     addVec.set(moveVec);
     addVec.scl(deltaTime);
-
     if (!targetPosition.epsilonEquals(position, addVec.len()))
       position.add(addVec);
     else
@@ -126,7 +126,7 @@ public class SpaceShip extends Object
     if (fuelbag != null)
     {
       shape.setColor(new Color(0, 1, 0, 0.75f));
-      shape.rect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * ((float)Math.max(0, fuel.num) / maxFuel), 5);
+      shape.rect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * ((float)Math.max(0, energy) / maxFuel), 5);
     }
     shape.end();
     sprite.begin();
@@ -146,9 +146,9 @@ public class SpaceShip extends Object
   public HashMap<Integer, Equip<Item>>      inventory = new HashMap<Integer, Equip<Item>>();
 
   // characteristics
-  public Equip<Consumable>                  fuel      = null;
+  public double                              energy;
   public int                                maxFuel;
-  public float                              maxSpeed;
+  //public float                              maxSpeed;
 
   public void setEquips(List<Equip<Item>> equips)
   {
@@ -156,18 +156,7 @@ public class SpaceShip extends Object
     {
       if (!equip.in_use)
       {
-        if (equip.item.getClass() == Consumable.class)
-        {
-          if (equip.item.id == Consumable.Type.fuel)
-          {
-            this.fuel = new Equip<Consumable>(equip, Consumable.class);
-            continue;
-          }
-        }
-        else
-        {
-          inventory.put(equip.id, equip);
-        }
+        inventory.put(equip.id, equip);
       }
       else
       {
@@ -222,23 +211,18 @@ public class SpaceShip extends Object
     }
 
     maxFuel = 0;
-    maxSpeed = 0;
 
     if (fuelbag != null)
     {
       maxFuel = (int) fuelbag.item.volume * fuelbag.item.compress;
-      fuel.num = fuel.num > maxFuel ? maxFuel : fuel.num;
-    }
-
-    if (engine != null)
-    {
-      maxSpeed = (float) engine.item.power;
+      energy = energy > maxFuel ? maxFuel : energy;
     }
   }
 
   public void damage(Equip<?> equip, int value)
   {
     equip.wear = Math.max(0, equip.wear - value);
+    energy -= value;
 
     if (equip == body && equip.wear <= 0)
     {
@@ -264,6 +248,7 @@ public class SpaceShip extends Object
   public void repair(Equip<?> equip, int value)
   {
     equip.wear = Math.min(body.item.durability, equip.wear + value);
+    energy -= value;
 
     String text = String.valueOf(value);
     if (value == 0)
@@ -277,32 +262,23 @@ public class SpaceShip extends Object
     Controllers.commandController.addCommand(new AddObjectCommand(infoText));
   }
 
-  public void unFuel(int f)
+  public void unFuel(float f)
   {
-    if (fuel == null)
-      return;
-
-    fuel.num -= f;
-    if (fuel.num < 0)
+    energy -= f;
+    if (energy < 0)
     {
-      fuel.num = 0;
-      maxSpeed = 0;
+      energy = 0;
     }
-
-    fuel.num = Math.min(fuel.num, maxFuel);
+    energy = Math.min(energy, maxFuel);
   }
 
-  public void reFuel(int f)
+  public void reFuel(float f)
   {
-    if (fuel == null)
-      return;
-
-    fuel.num += f;
-    if (fuel.num > maxFuel)
+	energy += f;
+    if (energy > maxFuel)
     {
-      fuel.num = maxFuel;
+      energy = maxFuel;
     }
-    maxSpeed = (float) engine.item.power / 10;
   }
 
   public void crashSpaceShip(int percent)

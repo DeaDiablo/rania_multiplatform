@@ -9,16 +9,16 @@ public class SetTargetCommand extends ControllerCommand
 
   private int   id;
   private float x, y;
-  private float flyTime;
-  private int   fuel;
+  private int flyTime;
+  private double energy;
 
-  public SetTargetCommand(int idUser, float targetX, float targetY, float flyTime, int fuel)
+  public SetTargetCommand(int idUser, float targetX, float targetY, int flyTime, double energy)
   {
     id = idUser;
     x = targetX;
     y = targetY;
     this.flyTime = flyTime;
-    this.fuel = fuel;
+    this.energy = energy;
   }
 
   @Override
@@ -27,7 +27,7 @@ public class SetTargetCommand extends ControllerCommand
     User user = Controllers.locController.getUser(id);
     if (user != null)
     {
-      user.fuel.num -= fuel;
+      user.energy = this.energy;
       user.setPositionTarget(x, y, flyTime);
     }
   }

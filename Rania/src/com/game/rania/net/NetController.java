@@ -715,7 +715,9 @@ public class NetController
         int UserX = cr.getInt();
         int UserY = cr.getInt();
         int UserDomain = cr.getInt();
+        double UserEnergy = cr.getDbl();
         User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
+        user.energy = UserEnergy;
         user.setEquips(getEquips(cr));
         cController.addCommand(new AddUserCommand(user));
         break;

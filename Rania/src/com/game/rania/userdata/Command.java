@@ -26,6 +26,8 @@ public class Command
   public static final int userAction   = 20;
   public static final int inPlanet     = 21;
   public static final int outPlanet    = 22;
+  public static final int recharge     = 23;
+  public static final int repair       = 24;
 
   public int              idCommand    = none;
   public int              length       = 0;

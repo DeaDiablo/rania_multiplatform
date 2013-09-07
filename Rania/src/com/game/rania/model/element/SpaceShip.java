@@ -86,7 +86,7 @@ public class SpaceShip extends Object
     if (!move || energy <= 0)
       return true;
 
-    unFuel(deltaTime*1000.0f);
+    unFuel(deltaTime);
 
     if (energy <= 0)
     {

@@ -1,7 +1,9 @@
 package com.game.rania.model.element;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class Player extends User
 {
@@ -41,6 +43,26 @@ public class Player extends User
       return true;
     }
     target.draw(sprite, shape);
+    sprite.end();
+    shape.begin(ShapeType.Filled);
+    float maxSize = Math.max(region.getRegionWidth(), region.getRegionHeight());
+    if (body != null)
+    {
+      shape.setColor(new Color(1, 0, 0, 0.75f));
+      shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f + 5, maxSize * ((float)Math.max(0, body.wear) / body.item.durability), 5);
+    }
+    if (shield != null)
+    {
+      shape.setColor(new Color(0, 0, 1, 0.75f));
+      shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * ((float)Math.max(0, shield.wear) / shield.item.durability), 5);
+    }
+    if (fuelbag != null)
+    {
+      shape.setColor(new Color(0, 1, 0, 0.75f));
+      shape.rect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * ((float)Math.max(0, energy) / maxFuel), 5);
+    }
+    shape.end();
+    sprite.begin();
     return super.draw(sprite, shape);
   }
 

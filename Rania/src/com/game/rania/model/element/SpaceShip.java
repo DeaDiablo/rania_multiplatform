@@ -109,26 +109,7 @@ public class SpaceShip extends Object
   {
     if (!super.draw(sprite, shape) || region == null)
       return false;
-    sprite.end();
-    shape.begin(ShapeType.Filled);
-    float maxSize = Math.max(region.getRegionWidth(), region.getRegionHeight());
-    if (body != null)
-    {
-      shape.setColor(new Color(1, 0, 0, 0.75f));
-      shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f + 5, maxSize * ((float)Math.max(0, body.wear) / body.item.durability), 5);
-    }
-    if (shield != null)
-    {
-      shape.setColor(new Color(0, 0, 1, 0.75f));
-      shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * ((float)Math.max(0, shield.wear) / shield.item.durability), 5);
-    }
-    if (fuelbag != null)
-    {
-      shape.setColor(new Color(0, 1, 0, 0.75f));
-      shape.rect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * ((float)Math.max(0, energy) / maxFuel), 5);
-    }
-    shape.end();
-    sprite.begin();
+    
     return true;
   }
 

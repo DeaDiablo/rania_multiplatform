@@ -51,7 +51,7 @@ public class User extends SpaceShip
   {
     if (!super.draw(sprite, shape))
       return false;
-    if (!isPlayer && textShip != null)
+    if (textShip != null)
       textShip.draw(sprite, position.x, position.y + region.getRegionHeight() * 0.5f);
     return true;
   }

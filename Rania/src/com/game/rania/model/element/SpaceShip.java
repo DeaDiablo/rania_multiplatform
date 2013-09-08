@@ -16,7 +16,6 @@ import com.game.rania.model.Object;
 import com.game.rania.model.RegionID;
 import com.game.rania.model.animator.AnimatorColor;
 import com.game.rania.model.animator.AnimatorVector2;
-import com.game.rania.model.items.Consumable;
 import com.game.rania.model.items.RepairKit;
 import com.game.rania.model.items.Engine;
 import com.game.rania.model.items.Equip;

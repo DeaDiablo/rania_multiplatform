@@ -71,7 +71,6 @@ public class Radar extends Object
     else
     {
       Controllers.locController.enablePlayerController(false);
-      player.stop();
       savePosition.set(position);
       position.set(0, 0);
       scale.scl(bigCoeff);

@@ -129,7 +129,7 @@ public class Radar extends Object
   @Override
   public boolean draw(SpriteBatch sprite, ShapeRenderer shape)
   {
-    if (!visible || player == null || region == null)
+    if (!visible || player == null || region == null || player.radar == null)
       return false;
 
     sprite.end();

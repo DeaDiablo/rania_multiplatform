@@ -63,7 +63,7 @@ public class NetController
   private Receiver          receiver        = null;
   private CommandController cController     = null;
   private Client            mClient         = null;
-  private int               ProtocolVersion = 11;
+  private int               ProtocolVersion = 12;
 
   public NetController(CommandController commandController)
   {

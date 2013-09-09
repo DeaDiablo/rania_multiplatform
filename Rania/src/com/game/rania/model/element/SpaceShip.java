@@ -82,17 +82,10 @@ public class SpaceShip extends Object
   {
     if (!super.update(deltaTime))
       return false;
-    if (!move || energy <= 0)
+    if (!move)
       return true;
 
     unFuel(deltaTime);
-
-    if (energy <= 0)
-    {
-      stop();
-      energy = 0.0f;
-      return true;
-    }
 
     addVec.set(moveVec);
     addVec.scl(deltaTime);
@@ -126,9 +119,8 @@ public class SpaceShip extends Object
   public HashMap<Integer, Equip<Item>>      inventory = new HashMap<Integer, Equip<Item>>();
 
   // characteristics
-  public double                              energy;
+  public double                             energy;
   public int                                maxFuel;
-  //public float                              maxSpeed;
 
   public void setEquips(List<Equip<Item>> equips)
   {
@@ -195,15 +187,13 @@ public class SpaceShip extends Object
     if (fuelbag != null)
     {
       maxFuel = (int) fuelbag.item.volume * fuelbag.item.compress;
-      energy = energy > maxFuel ? maxFuel : energy;
+      energy = Math.max(0, Math.min(maxFuel, energy));
     }
   }
 
   public void damage(Equip<?> equip, int value)
   {
     equip.wear = Math.max(0, equip.wear - value);
-    energy -= value;
-
     if (equip == body && equip.wear <= 0)
     {
       crashSpaceShip(10);
@@ -228,8 +218,6 @@ public class SpaceShip extends Object
   public void repair(Equip<?> equip, int value)
   {
     equip.wear = Math.min(body.item.durability, equip.wear + value);
-    energy -= value;
-
     String text = String.valueOf(value);
     if (value == 0)
       text = "miss";
@@ -245,20 +233,13 @@ public class SpaceShip extends Object
   public void unFuel(float f)
   {
     energy -= f;
-    if (energy < 0)
-    {
-      energy = 0;
-    }
-    energy = Math.min(energy, maxFuel);
+    energy = Math.max(energy, 0);
   }
 
   public void reFuel(float f)
   {
-	energy += f;
-    if (energy > maxFuel)
-    {
-      energy = maxFuel;
-    }
+	  energy += f;
+    energy = Math.min(energy, maxFuel);
   }
 
   public void crashSpaceShip(int percent)

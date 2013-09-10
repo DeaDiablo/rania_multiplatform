@@ -21,7 +21,7 @@ public class Object
   public boolean       keysObject     = false;
   public boolean       touchObject    = false;
   public boolean       scrollObject   = false;
-  public boolean       allTouchObject = false;
+  public boolean       focusObject    = false;
 
   public boolean       visible        = true;
   public float         lifeTime       = Float.MAX_VALUE;

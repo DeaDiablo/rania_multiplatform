@@ -1,5 +1,7 @@
 package com.game.rania.model.ui;
 
+import com.game.rania.model.Object;
+
 public class FocusElement
 {
   private static Object focusElement = null;

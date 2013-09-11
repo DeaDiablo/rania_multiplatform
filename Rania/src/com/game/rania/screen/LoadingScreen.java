@@ -7,6 +7,7 @@ import com.game.rania.model.Font;
 import com.game.rania.model.RegionID;
 import com.game.rania.model.element.MultilineText;
 import com.game.rania.model.element.Text;
+import com.game.rania.model.ui.Slider;
 import com.game.rania.model.ui.TextList;
 
 public class LoadingScreen extends RaniaScreen
@@ -14,6 +15,7 @@ public class LoadingScreen extends RaniaScreen
 
   protected LoadableScreen loadScreen  = null;
   protected TextList       textLoading = null;
+  protected Slider         loadSlider  = new Slider(0, 0, new Color(1, 1, 1, 1), true, null);
 
   public LoadingScreen(LoadableScreen screen)
   {
@@ -34,7 +36,11 @@ public class LoadingScreen extends RaniaScreen
                                                  Text.Align.RIGHT, Text.Align.TOP),
                                mView.getTextureRegion(RegionID.LOADING).getRegionWidth() * 0.95f,
                                mView.getTextureRegion(RegionID.LOADING).getRegionHeight() * 0.95f);
+
     mController.addHUDObject(textLoading);
+    loadSlider.max = loadScreen.loadObjects.size();
+    loadSlider.value = 0;
+    mController.addHUDObject(loadSlider);
   }
 
   @Override
@@ -69,11 +75,13 @@ public class LoadingScreen extends RaniaScreen
         loadScreen.loadNextResource();
       }
     });
+    loadSlider.value += 1;
   }
 
   @Override
   public void dispose()
   {
     mController.removeHUDObject(textLoading);
+    mController.removeHUDObject(loadSlider);
   }
 }

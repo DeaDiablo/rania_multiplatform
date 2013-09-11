@@ -4,11 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.game.rania.RaniaGame;
 import com.game.rania.model.Object;
+import com.game.rania.model.RegionID;
 
 public class Slider extends Object
 {
@@ -21,7 +24,10 @@ public class Slider extends Object
   public float height = 20;
   
   protected boolean fillLine = false;
+  protected boolean texture = false;
   protected SliderAction action = null;
+  protected TextureRegion regionButton = null;
+  protected Vector2 sliderPosition = new Vector2();
 
   public Slider(float x, float y, Color color, boolean fillLine, SliderAction action)
   {
@@ -31,6 +37,19 @@ public class Slider extends Object
     this.action = action;
     touchObject = true;
     focusObject = true;
+    texture = false;
+  }
+  
+  public Slider(float x, float y, RegionID sliderRegionID, float buttonX, float buttonY, RegionID sliderButtonID, SliderAction action)
+  {
+    super(sliderRegionID, x, y);
+    this.regionButton = RaniaGame.mView.getTextureRegion(sliderButtonID);
+    this.fillLine = false;
+    this.action = action;
+    sliderPosition.set(buttonX, buttonY);
+    touchObject = true;
+    focusObject = true;
+    texture = true;
   }
   
   public float getPercent(int value)
@@ -54,6 +73,19 @@ public class Slider extends Object
   @Override
   public boolean draw(SpriteBatch sprite, ShapeRenderer shape)
   {
+    if (texture)
+    {
+      if (!super.draw(sprite, shape))
+        return false;
+      drawRegion(sprite, regionButton,
+                 position.x + offset.x + sliderPosition.x + getWidth() * getPercent(value),
+                 position.y + offset.y + sliderPosition.y,
+                 angle.value,
+                 scale.x,
+                 scale.y);
+      return true;
+    }
+      
     if (!visible)
       return false;
     sprite.end();
@@ -96,6 +128,9 @@ public class Slider extends Object
   @Override
   public boolean intersectObject(float x, float y)
   {
+    if (texture)
+      return super.intersectObject(x, y);
+
     calcOffset(width, height);
     Rectangle rect = new Rectangle(position.x + offset.x,
                                    position.y + offset.y,
@@ -120,8 +155,11 @@ public class Slider extends Object
   public boolean touchDragged(float x, float y)
   {
     int oldValue = value;
-    value = getValue((x + width * 0.5f) / width);
-    if (oldValue != value)
+    if (texture)
+      value = getValue((x + getWidth() * 0.5f) / getWidth());
+    else
+      value = getValue((x + width * 0.5f) / width);
+    if (oldValue != value && action != null)
       action.execute(this);
     return true;
   }

@@ -38,7 +38,10 @@ public class MainMenu extends RaniaScreen
 
     mView.loadTexture("data/gui/edit.png", RegionID.EDIT_OFF, 0, 0, 512, 128);
     mView.loadTexture("data/gui/edit.png", RegionID.EDIT_ON, 0, 128, 512, 128);
-
+    
+    mView.loadTexture("data/gui/slider.png", RegionID.SLIDER);
+    mView.loadTexture("data/gui/sliderButton.png", RegionID.SLIDER_BUTTON);
+    
     final Edit loginEdit =
                            new Edit(RegionID.EDIT_OFF,
                                     RegionID.EDIT_ON,

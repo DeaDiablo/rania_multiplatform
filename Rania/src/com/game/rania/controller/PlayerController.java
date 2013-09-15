@@ -36,7 +36,7 @@ public class PlayerController extends UpdateController
   {
     touchPoint.set(x, Gdx.graphics.getHeight() - y);
     camera.toCameraCoord(touchPoint);
-    
+
     if (player.target.type == Target.planet &&
         player.target.object.intersectObject(touchPoint.x, touchPoint.y) &&
         player.getTargetDistance() < player.target.getObject(Planet.class).radius)

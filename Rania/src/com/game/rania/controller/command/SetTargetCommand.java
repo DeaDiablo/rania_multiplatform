@@ -7,9 +7,9 @@ import com.game.rania.model.element.User;
 public class SetTargetCommand extends ControllerCommand
 {
 
-  private int   id;
-  private float x, y;
-  private int flyTime;
+  private int    id;
+  private float  x, y;
+  private int    flyTime;
   private double energy;
 
   public SetTargetCommand(int idUser, float targetX, float targetY, int flyTime, double energy)

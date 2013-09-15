@@ -90,7 +90,7 @@ public class Radar extends Object
     float widthRadar = getWidth();
     if (deltaSensor > widthRadar)
       deltaSensor -= widthRadar;
-    textCoord.content = String.format("%d:%d fuel=%d", locController.getOutputX(player.position.x), locController.getOutputY(player.position.y), (int)player.energy);
+    textCoord.content = String.format("%d:%d fuel=%d", locController.getOutputX(player.position.x), locController.getOutputY(player.position.y), (int) player.energy);
     textUsers.content = String.valueOf(locController.getUsers().size());
     return true;
   }

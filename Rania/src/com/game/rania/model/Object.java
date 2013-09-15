@@ -16,25 +16,25 @@ import com.game.rania.model.element.Indexes;
 
 public class Object
 {
-  public static Shader currentShader  = null;
+  public static Shader currentShader = null;
 
-  public boolean       keysObject     = false;
-  public boolean       touchObject    = false;
-  public boolean       scrollObject   = false;
-  public boolean       focusObject    = false;
+  public boolean       keysObject    = false;
+  public boolean       touchObject   = false;
+  public boolean       scrollObject  = false;
+  public boolean       focusObject   = false;
 
-  public boolean       visible        = true;
-  public float         lifeTime       = Float.MAX_VALUE;
-  public Vector2       position       = new Vector2(0.0f, 0.0f);
-  public FloatLink     angle          = new FloatLink(0.0f);
-  public Vector2       scale          = new Vector2(1.0f, 1.0f);
-  public Color         color          = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-  public int           zIndex         = Indexes.object;
+  public boolean       visible       = true;
+  public float         lifeTime      = Float.MAX_VALUE;
+  public Vector2       position      = new Vector2(0.0f, 0.0f);
+  public FloatLink     angle         = new FloatLink(0.0f);
+  public Vector2       scale         = new Vector2(1.0f, 1.0f);
+  public Color         color         = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+  public int           zIndex        = Indexes.object;
 
-  public Shader        shader         = null;
+  public Shader        shader        = null;
 
-  public RegionID      regionID       = RegionID.NONE;
-  public TextureRegion region         = null;
+  public RegionID      regionID      = RegionID.NONE;
+  public TextureRegion region        = null;
 
   public Object()
   {

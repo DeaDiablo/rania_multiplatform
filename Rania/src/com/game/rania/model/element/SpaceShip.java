@@ -18,7 +18,7 @@ import com.game.rania.model.animator.AnimatorVector2;
 import com.game.rania.model.items.RepairKit;
 import com.game.rania.model.items.Engine;
 import com.game.rania.model.items.Equip;
-import com.game.rania.model.items.Fuelbag;
+import com.game.rania.model.items.Battery;
 import com.game.rania.model.items.Item;
 import com.game.rania.model.items.Radar;
 import com.game.rania.model.items.Hyper;
@@ -71,7 +71,7 @@ public class SpaceShip extends Object
 
     moveVec.set(targetPosition);
     moveVec.sub(position);
-    moveVec.div(time*0.001f);
+    moveVec.div(time * 0.001f);
 
     move = true;
   }
@@ -84,7 +84,7 @@ public class SpaceShip extends Object
     if (!move)
       return true;
 
-    unFuel(deltaTime);
+    unEnergy(deltaTime);
 
     addVec.set(moveVec);
     addVec.scl(deltaTime);
@@ -101,13 +101,13 @@ public class SpaceShip extends Object
   {
     if (!super.draw(sprite, shape) || region == null)
       return false;
-    
+
     return true;
   }
 
   // equips
   public Equip<Engine>                      engine    = null;
-  public Equip<Fuelbag>                     fuelbag   = null;
+  public Equip<Battery>                     battery   = null;
   public Equip<Radar>                       radar     = null;
   public Equip<Hyper>                       hyper     = null;
   public Equip<Shield>                      shield    = null;
@@ -119,7 +119,7 @@ public class SpaceShip extends Object
 
   // characteristics
   public double                             energy;
-  public int                                maxFuel;
+  public int                                maxEnergy;
 
   public void setEquips(List<Equip<Item>> equips)
   {
@@ -143,9 +143,9 @@ public class SpaceShip extends Object
           continue;
         }
 
-        if (equip.item.getClass() == Fuelbag.class)
+        if (equip.item.getClass() == Battery.class)
         {
-          this.fuelbag = new Equip<Fuelbag>(equip, Fuelbag.class);
+          this.battery = new Equip<Battery>(equip, Battery.class);
           continue;
         }
 
@@ -181,12 +181,12 @@ public class SpaceShip extends Object
       }
     }
 
-    maxFuel = 0;
+    maxEnergy = 0;
 
-    if (fuelbag != null)
+    if (battery != null)
     {
-      maxFuel = (int) fuelbag.item.volume * fuelbag.item.compress;
-      energy = Math.max(0, Math.min(maxFuel, energy));
+      maxEnergy = (int) battery.item.volume * battery.item.compress;
+      energy = Math.max(0, Math.min(maxEnergy, energy));
     }
   }
 
@@ -229,16 +229,16 @@ public class SpaceShip extends Object
     Controllers.commandController.addCommand(new AddObjectCommand(infoText));
   }
 
-  public void unFuel(float f)
+  public void unEnergy(float f)
   {
     energy -= f;
     energy = Math.max(energy, 0);
   }
 
-  public void reFuel(float f)
+  public void reEnergy(float f)
   {
-	  energy += f;
-    energy = Math.min(energy, maxFuel);
+    energy += f;
+    energy = Math.min(energy, maxEnergy);
   }
 
   public void crashSpaceShip(int percent)
@@ -250,11 +250,11 @@ public class SpaceShip extends Object
         this.engine.wear = 0;
     }
 
-    if (this.fuelbag != null)
+    if (this.battery != null)
     {
-      this.fuelbag.wear = (int) (this.fuelbag.wear - ((double) this.fuelbag.item.durability * percent / 100));
-      if (this.fuelbag.wear < 0)
-        this.fuelbag.wear = 0;
+      this.battery.wear = (int) (this.battery.wear - ((double) this.battery.item.durability * percent / 100));
+      if (this.battery.wear < 0)
+        this.battery.wear = 0;
     }
 
     if (this.hyper != null)

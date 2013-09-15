@@ -184,7 +184,7 @@ public class LocationController
       return;
     }
     mController.removeProcessor(pController);
-  } 
+  }
 
   // background
   public void loadBackground()
@@ -223,7 +223,7 @@ public class LocationController
       nebulas = nController.getAllNebulas();
     else
     {
-      for(Nebula nebula : nebulas.values())
+      for (Nebula nebula : nebulas.values())
       {
         nebula.reloadTexture();
       }
@@ -412,7 +412,7 @@ public class LocationController
     planets.remove(id);
     mController.removeObject(planet);
   }
-  
+
   // users
   public void loadComplete()
   {

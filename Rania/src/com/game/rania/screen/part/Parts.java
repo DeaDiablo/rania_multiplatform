@@ -54,7 +54,7 @@ public class Parts
     }
     return skillsPanel;
   }
-  
+
   // planet panel
   protected static PlanetPanel planetPanel = null;
 
@@ -67,11 +67,11 @@ public class Parts
     }
     return planetPanel;
   }
-  
+
   public static final int space  = 0;
   public static final int planet = 1;
-  
-  public static int status = space;
+
+  public static int       status = space;
 
   public static void showDefaultPanels()
   {
@@ -80,7 +80,7 @@ public class Parts
     skillsPanel.setVisible(status == space);
     planetPanel.setVisible(status == planet);
   }
-  
+
   public static void showMenu(boolean show)
   {
     if (show)
@@ -93,7 +93,7 @@ public class Parts
     else
       showDefaultPanels();
   }
-  
+
   public static void showEquip(boolean show)
   {
     if (show)
@@ -105,7 +105,7 @@ public class Parts
     else
       showDefaultPanels();
   }
-  
+
   public static void showChat(boolean show)
   {
     if (show)

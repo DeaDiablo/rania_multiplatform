@@ -32,8 +32,8 @@ public enum RegionID
 
   // skills
   LASER_SKILL, ROCKET_SKILL, BFG_SKILL, REPAIR_KIT_SKILL,
-  
-  //planet
+
+  // planet
   PLANET_PANEL, PLANET_NPC, PLANET_TRADE, PLANET_SCIENCE, PLANET_TECHNIC, PLANET_LIFE, PLANET_EXIT,
 
   // emblems

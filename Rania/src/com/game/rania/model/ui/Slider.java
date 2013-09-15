@@ -15,19 +15,19 @@ import com.game.rania.model.RegionID;
 
 public class Slider extends Object
 {
-  public int min = 0;
-  public int max = 100;
-  public int value = 50;
-  
-  public float widthScroller = 20; //only not fill
-  public float width = 500;
-  public float height = 20;
-  
-  protected boolean fillLine = false;
-  protected boolean texture = false;
-  protected SliderAction action = null;
-  protected TextureRegion regionButton = null;
-  protected Vector2 sliderPosition = new Vector2();
+  public int              min            = 0;
+  public int              max            = 100;
+  public int              value          = 50;
+
+  public float            widthScroller  = 20;           // only not fill
+  public float            width          = 500;
+  public float            height         = 20;
+
+  protected boolean       fillLine       = false;
+  protected boolean       texture        = false;
+  protected SliderAction  action         = null;
+  protected TextureRegion regionButton   = null;
+  protected Vector2       sliderPosition = new Vector2();
 
   public Slider(float x, float y, Color color, boolean fillLine, SliderAction action)
   {
@@ -39,7 +39,7 @@ public class Slider extends Object
     focusObject = true;
     texture = false;
   }
-  
+
   public Slider(float x, float y, RegionID sliderRegionID, float buttonX, float buttonY, RegionID sliderButtonID, SliderAction action)
   {
     super(sliderRegionID, x, y);
@@ -51,25 +51,35 @@ public class Slider extends Object
     focusObject = true;
     texture = true;
   }
-  
+
   public float getPercent(int value)
   {
     if (value <= min)
       return 0.0f;
     if (value >= max)
       return 1.0f;
-    return (float)value / (max + 1 - min);
+    return (float) value / (max + 1 - min);
   }
-  
+
   public int getValue(float percent)
   {
     if (percent <= 0.0f)
       return min;
     if (percent >= 1.0f)
       return max;
-    return (int)(percent * (max + 1 - min));
+    return (int) (percent * (max + 1 - min));
   }
-  
+
+  public void updateValue(int newValue)
+  {
+    if (value == newValue || newValue < min || newValue > max)
+      return;
+
+    value = newValue;
+    if (action != null)
+      action.execute(this);
+  }
+
   @Override
   public boolean draw(SpriteBatch sprite, ShapeRenderer shape)
   {
@@ -85,11 +95,11 @@ public class Slider extends Object
                  scale.y);
       return true;
     }
-      
+
     if (!visible)
       return false;
     sprite.end();
-    
+
     Gdx.gl.glEnable(GL10.GL_BLEND);
     shape.begin(ShapeType.Filled);
     calcOffset(width, height);
@@ -100,7 +110,7 @@ public class Slider extends Object
                position.y + offset.y,
                width,
                height);
-    
+
     color.a *= 2.0f;
     shape.setColor(color);
     if (fillLine)
@@ -120,11 +130,11 @@ public class Slider extends Object
 
     shape.end();
     Gdx.gl.glDisable(GL10.GL_BLEND);
-    
+
     sprite.begin();
     return true;
   }
-  
+
   @Override
   public boolean intersectObject(float x, float y)
   {
@@ -142,7 +152,7 @@ public class Slider extends Object
     point.add(position);
     return rect.contains(point.x, point.y);
   }
-  
+
   @Override
   public boolean touchDown(float x, float y)
   {
@@ -150,7 +160,7 @@ public class Slider extends Object
     touchDragged(x, y);
     return true;
   }
-  
+
   @Override
   public boolean touchDragged(float x, float y)
   {
@@ -163,7 +173,7 @@ public class Slider extends Object
       action.execute(this);
     return true;
   }
-  
+
   @Override
   public boolean touchUp(float x, float y)
   {

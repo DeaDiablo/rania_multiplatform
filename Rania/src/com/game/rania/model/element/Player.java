@@ -49,17 +49,17 @@ public class Player extends User
     if (body != null)
     {
       shape.setColor(new Color(1, 0, 0, 0.75f));
-      shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f + 5, maxSize * ((float)Math.max(0, body.wear) / body.item.durability), 5);
+      shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f + 5, maxSize * ((float) Math.max(0, body.wear) / body.item.durability), 5);
     }
     if (shield != null)
     {
       shape.setColor(new Color(0, 0, 1, 0.75f));
-      shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * ((float)Math.max(0, shield.wear) / shield.item.durability), 5);
+      shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * ((float) Math.max(0, shield.wear) / shield.item.durability), 5);
     }
-    if (fuelbag != null)
+    if (battery != null)
     {
       shape.setColor(new Color(0, 1, 0, 0.75f));
-      shape.rect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * ((float)Math.max(0, energy) / maxFuel), 5);
+      shape.rect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * ((float) Math.max(0, energy) / maxEnergy), 5);
     }
     shape.end();
     sprite.begin();

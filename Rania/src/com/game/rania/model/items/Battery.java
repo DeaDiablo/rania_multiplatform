@@ -3,17 +3,17 @@ package com.game.rania.model.items;
 import com.game.rania.model.RegionID;
 import com.game.rania.model.element.Player;
 
-public class Fuelbag extends Device
+public class Battery extends Device
 {
 
   public int compress;
 
-  public Fuelbag()
+  public Battery()
   {
     super();
   }
 
-  public Fuelbag(Device device)
+  public Battery(Device device)
   {
     super(device);
   }

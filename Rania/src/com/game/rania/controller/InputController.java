@@ -118,14 +118,14 @@ public class InputController extends InputAdapter
     Vector2 touchPoint = new Vector2(screenX, screenY);
 
     RaniaGame.mView.getHUDCamera().toCameraCoord(touchPoint);
-    
+
     Object focus = FocusElement.getFocus();
     if (focus != null && focus.focusObject)
     {
       focus.touchDragged(-focus.position.x + touchPoint.x, -focus.position.y + touchPoint.y);
       return true;
     }
-    
+
     for (Object object : mController.getReverseHUDObjects())
     {
       if (object.touchObject && object.visible && object.intersectObject(touchPoint.x, touchPoint.y))
@@ -151,14 +151,14 @@ public class InputController extends InputAdapter
     Vector2 touchPoint = new Vector2(screenX, screenY);
 
     RaniaGame.mView.getHUDCamera().toCameraCoord(touchPoint);
-    
+
     Object focus = FocusElement.getFocus();
     if (focus != null && focus.focusObject)
     {
       focus.touchUp(-focus.position.x + touchPoint.x, -focus.position.y + touchPoint.y);
       return true;
     }
-    
+
     for (Object object : mController.getReverseHUDObjects())
     {
       if (object.touchObject && object.visible && object.intersectObject(touchPoint.x, touchPoint.y))

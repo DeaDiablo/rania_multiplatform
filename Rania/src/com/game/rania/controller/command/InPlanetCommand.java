@@ -9,8 +9,8 @@ import com.game.rania.screen.part.Parts;
 
 public class InPlanetCommand extends ControllerCommand
 {
-  protected int id = -1;
-  protected static final float zoomFactor = 1 / 260.0f;
+  protected int                id         = -1;
+  protected static final float zoomFactor = 1 / 160.0f;
 
   public InPlanetCommand(int idPlanet)
   {

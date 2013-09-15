@@ -325,7 +325,6 @@ public class SideBar extends Group implements Part
   @Override
   public void addPart()
   {
-    setVisible(panel);
     RaniaGame.mController.addHUDObject(this);
   }
 
@@ -339,18 +338,18 @@ public class SideBar extends Group implements Part
   {
     setVisible(panel);
   }
-  
+
   public void setVisibleChat()
   {
     setVisible(panel);
     chat.setVisible(true);
   }
-  
+
   public void setVisibleMenu()
   {
     setVisible(menu);
   }
-  
+
   public void setVisibleEquip()
   {
     setVisible(panel);

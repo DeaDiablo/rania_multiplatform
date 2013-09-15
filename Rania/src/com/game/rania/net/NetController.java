@@ -40,7 +40,7 @@ import com.game.rania.model.items.Device;
 import com.game.rania.model.items.RepairKit;
 import com.game.rania.model.items.Engine;
 import com.game.rania.model.items.Equip;
-import com.game.rania.model.items.Fuelbag;
+import com.game.rania.model.items.Battery;
 import com.game.rania.model.items.Hyper;
 import com.game.rania.model.items.Item;
 import com.game.rania.model.items.ItemCollection;
@@ -74,6 +74,28 @@ public class NetController
   {
     if (receiver != null)
       receiver.stopThread();
+  }
+
+  public void sendRecharge()
+  {
+    try
+    {
+      mClient.stream.sendCommand(Command.recharge);
+    } catch (Exception ex)
+    {
+
+    }
+  }
+
+  public void sendRepair()
+  {
+    try
+    {
+      mClient.stream.sendCommand(Command.repair);
+    } catch (Exception ex)
+    {
+
+    }
   }
 
   public void sendTouchPoint(int x, int y)
@@ -359,7 +381,7 @@ public class NetController
               case Device.Type.fuelbag:
               {
                 int fuelbag_compress = cr.getInt();
-                Fuelbag fuelbag = new Fuelbag();
+                Battery fuelbag = new Battery();
                 fuelbag.id = item_id;
                 fuelbag.itemType = item_itemType;
                 fuelbag.description = item_description;

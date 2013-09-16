@@ -42,6 +42,9 @@ public class Laser extends Ammunition
   @Override
   protected void contact()
   {
-    target.damage(target.body, value);
+    if (target.shield.wear <= 0)
+      target.damage(target.body, value);
+    else
+      target.damage(target.shield, value);
   }
 }

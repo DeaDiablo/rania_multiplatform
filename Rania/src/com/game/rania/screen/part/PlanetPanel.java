@@ -11,6 +11,9 @@ import com.game.rania.model.RegionID;
 import com.game.rania.model.element.Planet;
 import com.game.rania.model.element.Player;
 import com.game.rania.model.element.Text;
+import com.game.rania.model.items.Equip;
+import com.game.rania.model.items.RepairKit;
+import com.game.rania.model.items.weapons.Weapon;
 import com.game.rania.model.ui.PressedButton;
 import com.game.rania.model.ui.Slider;
 import com.game.rania.model.ui.SliderAction;
@@ -171,6 +174,8 @@ public class PlanetPanel extends Group implements Part
                                        switch (menuStatus)
                                        {
                                          case mainMenu:
+                                           if (player.body.wear <= 0)
+                                             return;
                                            Controllers.netController.sendOutPlanet();
                                            Controllers.locController.getPlayer().position.set(planet.position);
                                            Parts.showPlanetPanel(false);
@@ -234,6 +239,7 @@ public class PlanetPanel extends Group implements Part
                                        {
                                          Controllers.netController.sendRecharge();
                                          energySlider.updateValue(energySlider.max);
+                                         player.energy = player.maxEnergy;
                                        }
                                      });
 
@@ -246,6 +252,16 @@ public class PlanetPanel extends Group implements Part
                                        public void execute(boolean touch)
                                        {
                                          Controllers.netController.sendRepair();
+                                         player.repairFull(player.engine);
+                                         player.repairFull(player.battery);
+                                         player.repairFull(player.radar);
+                                         player.repairFull(player.hyper);
+                                         player.repairFull(player.shield);
+                                         player.repairFull(player.body);
+                                         for (Equip<Weapon> weapon : player.weapon.values())
+                                           player.repairFull(weapon);
+                                         for (Equip<RepairKit> repairKit : player.repairKit.values())
+                                           player.repairFull(repairKit);
                                        }
                                      });
 

@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.game.rania.RaniaGame;
+import com.game.rania.model.Font;
 
 public class Player extends User
 {
@@ -23,6 +25,13 @@ public class Player extends User
     zIndex = Indexes.player;
     isPlayer = true;
   }
+  
+  public void clearTarget()
+  {
+    target.id     = 0;
+    target.type   = Target.none;
+    target.object = null;
+  }
 
   @Override
   public boolean update(float deltaTime)
@@ -32,6 +41,8 @@ public class Player extends User
     target.update(deltaTime);
     return true;
   }
+  
+  protected Text deadText = new Text("Вы погибли. Пожалуйста подождите...", Font.getFont("data/fonts/Arial.ttf", 50), new Color(1, 0, 0, 1), 0, 0);
 
   @Override
   public boolean draw(SpriteBatch sprite, ShapeRenderer shape)
@@ -42,27 +53,52 @@ public class Player extends User
       position.set(target.object.position);
       return true;
     }
+    
+    if (body.wear <= 0)
+    {
+      deadText.draw(sprite, position.x, position.y);
+      return true;
+    }
+    
     target.draw(sprite, shape);
+    
     sprite.end();
     shape.begin(ShapeType.Filled);
-    float maxSize = Math.max(region.getRegionWidth(), region.getRegionHeight());
+    float dx = RaniaGame.mView.getCamera().getWidth() * 0.25f;
+    float dy = RaniaGame.mView.getCamera().getHeight() * 0.5f;
     if (body != null)
     {
       shape.setColor(new Color(1, 0, 0, 0.75f));
-      shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f + 5, maxSize * ((float) Math.max(0, body.wear) / body.item.durability), 5);
+      shape.rect(position.x - dx, position.y + dy - 20, dx * ((float) Math.max(0, body.wear) / body.item.durability), 15);
     }
     if (shield != null)
     {
       shape.setColor(new Color(0, 0, 1, 0.75f));
-      shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * ((float) Math.max(0, shield.wear) / shield.item.durability), 5);
+      shape.rect(position.x - dx, position.y + dy - 35, dx * ((float) Math.max(0, shield.wear) / shield.item.durability), 15);
     }
     if (battery != null)
     {
       shape.setColor(new Color(0, 1, 0, 0.75f));
-      shape.rect(position.x - maxSize * 0.5f, position.y - maxSize * 0.55f, maxSize * ((float) Math.max(0, energy) / maxEnergy), 5);
+      shape.rect(position.x - dx, position.y + dy - 50, dx * ((float) Math.max(0, energy) / maxEnergy), 15);
+    }
+
+    if (target.type == Target.user)
+    {
+      User user = target.getObject(User.class);
+      if (user.body != null)
+      {
+        shape.setColor(new Color(1, 0, 0, 0.75f));
+        shape.rect(position.x + 15, position.y + dy - 20, dx * ((float) Math.max(0, user.body.wear) / user.body.item.durability), 15);
+      }
+      if (shield != null)
+      {
+        shape.setColor(new Color(0, 0, 1, 0.75f));
+        shape.rect(position.x + 15, position.y + dy - 35, dx * ((float) Math.max(0, user.shield.wear) / user.shield.item.durability), 15);
+      }
     }
     shape.end();
     sprite.begin();
+    
     return super.draw(sprite, shape);
   }
 

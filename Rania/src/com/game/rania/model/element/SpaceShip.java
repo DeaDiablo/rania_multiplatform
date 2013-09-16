@@ -6,6 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.game.rania.controller.Controllers;
 import com.game.rania.controller.command.AddObjectCommand;
@@ -15,6 +16,7 @@ import com.game.rania.model.Object;
 import com.game.rania.model.RegionID;
 import com.game.rania.model.animator.AnimatorColor;
 import com.game.rania.model.animator.AnimatorVector2;
+import com.game.rania.model.items.Device;
 import com.game.rania.model.items.RepairKit;
 import com.game.rania.model.items.Engine;
 import com.game.rania.model.items.Equip;
@@ -29,6 +31,7 @@ import com.game.rania.model.items.weapons.Weapon;
 public class SpaceShip extends Object
 {
   public String shipName;
+  public boolean isPlayer = false;
 
   public SpaceShip(float posX, float posY, String ShipName)
   {
@@ -96,11 +99,34 @@ public class SpaceShip extends Object
     return true;
   }
 
+  protected Text textShip = new Text("", Font.getFont("data/fonts/Arial.ttf", 20), new Color(1, 1, 1, 1), 0, 0);
+
   @Override
   public boolean draw(SpriteBatch sprite, ShapeRenderer shape)
-  {
-    if (!super.draw(sprite, shape) || region == null)
+  {      
+    if (body.wear <= 0 || region == null || !super.draw(sprite, shape))
       return false;
+
+    textShip.draw(sprite, position.x, position.y + region.getRegionHeight() * 0.5f);
+    
+    sprite.end();
+    shape.begin(ShapeType.Filled);
+    if (!isPlayer)
+    {
+      float maxSize = Math.max(region.getRegionWidth(), region.getRegionHeight());
+      if (body != null)
+      {
+        shape.setColor(new Color(1, 0, 0, 0.75f));
+        shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f + 2, maxSize * ((float) Math.max(0, body.wear) / body.item.durability), 2);
+      }
+      if (shield != null)
+      {
+        shape.setColor(new Color(0, 0, 1, 0.75f));
+        shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * ((float) Math.max(0, shield.wear) / shield.item.durability), 2);
+      }
+    }
+    shape.end();
+    sprite.begin();
 
     return true;
   }
@@ -190,7 +216,7 @@ public class SpaceShip extends Object
     }
   }
 
-  public void damage(Equip<?> equip, int value)
+  public void damage(Equip<? extends Device> equip, int value)
   {
     equip.wear = Math.max(0, equip.wear - value);
     if (equip == body && equip.wear <= 0)
@@ -214,9 +240,9 @@ public class SpaceShip extends Object
     Controllers.commandController.addCommand(new AddObjectCommand(infoText));
   }
 
-  public void repair(Equip<?> equip, int value)
+  public void repair(Equip<? extends Device> equip, int value)
   {
-    equip.wear = Math.min(body.item.durability, equip.wear + value);
+    equip.wear = Math.min(equip.item.durability, equip.wear + value);
     String text = String.valueOf(value);
     if (value == 0)
       text = "miss";
@@ -228,6 +254,12 @@ public class SpaceShip extends Object
     infoText.setAlign(Align.RIGHT, Align.BOTTOM);
     Controllers.commandController.addCommand(new AddObjectCommand(infoText));
   }
+  
+  public void repairFull(Equip<? extends Device> equip)
+  {
+    equip.wear = equip.item.durability;
+  }
+
 
   public void unEnergy(float f)
   {
@@ -291,7 +323,5 @@ public class SpaceShip extends Object
       if (weap.wear < 0)
         weap.wear = 0;
     }
-
-    lifeTime = 0.0f;
   }
 }

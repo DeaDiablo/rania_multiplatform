@@ -85,6 +85,8 @@ public class Player extends User
     if (target.type == Target.user)
     {
       User user = target.getObject(User.class);
+      if (user.body.wear <= 0)
+        clearTarget();
       if (user.body != null)
       {
         shape.setColor(new Color(1, 0, 0, 0.75f));

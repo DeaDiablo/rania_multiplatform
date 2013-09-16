@@ -666,7 +666,7 @@ public class NetController
       String PName = cr.getString();
       String SName = cr.getString();
       double UserEnergy = cr.getDbl();
-      Player player = new Player(UserId, UserX, UserY, PName, SName, UserDomain, UserInPlanet);
+      Player player = new Player(UserId, UserX, UserY, SName, PName, UserDomain, UserInPlanet);
       player.energy = UserEnergy;
       player.setEquips(getEquips(cr));
       checkCRC(command, cr);

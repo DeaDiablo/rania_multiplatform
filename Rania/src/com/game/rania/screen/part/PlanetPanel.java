@@ -85,8 +85,8 @@ public class PlanetPanel extends Group implements Part
     mView.loadTexture("data/gui/planet_icons.png", RegionID.PLANET_NPC, 0, 0, 96, 96);
     mView.loadTexture("data/gui/planet_icons.png", RegionID.PLANET_TRADE, 96, 0, 96, 96);
     mView.loadTexture("data/gui/planet_icons.png", RegionID.PLANET_SCIENCE, 192, 0, 96, 96);
-    mView.loadTexture("data/gui/planet_icons.png", RegionID.PLANET_TECHNIC, 288, 0, 96, 96);
-    mView.loadTexture("data/gui/planet_icons.png", RegionID.PLANET_LIFE, 384, 0, 96, 96);
+    mView.loadTexture("data/gui/planet_icons.png", RegionID.PLANET_SERVICE, 288, 0, 96, 96);
+    mView.loadTexture("data/gui/planet_icons.png", RegionID.PLANET_OTHER, 384, 0, 96, 96);
     mView.loadTexture("data/gui/planet_icons.png", RegionID.PLANET_EXIT, 480, 0, 96, 96);
 
     npcButton = new PressedButton(RegionID.PLANET_PANEL,
@@ -198,9 +198,9 @@ public class PlanetPanel extends Group implements Part
     mainGroup.addElement(scienceButton);
     mainGroup.addElement(new Object(RegionID.PLANET_SCIENCE, 0, halfHeight * 0.7f, 0, 2, 2));
     mainGroup.addElement(technicButton);
-    mainGroup.addElement(new Object(RegionID.PLANET_TECHNIC, halfWidth * 0.275f, halfHeight * 0.5f, 0, 2, 2));
+    mainGroup.addElement(new Object(RegionID.PLANET_SERVICE, halfWidth * 0.275f, halfHeight * 0.5f, 0, 2, 2));
     mainGroup.addElement(lifeButton);
-    mainGroup.addElement(new Object(RegionID.PLANET_LIFE, halfWidth * 0.375f, 0, 0, 2, 2));
+    mainGroup.addElement(new Object(RegionID.PLANET_OTHER, halfWidth * 0.375f, 0, 0, 2, 2));
     addElement(mainGroup);
 
     exitGroup.addElement(exitButton);

@@ -738,8 +738,10 @@ public class NetController
         int UserY = cr.getInt();
         int UserDomain = cr.getInt();
         double UserEnergy = cr.getDbl();
+        double angle = cr.getDbl();
         User user = new User(UserId, UserX, UserY, ShipName, "", UserDomain);
         user.energy = UserEnergy;
+        user.angle.value = (float)angle;
         user.setEquips(getEquips(cr));
         cController.addCommand(new AddUserCommand(user));
         break;

@@ -157,49 +157,49 @@ public class SpaceShip extends Object
       }
       else
       {
-        if (equip.item.getClass() == Body.class)
+        if (equip.item instanceof Body)
         {
           this.body = new Equip<Body>(equip, Body.class);
           continue;
         }
 
-        if (equip.item.getClass() == Engine.class)
+        if (equip.item instanceof Engine)
         {
           this.engine = new Equip<Engine>(equip, Engine.class);
           continue;
         }
 
-        if (equip.item.getClass() == Battery.class)
+        if (equip.item instanceof Battery)
         {
           this.battery = new Equip<Battery>(equip, Battery.class);
           continue;
         }
 
-        if (equip.item.getClass() == Hyper.class)
+        if (equip.item instanceof Hyper)
         {
           this.hyper = new Equip<Hyper>(equip, Hyper.class);
           continue;
         }
 
-        if (equip.item.getClass() == Shield.class)
+        if (equip.item instanceof Shield)
         {
           this.shield = new Equip<Shield>(equip, Shield.class);
           continue;
         }
 
-        if (equip.item.getClass() == Radar.class)
+        if (equip.item instanceof Radar)
         {
           this.radar = new Equip<Radar>(equip, Radar.class);
           continue;
         }
 
-        if (equip.item.getClass().getGenericSuperclass() == Weapon.class)
+        if (equip.item instanceof Weapon)
         {
           this.weapon.put(equip.id, new Equip<Weapon>(equip, Weapon.class));
           continue;
         }
 
-        if (equip.item.getClass() == RepairKit.class)
+        if (equip.item instanceof RepairKit)
         {
           this.repairKit.put(equip.id, new Equip<RepairKit>(equip, RepairKit.class));
           continue;

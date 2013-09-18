@@ -71,31 +71,21 @@ public class Player extends User
       shape.setColor(new Color(1, 0, 0, 0.75f));
       shape.rect(position.x - dx, position.y + dy - 20, dx * ((float) Math.max(0, body.wear) / body.item.durability), 15);
     }
-    if (shield != null)
-    {
-      shape.setColor(new Color(0, 0, 1, 0.75f));
-      shape.rect(position.x - dx, position.y + dy - 35, dx * ((float) Math.max(0, shield.wear) / shield.item.durability), 15);
-    }
     if (battery != null)
     {
       shape.setColor(new Color(0, 1, 0, 0.75f));
-      shape.rect(position.x - dx, position.y + dy - 50, dx * ((float) Math.max(0, energy) / maxEnergy), 15);
+      shape.rect(position.x - dx, position.y + dy - 35, dx * ((float) Math.max(0, energy) / maxEnergy), 15);
     }
 
     if (target.type == Target.user)
     {
       User user = target.getObject(User.class);
-      if (user.body.wear <= 0)
-        clearTarget();
       if (user.body != null)
-      {
+      {      
+        if (user.body.wear <= 0)
+          clearTarget();
         shape.setColor(new Color(1, 0, 0, 0.75f));
         shape.rect(position.x + 15, position.y + dy - 20, dx * ((float) Math.max(0, user.body.wear) / user.body.item.durability), 15);
-      }
-      if (shield != null)
-      {
-        shape.setColor(new Color(0, 0, 1, 0.75f));
-        shape.rect(position.x + 15, position.y + dy - 35, dx * ((float) Math.max(0, user.shield.wear) / user.shield.item.durability), 15);
       }
     }
     shape.end();

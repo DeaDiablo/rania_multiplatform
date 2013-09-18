@@ -33,13 +33,4 @@ public class Rocket extends Ammunition
     }
     return true;
   }
-
-  @Override
-  protected void contact()
-  {
-    if (target.shield.wear <= 0)
-      target.damage(target.body, value);
-    else
-      target.damage(target.shield, value);
-  }
 }

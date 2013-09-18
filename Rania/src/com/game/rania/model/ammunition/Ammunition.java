@@ -37,5 +37,8 @@ public abstract class Ammunition extends Object
     return result;
   }
 
-  protected abstract void contact();
+  protected void contact()
+  {
+    target.damage(target.body, value);
+  }
 }

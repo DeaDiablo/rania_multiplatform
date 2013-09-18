@@ -117,12 +117,7 @@ public class SpaceShip extends Object
       if (body != null)
       {
         shape.setColor(new Color(1, 0, 0, 0.75f));
-        shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f + 2, maxSize * ((float) Math.max(0, body.wear) / body.item.durability), 2);
-      }
-      if (shield != null)
-      {
-        shape.setColor(new Color(0, 0, 1, 0.75f));
-        shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * ((float) Math.max(0, shield.wear) / shield.item.durability), 2);
+        shape.rect(position.x - maxSize * 0.5f, position.y + maxSize * 0.55f, maxSize * ((float) Math.max(0, body.wear) / body.item.durability), 3);
       }
     }
     shape.end();
